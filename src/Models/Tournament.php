@@ -31,307 +31,229 @@ namespace JeroenED\Libpairtwo\Models;
  *
  * @author Jeroen De Meerleer <schaak@jeroened.be>
  */
-class Tournament {
+class Tournament
+{
+    private $Name;
+    private $Organiser;
+    private $OrganiserClub;
+    private $OrganiserPlace;
+    private $OrganiserCountry;
+    private $StartDate;
+    private $EndDate;
+    private $Arbiter;
+    private $Rounds;
+    private $Participants;
+    private $Tempo;
+    private $NonRatedElo;
+    private $System;
 
-    private $UserCountry;
-    private $SavedOffset;
-    private $NewPlayer;
-    private $AmericanHandicap;
-    private $LowOrder;
-    private $PairingMethod;
-    private $AmericanPresence;
-    private $CheckSameClub;
-    private $NoColorCheck;
-    private $SeparateCategories;
-    private $EloUsed;
-    Private $AlternateColors;
-    private $MaxMeetings;
-    private $MaxDistance;
-    private $MinimizeKeizer;
-    private $MinRoundMeetings;
-    private $MaxRoundsAbsent;
-    private $SpecialPoints;
-    private $NewNamePos;
-    private $CurrentRound;
-    private $CreatedRounds;
-    private $CreatedPlayers;
-    private $MaxSelection;
-    private $NumOfRounds;
-    private $NumOfPairings;
-    private $CreatedPairings;
-    private $PairingElems;
-    private $RandomSeed;
-    private $TieOrder;
-    private $Categorie;
-    
-    function getUserCountry() {
-        return $this->UserCountry;
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->Name;
     }
 
-    function getSavedOffset() {
-        return $this->SavedOffset;
+    /**
+     * @param mixed $Name
+     */
+    public function setName($Name): void
+    {
+        $this->Name = $Name;
     }
 
-    function getNewPlayer() {
-        return $this->NewPlayer;
+    /**
+     * @return mixed
+     */
+    public function getOrganiser()
+    {
+        return $this->Organiser;
     }
 
-    function getAmericanHandicap() {
-        return $this->AmericanHandicap;
+    /**
+     * @param mixed $Organiser
+     */
+    public function setOrganiser($Organiser): void
+    {
+        $this->Organiser = $Organiser;
     }
 
-    function getLowOrder() {
-        return $this->LowOrder;
+    /**
+     * @return mixed
+     */
+    public function getOrganiserClub()
+    {
+        return $this->OrganiserClub;
     }
 
-    function getPairingMethod() {
-        return $this->PairingMethod;
+    /**
+     * @param mixed $OrganiserClub
+     */
+    public function setOrganiserClub($OrganiserClub): void
+    {
+        $this->OrganiserClub = $OrganiserClub;
     }
 
-    function getAmericanPresence() {
-        return $this->AmericanPresence;
+    /**
+     * @return mixed
+     */
+    public function getOrganiserPlace()
+    {
+        return $this->OrganiserPlace;
     }
 
-    function getCheckSameClub() {
-        return $this->CheckSameClub;
+    /**
+     * @param mixed $OrganiserPlace
+     */
+    public function setOrganiserPlace($OrganiserPlace): void
+    {
+        $this->OrganiserPlace = $OrganiserPlace;
     }
 
-    function getNoColorCheck() {
-        return $this->NoColorCheck;
+    /**
+     * @return mixed
+     */
+    public function getOrganiserCountry()
+    {
+        return $this->OrganiserCountry;
     }
 
-    function getSeparateCategories() {
-        return $this->SeparateCategories;
+    /**
+     * @param mixed $OrganiserCountry
+     */
+    public function setOrganiserCountry($OrganiserCountry): void
+    {
+        $this->OrganiserCountry = $OrganiserCountry;
     }
 
-    function getEloUsed() {
-        return $this->EloUsed;
+    /**
+     * @return mixed
+     */
+    public function getStartDate()
+    {
+        return $this->StartDate;
     }
 
-    function getAlternateColors() {
-        return $this->AlternateColors;
+    /**
+     * @param mixed $StartDate
+     */
+    public function setStartDate($StartDate): void
+    {
+        $this->StartDate = $StartDate;
     }
 
-    function getMaxMeetings() {
-        return $this->MaxMeetings;
+    /**
+     * @return mixed
+     */
+    public function getEndDate()
+    {
+        return $this->EndDate;
     }
 
-    function getMaxDistance() {
-        return $this->MaxDistance;
+    /**
+     * @param mixed $EndDate
+     */
+    public function setEndDate($EndDate): void
+    {
+        $this->EndDate = $EndDate;
     }
 
-    function getMinimizeKeizer() {
-        return $this->MinimizeKeizer;
+    /**
+     * @return mixed
+     */
+    public function getArbiter()
+    {
+        return $this->Arbiter;
     }
 
-    function getMinRoundMeetings() {
-        return $this->MinRoundMeetings;
+    /**
+     * @param mixed $Arbiter
+     */
+    public function setArbiter($Arbiter): void
+    {
+        $this->Arbiter = $Arbiter;
     }
 
-    function getMaxRoundsAbsent() {
-        return $this->MaxRoundsAbsent;
+    /**
+     * @return mixed
+     */
+    public function getRounds()
+    {
+        return $this->Rounds;
     }
 
-    function getSpecialPoints() {
-        return $this->SpecialPoints;
+    /**
+     * @param mixed $Rounds
+     */
+    public function setRounds($Rounds): void
+    {
+        $this->Rounds = $Rounds;
     }
 
-    function getNewNamePos() {
-        return $this->NewNamePos;
+    /**
+     * @return mixed
+     */
+    public function getParticipants()
+    {
+        return $this->Participants;
     }
 
-    function getCurrentRound() {
-        return $this->CurrentRound;
+    /**
+     * @param mixed $Participants
+     */
+    public function setParticipants($Participants): void
+    {
+        $this->Participants = $Participants;
     }
 
-    function getCreatedRounds() {
-        return $this->CreatedRounds;
+    /**
+     * @return mixed
+     */
+    public function getTempo()
+    {
+        return $this->Tempo;
     }
 
-    function getCreatedPlayers() {
-        return $this->CreatedPlayers;
+    /**
+     * @param mixed $Tempo
+     */
+    public function setTempo($Tempo): void
+    {
+        $this->Tempo = $Tempo;
     }
 
-    function getMaxSelection() {
-        return $this->MaxSelection;
+    /**
+     * @return mixed
+     */
+    public function getNonRatedElo()
+    {
+        return $this->NonRatedElo;
     }
 
-    function getNumOfRounds() {
-        return $this->NumOfRounds;
+    /**
+     * @param mixed $NonRatedElo
+     */
+    public function setNonRatedElo($NonRatedElo): void
+    {
+        $this->NonRatedElo = $NonRatedElo;
     }
 
-    function getNumOfPairings() {
-        return $this->NumOfPairings;
+    /**
+     * @return mixed
+     */
+    public function getSystem()
+    {
+        return $this->System;
     }
 
-    function getCreatedPairings() {
-        return $this->CreatedPairings;
+    /**
+     * @param mixed $System
+     */
+    public function setSystem($System): void
+    {
+        $this->System = $System;
     }
 
-    function getPairingElems() {
-        return $this->PairingElems;
-    }
 
-    function getRandomSeed() {
-        return $this->RandomSeed;
-    }
-
-    function getTieOrder() {
-        return $this->TieOrder;
-    }
-
-    function getCategorie() {
-        return $this->Categorie;
-    }
-
-    function setUserCountry($UserCountry) {
-        $this->UserCountry = $UserCountry;
-        return $this;
-    }
-
-    function setSavedOffset($SavedOffset) {
-        $this->SavedOffset = $SavedOffset;
-        return $this;
-    }
-
-    function setNewPlayer($NewPlayer) {
-        $this->NewPlayer = $NewPlayer;
-        return $this;
-    }
-
-    function setAmericanHandicap($AmericanHandicap) {
-        $this->AmericanHandicap = $AmericanHandicap;
-        return $this;
-    }
-
-    function setLowOrder($LowOrder) {
-        $this->LowOrder = $LowOrder;
-        return $this;
-    }
-
-    function setPairingMethod($PairingMethod) {
-        $this->PairingMethod = $PairingMethod;
-        return $this;
-    }
-
-    function setAmericanPresence($AmericanPresence) {
-        $this->AmericanPresence = $AmericanPresence;
-        return $this;
-    }
-
-    function setCheckSameClub($CheckSameClub) {
-        $this->CheckSameClub = $CheckSameClub;
-        return $this;
-    }
-
-    function setNoColorCheck($NoColorCheck) {
-        $this->NoColorCheck = $NoColorCheck;
-        return $this;
-    }
-
-    function setSeparateCategories($SeparateCategories) {
-        $this->SeparateCategories = $SeparateCategories;
-        return $this;
-    }
-
-    function setEloUsed($EloUsed) {
-        $this->EloUsed = $EloUsed;
-        return $this;
-    }
-
-    function setAlternateColors($AlternateColors) {
-        $this->AlternateColors = $AlternateColors;
-        return $this;
-    }
-
-    function setMaxMeetings($MaxMeetings) {
-        $this->MaxMeetings = $MaxMeetings;
-        return $this;
-    }
-
-    function setMaxDistance($MaxDistance) {
-        $this->MaxDistance = $MaxDistance;
-        return $this;
-    }
-
-    function setMinimizeKeizer($MinimizeKeizer) {
-        $this->MinimizeKeizer = $MinimizeKeizer;
-        return $this;
-    }
-
-    function setMinRoundMeetings($MinRoundMeetings) {
-        $this->MinRoundMeetings = $MinRoundMeetings;
-        return $this;
-    }
-
-    function setMaxRoundsAbsent($MaxRoundsAbsent) {
-        $this->MaxRoundsAbsent = $MaxRoundsAbsent;
-        return $this;
-    }
-
-    function setSpecialPoints($SpecialPoints) {
-        $this->SpecialPoints = $SpecialPoints;
-        return $this;
-    }
-
-    function setNewNamePos($NewNamePos) {
-        $this->NewNamePos = $NewNamePos;
-        return $this;
-    }
-
-    function setCurrentRound($CurrentRound) {
-        $this->CurrentRound = $CurrentRound;
-        return $this;
-    }
-
-    function setCreatedRounds($CreatedRounds) {
-        $this->CreatedRounds = $CreatedRounds;
-        return $this;
-    }
-
-    function setCreatedPlayers($CreatedPlayers) {
-        $this->CreatedPlayers = $CreatedPlayers;
-        return $this;
-    }
-
-    function setMaxSelection($MaxSelection) {
-        $this->MaxSelection = $MaxSelection;
-        return $this;
-    }
-
-    function setNumOfRounds($NumOfRounds) {
-        $this->NumOfRounds = $NumOfRounds;
-        return $this;
-    }
-
-    function setNumOfPairings($NumOfPairings) {
-        $this->NumOfPairings = $NumOfPairings;
-        return $this;
-    }
-
-    function setCreatedPairings($CreatedPairings) {
-        $this->CreatedPairings = $CreatedPairings;
-        return $this;
-    }
-
-    function setPairingElems($PairingElems) {
-        $this->PairingElems = $PairingElems;
-        return $this;
-    }
-
-    function setRandomSeed($RandomSeed) {
-        $this->RandomSeed = $RandomSeed;
-        return $this;
-    }
-
-    function setTieOrder($TieOrder) {
-        $this->TieOrder = $TieOrder;
-        return $this;
-    }
-
-    function setCategorie($Categorie) {
-        $this->Categorie = $Categorie;
-        return $this;
-    }
-    
 }

@@ -25,8 +25,7 @@
  */
 Use JeroenED\Libpairtwo\Sws;
 
-require_once '../src/Sws.php';
-require_once '../src/Models/Tournament.php';
+require_once '../vendor/autoload.php';
 
-$sws = Sws::readSws('../res/protected/testsws.sws');
+$sws = Sws::readSws('../res/testsws.sws');
 echo $sws->getRelease();

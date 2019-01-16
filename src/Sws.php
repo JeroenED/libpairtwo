@@ -27,6 +27,8 @@
 namespace JeroenED\Libpairtwo;
 
 use JeroenED\Libpairtwo\Models\Tournament;
+use JeroenED\Libpairtwo\Models\Sws as MyModel;
+
 
 /**
  * This class reads a SWS file
@@ -35,27 +37,17 @@ use JeroenED\Libpairtwo\Models\Tournament;
  */
 class Sws {
 
-    private $Release;
-    
+
     public static function ReadSws(string $swsfile)
     {
         $swshandle = fopen($swsfile, 'rb');
-        
-        $tournament = new Tournament;
-        $sws = new Sws;
+
+        $sws = new MyModel();
         $sws->setRelease(fread($swshandle, 4));
-        
+        $sws->setTournament(new Tournament());
+
         return $sws;
         
     }
-    
-    function getRelease() {
-        return $this->Release;
-    }
 
-    function setRelease($Release) {
-        $this->Release = $Release;
-        return $this;
-    }
-    
 }
