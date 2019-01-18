@@ -32,10 +32,32 @@ class Sws
     }
 
     /**
-     * @param mixed $Tournament
+     * @param Tournament $Tournament
      */
-    public function setTournament($Tournament)
+    public function setTournament(Tournament $Tournament): void
     {
         $this->Tournament = $Tournament;
+    }
+
+    /**
+     * Returns binary data from the sws-file
+     *
+     * @param string
+     * @return string
+     */
+    public function getBinaryData(String $key)
+    {
+        return $this->BinaryData[$key];
+    }
+
+    /**
+     * Sets binary data
+     *
+     * @param string
+     * @param string
+     */
+    public function setBinaryData(String $key, String $data): void
+    {
+        $this->BinaryData[$key] = $data;
     }
 }
