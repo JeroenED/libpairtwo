@@ -36,6 +36,13 @@ use JeroenED\Libpairtwo\Models\Sws as MyModel;
  */
 class Sws
 {
+    private const PT_DAYFACTOR = 32;
+    private const PT_MONTHFACTOR = 16;
+    private const PT_YEARFACTOR = 512;
+    private const PT_SYSTEMYEAR = 1900;
+    private const PT_PASTOFFSET = 117;
+
+
     /**
      * @param string $swsfile
      * @return MyModel
@@ -251,13 +258,70 @@ class Sws
         $sws->getTournament()->setArbiter(substr($swscontents, $offset, $length));
         $offset += $length;
 
+        // Rounds
+        $length = 4;
+        $sws->getTournament()->setRounds(hexdec(substr($swscontents, $offset, $length)));
+        $offset += $length;
+
+        // Participants
+        $length = 4;
+        $sws->getTournament()->setParticipants(hexdec(substr($swscontents, $offset, $length)));
+        $offset += $length;
+
+        // Fidehomol
+        $length = 4;
+        $sws->getTournament()->setFideHomol(hexdec(substr($swscontents, $offset, $length)));
+        $offset += $length;
+
+        // StartDate
+        $length = 4;
+        //echo self::readhexdata(substr($swscontents, $offset, $length));
+        $sws->getTournament()->setStartDate(self::UIntToTimestamp(hexdec(self::readhexdata(substr($swscontents, $offset, $length)))));
+        $offset += $length;
+
+        // EndDate
+        $length = 4;
+        $sws->getTournament()->setEndDate(self::UIntToTimestamp(hexdec(self::readhexdata(substr($swscontents, $offset, $length)))));
+        $offset += $length;
+
         return $sws;
     }
 
     private static function ReadHexData(String $data)
     {
         $hex = implode(unpack("H*", $data));
+        $hex = implode(array_reverse(str_split($hex, 2)));
         $hex = str_replace("00", "", $hex);
         return $hex;
+    }
+
+    private static function UIntToTimestamp($date)
+    {
+        //echo $date;
+        $curyear = date('Y');
+        $yearoffset = $curyear - self::PT_PASTOFFSET;
+        //$yearoffset = 100;
+
+        // Day
+        $day = $date % self::PT_DAYFACTOR;
+        if ($day < 1) {
+            $day = 1;
+        }
+
+        // Month
+        $month = ($date / self::PT_DAYFACTOR) % self::PT_MONTHFACTOR;
+        if ($month < 1) {
+            $month = 1;
+        }
+
+        // Year
+        $year = ($date / self::PT_YEARFACTOR) + $yearoffset;
+
+        $concat = $month . '/' . $day . '/' . intval($year);
+        $format = 'm/d/Y';
+
+        echo $concat;
+
+        return \DateTime::createFromFormat($format, $concat);
     }
 }
