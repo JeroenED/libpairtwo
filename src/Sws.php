@@ -290,17 +290,24 @@ class Sws
     private static function ReadHexData(String $data)
     {
         $hex = implode(unpack("H*", $data));
-        $hex = implode(array_reverse(str_split($hex, 2)));
-        $hex = str_replace("00", "", $hex);
+        $hex = array_reverse(str_split($hex, 2));
+
+        foreach ($hex as $key=>$item) {
+            if ($item == "00") {
+                $hex[$key] = "";
+            } else {
+                break;
+            }
+        }
+
+        $hex = implode($hex);
         return $hex;
     }
 
     private static function UIntToTimestamp($date)
     {
-        //echo $date;
         $curyear = date('Y');
         $yearoffset = $curyear - self::PT_PASTOFFSET;
-        //$yearoffset = 100;
 
         // Day
         $day = $date % self::PT_DAYFACTOR;
@@ -320,7 +327,6 @@ class Sws
         $concat = $month . '/' . $day . '/' . intval($year);
         $format = 'm/d/Y';
 
-        echo $concat;
 
         return \DateTime::createFromFormat($format, $concat);
     }
