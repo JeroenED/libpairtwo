@@ -28,4 +28,10 @@ Use JeroenED\Libpairtwo\Sws;
 require_once '../vendor/autoload.php';
 
 $sws = Sws::readSws('../res/testsws.sws');
-echo $sws->getRelease();
+echo "Name:      " . $sws->getTournament()->getName() . "\n";
+echo "Organiser: " . $sws->getTournament()->getOrganiser(). "\n";
+echo "Tempo:     " . $sws->getTournament()->getTempo() . "\n";
+echo "Country:   " . $sws->getTournament()->getOrganiserCountry() . "\n";
+echo "Arbiter:   " . $sws->getTournament()->getArbiter() . "\n";
+//echo $sws->getBinaryData("Tournament");
+//echo $sws->getBinaryData("Players");
