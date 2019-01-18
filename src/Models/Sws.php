@@ -6,9 +6,10 @@ class Sws
 {
     private $Release;
     private $Tournament;
+    private $BinaryData;
 
     /**
-     * @return mixed
+     * @return String
      */
     public function getRelease()
     {
@@ -16,15 +17,15 @@ class Sws
     }
 
     /**
-     * @param mixed $Release
+     * @param String $Release
      */
-    public function setRelease($Release)
+    public function setRelease(String $Release): void
     {
         $this->Release = $Release;
     }
 
     /**
-     * @return mixed
+     * @return Tournament
      */
     public function getTournament()
     {
