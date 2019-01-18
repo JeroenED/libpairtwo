@@ -38,6 +38,7 @@ class Tournament
     private $OrganiserClub;
     private $OrganiserPlace;
     private $OrganiserCountry;
+    private $FideHomol;
     private $StartDate;
     private $EndDate;
     private $Arbiter;
@@ -48,7 +49,7 @@ class Tournament
     private $System;
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getName()
     {
@@ -56,7 +57,7 @@ class Tournament
     }
 
     /**
-     * @param mixed $Name
+     * @param string $Name
      */
     public function setName($Name): void
     {
@@ -64,7 +65,7 @@ class Tournament
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getOrganiser()
     {
@@ -72,7 +73,7 @@ class Tournament
     }
 
     /**
-     * @param mixed $Organiser
+     * @param string $Organiser
      */
     public function setOrganiser($Organiser): void
     {
@@ -80,7 +81,7 @@ class Tournament
     }
 
     /**
-     * @return mixed
+     * @return integer
      */
     public function getOrganiserClub()
     {
@@ -88,7 +89,7 @@ class Tournament
     }
 
     /**
-     * @param mixed $OrganiserClub
+     * @param integer $OrganiserClub
      */
     public function setOrganiserClub($OrganiserClub): void
     {
@@ -96,7 +97,7 @@ class Tournament
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getOrganiserPlace()
     {
@@ -104,7 +105,7 @@ class Tournament
     }
 
     /**
-     * @param mixed $OrganiserPlace
+     * @param string $OrganiserPlace
      */
     public function setOrganiserPlace($OrganiserPlace): void
     {
@@ -112,7 +113,7 @@ class Tournament
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getOrganiserCountry()
     {
@@ -120,7 +121,7 @@ class Tournament
     }
 
     /**
-     * @param mixed $OrganiserCountry
+     * @param string $OrganiserCountry
      */
     public function setOrganiserCountry($OrganiserCountry): void
     {
@@ -128,7 +129,23 @@ class Tournament
     }
 
     /**
-     * @return mixed
+     * @return integer
+     */
+    public function getFideHomol()
+    {
+        return $this->FideHomol;
+    }
+
+    /**
+     * @param integer $FideHomol
+     */
+    public function setFideHomol($FideHomol): void
+    {
+        $this->FideHomol = $FideHomol;
+    }
+
+    /**
+     * @return integer
      */
     public function getStartDate()
     {
@@ -136,7 +153,7 @@ class Tournament
     }
 
     /**
-     * @param mixed $StartDate
+     * @param integer $StartDate
      */
     public function setStartDate($StartDate): void
     {
@@ -144,7 +161,7 @@ class Tournament
     }
 
     /**
-     * @return mixed
+     * @return integer
      */
     public function getEndDate()
     {
@@ -152,7 +169,7 @@ class Tournament
     }
 
     /**
-     * @param mixed $EndDate
+     * @param integer$EndDate
      */
     public function setEndDate($EndDate): void
     {
@@ -160,7 +177,7 @@ class Tournament
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getArbiter()
     {
@@ -168,7 +185,7 @@ class Tournament
     }
 
     /**
-     * @param mixed $Arbiter
+     * @param string $Arbiter
      */
     public function setArbiter($Arbiter): void
     {
@@ -176,7 +193,7 @@ class Tournament
     }
 
     /**
-     * @return mixed
+     * @return integer
      */
     public function getRounds()
     {
@@ -184,7 +201,7 @@ class Tournament
     }
 
     /**
-     * @param mixed $Rounds
+     * @param integer $Rounds
      */
     public function setRounds($Rounds): void
     {
@@ -192,7 +209,7 @@ class Tournament
     }
 
     /**
-     * @return mixed
+     * @return integer
      */
     public function getParticipants()
     {
@@ -200,7 +217,7 @@ class Tournament
     }
 
     /**
-     * @param mixed $Participants
+     * @param integer $Participants
      */
     public function setParticipants($Participants): void
     {
@@ -208,7 +225,7 @@ class Tournament
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getTempo()
     {
@@ -216,7 +233,7 @@ class Tournament
     }
 
     /**
-     * @param mixed $Tempo
+     * @param string $Tempo
      */
     public function setTempo($Tempo): void
     {
@@ -224,7 +241,7 @@ class Tournament
     }
 
     /**
-     * @return mixed
+     * @return integer
      */
     public function getNonRatedElo()
     {
@@ -232,7 +249,7 @@ class Tournament
     }
 
     /**
-     * @param mixed $NonRatedElo
+     * @param integer $NonRatedElo
      */
     public function setNonRatedElo($NonRatedElo): void
     {
@@ -240,7 +257,7 @@ class Tournament
     }
 
     /**
-     * @return mixed
+     * @return integer
      */
     public function getSystem()
     {
@@ -248,7 +265,7 @@ class Tournament
     }
 
     /**
-     * @param mixed $System
+     * @param integer $System
      */
     public function setSystem($System): void
     {
