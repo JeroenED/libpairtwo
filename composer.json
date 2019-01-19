@@ -4,7 +4,8 @@
     "keywords": ["chess", "frbe-kbsb", "pairtwo"],
     "license": "MIT",
     "require": {
-        "php": "^7.1"
+        "php": "^7.1",
+        "myclabs/php-enum": "^1.6"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.0",

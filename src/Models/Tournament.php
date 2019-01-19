@@ -35,6 +35,7 @@ class Tournament
 {
     private $Name;
     private $Organiser;
+    private $OrganiserClubNo;
     private $OrganiserClub;
     private $OrganiserPlace;
     private $OrganiserCountry;
@@ -47,6 +48,9 @@ class Tournament
     private $Tempo;
     private $NonRatedElo;
     private $System;
+    private $FirstPeriod;
+    private $SecondPeriod;
+    private $Federation;
 
     /**
      * @return string
@@ -81,7 +85,7 @@ class Tournament
     }
 
     /**
-     * @return integer
+     * @return String
      */
     public function getOrganiserClub()
     {
@@ -89,11 +93,27 @@ class Tournament
     }
 
     /**
-     * @param integer $OrganiserClub
+     * @param String $OrganiserClub
      */
     public function setOrganiserClub($OrganiserClub): void
     {
         $this->OrganiserClub = $OrganiserClub;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getOrganiserClubNo()
+    {
+        return $this->OrganiserClubNo;
+    }
+
+    /**
+     * @param integer $OrganiserClubno
+     */
+    public function setOrganiserClubNo($OrganiserClubNo): void
+    {
+        $this->OrganiserClubNo = $OrganiserClubNo;
     }
 
     /**
@@ -257,7 +277,7 @@ class Tournament
     }
 
     /**
-     * @return integer
+     * @return TournamentSystem
      */
     public function getSystem()
     {
@@ -265,11 +285,59 @@ class Tournament
     }
 
     /**
-     * @param integer $System
+     * @param TournamentSystem $System
      */
     public function setSystem($System): void
     {
         $this->System = $System;
+    }
+
+    /**
+     * @return String
+     */
+    public function getFirstPeriod()
+    {
+        return $this->FirstPeriod;
+    }
+
+    /**
+     * @param String $FirstPeriod
+     */
+    public function setFirstPeriod($FirstPeriod): void
+    {
+        $this->FirstPeriod = $FirstPeriod;
+    }
+
+    /**
+     * @return String
+     */
+    public function getSecondPeriod()
+    {
+        return $this->SecondPeriod;
+    }
+
+    /**
+     * @param String $SecondPeriod
+     */
+    public function setSecondPeriod($SecondPeriod): void
+    {
+        $this->SecondPeriod = $SecondPeriod;
+    }
+
+    /**
+     * @return String
+     */
+    public function getFederation()
+    {
+        return $this->Federation;
+    }
+
+    /**
+     * @param String $Federation
+     */
+    public function setFederation($Federation): void
+    {
+        $this->Federation = $Federation;
     }
 
 

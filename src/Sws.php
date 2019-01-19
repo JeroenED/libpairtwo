@@ -28,6 +28,7 @@ namespace JeroenED\Libpairtwo;
 
 use JeroenED\Libpairtwo\Models\Tournament;
 use JeroenED\Libpairtwo\Models\Sws as MyModel;
+use JeroenED\Libpairtwo\Models\TournamentSystem;
 
 /**
  * This class reads a SWS file
@@ -275,7 +276,6 @@ class Sws
 
         // StartDate
         $length = 4;
-        //echo self::readhexdata(substr($swscontents, $offset, $length));
         $sws->getTournament()->setStartDate(self::UIntToTimestamp(hexdec(self::readhexdata(substr($swscontents, $offset, $length)))));
         $offset += $length;
 
@@ -283,6 +283,63 @@ class Sws
         $length = 4;
         $sws->getTournament()->setEndDate(self::UIntToTimestamp(hexdec(self::readhexdata(substr($swscontents, $offset, $length)))));
         $offset += $length;
+
+        // Place
+        $length = 36;
+        $sws->getTournament()->setOrganiserPlace(substr($swscontents, $offset, $length));
+        $offset += $length;
+
+        // First period
+        $length = 32;
+        $sws->getTournament()->setFirstPeriod(substr($swscontents, $offset, $length));
+        $offset += $length;
+
+        // Second period
+        $length = 32;
+        $sws->getTournament()->setSecondPeriod(substr($swscontents, $offset, $length));
+        $offset += $length;
+
+        // Unrated Elo
+        $length = 4;
+        $sws->getTournament()->setNonRatedElo(hexdec(self::readhexdata(substr($swscontents, $offset, $length))));
+        $offset += $length;
+
+        // Type
+        $length = 4;
+        $sws->getTournament()->setSystem(new TournamentSystem(hexdec(self::readhexdata(substr($swscontents, $offset, $length)))));
+        $offset += $length;
+
+        // Federation
+        $length = 12;
+        $sws->getTournament()->setFederation(substr($swscontents, $offset, $length));
+        $offset += $length;
+
+        // Soustype
+        /*
+         * 32 Bits:
+         * 1 bit  = Libre?
+         * 6 bits = First round sent to FIDE
+         * 6 bits = First round sent to FRBE-KBSB
+         * 6 bits = Last round sent to FIDE
+         * 6 bits = Last round sent to FRBE-KBSB
+         * 6 bits = Number of the First board
+         * 1 bit  = Double round robin
+         */
+        $length = 4;
+        $sws->setBinaryData('SousType', self::readhexdata(substr($swscontents, $offset, $length)));
+        $offset += $length;
+
+        // Organising club no
+        $length = 4;
+        $sws->getTournament()->setOrganiserClubNo(substr($swscontents, $offset, $length));
+        echo dechex($offset);
+        $offset += $length;
+
+        // Organising club
+        $length = 12;
+        $sws->getTournament()->setOrganiserClub(substr($swscontents, $offset, $length));
+        $offset += $length;
+
 
         return $sws;
     }
