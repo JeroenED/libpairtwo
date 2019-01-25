@@ -28,7 +28,7 @@ namespace JeroenED\Libpairtwo;
 
 use JeroenED\Libpairtwo\Models\Tournament;
 use JeroenED\Libpairtwo\Models\Sws as MyModel;
-use JeroenED\Libpairtwo\Models\TournamentSystem;
+use JeroenED\Libpairtwo\Enums\TournamentSystem;
 
 /**
  * This class reads a SWS file

@@ -6,7 +6,7 @@
  * Time: 12:23
  */
 
-namespace JeroenED\Libpairtwo\Models;
+namespace JeroenED\Libpairtwo\Enums;
 
 use MyCLabs\Enum\Enum;
 
