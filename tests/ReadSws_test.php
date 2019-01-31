@@ -28,6 +28,7 @@ Use JeroenED\Libpairtwo\Sws;
 require_once '../vendor/autoload.php';
 
 $sws = Sws::readSws('../res/testsws.sws');
+echo "Release:      " . $sws->getRelease() . PHP_EOL;
 echo "Name:         " . $sws->getTournament()->getName() . PHP_EOL;
 echo "Organiser:    " . $sws->getTournament()->getOrganiser(). PHP_EOL;
 echo "Tempo:        " . $sws->getTournament()->getTempo() . PHP_EOL;
