@@ -59,259 +59,259 @@ class Sws
         
 
         $length = 4;
-        $sws->setRelease(self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setRelease(self::ReadData('String', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         $sws->setTournament(new Tournament());
 
         // UserCountry
         $length = 4;
-        $sws->setBinaryData("UserCountry", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("UserCountry", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // SavedOffset
         $length = 4;
-        $sws->setBinaryData("SavedOffset", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("SavedOffset", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // NewPlayer
         $length = 4;
-        $sws->setBinaryData("NewPlayer", hexdec(self::ReadHexData(substr($swscontents, $offset, $length))));
+        $sws->setBinaryData("NewPlayer", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // AmericanHandicap
         $length = 4;
-        $sws->setBinaryData("AmericanHandicap", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("AmericanHandicap", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // LowOrder
         $length = 4;
-        $sws->setBinaryData("LowOrder", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("LowOrder", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // PairingMethod
         $length = 4;
-        $sws->setBinaryData("PairingMethod", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("PairingMethod", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // AmericanPresence
         $length = 4;
-        $sws->setBinaryData("AmericanPresence", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("AmericanPresence", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // CheckSameClub
         $length = 4;
-        $sws->setBinaryData("CheckSameClub", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("CheckSameClub", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // NoColorCheck
         $length = 4;
-        $sws->setBinaryData("NoColorCheck", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("NoColorCheck", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // SeparateCategories
         $length = 4;
-        $sws->setBinaryData("SeparateCategories", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("SeparateCategories", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // EloUsed
         $length = 4;
-        $sws->setBinaryData("EloUsed", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("EloUsed", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // AlternateColors
         $length = 4;
-        $sws->setBinaryData("AlternateColors", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("AlternateColors", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // MaxMeetings
         $length = 4;
-        $sws->setBinaryData("MaxMeetings", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("MaxMeetings", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // MaxDistance
         $length = 4;
-        $sws->setBinaryData("MaxDistance", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("MaxDistance", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // MinimizeKeizer
         $length = 4;
-        $sws->setBinaryData("MinimizeKeizer", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("MinimizeKeizer", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // MinRoundsMeetings
         $length = 4;
-        $sws->setBinaryData("MinRoundsMeetings", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("MinRoundsMeetings", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // MaxRoundsAbsent
         $length = 4;
-        $sws->setBinaryData("MaxRoundsAbsent", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("MaxRoundsAbsent", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // SpecialPoints
         $length = 4 * 6;
-        $sws->setBinaryData("SpecialPoints", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("SpecialPoints", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // NewNamePos
         $length = 4;
-        $sws->setBinaryData("NewNamePos", hexdec(self::ReadHexData(substr($swscontents, $offset, $length))));
+        $sws->setBinaryData("NewNamePos", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // CurrentRound
         $length = 4;
-        $sws->setBinaryData("CurrentRound", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("CurrentRound", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // CreatedRounds
         $length = 4;
-        $sws->setBinaryData("CreatedRounds", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("CreatedRounds", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // CreatedPlayers
         $length = 4;
-        $sws->setBinaryData("CreatedPlayers", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("CreatedPlayers", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // MaxSelection
         $length = 4;
-        $sws->setBinaryData("MaxSelection", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("MaxSelection", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // NumberOfRounds
         $length = 4;
-        $sws->setBinaryData("NumberOfRounds", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("NumberOfRounds", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // NumberOfPairings
         $length = 4;
-        $sws->setBinaryData("NumberOfPairings", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("NumberOfPairings", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // CreatedPairings
         $length = 4;
-        $sws->setBinaryData("CreatedPairings", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("CreatedPairings", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // PairingElems
         $length = 4;
-        $sws->setBinaryData("PairingElems", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("PairingElems", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // RandomSeed
         $length = 4;
-        $sws->setBinaryData("RandomSeed", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("RandomSeed", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // TieOrder
         $length = 4 * 5;
-        $sws->setBinaryData("TieOrder", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("TieOrder", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // Categorie
         $length = 4 * 10;
-        $sws->setBinaryData("Categorie", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("Categorie", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // ExtraPoints
         $length = 4 * 20;
-        $sws->setBinaryData("ExtraPoints", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("ExtraPoints", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // SelectP
         $length = 4 * 20;
-        $sws->setBinaryData("SelectP", self::ReadHexData(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("SelectP", self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // Players
         $length = 68 * $sws->getBinaryData("NewPlayer");
-        $sws->setBinaryData("Players", substr($swscontents, $offset, $length));
+        $sws->setBinaryData("Players", self::ReadData('String', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // PlayerNames
         $length = $sws->getBinaryData("NewNamePos");
-        $sws->setBinaryData("PlayerNames", substr($swscontents, $offset, $length));
+        $sws->setBinaryData("PlayerNames", self::ReadData('String', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // TournamentName
         $length = 80;
-        $sws->getTournament()->setName(substr($swscontents, $offset, $length));
+        $sws->getTournament()->setName(self::ReadData('String', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // TournamentOrganiser
         $length = 50;
-        $sws->getTournament()->setOrganiser(substr($swscontents, $offset, $length));
+        $sws->getTournament()->setOrganiser(self::ReadData('String', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // TournamentTempo
         $length = 50;
-        $sws->getTournament()->setTempo(substr($swscontents, $offset, $length));
+        $sws->getTournament()->setTempo(self::ReadData('String', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // TournamentCountry
         $length = 32;
-        $sws->getTournament()->setOrganiserCountry(substr($swscontents, $offset, $length));
+        $sws->getTournament()->setOrganiserCountry(self::ReadData('String', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // Arbiters
         $length = 128;
-        $sws->getTournament()->setArbiter(substr($swscontents, $offset, $length));
+        $sws->getTournament()->setArbiter(self::ReadData('String', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // Rounds
         $length = 4;
-        $sws->getTournament()->setRounds(hexdec(substr($swscontents, $offset, $length)));
+        $sws->getTournament()->setRounds(self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // Participants
         $length = 4;
-        $sws->getTournament()->setParticipants(hexdec(substr($swscontents, $offset, $length)));
+        $sws->getTournament()->setParticipants(self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // Fidehomol
         $length = 4;
-        $sws->getTournament()->setFideHomol(hexdec(substr($swscontents, $offset, $length)));
+        $sws->getTournament()->setFideHomol(self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // StartDate
         $length = 4;
-        $sws->getTournament()->setStartDate(self::UIntToTimestamp(hexdec(self::readhexdata(substr($swscontents, $offset, $length)))));
+        $sws->getTournament()->setStartDate(self::UIntToTimestamp(self::ReadData('Int', substr($swscontents, $offset, $length))));
         $offset += $length;
 
         // EndDate
         $length = 4;
-        $sws->getTournament()->setEndDate(self::UIntToTimestamp(hexdec(self::readhexdata(substr($swscontents, $offset, $length)))));
+        $sws->getTournament()->setEndDate(self::UIntToTimestamp(self::ReadData('Int', substr($swscontents, $offset, $length))));
         $offset += $length;
 
         // Place
         $length = 36;
-        $sws->getTournament()->setOrganiserPlace(substr($swscontents, $offset, $length));
+        $sws->getTournament()->setOrganiserPlace(self::ReadData('String', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // First period
         $length = 32;
-        $sws->getTournament()->setFirstPeriod(substr($swscontents, $offset, $length));
+        $sws->getTournament()->setFirstPeriod(self::ReadData('String', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // Second period
         $length = 32;
-        $sws->getTournament()->setSecondPeriod(substr($swscontents, $offset, $length));
+        $sws->getTournament()->setSecondPeriod(self::ReadData('String', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // Unrated Elo
         $length = 4;
-        $sws->getTournament()->setNonRatedElo(hexdec(self::readhexdata(substr($swscontents, $offset, $length))));
+        $sws->getTournament()->setNonRatedElo(self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // Type
         $length = 4;
-        $sws->getTournament()->setSystem(new TournamentSystem(hexdec(self::readhexdata(substr($swscontents, $offset, $length)))));
+        $sws->getTournament()->setSystem(new TournamentSystem(self::ReadData('Int', substr($swscontents, $offset, $length))));
         $offset += $length;
 
         // Federation
         $length = 12;
-        $sws->getTournament()->setFederation(substr($swscontents, $offset, $length));
+        $sws->getTournament()->setFederation(self::ReadData('String', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // Soustype
@@ -326,39 +326,54 @@ class Sws
          * 1 bit  = Double round robin
          */
         $length = 4;
-        $sws->setBinaryData('SousType', self::readhexdata(substr($swscontents, $offset, $length)));
+        $sws->setBinaryData('SousType', self::ReadData('Hex', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // Organising club no
         $length = 4;
-        $sws->getTournament()->setOrganiserClubNo(substr($swscontents, $offset, $length));
-        echo dechex($offset);
+        $sws->getTournament()->setOrganiserClubNo(self::ReadData('String', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // Organising club
         $length = 12;
-        $sws->getTournament()->setOrganiserClub(substr($swscontents, $offset, $length));
+        $sws->getTournament()->setOrganiserClub(self::ReadData('String', substr($swscontents, $offset, $length)));
         $offset += $length;
 
 
         return $sws;
     }
 
-    private static function ReadHexData(String $data)
+    private static function ReadData(String $type, String $data)
     {
-        $hex = implode(unpack("H*", $data));
-        $hex = array_reverse(str_split($hex, 2));
-
-        foreach ($hex as $key=>$item) {
-            if ($item == "00") {
-                $hex[$key] = "";
-            } else {
+        switch ($type) {
+            case 'String':
+                return $data;
                 break;
-            }
+            case 'Hex':
+            case 'Int':
+                $hex = implode(unpack("H*", $data));
+                $hex = array_reverse(str_split($hex, 2));
+
+                foreach ($hex as $key => $item) {
+                    if ($item == "00") {
+                        $hex[$key] = "";
+                    } else {
+                        break;
+                    }
+                }
+
+                $hex = implode($hex);
+                if ($type == 'Hex') {
+                    return $hex;
+                } elseif ($type == 'Int') {
+                    return hexdec($hex);
+                }
+                break;
+            default:
+                throw new \InvalidArgumentException("Datatype not known");
+                break;
         }
 
-        $hex = implode($hex);
-        return $hex;
     }
 
     private static function UIntToTimestamp($date)
