@@ -30,6 +30,7 @@ class Player
     private $Category;
     private $Title;
     private $Sex;
+    private $NumberOfTies;
     private $Absent;
 
     /**
@@ -297,6 +298,22 @@ class Player
     /**
      * @return mixed
      */
+    public function getNumberOfTies()
+    {
+        return $this->NumberOfTies;
+    }
+
+    /**
+     * @param mixed $NumberOfTies
+     */
+    public function setNumberOfTies($NumberOfTies): void
+    {
+        $this->NumberOfTies = $NumberOfTies;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getAbsent()
     {
         return $this->Absent;
@@ -309,7 +326,4 @@ class Player
     {
         $this->Absent = $Absent;
     }
-
-
-
 }
