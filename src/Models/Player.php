@@ -7,7 +7,8 @@
  */
 
 namespace JeroenED\Libpairtwo\Models;
-
+use JeroenED\Libpairtwo\Enums\Title;
+use JeroenED\Libpairtwo\Enums\Sex;
 
 use DateTime;
 
