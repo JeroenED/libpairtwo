@@ -338,14 +338,19 @@ class Sws extends SwsModel
 
             $sws->getTournament()->addPlayer($player);
         }
-        /* $length = 68 * $sws->getBinaryData("NewPlayer");
-        $sws->setBinaryData("Players", self::ReadData('String', substr($swscontents, $offset, $length)));
-        $offset += $length;*/
-
         // PlayerNames
         $length = (Integer)$sws->getBinaryData("NewNamePos") + 0;
         $sws->setBinaryData("PlayerNames", self::ReadData('String', substr($swscontents, $offset, $length)));
         $offset += $length;
+
+        for ($i = 0; $i < $sws->getBinaryData("NewPlayer"); $i++) {
+            $namelength = $sws->getBinaryData("Players($i)_NameLength");
+            $nameoffset = $sws->getBinaryData("Players($i)_NamePos");
+            $player = $sws->getTournament()->getPlayerById($i);
+            $player->setName(self::ReadData("String", substr($sws->getBinaryData("PlayerNames"), $nameoffset, $namelength)));
+
+            $sws->getTournament()->updatePlayer($i, $player);
+        }
 
         // TournamentName
         $length = 80;

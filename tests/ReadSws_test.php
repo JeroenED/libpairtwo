@@ -50,5 +50,8 @@ echo "Fide Elo P3:  " . $sws->getTournament()->getPlayerById(2)->getFideElo() . 
 echo "KBSB Elo P1:  " . $sws->getTournament()->getPlayerById(0)->getKbsbElo() . PHP_EOL;
 echo "KBSB Elo P2:  " . $sws->getTournament()->getPlayerById(1)->getKbsbElo() . PHP_EOL;
 echo "KBSB Elo P3:  " . $sws->getTournament()->getPlayerById(2)->getKbsbElo() . PHP_EOL;
+echo "Name P1:      " . $sws->getTournament()->getPlayerById(0)->getName() . PHP_EOL;
+echo "Name P2:      " . $sws->getTournament()->getPlayerById(1)->getName() . PHP_EOL;
+echo "Name P3:      " . $sws->getTournament()->getPlayerById(2)->getName() . PHP_EOL;
 //echo $sws->getBinaryData("Tournament");
 //echo $sws->getBinaryData("Players");*/
