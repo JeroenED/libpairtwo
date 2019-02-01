@@ -277,12 +277,12 @@ class Sws extends SwsModel
 
         // StartDate
         $length = 4;
-        $sws->getTournament()->setStartDate(self::UIntToTimestamp(self::ReadData('Int', substr($swscontents, $offset, $length))));
+        $sws->getTournament()->setStartDate(self::ReadData('Date', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // EndDate
         $length = 4;
-        $sws->getTournament()->setEndDate(self::UIntToTimestamp(self::ReadData('Int', substr($swscontents, $offset, $length))));
+        $sws->getTournament()->setEndDate(self::ReadData('Date', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // Place
@@ -352,6 +352,7 @@ class Sws extends SwsModel
                 break;
             case 'Hex':
             case 'Int':
+            case 'Date':
                 $hex = implode(unpack("H*", $data));
                 $hex = array_reverse(str_split($hex, 2));
 
@@ -368,6 +369,8 @@ class Sws extends SwsModel
                     return $hex;
                 } elseif ($type == 'Int') {
                     return hexdec($hex);
+                } elseif ($type == 'Date') {
+                    return self::UIntToTimestamp(hexdec($hex));
                 }
                 break;
             default:
