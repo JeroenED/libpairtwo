@@ -26,8 +26,8 @@
 
 namespace JeroenED\Libpairtwo;
 
-use JeroenED\Libpairtwo\Models\Tournament;
-use JeroenED\Libpairtwo\Models\Sws as MyModel;
+use JeroenED\Libpairtwo\Enums\Title;
+use JeroenED\Libpairtwo\Enums\Sex;
 use JeroenED\Libpairtwo\Enums\TournamentSystem;
 
 /**
