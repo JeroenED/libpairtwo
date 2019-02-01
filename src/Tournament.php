@@ -30,4 +30,15 @@ class Tournament extends TournamentModel
         $newArray[] = $Player;
         $this->setPlayers($newArray);
     }
+
+    /**
+     * @param $id
+     * @param Player $player
+     */
+    public function updatePlayer($id, Player $player)
+    {
+        $newArray = $this->GetPlayers();
+        $newArray[$id] = $player;
+        $this->setPlayers($newArray);
+    }
 }
