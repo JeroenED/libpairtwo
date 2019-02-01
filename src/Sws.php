@@ -28,6 +28,7 @@ namespace JeroenED\Libpairtwo;
 
 use JeroenED\Libpairtwo\Enums\Title;
 use JeroenED\Libpairtwo\Enums\Sex;
+use JeroenED\Libpairtwo\Models\Sws as SwsModel;
 use JeroenED\Libpairtwo\Enums\TournamentSystem;
 
 /**
@@ -35,7 +36,7 @@ use JeroenED\Libpairtwo\Enums\TournamentSystem;
  *
  * @author Jeroen De Meerleer
  */
-class Sws
+class Sws extends SwsModel
 {
     private const PT_DAYFACTOR = 32;
     private const PT_MONTHFACTOR = 16;
@@ -46,7 +47,7 @@ class Sws
 
     /**
      * @param string $swsfile
-     * @return MyModel
+     * @return SwsModel
      */
     public static function ReadSws(string $swsfile)
     {
@@ -54,7 +55,7 @@ class Sws
         $swscontents = fread($swshandle, filesize($swsfile));
         fclose($swshandle);
 
-        $sws = new MyModel();
+        $sws = new SwsModel();
         $offset = 0;
         
 
