@@ -25,7 +25,7 @@ class Sws
     }
 
     /**
-     * @return Tournament
+     * @return \JeroenED\Libpairtwo\Tournament
      */
     public function getTournament()
     {
@@ -33,7 +33,7 @@ class Sws
     }
 
     /**
-     * @param Tournament $Tournament
+     * @param \JeroenED\Libpairtwo\Tournament $Tournament
      */
     public function setTournament(Tournament $Tournament): void
     {
