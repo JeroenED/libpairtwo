@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2019 Jeroen De Meerleer <schaak@jeroened.be>.
@@ -23,7 +23,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-Use JeroenED\Libpairtwo\Sws;
+use JeroenED\Libpairtwo\Sws;
 
 require_once '../vendor/autoload.php';
 
@@ -44,5 +44,11 @@ echo "Place:        " . $sws->getTournament()->getOrganiserPlace() . PHP_EOL;
 echo "Unrated-Elo:  " . $sws->getTournament()->getNonRatedElo() . PHP_EOL;
 echo "Federatiop:   " . $sws->getTournament()->getFederation() . PHP_EOL;
 echo "Organiser:    " . $sws->getTournament()->getOrganiserClubNo() . PHP_EOL;
+echo "Fide Elo P1:  " . $sws->getTournament()->getPlayerById(0)->getFideElo() . PHP_EOL;
+echo "Fide Elo P2:  " . $sws->getTournament()->getPlayerById(1)->getFideElo() . PHP_EOL;
+echo "Fide Elo P3:  " . $sws->getTournament()->getPlayerById(2)->getFideElo() . PHP_EOL;
+echo "KBSB Elo P1:  " . $sws->getTournament()->getPlayerById(0)->getKbsbElo() . PHP_EOL;
+echo "KBSB Elo P2:  " . $sws->getTournament()->getPlayerById(1)->getKbsbElo() . PHP_EOL;
+echo "KBSB Elo P3:  " . $sws->getTournament()->getPlayerById(2)->getKbsbElo() . PHP_EOL;
 //echo $sws->getBinaryData("Tournament");
-//echo $sws->getBinaryData("Players");
+//echo $sws->getBinaryData("Players");*/
