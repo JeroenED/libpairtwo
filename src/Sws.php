@@ -41,7 +41,6 @@ class Sws extends SwsModel
     private const PT_DAYFACTOR = 32;
     private const PT_MONTHFACTOR = 16;
     private const PT_YEARFACTOR = 512;
-    private const PT_SYSTEMYEAR = 1900;
     private const PT_PASTOFFSET = 117;
 
 
@@ -226,12 +225,125 @@ class Sws extends SwsModel
         $offset += $length;
 
         // Players
-        $length = 68 * $sws->getBinaryData("NewPlayer");
+        for ($i = 0; $i < $sws->getBinaryData("NewPlayer"); $i++) {
+            $player = new Player();
+
+            $length = 4;
+            $player->SetRank(self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 4;
+            $sws->setBinaryData("Players($i)_NamePos", self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 4;
+            $player->SetFideId(self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 4;
+            $player->SetExtraPts(self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 4;
+            $player->SetKbsbElo(self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 4;
+            $player->SetDateOfBirth(self::ReadData('Date', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 4;
+            $player->setKbsbID(self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 4;
+            $player->setPoints(self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 4;
+            $player->setClubNr(self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 4;
+            $player->setScoreBucholtz(self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 4;
+            $player->setScoreAmerican(self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 4;
+            $sws->setBinaryData("Players($i)_HelpValue", self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 4;
+            $player->setFideElo(self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 1;
+            $sws->setBinaryData("Players($i)_NameLength", self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 3;
+            $player->setNation(self::ReadData('String', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 1;
+            $player->setCategory(self::ReadData('String', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 1;
+            $player->setTitle(new Title(self::ReadData('Int', substr($swscontents, $offset, $length))));
+            $offset += $length;
+
+            $length = 1;
+            $player->setSex(new Sex(self::ReadData('Int', substr($swscontents, $offset, $length))));
+            $offset += $length;
+
+            $length = 1;
+            $player->setNumberOfTies(self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 1;
+            $player->setAbsent(self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 1;
+            $sws->setBinaryData("Players($i)_ColorDiff", self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 1;
+            $sws->setBinaryData("Players($i)_ColorPref", self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 1;
+            $sws->setBinaryData("Players($i)_Paired", self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 1;
+            $sws->setBinaryData("Players($i)_Float", self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 1;
+            $sws->setBinaryData("Players($i)_FloatPrev", self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 1;
+            $sws->setBinaryData("Players($i)_FloatBefore", self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $length = 1;
+            $sws->setBinaryData("Players($i)_TieMatch", self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $offset += $length;
+
+            $sws->getTournament()->addPlayer($player);
+        }
+        /* $length = 68 * $sws->getBinaryData("NewPlayer");
         $sws->setBinaryData("Players", self::ReadData('String', substr($swscontents, $offset, $length)));
-        $offset += $length;
+        $offset += $length;*/
 
         // PlayerNames
-        $length = $sws->getBinaryData("NewNamePos");
+        $length = (Integer)$sws->getBinaryData("NewNamePos") + 0;
         $sws->setBinaryData("PlayerNames", self::ReadData('String', substr($swscontents, $offset, $length)));
         $offset += $length;
 
@@ -344,6 +456,11 @@ class Sws extends SwsModel
         return $sws;
     }
 
+    /**
+     * @param String $type
+     * @param String $data
+     * @return array|bool|\DateTime|float|int|string
+     */
     private static function ReadData(String $type, String $data)
     {
         switch ($type) {
@@ -378,8 +495,13 @@ class Sws extends SwsModel
                 break;
         }
 
+        return false;
     }
 
+    /**
+     * @param $date
+     * @return bool|\DateTime
+     */
     private static function UIntToTimestamp($date)
     {
         $curyear = date('Y');

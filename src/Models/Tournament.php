@@ -25,6 +25,8 @@
  */
 
 namespace JeroenED\Libpairtwo\Models;
+use JeroenED\Libpairtwo\Enums\TournamentSystem;
+
 
 /**
  * Description of Sws
@@ -51,6 +53,7 @@ class Tournament
     private $FirstPeriod;
     private $SecondPeriod;
     private $Federation;
+    private $Players;
 
     /**
      * @return string
@@ -340,5 +343,20 @@ class Tournament
         $this->Federation = $Federation;
     }
 
+    /**
+     * @return array
+     */
+    public function getPlayers()
+    {
+        return $this->Players;
+    }
+
+    /**
+     * @param array $Players
+     */
+    public function setPlayers($Players): void
+    {
+        $this->Players = $Players;
+    }
 
 }
