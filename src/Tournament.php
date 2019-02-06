@@ -41,4 +41,15 @@ class Tournament extends TournamentModel
         $newArray[$id] = $player;
         $this->setPlayers($newArray);
     }
+
+    /**
+     * @param Round $round
+     */
+    public function addRound(Round $round)
+    {
+        $newArray = $this->GetRounds();
+        $newArray[] = $round;
+        $this->setRounds($newArray);
+    }
+
 }
