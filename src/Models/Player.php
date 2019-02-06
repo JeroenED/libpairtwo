@@ -210,7 +210,7 @@ class Player
      */
     public function setScoreAmerican($ScoreAmerican): void
     {
-        $this->ScoreAmerican = $ScoreAmerica;
+        $this->ScoreAmerican = $ScoreAmerican;
     }
 
     /**
