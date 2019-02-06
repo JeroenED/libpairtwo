@@ -58,19 +58,14 @@ class Tournament extends TournamentModel
     public function getRanking()
     {
         $players = $this->getPlayers();
-        $rankingsArray = array();
-        foreach ($players as $player) {
-            $rankingsArray[$player->getPoints()] = $player;
-        }
-        ksort($rankingsArray);
 
-        $finalArray = array();
-        $i = 0;
-        foreach ($rankingsArray as $ranking) {
-            $finalArray[$i] = $ranking;
-            $i++;
-        }
+        usort($players, array($this, "cmp"));
 
-        return $finalArray;
+        return $players;
+    }
+
+    private function cmp($a, $b)
+    {
+        return $b->getPoints() - $a->getPoints();
     }
 }
