@@ -52,4 +52,25 @@ class Tournament extends TournamentModel
         $this->setRounds($newArray);
     }
 
+    /**
+     * @return array
+     */
+    public function getRanking()
+    {
+        $players = $this->getPlayers();
+        $rankingsArray = array();
+        foreach ($players as $player) {
+            $rankingsArray[$player->getPoints()] = $player;
+        }
+        $rankingsArray = ksort($finalArray);
+
+        $finalArray = array();
+        $i = 0;
+        foreach ($rankingsArray as $ranking) {
+            $finalArray[$i] = $ranking;
+            $i++;
+        }
+
+        return $finalArray();
+    }
 }
