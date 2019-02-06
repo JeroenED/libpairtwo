@@ -257,7 +257,7 @@ class Sws extends SwsModel
             $offset += $length;
 
             $length = 4;
-            $player->setPoints(self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $player->setPoints(self::ReadData('Int', substr($swscontents, $offset, $length)) / 2);
             $offset += $length;
 
             $length = 4;
@@ -265,11 +265,11 @@ class Sws extends SwsModel
             $offset += $length;
 
             $length = 4;
-            $player->setScoreBucholtz(self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $player->setScoreBucholtz(self::ReadData('Int', substr($swscontents, $offset, $length)) / 2);
             $offset += $length;
 
             $length = 4;
-            $player->setScoreAmerican(self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $player->setScoreAmerican(self::ReadData('Int', substr($swscontents, $offset, $length)) / 2);
             $offset += $length;
 
             $length = 4;

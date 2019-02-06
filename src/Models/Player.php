@@ -162,7 +162,7 @@ class Player
      */
     public function setPoints($Points): void
     {
-        $this->Points = $Points / 2;
+        $this->Points = $Points;
     }
 
     /**
@@ -210,7 +210,7 @@ class Player
      */
     public function setScoreAmerican($ScoreAmerican): void
     {
-        $this->ScoreAmerican = $ScoreAmerican;
+        $this->ScoreAmerican = $ScoreAmerica;
     }
 
     /**
