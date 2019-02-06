@@ -1,8 +1,17 @@
 {
     "name": "jeroened/libpairtwo",
+    "type": "library",
     "description": "PHP library that reads and writes SWS files from Pairtwo developed by the Belgian Chess Federation",
     "keywords": ["chess", "frbe-kbsb", "pairtwo"],
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Jeroen De Meerleer",
+            "email": "schaak@jeroened.be",
+            "homepage": "https://www.jeroened.be",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "php": "^7.1",
         "myclabs/php-enum": "^1.6"
