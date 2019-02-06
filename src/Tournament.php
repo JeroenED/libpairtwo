@@ -9,6 +9,7 @@
 namespace JeroenED\Libpairtwo;
 
 use JeroenED\Libpairtwo\Models\Tournament as TournamentModel;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class Tournament extends TournamentModel
 {
@@ -55,17 +56,32 @@ class Tournament extends TournamentModel
     /**
      * @return array
      */
-    public function getRanking()
+    public function getRanking(bool $sort)
     {
         $players = $this->getPlayers();
 
-        usort($players, array($this, "cmp"));
+        $sort ? usort($players, array($this, "SortNormal")) : usort($players, array($this, "SortAmerican"));
 
         return $players;
     }
 
-    private function cmp($a, $b)
+    /**
+     * @param $a
+     * @param $b
+     * @return mixed
+     */
+    private function sortNormal($a, $b)
     {
         return $b->getPoints() - $a->getPoints();
+    }
+
+    /**
+     * @param $a
+     * @param $b
+     * @return mixed
+     */
+    private function sortAmerican($a, $b)
+    {
+        return $b->getScoreAmerican() - $a->getScoreAmerican();
     }
 }
