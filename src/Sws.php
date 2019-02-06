@@ -278,8 +278,6 @@ class Sws extends SwsModel
 
             $length = 4;
             $player->setFideElo(self::ReadData('Int', substr($swscontents, $offset, $length)));
-            echo "offset: " . $offset . PHP_EOL;
-            echo "length: " . $length . PHP_EOL;
             $offset += $length;
 
             $length = 1;
@@ -459,22 +457,22 @@ class Sws extends SwsModel
         $sws->getTournament()->setOrganiserClub(self::ReadData('String', substr($swscontents, $offset, $length)));
         $offset += $length;
 
-        echo dechex($offset) . PHP_EOL;
+        // echo dechex($offset) . PHP_EOL;
         if ($sws->getBinaryData("CurrentRound") > 0) {
-            echo "go"  . PHP_EOL;
+            // echo "go"  . PHP_EOL;
             for ($i = 0; $i < $sws->getBinaryData("CreatedRounds"); $i++) {
                 $game = new Game();
 
                 $length = 4;
-                echo $offset . "Opponent: " . self::ReadData('String', substr($swscontents, $offset, $length)) . PHP_EOL;
+                //echo $offset . "Opponent: " . self::ReadData('String', substr($swscontents, $offset, $length)) . PHP_EOL;
                 $offset += $length;
 
                 $length = 1;
-                echo $offset . "Color: " . self::ReadData('String', substr($swscontents, $offset, $length)) . PHP_EOL;
+                //echo $offset . "Color: " . self::ReadData('String', substr($swscontents, $offset, $length)) . PHP_EOL;
                 $offset += $length;
 
                 $length = 1;
-                echo $offset . "Result: " . self::ReadData('String', substr($swscontents, $offset, $length)) . PHP_EOL;
+                //echo $offset . "Result: " . self::ReadData('String', substr($swscontents, $offset, $length)) . PHP_EOL;
                 $offset += $length;
             }
 
