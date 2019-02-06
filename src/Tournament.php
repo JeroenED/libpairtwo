@@ -62,7 +62,7 @@ class Tournament extends TournamentModel
         foreach ($players as $player) {
             $rankingsArray[$player->getPoints()] = $player;
         }
-        $rankingsArray = ksort($finalArray);
+        ksort($rankingsArray);
 
         $finalArray = array();
         $i = 0;
@@ -71,6 +71,6 @@ class Tournament extends TournamentModel
             $i++;
         }
 
-        return $finalArray();
+        return $finalArray;
     }
 }
