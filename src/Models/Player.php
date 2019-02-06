@@ -162,7 +162,7 @@ class Player
      */
     public function setPoints($Points): void
     {
-        $this->Points = $Points;
+        $this->Points = $Points / 2;
     }
 
     /**
