@@ -56,11 +56,11 @@ class Tournament extends TournamentModel
     /**
      * @return array
      */
-    public function getRanking(bool $sort)
+    public function getRanking(bool $americansort = false)
     {
         $players = $this->getPlayers();
 
-        $sort ? usort($players, array($this, "SortNormal")) : usort($players, array($this, "SortAmerican"));
+        $americansort ? usort($players, array($this, "SortAmerican")) : usort($players, array($this, "SortNormal"));
 
         return $players;
     }
