@@ -2,6 +2,8 @@
 
 namespace JeroenED\Libpairtwo\Models;
 
+use JeroenED\Libpairtwo\Tournament;
+
 class Sws
 {
     private $Release;
@@ -11,7 +13,7 @@ class Sws
     /**
      * @return String
      */
-    public function getRelease()
+    public function getRelease(): string
     {
         return $this->Release;
     }
@@ -19,21 +21,21 @@ class Sws
     /**
      * @param String $Release
      */
-    public function setRelease(String $Release): void
+    public function setRelease(string $Release): void
     {
         $this->Release = $Release;
     }
 
     /**
-     * @return \JeroenED\Libpairtwo\Tournament
+     * @return Tournament
      */
-    public function getTournament()
+    public function getTournament(): Tournament
     {
         return $this->Tournament;
     }
 
     /**
-     * @param \JeroenED\Libpairtwo\Tournament $Tournament
+     * @param Tournament $Tournament
      */
     public function setTournament(Tournament $Tournament): void
     {
@@ -46,7 +48,7 @@ class Sws
      * @param string
      * @return string
      */
-    public function getBinaryData(String $key)
+    public function getBinaryData(string $key)
     {
         return $this->BinaryData[$key];
     }
@@ -55,9 +57,9 @@ class Sws
      * Sets binary data
      *
      * @param string
-     * @param string
+     * @param mixed
      */
-    public function setBinaryData(String $key, String $data): void
+    public function setBinaryData(string $key, $data): void
     {
         $this->BinaryData[$key] = $data;
     }

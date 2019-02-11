@@ -11,7 +11,6 @@ namespace JeroenED\Libpairtwo\Models;
 use JeroenED\LibPairtwo\Enums\Color;
 use JeroenED\Libpairtwo\Enums\Result;
 use JeroenED\LibPairtwo\Player;
-use phpDocumentor\Reflection\Types\Integer;
 
 class Pairing
 {
@@ -38,7 +37,7 @@ class Pairing
     }
 
     /**
-     * @return mixed
+     * @return Player
      */
     public function getOpponent(): Player
     {
@@ -46,7 +45,7 @@ class Pairing
     }
 
     /**
-     * @param mixed $Opponent
+     * @param Player $Opponent
      */
     public function setOpponent(Player $Opponent): void
     {
