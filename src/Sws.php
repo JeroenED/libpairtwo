@@ -457,7 +457,18 @@ class Sws extends SwsModel
         $sws->getTournament()->setOrganiserClub(self::ReadData('String', substr($swscontents, $offset, $length)));
         $offset += $length;
 
-        // echo dechex($offset) . PHP_EOL;
+        // Tournament year
+        $length = 4;
+        $sws->getTournament()->setYear(self::ReadData('Int', substr($swscontents, $offset, $length)));
+        $offset += $length;
+
+        // Round dates
+        for ($i = 1; $i < $sws->getTournament()->getRounds(); $i++) {
+            $length = 4;
+            $sws->setBinaryData('Round_' . $i . '_date', self::ReadData('Date', substr($swscontents, $offset, $length)));
+            $offset += $length;
+        }
+
         if ($sws->getBinaryData("CurrentRound") > 0) {
             // echo "go"  . PHP_EOL;
             for ($i = 0; $i < $sws->getBinaryData("CreatedRounds"); $i++) {

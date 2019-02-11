@@ -54,6 +54,7 @@ class Tournament
     private $SecondPeriod;
     private $Federation;
     private $Players;
+    private $Year;
 
     /**
      * @return string
@@ -357,6 +358,22 @@ class Tournament
     public function setPlayers($Players): void
     {
         $this->Players = $Players;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getYear()
+    {
+        return $this->Year;
+    }
+
+    /**
+     * @param mixed $Year
+     */
+    public function setYear($Year): void
+    {
+        $this->Year = $Year;
     }
 
 }
