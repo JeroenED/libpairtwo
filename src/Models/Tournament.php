@@ -26,6 +26,7 @@
 
 namespace JeroenED\Libpairtwo\Models;
 use JeroenED\Libpairtwo\Enums\TournamentSystem;
+use DateTime;
 
 
 /**
@@ -60,7 +61,7 @@ class Tournament
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->Name;
     }
@@ -68,7 +69,7 @@ class Tournament
     /**
      * @param string $Name
      */
-    public function setName($Name): void
+    public function setName(string $Name): void
     {
         $this->Name = $Name;
     }
@@ -76,7 +77,7 @@ class Tournament
     /**
      * @return string
      */
-    public function getOrganiser()
+    public function getOrganiser(): string
     {
         return $this->Organiser;
     }
@@ -84,39 +85,39 @@ class Tournament
     /**
      * @param string $Organiser
      */
-    public function setOrganiser($Organiser): void
+    public function setOrganiser(string $Organiser): void
     {
         $this->Organiser = $Organiser;
     }
 
     /**
-     * @return String
+     * @return string
      */
-    public function getOrganiserClub()
+    public function getOrganiserClub(): string
     {
         return $this->OrganiserClub;
     }
 
     /**
-     * @param String $OrganiserClub
+     * @param string $OrganiserClub
      */
-    public function setOrganiserClub($OrganiserClub): void
+    public function setOrganiserClub(string $OrganiserClub): void
     {
         $this->OrganiserClub = $OrganiserClub;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getOrganiserClubNo()
+    public function getOrganiserClubNo(): int
     {
         return $this->OrganiserClubNo;
     }
 
     /**
-     * @param integer $OrganiserClubno
+     * @param int $OrganiserClubNo
      */
-    public function setOrganiserClubNo($OrganiserClubNo): void
+    public function setOrganiserClubNo(int $OrganiserClubNo): void
     {
         $this->OrganiserClubNo = $OrganiserClubNo;
     }
@@ -124,7 +125,7 @@ class Tournament
     /**
      * @return string
      */
-    public function getOrganiserPlace()
+    public function getOrganiserPlace(): string
     {
         return $this->OrganiserPlace;
     }
@@ -132,7 +133,7 @@ class Tournament
     /**
      * @param string $OrganiserPlace
      */
-    public function setOrganiserPlace($OrganiserPlace): void
+    public function setOrganiserPlace(string $OrganiserPlace): void
     {
         $this->OrganiserPlace = $OrganiserPlace;
     }
@@ -140,7 +141,7 @@ class Tournament
     /**
      * @return string
      */
-    public function getOrganiserCountry()
+    public function getOrganiserCountry(): string
     {
         return $this->OrganiserCountry;
     }
@@ -148,55 +149,55 @@ class Tournament
     /**
      * @param string $OrganiserCountry
      */
-    public function setOrganiserCountry($OrganiserCountry): void
+    public function setOrganiserCountry(string $OrganiserCountry): void
     {
         $this->OrganiserCountry = $OrganiserCountry;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getFideHomol()
+    public function getFideHomol(): int
     {
         return $this->FideHomol;
     }
 
     /**
-     * @param integer $FideHomol
+     * @param int $FideHomol
      */
-    public function setFideHomol($FideHomol): void
+    public function setFideHomol(int $FideHomol): void
     {
         $this->FideHomol = $FideHomol;
     }
 
     /**
-     * @return integer
+     * @return DateTime
      */
-    public function getStartDate()
+    public function getStartDate(): DateTime
     {
         return $this->StartDate;
     }
 
     /**
-     * @param integer $StartDate
+     * @param DateTime $StartDate
      */
-    public function setStartDate($StartDate): void
+    public function setStartDate(DateTime $StartDate): void
     {
         $this->StartDate = $StartDate;
     }
 
     /**
-     * @return integer
+     * @return DateTime
      */
-    public function getEndDate()
+    public function getEndDate(): DateTime
     {
         return $this->EndDate;
     }
 
     /**
-     * @param integer$EndDate
+     * @param DateTime $EndDate
      */
-    public function setEndDate($EndDate): void
+    public function setEndDate(DateTime $EndDate): void
     {
         $this->EndDate = $EndDate;
     }
@@ -204,7 +205,7 @@ class Tournament
     /**
      * @return string
      */
-    public function getArbiter()
+    public function getArbiter(): string
     {
         return $this->Arbiter;
     }
@@ -212,39 +213,39 @@ class Tournament
     /**
      * @param string $Arbiter
      */
-    public function setArbiter($Arbiter): void
+    public function setArbiter(string $Arbiter): void
     {
         $this->Arbiter = $Arbiter;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getRounds()
+    public function getRounds(): int
     {
         return $this->Rounds;
     }
 
     /**
-     * @param integer $Rounds
+     * @param int $Rounds
      */
-    public function setRounds($Rounds): void
+    public function setRounds(int $Rounds): void
     {
         $this->Rounds = $Rounds;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getParticipants()
+    public function getParticipants(): int
     {
         return $this->Participants;
     }
 
     /**
-     * @param integer $Participants
+     * @param int $Participants
      */
-    public function setParticipants($Participants): void
+    public function setParticipants(int $Participants): void
     {
         $this->Participants = $Participants;
     }
@@ -252,7 +253,7 @@ class Tournament
     /**
      * @return string
      */
-    public function getTempo()
+    public function getTempo(): string
     {
         return $this->Tempo;
     }
@@ -260,23 +261,23 @@ class Tournament
     /**
      * @param string $Tempo
      */
-    public function setTempo($Tempo): void
+    public function setTempo(string $Tempo): void
     {
         $this->Tempo = $Tempo;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getNonRatedElo()
+    public function getNonRatedElo(): int
     {
         return $this->NonRatedElo;
     }
 
     /**
-     * @param integer $NonRatedElo
+     * @param int $NonRatedElo
      */
-    public function setNonRatedElo($NonRatedElo): void
+    public function setNonRatedElo(int $NonRatedElo): void
     {
         $this->NonRatedElo = $NonRatedElo;
     }
@@ -284,7 +285,7 @@ class Tournament
     /**
      * @return TournamentSystem
      */
-    public function getSystem()
+    public function getSystem(): TournamentSystem
     {
         return $this->System;
     }
@@ -292,61 +293,61 @@ class Tournament
     /**
      * @param TournamentSystem $System
      */
-    public function setSystem($System): void
+    public function setSystem(TournamentSystem $System): void
     {
         $this->System = $System;
     }
 
     /**
-     * @return String
+     * @return string
      */
-    public function getFirstPeriod()
+    public function getFirstPeriod(): string
     {
         return $this->FirstPeriod;
     }
 
     /**
-     * @param String $FirstPeriod
+     * @param string $FirstPeriod
      */
-    public function setFirstPeriod($FirstPeriod): void
+    public function setFirstPeriod(string $FirstPeriod): void
     {
         $this->FirstPeriod = $FirstPeriod;
     }
 
     /**
-     * @return String
+     * @return string
      */
-    public function getSecondPeriod()
+    public function getSecondPeriod(): string
     {
         return $this->SecondPeriod;
     }
 
     /**
-     * @param String $SecondPeriod
+     * @param string $SecondPeriod
      */
-    public function setSecondPeriod($SecondPeriod): void
+    public function setSecondPeriod(string $SecondPeriod): void
     {
         $this->SecondPeriod = $SecondPeriod;
     }
 
     /**
-     * @return String
+     * @return string
      */
-    public function getFederation()
+    public function getFederation(): string
     {
         return $this->Federation;
     }
 
     /**
-     * @param String $Federation
+     * @param string $Federation
      */
-    public function setFederation($Federation): void
+    public function setFederation(string $Federation): void
     {
         $this->Federation = $Federation;
     }
 
     /**
-     * @return array
+     * @return Player[]
      */
     public function getPlayers()
     {
@@ -354,7 +355,7 @@ class Tournament
     }
 
     /**
-     * @param array $Players
+     * @param Player[] $Players
      */
     public function setPlayers($Players): void
     {
@@ -362,17 +363,17 @@ class Tournament
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getYear()
+    public function getYear(): int
     {
         return $this->Year;
     }
 
     /**
-     * @param mixed $Year
+     * @param int $Year
      */
-    public function setYear($Year): void
+    public function setYear(int $Year): void
     {
         $this->Year = $Year;
     }

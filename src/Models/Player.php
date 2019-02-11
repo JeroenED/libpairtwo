@@ -9,7 +9,6 @@
 namespace JeroenED\Libpairtwo\Models;
 use JeroenED\Libpairtwo\Enums\Title;
 use JeroenED\Libpairtwo\Enums\Sex;
-
 use DateTime;
 
 class Player
@@ -36,7 +35,7 @@ class Player
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->Name;
     }
@@ -50,73 +49,73 @@ class Player
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getRank()
+    public function getRank(): int
     {
         return $this->Rank;
     }
 
     /**
-     * @param integer $Rank
+     * @param int $Rank
      */
-    public function setRank($Rank): void
+    public function setRank(int $Rank): void
     {
         $this->Rank = $Rank;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getFideId()
+    public function getFideId(): int
     {
         return $this->FideId;
     }
 
     /**
-     * @param integer $FideId
+     * @param int $FideId
      */
-    public function setFideId($FideId): void
+    public function setFideId(int $FideId): void
     {
         $this->FideId = $FideId;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getExtraPts()
+    public function getExtraPts(): int
     {
         return $this->ExtraPts;
     }
 
     /**
-     * @param integer $ExtraPts
+     * @param int $ExtraPts
      */
-    public function setExtraPts($ExtraPts): void
+    public function setExtraPts(int $ExtraPts): void
     {
         $this->ExtraPts = $ExtraPts;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getKbsbElo()
+    public function getKbsbElo(): int
     {
         return $this->KbsbElo;
     }
 
     /**
-     * @param integer $KbsbElo
+     * @param int $KbsbElo
      */
-    public function setKbsbElo($KbsbElo): void
+    public function setKbsbElo(int $KbsbElo): void
     {
         $this->KbsbElo = $KbsbElo;
     }
 
     /**
-     * @return integer
+     * @return DateTime
      */
-    public function getDateofbirth()
+    public function getDateofbirth(): DateTime
     {
         return $this->dateofbirth;
     }
@@ -130,101 +129,97 @@ class Player
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getKbsbID()
+    public function getKbsbID(): int
     {
         return $this->KbsbID;
     }
 
     /**
-     * @param integer $KbsbID
+     * @param int $KbsbID
      */
-    public function setKbsbID($KbsbID): void
+    public function setKbsbID(int $KbsbID): void
     {
         $this->KbsbID = $KbsbID;
     }
 
     /**
-     * Note: SWS file returns points * 2 to circumvent use of floating point
-     *
-     * @return integer
+     * @return float
      */
-    public function getPoints()
+    public function getPoints(): float
     {
         return $this->Points;
     }
 
     /**
-     * Note: SWS file returns points * 2 to circumvent use of floating point
-     *
-     * @param integer $Points
+     * @param float $Points
      */
-    public function setPoints($Points): void
+    public function setPoints(float $Points): void
     {
         $this->Points = $Points;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getClubNr()
+    public function getClubNr(): int
     {
         return $this->ClubNr;
     }
 
     /**
-     * @param integer $ClubNr
+     * @param int $ClubNr
      */
-    public function setClubNr($ClubNr): void
+    public function setClubNr(int $ClubNr): void
     {
         $this->ClubNr = $ClubNr;
     }
 
     /**
-     * @return integer
+     * @return float
      */
-    public function getScoreBucholtz()
+    public function getScoreBucholtz(): float
     {
         return $this->ScoreBucholtz;
     }
 
     /**
-     * @param integer $ScoreBucholtz
+     * @param float $ScoreBucholtz
      */
-    public function setScoreBucholtz($ScoreBucholtz): void
+    public function setScoreBucholtz(float $ScoreBucholtz): void
     {
         $this->ScoreBucholtz = $ScoreBucholtz;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getScoreAmerican()
+    public function getScoreAmerican(): int
     {
         return $this->ScoreAmerican;
     }
 
     /**
-     * @param integer $ScoreAmerican
+     * @param int $ScoreAmerican
      */
-    public function setScoreAmerican($ScoreAmerican): void
+    public function setScoreAmerican(int $ScoreAmerican): void
     {
         $this->ScoreAmerican = $ScoreAmerican;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getFideElo()
+    public function getFideElo(): int
     {
         return $this->FideElo;
     }
 
     /**
-     * @param integer $FideElo
+     * @param int $FideElo
      */
-    public function setFideElo($FideElo): void
+    public function setFideElo(int $FideElo): void
     {
         $this->FideElo = $FideElo;
     }
@@ -232,9 +227,9 @@ class Player
     /**
      * example value: BEL
      *
-     * @return String
+     * @return string
      */
-    public function getNation()
+    public function getNation(): string
     {
         return $this->Nation;
     }
@@ -242,7 +237,7 @@ class Player
     /**
      * @param string $Nation
      */
-    public function setNation($Nation): void
+    public function setNation(string $Nation): void
     {
         $this->Nation = $Nation;
     }
@@ -250,7 +245,7 @@ class Player
     /**
      * @return string
      */
-    public function getCategory()
+    public function getCategory(): string
     {
         return $this->Category;
     }
@@ -258,15 +253,15 @@ class Player
     /**
      * @param string $Category
      */
-    public function setCategory($Category): void
+    public function setCategory(string $Category): void
     {
         $this->Category = $Category;
     }
 
     /**
-     * @return FideTitle
+     * @return Title
      */
-    public function getTitle()
+    public function getTitle(): Title
     {
         return $this->Title;
     }
@@ -274,55 +269,55 @@ class Player
     /**
      * @param Title $Title
      */
-    public function setTitle($Title): void
+    public function setTitle(Title $Title): void
     {
         $this->Title = $Title;
     }
 
     /**
-     * @return mixed
+     * @return Sex
      */
-    public function getSex()
+    public function getSex(): Sex
     {
         return $this->Sex;
     }
 
     /**
-     * @param mixed $Sex
+     * @param Sex $Sex
      */
-    public function setSex($Sex): void
+    public function setSex(Sex $Sex): void
     {
         $this->Sex = $Sex;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getNumberOfTies()
+    public function getNumberOfTies(): int
     {
         return $this->NumberOfTies;
     }
 
     /**
-     * @param mixed $NumberOfTies
+     * @param int $NumberOfTies
      */
-    public function setNumberOfTies($NumberOfTies): void
+    public function setNumberOfTies(int $NumberOfTies): void
     {
         $this->NumberOfTies = $NumberOfTies;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getAbsent()
+    public function getAbsent(): bool
     {
         return $this->Absent;
     }
 
     /**
-     * @param mixed $Absent
+     * @param bool $Absent
      */
-    public function setAbsent($Absent): void
+    public function setAbsent(bool $Absent): void
     {
         $this->Absent = $Absent;
     }

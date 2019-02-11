@@ -32,6 +32,7 @@ use JeroenED\Libpairtwo\Enums\Color;
 use JeroenED\Libpairtwo\Enums\Result;
 use JeroenED\Libpairtwo\Models\Sws as SwsModel;
 use JeroenED\Libpairtwo\Enums\TournamentSystem;
+use DateTime;
 
 /**
  * This class reads a SWS file
@@ -47,6 +48,9 @@ class Sws extends SwsModel
 
 
     /**
+     *
+     * This function reads the sws-file
+     *
      * @param string $swsfile
      * @return SwsModel
      */
@@ -307,7 +311,7 @@ class Sws extends SwsModel
             $offset += $length;
 
             $length = 1;
-            $player->setAbsent(self::ReadData('Int', substr($swscontents, $offset, $length)));
+            $player->setAbsent(self::ReadData('Bool', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 1;
@@ -505,11 +509,11 @@ class Sws extends SwsModel
     }
 
     /**
-     * @param String $type
-     * @param String $data
-     * @return array|bool|\DateTime|float|int|string
+     * @param string $type
+     * @param string $data
+     * @return bool|DateTime|int|string
      */
-    private static function ReadData(String $type, String $data)
+    private static function ReadData(string $type, string $data)
     {
         switch ($type) {
             case 'String':
@@ -517,6 +521,7 @@ class Sws extends SwsModel
                 break;
             case 'Hex':
             case 'Int':
+            case 'Bool':
             case 'Date':
                 $hex = implode(unpack("H*", $data));
                 $hex = array_reverse(str_split($hex, 2));
@@ -537,6 +542,8 @@ class Sws extends SwsModel
                     return hexdec($hex);
                 } elseif ($type == 'Date') {
                     return self::UIntToTimestamp(hexdec($hex));
+                } elseif ($type == 'Bool') {
+                    return ($hex == "01") ? true : false;
                 }
                 break;
             default:
@@ -548,10 +555,10 @@ class Sws extends SwsModel
     }
 
     /**
-     * @param $date
-     * @return bool|\DateTime
+     * @param int $date
+     * @return bool|DateTime
      */
-    private static function UIntToTimestamp($date)
+    private static function UIntToTimestamp(int $date)
     {
         $curyear = date('Y');
         $yearoffset = $curyear - self::PT_PASTOFFSET;
@@ -575,6 +582,6 @@ class Sws extends SwsModel
         $format = 'm/d/Y';
 
 
-        return \DateTime::createFromFormat($format, $concat);
+        return DateTime::createFromFormat($format, $concat);
     }
 }
