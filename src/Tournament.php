@@ -9,15 +9,15 @@
 namespace JeroenED\Libpairtwo;
 
 use JeroenED\Libpairtwo\Models\Tournament as TournamentModel;
-use phpDocumentor\Reflection\Types\Boolean;
+use JeroenED\LibPairtwo\Player;
 
 class Tournament extends TournamentModel
 {
     /**
-     * @param Integer $id
+     * @param integer $id
      * @return Player
      */
-    public function getPlayerById($id)
+    public function getPlayerById(int $id)
     {
         return $this->GetPlayers()[$id];
     }
@@ -33,10 +33,10 @@ class Tournament extends TournamentModel
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @param Player $player
      */
-    public function updatePlayer($id, Player $player)
+    public function updatePlayer(int $id, Player $player)
     {
         $newArray = $this->GetPlayers();
         $newArray[$id] = $player;
@@ -64,7 +64,8 @@ class Tournament extends TournamentModel
     }
 
     /**
-     * @return array
+     * @param bool $americansort
+     * @return Player[]
      */
     public function getRanking(bool $americansort = false)
     {
@@ -76,21 +77,21 @@ class Tournament extends TournamentModel
     }
 
     /**
-     * @param $a
-     * @param $b
-     * @return mixed
+     * @param Player $a
+     * @param Player $b
+     * @return int
      */
-    private function sortNormal($a, $b)
+    private function sortNormal(Player $a, Player $b)
     {
         return $b->getPoints() - $a->getPoints();
     }
 
     /**
-     * @param $a
-     * @param $b
-     * @return mixed
+     * @param Player $a
+     * @param Player $b
+     * @return int
      */
-    private function sortAmerican($a, $b)
+    private function sortAmerican(Player $a, Player $b)
     {
         return $b->getScoreAmerican() - $a->getScoreAmerican();
     }
