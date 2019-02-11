@@ -25,9 +25,9 @@
  */
 
 namespace JeroenED\Libpairtwo\Models;
+
 use JeroenED\Libpairtwo\Enums\TournamentSystem;
 use DateTime;
-
 
 /**
  * Description of Sws
@@ -393,7 +393,4 @@ class Tournament
     {
         $this->Pairings = $Pairings;
     }
-
-
-
 }

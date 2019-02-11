@@ -12,5 +12,4 @@ use JeroenED\Libpairtwo\Models\Round as RoundModel;
 
 class Round extends RoundModel
 {
-
 }

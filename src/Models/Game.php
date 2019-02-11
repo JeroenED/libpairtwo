@@ -8,8 +8,6 @@
 
 namespace JeroenED\Libpairtwo\Models;
 
-
 class Game
 {
-
 }

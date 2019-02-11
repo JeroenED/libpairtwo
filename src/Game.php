@@ -12,5 +12,4 @@ use JeroenED\Libpairtwo\Models\Game as GameModel;
 
 class Game extends GameModel
 {
-
 }

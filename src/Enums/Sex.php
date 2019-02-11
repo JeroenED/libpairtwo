@@ -8,7 +8,6 @@
 
 namespace JeroenED\Libpairtwo\Enums;
 
-
 use MyCLabs\Enum\Enum;
 
 class Sex extends Enum
