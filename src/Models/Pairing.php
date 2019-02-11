@@ -23,7 +23,7 @@ class Pairing
     /**
      * @return Player
      */
-    public function getPlayer(): Player
+    public function getPlayer()
     {
         return $this->Player;
     }
@@ -39,7 +39,7 @@ class Pairing
     /**
      * @return Player
      */
-    public function getOpponent(): Player
+    public function getOpponent()
     {
         return $this->Opponent;
     }

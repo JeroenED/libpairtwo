@@ -12,4 +12,12 @@ use JeroenED\Libpairtwo\Models\Round as RoundModel;
 
 class Round extends RoundModel
 {
+
+    public function addGame(Game $game)
+    {
+        $newarray = $this->getGames();
+        $newarray[] = $game;
+        $this->setGames($newarray);
+
+    }
 }

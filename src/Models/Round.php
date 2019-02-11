@@ -15,6 +15,9 @@ class Round
     private $date;
     private $games;
 
+    /** @var int */
+    private $roundNo;
+
     /**
      * @return DateTime
      *
@@ -47,4 +50,21 @@ class Round
     {
         $this->games = $games;
     }
+
+    /**
+     * @return int
+     */
+    public function getRoundNo(): int
+    {
+        return $this->roundNo;
+    }
+
+    /**
+     * @param int $roundNo
+     */
+    public function setRoundNo(int $roundNo): void
+    {
+        $this->roundNo = $roundNo;
+    }
+
 }
