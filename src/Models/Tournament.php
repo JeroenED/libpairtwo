@@ -47,7 +47,11 @@ class Tournament
     private $StartDate;
     private $EndDate;
     private $Arbiter;
+    private $NoOfRounds;
+
+    /** @var Round[] */
     private $Rounds;
+
     private $Participants;
     private $Tempo;
     private $NonRatedElo;
@@ -222,15 +226,31 @@ class Tournament
     /**
      * @return int
      */
-    public function getRounds(): int
+    public function getNoOfRounds(): int
+    {
+        return $this->NoOfRounds;
+    }
+
+    /**
+     * @param int $NoOfRounds
+     */
+    public function setNoOfRounds(int $NoOfRounds): void
+    {
+        $this->NoOfRounds = $NoOfRounds;
+    }
+
+    /**
+     * @return Round[]
+     */
+    public function getRounds()
     {
         return $this->Rounds;
     }
 
     /**
-     * @param int $Rounds
+     * @param Round[] $Rounds
      */
-    public function setRounds(int $Rounds): void
+    public function setRounds(array $Rounds): void
     {
         $this->Rounds = $Rounds;
     }

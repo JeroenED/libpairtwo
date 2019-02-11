@@ -385,7 +385,7 @@ class Sws extends SwsModel
 
         // Rounds
         $length = 4;
-        $sws->getTournament()->setRounds(self::ReadData('Int', substr($swscontents, $offset, $length)));
+        $sws->getTournament()->setNoOfRounds(self::ReadData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // Participants
@@ -469,7 +469,7 @@ class Sws extends SwsModel
         $offset += $length;
 
         // Round dates
-        for ($i = 1; $i < $sws->getTournament()->getRounds(); $i++) {
+        for ($i = 1; $i < $sws->getTournament()->getNoOfRounds(); $i++) {
             $length = 4;
             $sws->setBinaryData('Round_' . $i . '_date', self::ReadData('Date', substr($swscontents, $offset, $length)));
             $offset += $length;
@@ -505,6 +505,7 @@ class Sws extends SwsModel
             }
         }
 
+        $sws->getTournament()->pairingsToRounds();
         return $sws;
     }
 
