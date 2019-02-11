@@ -25,5 +25,4 @@ class Title extends Enum
     const IM   = 10; // International Master
     const HG   = 11; // Honorary Grand Master
     const GM   = 12; // Grand Master
-
 }

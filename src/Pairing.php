@@ -12,5 +12,4 @@ use JeroenED\Libpairtwo\Models\Pairing as PairingModel;
 
 class Pairing extends PairingModel
 {
-
 }

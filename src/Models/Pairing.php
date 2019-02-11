@@ -99,6 +99,4 @@ class Pairing
     {
         $this->Round = $Round;
     }
-
-
 }

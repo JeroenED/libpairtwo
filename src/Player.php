@@ -10,7 +10,6 @@ namespace JeroenED\LibPairtwo;
 
 use JeroenED\Libpairtwo\Models\Player as PlayerModel;
 
-class Player Extends PlayerModel
+class Player extends PlayerModel
 {
-
 }
