@@ -8,13 +8,15 @@
 
 namespace JeroenED\Libpairtwo\Models;
 
+use DateTime;
+
 class Round
 {
     private $date;
     private $games;
 
     /**
-     * @return \DateTime
+     * @return DateTime
      *
      */
     public function getDate()
@@ -23,7 +25,7 @@ class Round
     }
 
     /**
-     * @param \DateTime $date
+     * @param DateTime $date
      */
     public function setDate($date): void
     {

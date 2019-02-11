@@ -27,6 +27,7 @@
 namespace JeroenED\Libpairtwo\Models;
 
 use JeroenED\Libpairtwo\Enums\TournamentSystem;
+use JeroenED\LibPairtwo\Player;
 use DateTime;
 
 /**
