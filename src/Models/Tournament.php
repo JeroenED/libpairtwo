@@ -55,6 +55,7 @@ class Tournament
     private $Federation;
     private $Players;
     private $Year;
+    private $Pairings;
 
     /**
      * @return string
@@ -375,5 +376,23 @@ class Tournament
     {
         $this->Year = $Year;
     }
+
+    /**
+     * @return Pairing[]
+     */
+    public function getPairings()
+    {
+        return $this->Pairings;
+    }
+
+    /**
+     * @param Pairing[] $Pairings
+     */
+    public function setPairings($Pairings): void
+    {
+        $this->Pairings = $Pairings;
+    }
+
+
 
 }

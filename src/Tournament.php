@@ -54,6 +54,16 @@ class Tournament extends TournamentModel
     }
 
     /**
+     * @param Pairing $pairing
+     */
+    public function addPairing(Pairing $pairing)
+    {
+        $newArray = $this->GetPairings();
+        $newArray[] = $pairing;
+        $this->setPairings($newArray);
+    }
+
+    /**
      * @return array
      */
     public function getRanking(bool $americansort = false)

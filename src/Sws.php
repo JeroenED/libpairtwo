@@ -28,6 +28,8 @@ namespace JeroenED\Libpairtwo;
 
 use JeroenED\Libpairtwo\Enums\Title;
 use JeroenED\Libpairtwo\Enums\Sex;
+use JeroenED\Libpairtwo\Enums\Color;
+use JeroenED\Libpairtwo\Enums\Result;
 use JeroenED\Libpairtwo\Models\Sws as SwsModel;
 use JeroenED\Libpairtwo\Enums\TournamentSystem;
 
@@ -470,23 +472,33 @@ class Sws extends SwsModel
         }
 
         if ($sws->getBinaryData("CurrentRound") > 0) {
-            // echo "go"  . PHP_EOL;
-            for ($i = 0; $i < $sws->getBinaryData("CreatedRounds"); $i++) {
-                $game = new Game();
+            for ($i = 0; $i < $sws->getBinaryData("NewPlayer"); $i++) {
+                for ($x = 0; $x < $sws->getBinaryData("CreatedRounds"); $x++) {
+                    $pairing = new Pairing();
 
-                $length = 4;
-                //echo $offset . "Opponent: " . self::ReadData('String', substr($swscontents, $offset, $length)) . PHP_EOL;
-                $offset += $length;
+                    $pairing->setPlayer($sws->getTournament()->getPlayerById($i));
 
-                $length = 1;
-                //echo $offset . "Color: " . self::ReadData('String', substr($swscontents, $offset, $length)) . PHP_EOL;
-                $offset += $length;
+                    $length = 4;
+                    $opponent = self::ReadData('Int', substr($swscontents, $offset, $length));
+                    if ($opponent != 4294967295) {
+                        $pairing->setOpponent($sws->getTournament()->getPlayerById($opponent));
+                    }
+                    $offset += $length;
 
-                $length = 1;
-                //echo $offset . "Result: " . self::ReadData('String', substr($swscontents, $offset, $length)) . PHP_EOL;
-                $offset += $length;
+                    $length = 1;
+                    $pairing->setColor(new Color(self::ReadData('Int', substr($swscontents, $offset, $length))));
+                    $offset += $length;
+
+                    $length = 1;
+                    $pairing->setResult(new Result(self::ReadData('Int', substr($swscontents, $offset, $length))));
+                    $offset += $length;
+
+                    $pairing->setRound($x);
+                    $offset += 2;
+
+                    $sws->getTournament()->addPairing($pairing);
+                }
             }
-
         }
 
         return $sws;
@@ -518,6 +530,7 @@ class Sws extends SwsModel
                 }
 
                 $hex = implode($hex);
+                $hex = ($hex == "") ? "00" : $hex;
                 if ($type == 'Hex') {
                     return $hex;
                 } elseif ($type == 'Int') {
