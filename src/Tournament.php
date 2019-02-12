@@ -172,6 +172,7 @@ class Tournament extends TournamentModel
                 return false;
             }
             $games = $this->getRounds()[$round]->getGames();
+            if(is_null($games)) return false;
             foreach ($games as $roundgame) {
                 if ($roundgame->getWhite() == $game->getWhite() &&
                     $roundgame->getBlack() == $game->getBlack() &&
