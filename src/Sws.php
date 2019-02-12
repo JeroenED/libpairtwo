@@ -460,7 +460,7 @@ class Sws extends SwsModel
         $offset += $length;
 
         // Organising club
-        $length = 12;
+        $length = 8;
         $sws->getTournament()->setOrganiserClub(self::ReadData('String', substr($swscontents, $offset, $length)));
         $offset += $length;
 
@@ -470,7 +470,7 @@ class Sws extends SwsModel
         $offset += $length;
 
         // Round dates
-        for ($i = 1; $i < $sws->getTournament()->getNoOfRounds(); $i++) {
+        for ($i = 0; $i < $sws->getTournament()->getNoOfRounds(); $i++) {
             $length = 4;
             $sws->setBinaryData('Round_' . $i . '_date', self::ReadData('Date', substr($swscontents, $offset, $length)));
             $offset += $length;
