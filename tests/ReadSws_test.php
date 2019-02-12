@@ -42,7 +42,7 @@ echo "End-Date:     " . $sws->getTournament()->getEndDate()->format('d/m/Y') . P
 echo "System:       " . $sws->getTournament()->getSystem()->getKey() . PHP_EOL;
 echo "Place:        " . $sws->getTournament()->getOrganiserPlace() . PHP_EOL;
 echo "Unrated-Elo:  " . $sws->getTournament()->getNonRatedElo() . PHP_EOL;
-echo "Federatiop:   " . $sws->getTournament()->getFederation() . PHP_EOL;
+echo "Federation:   " . $sws->getTournament()->getFederation() . PHP_EOL;
 echo "Organiser:    " . $sws->getTournament()->getOrganiserClubNo() . PHP_EOL;
 echo "Fide Elo P1:  " . $sws->getTournament()->getPlayerById(0)->getFideElo() . PHP_EOL;
 echo "Fide Elo P2:  " . $sws->getTournament()->getPlayerById(1)->getFideElo() . PHP_EOL;
@@ -56,3 +56,7 @@ echo "Name P3:      " . $sws->getTournament()->getPlayerById(2)->getName() . PHP
 echo "Absent P1:    " . $sws->getTournament()->getPlayerById(0)->getAbsent() . PHP_EOL;
 echo "Absent P2:    " . $sws->getTournament()->getPlayerById(1)->getAbsent() . PHP_EOL;
 echo "Absent P3:    " . $sws->getTournament()->getPlayerById(2)->getAbsent() . PHP_EOL;
+echo "Date Round 1: " . $sws->getTournament()->getRoundByNo(0)->getDate()->format('d/m/Y') . PHP_EOL;
+echo "Date Round 2: " . $sws->getTournament()->getRoundByNo(1)->getDate()->format('d/m/Y') . PHP_EOL;
+echo "Date Round 3: " . $sws->getTournament()->getRoundByNo(2)->getDate()->format('d/m/Y') . PHP_EOL;
+

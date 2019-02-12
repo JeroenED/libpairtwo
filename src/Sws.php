@@ -472,7 +472,10 @@ class Sws extends SwsModel
         // Round dates
         for ($i = 0; $i < $sws->getTournament()->getNoOfRounds(); $i++) {
             $length = 4;
-            $sws->setBinaryData('Round_' . $i . '_date', self::ReadData('Date', substr($swscontents, $offset, $length)));
+            $round = new Round();
+            $round->setRoundNo($i);
+            $round->setDate(self::ReadData('Date', substr($swscontents, $offset, $length)));
+            $sws->getTournament()->addRound($round);
             $offset += $length;
         }
 
