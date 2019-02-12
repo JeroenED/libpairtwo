@@ -455,7 +455,7 @@ class Sws extends SwsModel
 
         // Organising club no
         $length = 4;
-        $sws->getTournament()->setOrganiserClubNo(self::ReadData('String', substr($swscontents, $offset, $length)));
+        $sws->getTournament()->setOrganiserClubNo(self::ReadData('String', substr($swscontents, $offset, $length), 0));
         $offset += $length;
 
         // Organising club
@@ -512,13 +512,17 @@ class Sws extends SwsModel
     /**
      * @param string $type
      * @param string $data
+     * @param mixed $default
      * @return bool|DateTime|int|string
      */
-    private static function ReadData(string $type, string $data)
+    private static function ReadData(string $type, string $data, $default = null)
     {
         switch ($type) {
             case 'String':
-                return $data;
+                if (trim($data) == '') {
+                    return (is_null($default)) ? '' : $default;
+                }
+                return trim($data);
                 break;
             case 'Hex':
             case 'Int':
@@ -538,10 +542,19 @@ class Sws extends SwsModel
                 $hex = implode($hex);
                 $hex = ($hex == "") ? "00" : $hex;
                 if ($type == 'Hex') {
+                    if ($hex == '00') {
+                        return (is_null($default)) ? '00' : $default;
+                    }
                     return $hex;
                 } elseif ($type == 'Int') {
+                    if ($hex == '00') {
+                        return (is_null($default)) ? 0 : $default;
+                    }
                     return hexdec($hex);
                 } elseif ($type == 'Date') {
+                    if ($hex == '00') {
+                        return (is_null($default)) ? self::UIntToTimestamp(0) : $default;
+                    }
                     return self::UIntToTimestamp(hexdec($hex));
                 } elseif ($type == 'Bool') {
                     return ($hex == "01") ? true : false;
