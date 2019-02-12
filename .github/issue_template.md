@@ -1,4 +1,5 @@
 ((Note: Please write in English))
+
 ((Short description of the issue in issue title))
 
 (Description of the issue)
@@ -24,3 +25,9 @@
 ### PHP version
 
 (PHP-version you encountered the issue with)
+
+### SWS File
+
+((Note: You cannot upload sws-files directly. Please zip it first))
+
+(link to download of your wrong sws-file)
