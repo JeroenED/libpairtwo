@@ -347,7 +347,7 @@ class Sws extends SwsModel
         }
         // PlayerNames
         $length = (Integer)$sws->getBinaryData("NewNamePos") + 0;
-        $sws->setBinaryData("PlayerNames", self::ReadData('String', substr($swscontents, $offset, $length)));
+        $sws->setBinaryData("PlayerNames", substr($swscontents, $offset, $length));
         $offset += $length;
 
         for ($i = 0; $i < $sws->getBinaryData("NewPlayer"); $i++) {
@@ -524,7 +524,7 @@ class Sws extends SwsModel
                 if ($data == '') {
                     return (is_null($default)) ? '' : $default;
                 }
-                return $data;
+                return iconv('windows-1252', 'utf-8', $data);
                 break;
             case 'Hex':
             case 'Int':
