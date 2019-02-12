@@ -34,6 +34,7 @@ use JeroenED\Libpairtwo\Models\Sws as SwsModel;
 use JeroenED\Libpairtwo\Enums\TournamentSystem;
 use DateTime;
 
+
 /**
  * This class reads a SWS file
  *
@@ -519,10 +520,11 @@ class Sws extends SwsModel
     {
         switch ($type) {
             case 'String':
-                if (trim($data) == '') {
+                $data = trim($data);
+                if ($data == '') {
                     return (is_null($default)) ? '' : $default;
                 }
-                return trim($data);
+                return $data;
                 break;
             case 'Hex':
             case 'Int':
