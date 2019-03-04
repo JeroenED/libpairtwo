@@ -10,9 +10,9 @@ namespace JeroenED\Libpairtwo\Enums;
 
 use MyCLabs\Enum\Enum;
 
-class Sex extends Enum
+class Gender extends Enum
 {
-    const Neutral = 0; // Unforturnately, Incompatible with Pairtwo (Dinos)
-    const Male = 1;
-    const Female = 2;
+    const Neutral = 'X'; // Unforturnately, Incompatible with Pairtwo (Dinos)
+    const Male = 'M';
+    const Female = 'F';
 }

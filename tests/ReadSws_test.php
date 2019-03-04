@@ -53,6 +53,9 @@ echo "KBSB Elo P3:  " . $sws->getTournament()->getPlayerById(2)->getKbsbElo() . 
 echo "Name P1:      " . $sws->getTournament()->getPlayerById(0)->getName() . PHP_EOL;
 echo "Name P2:      " . $sws->getTournament()->getPlayerById(1)->getName() . PHP_EOL;
 echo "Name P3:      " . $sws->getTournament()->getPlayerById(2)->getName() . PHP_EOL;
+echo "Gender P1:    " . $sws->getTournament()->getPlayerById(0)->getGender()->getKey() . PHP_EOL;
+echo "Gender P2:    " . $sws->getTournament()->getPlayerById(1)->getGender()->getKey() . PHP_EOL;
+echo "Gender P3:    " . $sws->getTournament()->getPlayerById(2)->getGender()->getKey() . PHP_EOL;
 echo "Absent P1:    " . $sws->getTournament()->getPlayerById(0)->getAbsent() . PHP_EOL;
 echo "Absent P2:    " . $sws->getTournament()->getPlayerById(1)->getAbsent() . PHP_EOL;
 echo "Absent P3:    " . $sws->getTournament()->getPlayerById(2)->getAbsent() . PHP_EOL;

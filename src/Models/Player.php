@@ -9,7 +9,7 @@
 namespace JeroenED\Libpairtwo\Models;
 
 use JeroenED\Libpairtwo\Enums\Title;
-use JeroenED\Libpairtwo\Enums\Sex;
+use JeroenED\Libpairtwo\Enums\Gender;
 use DateTime;
 
 class Player
@@ -29,7 +29,7 @@ class Player
     private $Nation;
     private $Category;
     private $Title;
-    private $Sex;
+    private $Gender;
     private $NumberOfTies;
     private $Absent;
 
@@ -276,19 +276,19 @@ class Player
     }
 
     /**
-     * @return Sex
+     * @return Gender
      */
-    public function getSex(): Sex
+    public function getGender(): Gender
     {
-        return $this->Sex;
+        return $this->Gender;
     }
 
     /**
-     * @param Sex $Sex
+     * @param Gender $Gender
      */
-    public function setSex(Sex $Sex): void
+    public function setGender(Gender $Gender): void
     {
-        $this->Sex = $Sex;
+        $this->Gender = $Gender;
     }
 
     /**
