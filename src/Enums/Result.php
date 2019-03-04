@@ -12,15 +12,15 @@ use MyCLabs\Enum\Enum;
 
 class Result extends Enum
 {
-    const none = 0;
-    const lost = 1;
-    const draw = 6;
-    const won = 11;
-    const absent = 2;
-    const wonforfait = 12;
-    const adjourn = 3;
-    const drawadjourned = 8;
-    const wonadjourned = 13;
-    const bye = 4;
-    const wonbye = 14;
+    const none = '*';
+    const lost = '0';
+    const draw = '0.5';
+    const won = '1';
+    const absent = '0 FF';
+    const wonforfait = '1 FF';
+    const adjourn = '0 A';
+    const drawadjourned = '0.5 A';
+    const wonadjourned = '1 A';
+    const bye = '0 Bye';
+    const wonbye = '1 Bye';
 }

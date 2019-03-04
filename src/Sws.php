@@ -509,7 +509,43 @@ class Sws extends SwsModel
                     $offset += $length;
 
                     $length = 1;
-                    $pairing->setResult(new Result(self::ReadData('Int', substr($swscontents, $offset, $length))));
+                    Switch(self::ReadData('Int', substr($swscontents, $offset, $length)))
+                    {
+                        case 0:
+                            $result = '*';
+                            break;
+                        case 1:
+                            $result = '0';
+                            break;
+                        case 2:
+                            $result = '0 FF';
+                            break;
+                        case 3:
+                            $result = '0 A';
+                            break;
+                        case 4:
+                            $result = '0 Bye';
+                            break;
+                        case 6:
+                            $result = '0.5';
+                            break;
+                        case 8:
+                            $result = '0.5 A';
+                            break;
+                        case 11:
+                            $result = '1';
+                            break;
+                        case 12:
+                            $result = '1 FF';
+                            break;
+                        case 13:
+                            $result = '1 A';
+                            break;
+                        case 13:
+                            $result = '1 Bye';
+                            break;
+                    }
+                    $pairing->setResult(new Result($result));
                     $offset += $length;
 
                     $pairing->setRound($x);
