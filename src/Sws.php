@@ -27,7 +27,7 @@
 namespace JeroenED\Libpairtwo;
 
 use JeroenED\Libpairtwo\Enums\Title;
-use JeroenED\Libpairtwo\Enums\Sex;
+use JeroenED\Libpairtwo\Enums\Gender;
 use JeroenED\Libpairtwo\Enums\Color;
 use JeroenED\Libpairtwo\Enums\Result;
 use JeroenED\Libpairtwo\Models\Sws as SwsModel;
@@ -304,7 +304,18 @@ class Sws extends SwsModel
             $offset += $length;
 
             $length = 1;
-            $player->setSex(new Sex(self::ReadData('Int', substr($swscontents, $offset, $length))));
+            switch (self::ReadData('Int', substr($swscontents, $offset, $length))) {
+                case 1:
+                    $gender = 'M';
+                    break;
+                case 2:
+                    $gender = "F";
+                    break;
+                default:
+                    $gender = "X";
+                    break;
+            }
+            $player->setGender(new Gender($gender));
             $offset += $length;
 
             $length = 1;
