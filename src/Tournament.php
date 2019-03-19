@@ -89,7 +89,7 @@ class Tournament extends TournamentModel
             $result = $pairing->getResult();
 
             $game = new Game();
-            if ($color->getValue() == Color::white || $color->getValue() == Color::white3) {
+            if ($color->getValue() == Color::white) {
                 if(! is_null($player)) $game->setWhite($player);
                 if(! is_null($opponent)) $game->setBlack($opponent);
                 switch ($result->getValue()) {
@@ -115,7 +115,7 @@ class Tournament extends TournamentModel
                     default:
                         $game->setResult(new Gameresult('-')); break;
                 }
-            } elseif ($color->getValue() == Color::black || $color->getValue() == Color::black3) {
+            } elseif ($color->getValue() == Color::black) {
                 if(! is_null($player)) $game->setBlack($player);
                 if(! is_null($opponent)) $game->setWhite($opponent);
                 switch ($result->getValue()) {
