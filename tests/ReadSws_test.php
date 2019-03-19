@@ -62,4 +62,10 @@ echo "Absent P3:    " . $sws->getTournament()->getPlayerById(2)->getAbsent() . P
 echo "Date Round 1: " . $sws->getTournament()->getRoundByNo(0)->getDate()->format('d/m/Y') . PHP_EOL;
 echo "Date Round 2: " . $sws->getTournament()->getRoundByNo(1)->getDate()->format('d/m/Y') . PHP_EOL;
 echo "Date Round 3: " . $sws->getTournament()->getRoundByNo(2)->getDate()->format('d/m/Y') . PHP_EOL;
+echo "Color Pairing 1: " . $sws->getTournament()->getPairings()[1]->getColor()->getKey() . PHP_EOL;
+echo "Color Pairing 2: " . $sws->getTournament()->getPairings()[2]->getColor()->getKey() . PHP_EOL;
+echo "Color Pairing 3: " . $sws->getTournament()->getPairings()[3]->getColor()->getKey() . PHP_EOL;
+echo "Player Pairing 1: " . $sws->getTournament()->getPairings()[0]->getPlayer()->getName() . PHP_EOL;
+echo "Player Pairing 2: " . $sws->getTournament()->getPairings()[1]->getPlayer()->getName()  . PHP_EOL;
+echo "Player Pairing 3: " . $sws->getTournament()->getPairings()[2]->getPlayer()->getName()  . PHP_EOL;
 

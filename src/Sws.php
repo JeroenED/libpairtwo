@@ -34,7 +34,6 @@ use JeroenED\Libpairtwo\Models\Sws as SwsModel;
 use JeroenED\Libpairtwo\Enums\TournamentSystem;
 use DateTime;
 
-
 /**
  * This class reads a SWS file
  *
@@ -505,12 +504,26 @@ class Sws extends SwsModel
                     $offset += $length;
 
                     $length = 1;
-                    $pairing->setColor(new Color(self::ReadData('Int', substr($swscontents, $offset, $length))));
+
+                    switch (self::ReadData('Int', substr($swscontents, $offset, $length))) {
+                        case 255:
+                        case 253:
+                            $color = 'B';
+                            break;
+                        case 1:
+                        case 3:
+                            $color = 'W';
+                           break;
+                        case 0:
+                        default:
+                            $color = '*';
+                            break;
+                    }
+                    $pairing->setColor(new Color($color));
                     $offset += $length;
 
                     $length = 1;
-                    Switch(self::ReadData('Int', substr($swscontents, $offset, $length)))
-                    {
+                    switch (self::ReadData('Int', substr($swscontents, $offset, $length))) {
                         case 0:
                             $result = '*';
                             break;
