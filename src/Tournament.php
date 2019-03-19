@@ -105,7 +105,7 @@ class Tournament extends TournamentModel
                         $game->setResult(new Gameresult("0-1")); break;
                     case Result::absent:
                         $game->setResult(new Gameresult("0-1FF")); break;
-                    case Result::adjourn:
+                    case Result::adjourned:
                         $game->setResult(new Gameresult("0-1A")); break;
                     case Result::draw:
                         $game->setResult(new Gameresult("0.5-0.5")); break;
@@ -131,7 +131,7 @@ class Tournament extends TournamentModel
                         $game->setResult(new Gameresult("1-0")); break;
                     case Result::absent:
                         $game->setResult(new Gameresult("1-0FF")); break;
-                    case Result::adjourn:
+                    case Result::adjourned:
                         $game->setResult(new Gameresult("1-0A")); break;
                     case Result::draw:
                         $game->setResult(new Gameresult("0.5-0.5")); break;
