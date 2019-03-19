@@ -12,8 +12,8 @@ use MyCLabs\Enum\Enum;
 
 class TournamentSystem extends Enum
 {
-    const Swiss = 0;
-    const Closed = 2;
-    const American = 4;
-    const Imperial = 6;
+    const Swiss = 'Swiss';
+    const Closed = 'Closed';
+    const American = 'American';
+    const Imperial = 'Imperal';
 }

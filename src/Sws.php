@@ -483,7 +483,20 @@ class Sws extends SwsModel
 
         // Type
         $length = 4;
-        $sws->getTournament()->setSystem(new TournamentSystem(self::ReadData('Int', substr($swscontents, $offset, $length))));
+        Switch(self::ReadData('Int', substr($swscontents, $offset, $length))) {
+            case 0:
+                $system = TournamentSystem::Swiss;
+                break;
+            case 2:
+                $system = TournamentSystem::Closed;
+                break;
+            case 4:
+                $system = TournamentSystem::American;
+                break;
+            case 6:
+                $system = TournamentSystem::Imperial;
+        }
+        $sws->getTournament()->setSystem(new TournamentSystem($system));
         $offset += $length;
 
         // Federation
