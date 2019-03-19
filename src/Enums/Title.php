@@ -12,17 +12,17 @@ use MyCLabs\Enum\Enum;
 
 class Title extends Enum
 {
-    const NONE = 0;
-    const ELO  = 1;
-    const NM   = 2;  // National Master
-    const WCM  = 3;  // Woman Candidate Master
-    const WFM  = 4;  // Women Fide Master
-    const CM   = 5;  // Candidate Master
-    const WIM  = 6;  // Woman International Master
-    const FM   = 7;  // Fide Master
-    const WGM  = 8;  // Woman Grand Master
-    const HM   = 9;  // Honorary International master
-    const IM   = 10; // International Master
-    const HG   = 11; // Honorary Grand Master
-    const GM   = 12; // Grand Master
+    const NONE = '*';
+    const ELO  = 'Elo';
+    const NM   = 'National Master';
+    const WCM  = 'Woman Candidate Master';
+    const WFM  = 'Woman Fide Master';
+    const CM   = 'Candidate Master';
+    const WIM  = 'Woman International Master';
+    const FM   = 'Fide Master';
+    const WGM  = 'Woman Grand Master';
+    const HM   = 'Honorary International Master';
+    const IM   = 'International Master';
+    const HG   = 'Honorary Grand Master';
+    const GM   = 'Grand Master';
 }

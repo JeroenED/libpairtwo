@@ -299,7 +299,49 @@ class Sws extends SwsModel
             $offset += $length;
 
             $length = 1;
-            $player->setTitle(new Title(self::ReadData('Int', substr($swscontents, $offset, $length))));
+            switch (self::ReadData('Int', substr($swscontents, $offset, $length))) {
+                case 1:
+                    $title = Title::ELO;
+                    break;
+                case 2:
+                    $title = Title::NM;
+                    break;
+                case 3:
+                    $title = Title::WCM;
+                    break;
+                case 4:
+                    $title = Title::WFM;
+                    break;
+                case 5:
+                    $title = Title::CM;
+                    break;
+                case 6:
+                    $title = Title::WIM;
+                    break;
+                case 7:
+                    $title = Title::FM;
+                    break;
+                case 8:
+                    $title = Title::WGM;
+                    break;
+                case 9:
+                    $title = Title::HM;
+                    break;
+                case 10:
+                    $title = Title::IM;
+                    break;
+                case 11:
+                    $title = Title::HG;
+                    break;
+                case 12:
+                    $title = Title::GM;
+                    break;
+                case 0:
+                default:
+                    $title = Title::NONE;
+                    break;
+            }
+            $player->setTitle(new Title($title));
             $offset += $length;
 
             $length = 1;
