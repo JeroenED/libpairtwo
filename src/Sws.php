@@ -580,37 +580,37 @@ class Sws extends SwsModel
                     $length = 1;
                     switch (self::ReadData('Int', substr($swscontents, $offset, $length))) {
                         case 0:
-                            $result = '*';
+                            $result = Result::none;
                             break;
                         case 1:
-                            $result = '0';
+                            $result = Result::lost;
                             break;
                         case 2:
-                            $result = '0 FF';
+                            $result = Result::absent;
                             break;
                         case 3:
-                            $result = '0 A';
+                            $result = Result::adjourned;
                             break;
                         case 4:
-                            $result = '0 Bye';
+                            $result = Result::bye;
                             break;
                         case 6:
-                            $result = '0.5';
+                            $result = Result::draw;
                             break;
                         case 8:
-                            $result = '0.5 A';
+                            $result = Result::drawadjourned;
                             break;
                         case 11:
-                            $result = '1';
+                            $result = Result::won;
                             break;
                         case 12:
-                            $result = '1 FF';
+                            $result = Result::wonforfait;
                             break;
                         case 13:
-                            $result = '1 A';
+                            $result = Result::wonadjourned;
                             break;
                         case 13:
-                            $result = '1 Bye';
+                            $result = Result::wonbye;
                             break;
                     }
                     $pairing->setResult(new Result($result));
