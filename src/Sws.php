@@ -563,15 +563,15 @@ class Sws extends SwsModel
                     switch (self::ReadData('Int', substr($swscontents, $offset, $length))) {
                         case 255:
                         case 253:
-                            $color = 'B';
+                            $color = Color::black;
                             break;
                         case 1:
                         case 3:
-                            $color = 'W';
+                            $color = Color::white;
                            break;
                         case 0:
                         default:
-                            $color = '*';
+                            $color = Color::none;
                             break;
                     }
                     $pairing->setColor(new Color($color));
