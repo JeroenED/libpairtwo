@@ -347,13 +347,13 @@ class Sws extends SwsModel
             $length = 1;
             switch (self::ReadData('Int', substr($swscontents, $offset, $length))) {
                 case 1:
-                    $gender = 'M';
+                    $gender = Gender::Male;
                     break;
                 case 2:
-                    $gender = "F";
+                    $gender = Gender::Female;
                     break;
                 default:
-                    $gender = "X";
+                    $gender = Gender::Neutral;
                     break;
             }
             $player->setGender(new Gender($gender));
