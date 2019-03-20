@@ -8,16 +8,25 @@
 
 namespace JeroenED\Libpairtwo\Models;
 
-use JeroenED\LibPairtwo\Enums\Color;
+use JeroenED\Libpairtwo\Enums\Color;
 use JeroenED\Libpairtwo\Enums\Result;
-use JeroenED\LibPairtwo\Player;
+use JeroenED\Libpairtwo\Player;
 
 class Pairing
 {
+    /** @var Player */
     private $Player;
+
+    /** @var Player */
     private $Opponent;
+
+    /** @var Color */
     private $Color;
+
+    /** @var Result */
     private $Result;
+
+    /** @var int */
     private $Round;
 
     /**

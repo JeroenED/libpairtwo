@@ -35,9 +35,9 @@ class Game extends GameModel
         if (isset($blacksplit[1]) && $blacksplit[1] != 'Bye') {
             $special = ' ' . $blacksplit[1];
         }
-        $result = $whitesplit[0] . '-' . $blacksplit[0] . $special;
-        $this->setResult(new Gameresult($result));
+        $result = new Gameresult($whitesplit[0] . '-' . $blacksplit[0] . $special);
+        $this->setResult($result);
 
-        return new Gameresult($result);
+        return $result;
     }
 }

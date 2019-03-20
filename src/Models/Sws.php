@@ -6,8 +6,13 @@ use JeroenED\Libpairtwo\Tournament;
 
 class Sws
 {
+    /** @var string */
     private $Release;
+
+    /** @var tournament */
     private $Tournament;
+
+    /** @var bool|DateTime|int|string[] */
     private $BinaryData;
 
     /**

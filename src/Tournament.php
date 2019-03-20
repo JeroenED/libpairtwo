@@ -8,15 +8,14 @@
 
 namespace JeroenED\Libpairtwo;
 
-use JeroenED\Libpairtwo\Enums\Result;
 use JeroenED\Libpairtwo\Models\Tournament as TournamentModel;
-use JeroenED\Libpairtwo\Player;
 use JeroenED\Libpairtwo\Enums\Color;
-use JeroenED\Libpairtwo\Enums\Gameresult;
 
 class Tournament extends TournamentModel
 {
     /**
+     * Gets a player by its ID
+     *
      * @param integer $id
      * @return Player
      */
@@ -26,6 +25,8 @@ class Tournament extends TournamentModel
     }
 
     /**
+     * Adds a player
+     *
      * @param Player $Player
      */
     public function addPlayer(Player $Player)
@@ -36,6 +37,8 @@ class Tournament extends TournamentModel
     }
 
     /**
+     * Updates player on id to the given Player object
+     *
      * @param int $id
      * @param Player $player
      */
@@ -47,6 +50,8 @@ class Tournament extends TournamentModel
     }
 
     /**
+     * Adds a round with given Round object
+     *
      * @param Round $round
      */
     public function addRound(Round $round)
@@ -57,6 +62,8 @@ class Tournament extends TournamentModel
     }
 
     /**
+     * Gets a round by its number.
+     *
      * @param int $roundNo
      * @return Round
      */
@@ -66,6 +73,8 @@ class Tournament extends TournamentModel
     }
 
     /**
+     * Adds a pairing to the tournament
+     *
      * @param Pairing $pairing
      */
     public function addPairing(Pairing $pairing)
@@ -76,7 +85,7 @@ class Tournament extends TournamentModel
     }
 
     /**
-     * This function converts the array of pairings into rounds
+     * Converts pairings into games with a black and white player
      */
     public function pairingsToRounds(): void
     {
@@ -89,7 +98,7 @@ class Tournament extends TournamentModel
             $round = $pairing->getRound();
             $color = $pairing->getColor();
             $opponent = null;
-            foreach($cache as $key=>$cached) {
+            foreach ($cache as $key=>$cached) {
                 if (!is_null($cached)) {
                     if ($cached->getOpponent() == $pairing->getPlayer() && ($cached->getRound() == $pairing->getRound())) {
                         $opponent = $cached;
@@ -157,6 +166,8 @@ class Tournament extends TournamentModel
     }
 
     /**
+     * Adds a game to the tournament
+     *
      * @param Game $game
      * @param int $round
      */
@@ -172,6 +183,8 @@ class Tournament extends TournamentModel
     }
 
     /**
+     * Gets the ranking of the tournament
+     *
      * @param bool $americansort
      * @return Player[]
      */

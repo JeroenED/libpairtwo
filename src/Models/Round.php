@@ -12,8 +12,11 @@ use DateTime;
 
 class Round
 {
+    /** @var DateTime */
     private $date;
-    private $games;
+
+    /** @var Game[] */
+    private $games = [];
 
     /** @var int */
     private $roundNo;

@@ -6,7 +6,7 @@
  * Time: 11:26
  */
 
-namespace JeroenED\LibPairtwo;
+namespace JeroenED\Libpairtwo;
 
 use JeroenED\Libpairtwo\Models\Player as PlayerModel;
 
