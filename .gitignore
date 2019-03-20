@@ -6,3 +6,4 @@ composer.lock
 /nbproject/
 /res/protected/
 /.idea
+doc/api/*

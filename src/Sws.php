@@ -48,11 +48,10 @@ class Sws extends SwsModel
 
 
     /**
-     *
-     * This function reads the sws-file
+     * Reads out $swsfile and returns a Sws class object
      *
      * @param string $swsfile
-     * @return SwsModel
+     * @return Sws
      */
     public static function ReadSws(string $swsfile)
     {
@@ -60,7 +59,7 @@ class Sws extends SwsModel
         $swscontents = fread($swshandle, filesize($swsfile));
         fclose($swshandle);
 
-        $sws = new SwsModel();
+        $sws = new Sws();
         $offset = 0;
         
 
@@ -483,10 +482,7 @@ class Sws extends SwsModel
 
         // Type
         $length = 4;
-        Switch(self::ReadData('Int', substr($swscontents, $offset, $length))) {
-            case 0:
-                $system = TournamentSystem::Swiss;
-                break;
+        switch (self::ReadData('Int', substr($swscontents, $offset, $length))) {
             case 2:
                 $system = TournamentSystem::Closed;
                 break;
@@ -495,6 +491,11 @@ class Sws extends SwsModel
                 break;
             case 6:
                 $system = TournamentSystem::Imperial;
+                break;
+            case 0:
+            default:
+                $system = TournamentSystem::Swiss;
+                break;
         }
         $sws->getTournament()->setSystem(new TournamentSystem($system));
         $offset += $length;
@@ -579,9 +580,6 @@ class Sws extends SwsModel
 
                     $length = 1;
                     switch (self::ReadData('Int', substr($swscontents, $offset, $length))) {
-                        case 0:
-                            $result = Result::none;
-                            break;
                         case 1:
                             $result = Result::lost;
                             break;
@@ -609,8 +607,12 @@ class Sws extends SwsModel
                         case 13:
                             $result = Result::wonadjourned;
                             break;
-                        case 13:
+                        case 14:
                             $result = Result::wonbye;
+                            break;
+                        case 0:
+                        default:
+                            $result = Result::none;
                             break;
                     }
                     $pairing->setResult(new Result($result));
@@ -629,6 +631,16 @@ class Sws extends SwsModel
     }
 
     /**
+     * Converts $data to $type and defaults to $default if given
+     *
+     * Possible types for $type are:
+     * * String (UTF-8 String representation of $data.   Default: empty string '')
+     * * Hex    (Capitalized Hex Value of $data.         Default: 00)
+     * * Int    (Unsigned Integer value of $data         Default: 0)
+     * * Bool   (Boolean representation of $data.        Default: false)
+     * * Date   (Date representation of $data.           Default: 1902/01/01)
+     *
+     * @static
      * @param string $type
      * @param string $data
      * @param mixed $default
@@ -689,6 +701,9 @@ class Sws extends SwsModel
     }
 
     /**
+     * Converts integer value to a date representation
+     *
+     * @static
      * @param int $date
      * @return bool|DateTime
      */

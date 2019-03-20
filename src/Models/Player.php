@@ -14,23 +14,58 @@ use DateTime;
 
 class Player
 {
+    /** @var string */
     private $Name;
+
+    /** @var int */
     private $Rank;
+
+    /** @var int */
     private $FideId;
+
+    /** @var int */
     private $ExtraPts;
+
+    /** @var int */
     private $KbsbElo;
+
+    /** @var DateTime */
     private $dateofbirth;
+
+    /** @var int */
     private $KbsbID;
+
+    /** @var float */
     private $Points;
+
+    /** @var int */
     private $ClubNr;
+
+    /** @var float */
     private $ScoreBucholtz;
+
+    /** @var float */
     private $ScoreAmerican;
+
+    /** @var int */
     private $FideElo;
+
+    /** @var string */
     private $Nation;
+
+    /** @var string */
     private $Category;
+
+    /** @var Title */
     private $Title;
+
+    /** @var Gender */
     private $Gender;
+
+    /** @var int */
     private $NumberOfTies;
+
+    /** @var bool */
     private $Absent;
 
     /**
@@ -236,6 +271,8 @@ class Player
     }
 
     /**
+     * example value: BEL
+     *
      * @param string $Nation
      */
     public function setNation(string $Nation): void

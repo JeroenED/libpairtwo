@@ -9,8 +9,7 @@
 namespace JeroenED\Libpairtwo\Models;
 
 use JeroenED\Libpairtwo\Enums\Gameresult;
-use JeroenED\LibPairtwo\Player;
-use JeroenED\LibPairtwo\Pairing;
+use JeroenED\Libpairtwo\Pairing;
 
 class Game
 {

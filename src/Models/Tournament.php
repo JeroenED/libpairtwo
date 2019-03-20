@@ -27,7 +27,7 @@
 namespace JeroenED\Libpairtwo\Models;
 
 use JeroenED\Libpairtwo\Enums\TournamentSystem;
-use JeroenED\LibPairtwo\Player;
+use JeroenED\Libpairtwo\Player;
 use DateTime;
 
 /**
@@ -37,30 +37,70 @@ use DateTime;
  */
 class Tournament
 {
+    /** @var string */
     private $Name;
+
+    /** @var string */
     private $Organiser;
+
+    /** @var int */
     private $OrganiserClubNo;
+
+    /** @var string */
     private $OrganiserClub;
+
+    /** @var string */
     private $OrganiserPlace;
+
+    /** @var string */
     private $OrganiserCountry;
+
+    /** @var int */
     private $FideHomol;
+
+    /** @var DateTime */
     private $StartDate;
+
+    /** @var DateTime */
     private $EndDate;
+
+    /** @var string */
     private $Arbiter;
+
+    /** @var int */
     private $NoOfRounds;
 
     /** @var Round[] */
     private $Rounds;
 
+    /** @var int */
     private $Participants;
+
+    /** @var string */
     private $Tempo;
+
+    /** @var int */
     private $NonRatedElo;
+
+    /** @var TournamentSystem */
     private $System;
+
+    /** @var string */
     private $FirstPeriod;
+
+    /** @var string */
     private $SecondPeriod;
+
+    /** @var string */
     private $Federation;
+
+    /** @var Player[] */
     private $Players;
+
+    /** @var int */
     private $Year;
+
+    /** @var Pairing[] */
     private $Pairings;
 
     /**
