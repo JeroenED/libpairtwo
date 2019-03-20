@@ -81,71 +81,39 @@ class Tournament extends TournamentModel
     public function pairingsToRounds(): void
     {
         $pairings = $this->getPairings();
+
+        /** @var Pairing[] */
+        $cache = array();
+
         foreach ($pairings as $pairing) {
             $round = $pairing->getRound();
-            $player = $pairing->getPlayer();
-            $opponent = $pairing->getOpponent();
             $color = $pairing->getColor();
-            $result = $pairing->getResult();
-
-            $game = new Game();
-            if ($color->getValue() == Color::white) {
-                if(! is_null($player)) $game->setWhite($player);
-                if(! is_null($opponent)) $game->setBlack($opponent);
-                switch ($result->getValue()) {
-                    case Result::won:
-                    case Result::wonbye:
-                        $game->setResult(new Gameresult("1-0")); break;
-                    case Result::wonforfait:
-                        $game->setResult(new Gameresult("1-0FF")); break;
-                    case Result::wonadjourned:
-                        $game->setResult(new Gameresult("1-0A")); break;
-                    case Result::lost:
-                    case Result::bye:
-                        $game->setResult(new Gameresult("0-1")); break;
-                    case Result::absent:
-                        $game->setResult(new Gameresult("0-1FF")); break;
-                    case Result::adjourned:
-                        $game->setResult(new Gameresult("0-1A")); break;
-                    case Result::draw:
-                        $game->setResult(new Gameresult("0.5-0.5")); break;
-                    case Result::drawadjourned:
-                        $game->setResult(new Gameresult("0.5-0.5A")); break;
-                    case Result::none:
-                    default:
-                        $game->setResult(new Gameresult('-')); break;
-                }
-            } elseif ($color->getValue() == Color::black) {
-                if(! is_null($player)) $game->setBlack($player);
-                if(! is_null($opponent)) $game->setWhite($opponent);
-                switch ($result->getValue()) {
-                    case Result::won:
-                    case Result::wonbye:
-                        $game->setResult(new Gameresult("0-1")); break;
-                    case Result::wonforfait:
-                        $game->setResult(new Gameresult("0-1FF")); break;
-                    case Result::wonadjourned:
-                        $game->setResult(new Gameresult("0-1A")); break;
-                    case Result::lost:
-                    case Result::bye:
-                        $game->setResult(new Gameresult("1-0")); break;
-                    case Result::absent:
-                        $game->setResult(new Gameresult("1-0FF")); break;
-                    case Result::adjourned:
-                        $game->setResult(new Gameresult("1-0A")); break;
-                    case Result::draw:
-                        $game->setResult(new Gameresult("0.5-0.5")); break;
-                    case Result::drawadjourned:
-                        $game->setResult(new Gameresult("0.5-0.5A")); break;
-                    case Result::none:
-                    default:
-                        $game->setResult(new Gameresult('-')); break;
+            $opponent = null;
+            foreach($cache as $key=>$cached) {
+                if (!is_null($cached)) {
+                    if ($cached->getOpponent() == $pairing->getPlayer() && ($cached->getRound() == $pairing->getRound())) {
+                        $opponent = $cached;
+                        $cache[$key] == null;
+                        break;
+                    }
                 }
             }
+            $game = new Game();
+            if ($color->getValue() == Color::white) {
+                $game->setWhite($pairing);
+                $game->setBlack($opponent);
+            } elseif ($color->getValue() == Color::black) {
+                $game->setWhite($opponent);
+                $game->setBlack($pairing);
+            }
 
-            // Check if game already exists
-            if (!$this->GameExists($game, $round)) {
-                $this->AddGame($game, $round);
+            if (is_null($game->getWhite()) || is_null($game->getBlack())) {
+                $cache[] = $pairing;
+            } else {
+                // Check if game already exists
+                if (!$this->GameExists($game, $round)) {
+                    $this->AddGame($game, $round);
+                }
             }
         }
     }
@@ -172,7 +140,9 @@ class Tournament extends TournamentModel
                 return false;
             }
             $games = $this->getRounds()[$round]->getGames();
-            if(is_null($games)) return false;
+            if (is_null($games)) {
+                return false;
+            }
             foreach ($games as $roundgame) {
                 if ($roundgame->getWhite() == $game->getWhite() &&
                     $roundgame->getBlack() == $game->getBlack() &&

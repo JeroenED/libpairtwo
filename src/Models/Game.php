@@ -10,20 +10,21 @@ namespace JeroenED\Libpairtwo\Models;
 
 use JeroenED\Libpairtwo\Enums\Gameresult;
 use JeroenED\LibPairtwo\Player;
+use JeroenED\LibPairtwo\Pairing;
 
 class Game
 {
-    /** @var Player */
+    /** @var Pairing */
     private $white;
 
-    /** @var Player */
+    /** @var Pairing */
     private $black;
 
     /** @var GameResult */
     private $result;
 
     /**
-     * @return Player
+     * @return Pairing
      */
     public function getWhite()
     {
@@ -31,15 +32,15 @@ class Game
     }
 
     /**
-     * @param Player $white
+     * @param Pairing $white
      */
-    public function setWhite(Player $white): void
+    public function setWhite($white): void
     {
         $this->white = $white;
     }
 
     /**
-     * @return Player
+     * @return Pairing
      */
     public function getBlack()
     {
@@ -47,9 +48,9 @@ class Game
     }
 
     /**
-     * @param Player $black
+     * @param Pairing $black
      */
-    public function setBlack(Player $black): void
+    public function setBlack($black): void
     {
         $this->black = $black;
     }
