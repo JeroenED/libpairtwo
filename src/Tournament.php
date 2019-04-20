@@ -89,20 +89,23 @@ class Tournament extends TournamentModel
      */
     public function pairingsToRounds(): void
     {
+        /** @var Pairing[] $pairings */
         $pairings = $this->getPairings();
 
         /** @var Pairing[] */
         $cache = array();
 
         foreach ($pairings as $pairing) {
+            // Add pairing to player
+            $pairing->getPlayer()->addPairing($pairing);
             $round = $pairing->getRound();
             $color = $pairing->getColor();
             $opponent = null;
             foreach ($cache as $key=>$cached) {
                 if (!is_null($cached)) {
-                    if ($cached->getOpponent() == $pairing->getPlayer() && ($cached->getRound() == $pairing->getRound())) {
+                    if (($cached->getOpponent() == $pairing->getPlayer()) && ($cached->getRound() == $pairing->getRound())) {
                         $opponent = $cached;
-                        $cache[$key] == null;
+                        $cache[$key] = null;
                         break;
                     }
                 }
