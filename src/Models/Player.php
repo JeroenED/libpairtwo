@@ -10,6 +10,7 @@ namespace JeroenED\Libpairtwo\Models;
 
 use JeroenED\Libpairtwo\Enums\Title;
 use JeroenED\Libpairtwo\Enums\Gender;
+use JeroenED\Libpairtwo\Pairing;
 use DateTime;
 
 class Player
@@ -67,6 +68,9 @@ class Player
 
     /** @var bool */
     private $Absent;
+
+    /** @var Pairing[] */
+    private $Pairings;
 
     /**
      * @return string
@@ -359,4 +363,22 @@ class Player
     {
         $this->Absent = $Absent;
     }
+
+    /**
+     * @return Pairing[]
+     */
+    public function getPairings(): array
+    {
+        return $this->Pairings;
+    }
+
+    /**
+     * @param Pairing[] $Pairings
+     */
+    public function setPairings(array $Pairings): void
+    {
+        $this->Pairings = $Pairings;
+    }
+
+
 }

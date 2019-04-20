@@ -12,4 +12,16 @@ use JeroenED\Libpairtwo\Models\Player as PlayerModel;
 
 class Player extends PlayerModel
 {
+    
+    /**
+     * Adds a pairing to the tournament
+     *
+     * @param Pairing $pairing
+     */
+    public function addPairing(Pairing $pairing)
+    {
+        $newArray = $this->GetPairings();
+        $newArray[] = $pairing;
+        $this->setPairings($newArray);
+    }
 }
