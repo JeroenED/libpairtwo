@@ -68,4 +68,3 @@ echo "Color Pairing 3: " . $sws->getTournament()->getPairings()[3]->getColor()->
 echo "Player Pairing 1: " . $sws->getTournament()->getPairings()[0]->getPlayer()->getName() . PHP_EOL;
 echo "Player Pairing 2: " . $sws->getTournament()->getPairings()[1]->getPlayer()->getName()  . PHP_EOL;
 echo "Player Pairing 3: " . $sws->getTournament()->getPairings()[2]->getPlayer()->getName()  . PHP_EOL;
-
