@@ -22,6 +22,5 @@ class Round extends RoundModel
         $newarray = $this->getGames();
         $newarray[] = $game;
         $this->setGames($newarray);
-
     }
 }
