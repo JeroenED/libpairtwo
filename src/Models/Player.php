@@ -379,6 +379,4 @@ class Player
     {
         $this->Pairings = $Pairings;
     }
-
-
 }
