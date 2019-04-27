@@ -2,11 +2,12 @@
 
 Copyright 2018- (c) Jeroen De Meerleer <schaak@jeroened.be>
 
-This library reads and writes sws-files that are saved using PairTwo developed by the Belgian Chess Federation (KBSB-FRBE).
+This library reads sws-files that are saved using PairTwo developed by the Belgian Chess Federation (KBSB-FRBE).
 
 ## Special thanks
 
-* Daniel Halleux (Webmaster KBSB - Developer PairTwo)
+* Daniel Halleux (Webmaster KBSB)
+* Bernard Malfliet (Original developer Pairtwo)
 
 ## Licence
 
