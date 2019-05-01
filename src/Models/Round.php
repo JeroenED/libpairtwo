@@ -9,6 +9,8 @@
 namespace JeroenED\Libpairtwo\Models;
 
 use DateTime;
+use JeroenED\Libpairtwo\Game;
+use JeroenED\Libpairtwo\Pairing;
 
 class Round
 {
@@ -20,6 +22,9 @@ class Round
 
     /** @var int */
     private $roundNo;
+
+    /** @var Pairing[] */
+    private $pairings = [];
 
     /**
      * @return DateTime
@@ -69,4 +74,21 @@ class Round
     {
         $this->roundNo = $roundNo;
     }
+
+    /**
+     * @return Pairing[]
+     */
+    public function getPairings(): array
+    {
+        return $this->pairings;
+    }
+
+    /**
+     * @param Pairing[] $pairings
+     */
+    public function setPairings(array $pairings): void
+    {
+        $this->pairings = $pairings;
+    }
+    
 }

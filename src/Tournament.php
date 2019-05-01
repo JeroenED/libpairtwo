@@ -100,6 +100,8 @@ class Tournament extends TournamentModel
             $pairing->getPlayer()->addPairing($pairing);
             $round = $pairing->getRound();
             $color = $pairing->getColor();
+
+            $this->getRoundByNo($round)->addPairing($pairing);
             $opponent = null;
             foreach ($cache as $key=>$cached) {
                 if (!is_null($cached)) {
