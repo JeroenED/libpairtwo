@@ -70,7 +70,7 @@ class Player
     private $Absent;
 
     /** @var Pairing[] */
-    private $Pairings;
+    private $Pairings = [];
 
     /**
      * @return string
