@@ -90,5 +90,4 @@ class Round
     {
         $this->pairings = $pairings;
     }
-    
 }

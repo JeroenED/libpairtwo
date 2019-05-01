@@ -621,7 +621,9 @@ class Sws extends SwsModel
                     $pairing->setRound($x);
                     $offset += 2;
 
-                    $sws->getTournament()->addPairing($pairing);
+                    if (!($result == Result::none && $opponent == 0)) {
+                        $sws->getTournament()->addPairing($pairing);
+                    }
                 }
             }
         }
