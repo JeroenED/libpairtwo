@@ -621,7 +621,7 @@ class Sws extends SwsModel
                     $pairing->setRound($x);
                     $offset += 2;
 
-                    if (!($result == Result::none && $opponent == 0)) {
+                    if ($x < $sws->getBinaryData("CurrentRound")) {
                         $sws->getTournament()->addPairing($pairing);
                     }
                 }
