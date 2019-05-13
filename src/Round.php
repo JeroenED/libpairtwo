@@ -8,6 +8,7 @@
 
 namespace JeroenED\Libpairtwo;
 
+use JeroenED\Libpairtwo\Enums\Result;
 use JeroenED\Libpairtwo\Models\Round as RoundModel;
 use JeroenED\Libpairtwo\Game;
 use JeroenED\Libpairtwo\Pairing;
@@ -36,5 +37,41 @@ class Round extends RoundModel
         $newarray = $this->getPairings();
         $newarray[] = $pairing;
         $this->setPairings($newarray);
+    }
+
+
+    /**
+     * Returns an array of pairings where the player is bye
+     *
+     * @return Pairing[]
+     */
+    public function getBye(): array
+    {
+        $allPairings = $this->getPairings();
+        $byePairings = [];
+        foreach ($allPairings as $pairing) {
+            if ($pairing->getResult() == Result::bye) {
+                $byePairings[] = $pairing;
+            }
+        }
+        return $byePairings;
+    }
+
+
+    /**
+     * Returns an array of pairings where the player is absent
+     *
+     * @return Pairing[]
+     */
+    public function getAbsent(): array
+    {
+        $allPairings = $this->getPairings();
+        $absentPairings = [];
+        foreach ($allPairings as $pairing) {
+            if ($pairing->getResult() == Result::absent) {
+                $absentPairings[] = $pairing;
+            }
+        }
+        return $absentPairings;
     }
 }
