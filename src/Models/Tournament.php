@@ -26,6 +26,7 @@
 
 namespace JeroenED\Libpairtwo\Models;
 
+use JeroenED\Libpairtwo\Enums\Tiebreak;
 use JeroenED\Libpairtwo\Enums\TournamentSystem;
 use JeroenED\Libpairtwo\Player;
 use DateTime;
@@ -102,6 +103,9 @@ abstract class Tournament
 
     /** @var Pairing[] */
     private $Pairings;
+
+    /** @var Tiebreak[] */
+    private $Tiebreaks = [];
 
     /**
      * @return string
@@ -453,5 +457,21 @@ abstract class Tournament
     public function setPairings($Pairings): void
     {
         $this->Pairings = $Pairings;
+    }
+
+    /**
+     * @return Tiebreak[]
+     */
+    public function getTiebreaks(): array
+    {
+        return $this->Tiebreaks;
+    }
+
+    /**
+     * @param Tiebreak[] $Tiebreaks
+     */
+    public function setTiebreaks(array $Tiebreaks): void
+    {
+        $this->Tiebreaks = $Tiebreaks;
     }
 }
