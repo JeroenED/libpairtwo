@@ -12,7 +12,7 @@ use DateTime;
 use JeroenED\Libpairtwo\Game;
 use JeroenED\Libpairtwo\Pairing;
 
-class Round
+abstract class Round
 {
     /** @var DateTime */
     private $date;

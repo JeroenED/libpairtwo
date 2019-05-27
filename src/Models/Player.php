@@ -13,7 +13,7 @@ use JeroenED\Libpairtwo\Enums\Gender;
 use JeroenED\Libpairtwo\Pairing;
 use DateTime;
 
-class Player
+abstract class Player
 {
     /** @var string */
     private $Name;
