@@ -4,7 +4,7 @@ namespace JeroenED\Libpairtwo\Readers\Models;
 
 use JeroenED\Libpairtwo\Tournament;
 
-class Pairtwo6
+abstract class Pairtwo6
 {
     /** @var string */
     private $Release;
