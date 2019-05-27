@@ -8,6 +8,7 @@
 
 namespace JeroenED\Libpairtwo;
 
+use JeroenED\Libpairtwo\Enums\Tiebreak;
 use JeroenED\Libpairtwo\Models\Tournament as TournamentModel;
 use JeroenED\Libpairtwo\Enums\Color;
 
@@ -47,6 +48,18 @@ class Tournament extends TournamentModel
         $newArray = $this->GetPlayers();
         $newArray[$id] = $player;
         $this->setPlayers($newArray);
+    }
+
+    /**
+     * Adds a Tiebreak
+     *
+     * @param Tiebreak $tiebreak
+     */
+    public function addTiebreak(Tiebreak $tiebreak)
+    {
+        $newArray = $this->getTiebreaks();
+        $newArray[] = $tiebreak;
+        $this->setTiebreaks($newArray);
     }
 
     /**
