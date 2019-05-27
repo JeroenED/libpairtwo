@@ -35,7 +35,7 @@ use DateTime;
  *
  * @author Jeroen De Meerleer <schaak@jeroened.be>
  */
-class Tournament
+abstract class Tournament
 {
     /** @var string */
     private $Name;
