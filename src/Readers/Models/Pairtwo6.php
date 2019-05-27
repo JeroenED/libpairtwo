@@ -1,10 +1,10 @@
 <?php
 
-namespace JeroenED\Libpairtwo\Models;
+namespace JeroenED\Libpairtwo\Readers\Models;
 
 use JeroenED\Libpairtwo\Tournament;
 
-class Sws
+class Pairtwo6
 {
     /** @var string */
     private $Release;
