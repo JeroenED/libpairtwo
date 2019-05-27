@@ -26,6 +26,7 @@
 
 namespace JeroenED\Libpairtwo\Readers;
 
+use JeroenED\Libpairtwo\Enums\Tiebreak;
 use JeroenED\Libpairtwo\Enums\Title;
 use JeroenED\Libpairtwo\Enums\Gender;
 use JeroenED\Libpairtwo\Enums\Color;
@@ -218,9 +219,62 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
         $offset += $length;
 
         // TieOrder
-        $length = 4 * 5;
-        $this->setBinaryData("TieOrder", $this->readData('Int', substr($swscontents, $offset, $length)));
-        $offset += $length;
+        for ($i = 0; $i < 5; $i++) {
+            $length = 4;
+            switch ($this->readData('Int', substr($swscontents, $offset, $length))) {
+                case 1:
+                    $tiebreak = Tiebreak::Buchholz;
+                    break;
+                case 2:
+                    $tiebreak = Tiebreak::BuchholzMed;
+                    break;
+                case 3:
+                    $tiebreak = Tiebreak::BuchholzMed;
+                    break;
+                case 4:
+                    $tiebreak = Tiebreak::Sonneborn;
+                    break;
+                case 5:
+                    $tiebreak = Tiebreak::Kashdan;
+                    break;
+                case 6:
+                    $tiebreak = Tiebreak::Cumulative;
+                    break;
+                case 7:
+                    $tiebreak = Tiebreak::Between;
+                    break;
+                case 8:
+                    $tiebreak = Tiebreak::Koya;
+                    break;
+                case 9:
+                    $tiebreak = Tiebreak::Baumbach;
+                    break;
+                case 10:
+                    $tiebreak = Tiebreak::Performance;
+                    break;
+                case 11:
+                    $tiebreak = Tiebreak::Aro;
+                    break;
+                case 12:
+                    $tiebreak = Tiebreak::AroCut;
+                    break;
+                case 13:
+                    $tiebreak = Tiebreak::BlackPlayed;
+                    break;
+                case 14:
+                    $tiebreak = Tiebreak::Testmatch;
+                    break;
+                case 15:
+                    $tiebreak = Tiebreak::Drawing;
+                    break;
+                case 0:
+                default:
+                    $tiebreak = Tiebreak::None;
+                    break;
+            }
+            $this->getTournament()->addTieBreak(new Tiebreak($tiebreak));
+            $offset += $length;
+        }
 
         // Categorie
         $length = 4 * 10;
