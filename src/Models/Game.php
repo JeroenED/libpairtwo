@@ -11,7 +11,7 @@ namespace JeroenED\Libpairtwo\Models;
 use JeroenED\Libpairtwo\Enums\Gameresult;
 use JeroenED\Libpairtwo\Pairing;
 
-class Game
+abstract class Game
 {
     /** @var Pairing */
     private $white;
