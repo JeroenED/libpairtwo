@@ -12,7 +12,7 @@ use JeroenED\Libpairtwo\Enums\Color;
 use JeroenED\Libpairtwo\Enums\Result;
 use JeroenED\Libpairtwo\Player;
 
-class Pairing
+abstract class Pairing
 {
     /** @var Player */
     private $Player;
