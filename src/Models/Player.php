@@ -28,7 +28,7 @@ abstract class Player
     private $DateOfBirth;
 
     /** @var float[] */
-    private $Tiebreaks;
+    private $Tiebreaks = [];
 
     /** @var string */
     private $Nation;

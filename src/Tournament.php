@@ -203,14 +203,14 @@ class Tournament extends TournamentModel
     /**
      * Gets the ranking of the tournament
      *
-     * @param bool $americansort
      * @return Player[]
      */
-    public function getRanking(bool $americansort = false)
+    public function getRanking()
     {
+        $this->calculateTiebreaks();
         $players = $this->getPlayers();
 
-        $americansort ? usort($players, array($this, "SortAmerican")) : usort($players, array($this, "SortNormal"));
+        usort($players, array($this, "SortTiebreak"));
 
         return $players;
     }
@@ -220,18 +220,66 @@ class Tournament extends TournamentModel
      * @param Player $b
      * @return int
      */
-    private function sortNormal(Player $a, Player $b)
+    private function sortTiebreak(Player $a, Player $b)
     {
-        return $b->getPoints() - $a->getPoints();
+        return $b->getTiebreaks()[0] - $a->getTiebreaks()[0];
+    }
+
+
+    /**
+     * @return Tournament
+     */
+    private function calculateTiebreaks(): Tournament
+    {
+        foreach ($this->getTiebreaks() as $key=>$tiebreak) {
+            switch ($tiebreak) {
+                case Tiebreak::Keizer:
+                    $this->calculateKeizer($key);
+                    break;
+                case Tiebreak::American:
+                    $this->calculateAmerican($key);
+                    break;
+                case Tiebreak::Points:
+                    $this->calculatePoints($key);
+                    break;
+            }
+        }
+        return $this;
     }
 
     /**
-     * @param Player $a
-     * @param Player $b
-     * @return int
+     * @param int $key
      */
-    private function sortAmerican(Player $a, Player $b)
+    private function calculateKeizer(int $key)
     {
-        return $b->getScoreAmerican() - $a->getScoreAmerican();
+        foreach ($this->getPlayers() as $player) {
+            $currentTiebreaks = $player->getTiebreaks();
+            $currentTiebreaks[$key] = $player->getBinaryData('ScoreAmerican');
+            $player->setTiebreaks($currentTiebreaks);
+        }
+    }
+
+    /**
+     * @param int $key
+     */
+    private function calculateAmerican(int $key)
+    {
+        foreach ($this->getPlayers() as $player) {
+            $currentTiebreaks = $player->getTiebreaks();
+            $currentTiebreaks[$key] = $player->getBinaryData('ScoreAmerican');
+            $player->setTiebreaks($currentTiebreaks);
+        }
+    }
+
+    /**
+     * @param int $key
+     */
+    private function calculatePoints(int $key)
+    {
+        foreach ($this->getPlayers() as $player) {
+            $currentTiebreaks = $player->getTiebreaks();
+            $currentTiebreaks[$key] = $player->getBinaryData('Points');
+            $player->setTiebreaks($currentTiebreaks);
+        }
     }
 }
