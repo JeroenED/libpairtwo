@@ -19,7 +19,7 @@ abstract class Game
     /** @var Pairing|null */
     private $black;
 
-    /** @var GameResult */
+    /** @var GameResult|null */
     private $result;
 
     /**
@@ -59,18 +59,18 @@ abstract class Game
     }
 
     /**
-     * @return Gameresult
+     * @return Gameresult|null
      */
-    public function getResult(): Gameresult
+    public function getResult(): ?Gameresult
     {
         return $this->result;
     }
 
     /**
-     * @param Gameresult $result
+     * @param Gameresult|null $result
      * @return Game
      */
-    public function setResult(Gameresult $result): Game
+    public function setResult(?Gameresult $result): Game
     {
         $this->result = $result;
         return $this;
