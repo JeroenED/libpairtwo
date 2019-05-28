@@ -58,9 +58,9 @@ echo "Name P3:      " . $sws->getTournament()->getPlayerById(2)->getName() . PHP
 echo "Gender P1:    " . $sws->getTournament()->getPlayerById(0)->getGender()->getKey() . PHP_EOL;
 echo "Gender P2:    " . $sws->getTournament()->getPlayerById(1)->getGender()->getKey() . PHP_EOL;
 echo "Gender P3:    " . $sws->getTournament()->getPlayerById(2)->getGender()->getKey() . PHP_EOL;
-echo "Absent P1:    " . $sws->getTournament()->getPlayerById(0)->getAbsent() . PHP_EOL;
-echo "Absent P2:    " . $sws->getTournament()->getPlayerById(1)->getAbsent() . PHP_EOL;
-echo "Absent P3:    " . $sws->getTournament()->getPlayerById(2)->getAbsent() . PHP_EOL;
+echo "Absent P1:    " . $sws->getTournament()->getPlayerById(0)->isAbsent() . PHP_EOL;
+echo "Absent P2:    " . $sws->getTournament()->getPlayerById(1)->isAbsent() . PHP_EOL;
+echo "Absent P3:    " . $sws->getTournament()->getPlayerById(2)->isAbsent() . PHP_EOL;
 echo "Date Round 1: " . $sws->getTournament()->getRoundByNo(0)->getDate()->format('d/m/Y') . PHP_EOL;
 echo "Date Round 2: " . $sws->getTournament()->getRoundByNo(1)->getDate()->format('d/m/Y') . PHP_EOL;
 echo "Date Round 3: " . $sws->getTournament()->getRoundByNo(2)->getDate()->format('d/m/Y') . PHP_EOL;

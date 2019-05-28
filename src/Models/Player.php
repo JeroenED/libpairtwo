@@ -82,10 +82,12 @@ abstract class Player
 
     /**
      * @param string $Name
+     * @return Player
      */
-    public function setName($Name): void
+    public function setName(string $Name): Player
     {
         $this->Name = $Name;
+        return $this;
     }
 
     /**
@@ -98,10 +100,12 @@ abstract class Player
 
     /**
      * @param int $Rank
+     * @return Player
      */
-    public function setRank(int $Rank): void
+    public function setRank(int $Rank): Player
     {
         $this->Rank = $Rank;
+        return $this;
     }
 
     /**
@@ -114,10 +118,12 @@ abstract class Player
 
     /**
      * @param int $FideId
+     * @return Player
      */
-    public function setFideId(int $FideId): void
+    public function setFideId(int $FideId): Player
     {
         $this->FideId = $FideId;
+        return $this;
     }
 
     /**
@@ -130,10 +136,12 @@ abstract class Player
 
     /**
      * @param int $ExtraPts
+     * @return Player
      */
-    public function setExtraPts(int $ExtraPts): void
+    public function setExtraPts(int $ExtraPts): Player
     {
         $this->ExtraPts = $ExtraPts;
+        return $this;
     }
 
     /**
@@ -146,10 +154,12 @@ abstract class Player
 
     /**
      * @param int $KbsbElo
+     * @return Player
      */
-    public function setKbsbElo(int $KbsbElo): void
+    public function setKbsbElo(int $KbsbElo): Player
     {
         $this->KbsbElo = $KbsbElo;
+        return $this;
     }
 
     /**
@@ -162,10 +172,12 @@ abstract class Player
 
     /**
      * @param DateTime $dateofbirth
+     * @return Player
      */
-    public function setDateofbirth(DateTime $dateofbirth): void
+    public function setDateofbirth(DateTime $dateofbirth): Player
     {
         $this->dateofbirth = $dateofbirth;
+        return $this;
     }
 
     /**
@@ -178,10 +190,12 @@ abstract class Player
 
     /**
      * @param int $KbsbID
+     * @return Player
      */
-    public function setKbsbID(int $KbsbID): void
+    public function setKbsbID(int $KbsbID): Player
     {
         $this->KbsbID = $KbsbID;
+        return $this;
     }
 
     /**
@@ -194,10 +208,12 @@ abstract class Player
 
     /**
      * @param float $Points
+     * @return Player
      */
-    public function setPoints(float $Points): void
+    public function setPoints(float $Points): Player
     {
         $this->Points = $Points;
+        return $this;
     }
 
     /**
@@ -210,10 +226,12 @@ abstract class Player
 
     /**
      * @param int $ClubNr
+     * @return Player
      */
-    public function setClubNr(int $ClubNr): void
+    public function setClubNr(int $ClubNr): Player
     {
         $this->ClubNr = $ClubNr;
+        return $this;
     }
 
     /**
@@ -226,26 +244,30 @@ abstract class Player
 
     /**
      * @param float $ScoreBucholtz
+     * @return Player
      */
-    public function setScoreBucholtz(float $ScoreBucholtz): void
+    public function setScoreBucholtz(float $ScoreBucholtz): Player
     {
         $this->ScoreBucholtz = $ScoreBucholtz;
+        return $this;
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getScoreAmerican(): int
+    public function getScoreAmerican(): float
     {
         return $this->ScoreAmerican;
     }
 
     /**
-     * @param int $ScoreAmerican
+     * @param float $ScoreAmerican
+     * @return Player
      */
-    public function setScoreAmerican(int $ScoreAmerican): void
+    public function setScoreAmerican(float $ScoreAmerican): Player
     {
         $this->ScoreAmerican = $ScoreAmerican;
+        return $this;
     }
 
     /**
@@ -258,10 +280,12 @@ abstract class Player
 
     /**
      * @param int $FideElo
+     * @return Player
      */
-    public function setFideElo(int $FideElo): void
+    public function setFideElo(int $FideElo): Player
     {
         $this->FideElo = $FideElo;
+        return $this;
     }
 
     /**
@@ -278,10 +302,12 @@ abstract class Player
      * example value: BEL
      *
      * @param string $Nation
+     * @return Player
      */
-    public function setNation(string $Nation): void
+    public function setNation(string $Nation): Player
     {
         $this->Nation = $Nation;
+        return $this;
     }
 
     /**
@@ -294,10 +320,12 @@ abstract class Player
 
     /**
      * @param string $Category
+     * @return Player
      */
-    public function setCategory(string $Category): void
+    public function setCategory(string $Category): Player
     {
         $this->Category = $Category;
+        return $this;
     }
 
     /**
@@ -310,10 +338,12 @@ abstract class Player
 
     /**
      * @param Title $Title
+     * @return Player
      */
-    public function setTitle(Title $Title): void
+    public function setTitle(Title $Title): Player
     {
         $this->Title = $Title;
+        return $this;
     }
 
     /**
@@ -326,10 +356,12 @@ abstract class Player
 
     /**
      * @param Gender $Gender
+     * @return Player
      */
-    public function setGender(Gender $Gender): void
+    public function setGender(Gender $Gender): Player
     {
         $this->Gender = $Gender;
+        return $this;
     }
 
     /**
@@ -342,26 +374,30 @@ abstract class Player
 
     /**
      * @param int $NumberOfTies
+     * @return Player
      */
-    public function setNumberOfTies(int $NumberOfTies): void
+    public function setNumberOfTies(int $NumberOfTies): Player
     {
         $this->NumberOfTies = $NumberOfTies;
+        return $this;
     }
 
     /**
      * @return bool
      */
-    public function getAbsent(): bool
+    public function isAbsent(): bool
     {
         return $this->Absent;
     }
 
     /**
      * @param bool $Absent
+     * @return Player
      */
-    public function setAbsent(bool $Absent): void
+    public function setAbsent(bool $Absent): Player
     {
         $this->Absent = $Absent;
+        return $this;
     }
 
     /**
@@ -374,9 +410,11 @@ abstract class Player
 
     /**
      * @param Pairing[] $Pairings
+     * @return Player
      */
-    public function setPairings(array $Pairings): void
+    public function setPairings(array $Pairings): Player
     {
         $this->Pairings = $Pairings;
+        return $this;
     }
 }
