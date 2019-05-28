@@ -74,5 +74,5 @@ echo "Tiebreak 1:   " . $sws->getTournament()->getTiebreaks()[0]->getValue() . P
 echo "Tiebreak 2:   " . $sws->getTournament()->getTiebreaks()[1]->getValue() . PHP_EOL;
 echo "Tiebreak 3:   " . $sws->getTournament()->getTiebreaks()[2]->getValue() . PHP_EOL;
 foreach ($sws->getTournament()->getRanking() as $player) {
-    echo $player->getName() . ' ' . $player->getTiebreaks()[0] . PHP_EOL;
+    echo $player->getName() . ' ' . implode(' ', $player->getTiebreaks()) . PHP_EOL;
 }
