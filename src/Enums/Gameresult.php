@@ -12,6 +12,7 @@ use MyCLabs\Enum\Enum;
 
 class Gameresult extends Enum
 {
+    const None = '-';
     const WhiteWins = '1-0';
     const Draw = '0.5-0.5';
     const BlackWins = '0-1';
