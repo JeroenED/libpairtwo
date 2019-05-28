@@ -9,10 +9,9 @@
 namespace JeroenED\Libpairtwo;
 
 use JeroenED\Libpairtwo\Enums\Tiebreak;
-use JeroenED\Libpairtwo\Models\Tournament as TournamentModel;
 use JeroenED\Libpairtwo\Enums\Color;
 
-class Tournament extends TournamentModel
+class Tournament extends Tiebreaks
 {
     /**
      * Gets a player by its ID
@@ -245,41 +244,5 @@ class Tournament extends TournamentModel
             }
         }
         return $this;
-    }
-
-    /**
-     * @param int $key
-     */
-    private function calculateKeizer(int $key)
-    {
-        foreach ($this->getPlayers() as $player) {
-            $currentTiebreaks = $player->getTiebreaks();
-            $currentTiebreaks[$key] = $player->getBinaryData('ScoreAmerican');
-            $player->setTiebreaks($currentTiebreaks);
-        }
-    }
-
-    /**
-     * @param int $key
-     */
-    private function calculateAmerican(int $key)
-    {
-        foreach ($this->getPlayers() as $player) {
-            $currentTiebreaks = $player->getTiebreaks();
-            $currentTiebreaks[$key] = $player->getBinaryData('ScoreAmerican');
-            $player->setTiebreaks($currentTiebreaks);
-        }
-    }
-
-    /**
-     * @param int $key
-     */
-    private function calculatePoints(int $key)
-    {
-        foreach ($this->getPlayers() as $player) {
-            $currentTiebreaks = $player->getTiebreaks();
-            $currentTiebreaks[$key] = $player->getBinaryData('Points');
-            $player->setTiebreaks($currentTiebreaks);
-        }
     }
 }
