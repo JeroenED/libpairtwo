@@ -51,6 +51,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
     private const PT_MONTHFACTOR = 16;
     private const PT_YEARFACTOR = 512;
     private const PT_PASTOFFSET = 117;
+    private const CompatibleVersions = ['6.', '5.'];
 
     /**
      * Reads out $swsfile and returns a Pairtwo6 class object
@@ -71,8 +72,8 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
         $this->setRelease($this->readData('String', substr($swscontents, $offset, $length)));
         $offset += $length;
 
-        if (substr($this->getRelease(), 0, 2) !== "6.") {
-            throw new IncompatibleReaderException("This file was not created with Pairtwo 6 or higher");
+        if (array_search(substr($this->getRelease(), 0, 2), self::CompatibleVersions) === false) {
+            throw new IncompatibleReaderException("This file was not created with Pairtwo 5 or higher");
         }
 
         $this->setTournament(new Tournament());

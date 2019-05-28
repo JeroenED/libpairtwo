@@ -5,11 +5,13 @@ namespace JeroenED\Libpairtwo;
 
 use JeroenED\LibPairtwo\Exceptions\LibpairtwoException;
 use JeroenED\Libpairtwo\Interfaces\ReaderInterface;
+use JeroenED\Libpairtwo\Readers\Pairtwo6;
 
 abstract class IOFactory
 {
     private static $readers = [
-        'Pairtwo-6' => Readers\Pairtwo6::class
+        'Pairtwo-6' => Readers\Pairtwo6::class,
+        'Pairtwo-5' => Readers\Pairtwo6::class // File structure identical
     ];
 
 
