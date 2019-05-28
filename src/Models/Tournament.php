@@ -520,5 +520,4 @@ abstract class Tournament
         $this->Tiebreaks = $Tiebreaks;
         return $this;
     }
-
 }

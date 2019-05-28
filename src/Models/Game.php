@@ -75,6 +75,4 @@ abstract class Game
         $this->result = $result;
         return $this;
     }
-
-
 }

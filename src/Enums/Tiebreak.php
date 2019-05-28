@@ -8,6 +8,9 @@ use MyCLabs\Enum\Enum;
 class Tiebreak extends Enum
 {
     const None = "";
+    const Keizer = "Keizer";
+    const Points = "Points";
+    const American = "American";
     const Buchholz = "Buchholz";
     const BuchholzMed = "Buchholz Median";
     const BuchholzCut = "Buchholz Cut";
@@ -16,7 +19,7 @@ class Tiebreak extends Enum
     const Cumulative = "Cumulative";
     const Between = "Mutual Result";
     const Koya = "Koya";
-    const Baumbach = "Baumbach";
+    const Baumbach = "Most wins"; // Ref: https://en.wikipedia.org/wiki/Tie-breaking_in_Swiss-system_tournaments#Most_wins_(Baumbach) Please tell me why?
     const Performance = "Performance";
     const Aro = "Average Rating";
     const AroCut = "Average Rating Cut";
