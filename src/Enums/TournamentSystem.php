@@ -15,5 +15,5 @@ class TournamentSystem extends Enum
     const Swiss = 'Swiss';
     const Closed = 'Closed';
     const American = 'American';
-    const Imperial = 'Imperial';
+    const Keizer = 'Keizer';
 }

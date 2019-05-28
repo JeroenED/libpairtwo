@@ -46,21 +46,21 @@ echo "Place:        " . $sws->getTournament()->getOrganiserPlace() . PHP_EOL;
 echo "Unrated-Elo:  " . $sws->getTournament()->getNonRatedElo() . PHP_EOL;
 echo "Federation:   " . $sws->getTournament()->getFederation() . PHP_EOL;
 echo "Organiser:    " . $sws->getTournament()->getOrganiserClubNo() . PHP_EOL;
-echo "Fide Elo P1:  " . $sws->getTournament()->getPlayerById(0)->getFideElo() . PHP_EOL;
-echo "Fide Elo P2:  " . $sws->getTournament()->getPlayerById(1)->getFideElo() . PHP_EOL;
-echo "Fide Elo P3:  " . $sws->getTournament()->getPlayerById(2)->getFideElo() . PHP_EOL;
-echo "KBSB Elo P1:  " . $sws->getTournament()->getPlayerById(0)->getKbsbElo() . PHP_EOL;
-echo "KBSB Elo P2:  " . $sws->getTournament()->getPlayerById(1)->getKbsbElo() . PHP_EOL;
-echo "KBSB Elo P3:  " . $sws->getTournament()->getPlayerById(2)->getKbsbElo() . PHP_EOL;
+echo "Fide Elo P1:  " . $sws->getTournament()->getPlayerById(0)->getElos()['fide'] . PHP_EOL;
+echo "Fide Elo P2:  " . $sws->getTournament()->getPlayerById(1)->getElos()['fide'] . PHP_EOL;
+echo "Fide Elo P3:  " . $sws->getTournament()->getPlayerById(2)->getElos()['fide'] . PHP_EOL;
+echo "KBSB Elo P1:  " . $sws->getTournament()->getPlayerById(0)->getElos()['kbsb'] . PHP_EOL;
+echo "KBSB Elo P2:  " . $sws->getTournament()->getPlayerById(1)->getElos()['kbsb'] . PHP_EOL;
+echo "KBSB Elo P3:  " . $sws->getTournament()->getPlayerById(2)->getElos()['kbsb'] . PHP_EOL;
 echo "Name P1:      " . $sws->getTournament()->getPlayerById(0)->getName() . PHP_EOL;
 echo "Name P2:      " . $sws->getTournament()->getPlayerById(1)->getName() . PHP_EOL;
 echo "Name P3:      " . $sws->getTournament()->getPlayerById(2)->getName() . PHP_EOL;
 echo "Gender P1:    " . $sws->getTournament()->getPlayerById(0)->getGender()->getKey() . PHP_EOL;
 echo "Gender P2:    " . $sws->getTournament()->getPlayerById(1)->getGender()->getKey() . PHP_EOL;
 echo "Gender P3:    " . $sws->getTournament()->getPlayerById(2)->getGender()->getKey() . PHP_EOL;
-echo "Absent P1:    " . $sws->getTournament()->getPlayerById(0)->isAbsent() . PHP_EOL;
-echo "Absent P2:    " . $sws->getTournament()->getPlayerById(1)->isAbsent() . PHP_EOL;
-echo "Absent P3:    " . $sws->getTournament()->getPlayerById(2)->isAbsent() . PHP_EOL;
+echo "Absent P1:    " . $sws->getTournament()->getPlayerById(0)->getBinaryData("absent") . PHP_EOL;
+echo "Absent P2:    " . $sws->getTournament()->getPlayerById(1)->getBinaryData("absent") . PHP_EOL;
+echo "Absent P3:    " . $sws->getTournament()->getPlayerById(2)->getBinaryData("absent") . PHP_EOL;
 echo "Date Round 1: " . $sws->getTournament()->getRoundByNo(0)->getDate()->format('d/m/Y') . PHP_EOL;
 echo "Date Round 2: " . $sws->getTournament()->getRoundByNo(1)->getDate()->format('d/m/Y') . PHP_EOL;
 echo "Date Round 3: " . $sws->getTournament()->getRoundByNo(2)->getDate()->format('d/m/Y') . PHP_EOL;
@@ -73,3 +73,6 @@ echo "Player Pairing 3: " . $sws->getTournament()->getPairings()[2]->getPlayer()
 echo "Tiebreak 1:   " . $sws->getTournament()->getTiebreaks()[0]->getValue() . PHP_EOL;
 echo "Tiebreak 2:   " . $sws->getTournament()->getTiebreaks()[1]->getValue() . PHP_EOL;
 echo "Tiebreak 3:   " . $sws->getTournament()->getTiebreaks()[2]->getValue() . PHP_EOL;
+foreach ($sws->getTournament()->getRanking() as $player) {
+    echo $player->getName() . ' ' . implode(' ', $player->getTiebreaks()) . PHP_EOL;
+}

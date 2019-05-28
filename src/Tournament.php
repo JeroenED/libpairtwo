@@ -9,10 +9,9 @@
 namespace JeroenED\Libpairtwo;
 
 use JeroenED\Libpairtwo\Enums\Tiebreak;
-use JeroenED\Libpairtwo\Models\Tournament as TournamentModel;
 use JeroenED\Libpairtwo\Enums\Color;
 
-class Tournament extends TournamentModel
+class Tournament extends Tiebreaks
 {
     /**
      * Gets a player by its ID
@@ -203,14 +202,13 @@ class Tournament extends TournamentModel
     /**
      * Gets the ranking of the tournament
      *
-     * @param bool $americansort
      * @return Player[]
      */
-    public function getRanking(bool $americansort = false)
+    public function getRanking()
     {
         $players = $this->getPlayers();
 
-        $americansort ? usort($players, array($this, "SortAmerican")) : usort($players, array($this, "SortNormal"));
+        usort($players, array($this, "SortTiebreak"));
 
         return $players;
     }
@@ -220,18 +218,43 @@ class Tournament extends TournamentModel
      * @param Player $b
      * @return int
      */
-    private function sortNormal(Player $a, Player $b)
+    private function sortTiebreak(Player $a, Player $b)
     {
-        return $b->getPoints() - $a->getPoints();
+        $result = 0;
+        foreach ($this->getTiebreaks() as $key=>$tiebreak) {
+            $result =  $this->CalculateTiebreak($key, $b, $a) - $this->CalculateTiebreak($key, $a, $b);
+            if ($result != 0) {
+                return $result;
+            }
+        }
     }
 
+
     /**
-     * @param Player $a
-     * @param Player $b
-     * @return int
+     * @return float
      */
-    private function sortAmerican(Player $a, Player $b)
+    private function calculateTiebreak(int $key, Player $player, Player $opponent): float
     {
-        return $b->getScoreAmerican() - $a->getScoreAmerican();
+        $tiebreak = $this->getTiebreaks()[$key];
+        switch ($tiebreak) {
+            case Tiebreak::Keizer:
+                return $this->calculateKeizer($key, $player);
+                break;
+            case Tiebreak::American:
+                return $this->calculateAmerican($key, $player);
+                break;
+            case Tiebreak::Points:
+                return $this->calculatePoints($key, $player);
+                break;
+            case Tiebreak::Baumbach:
+                return $this->calculateBaumbach($key, $player);
+                break;
+            case Tiebreak::BlackPlayed:
+                return $this->calculateBlackPlayed($key, $player);
+                break;
+            case Tiebreak::BlackWin:
+                return $this->calculateBlackWin($key, $player);
+                break;
+        }
     }
 }
