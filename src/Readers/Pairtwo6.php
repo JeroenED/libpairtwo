@@ -60,7 +60,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
      * @param string $filename
      * @return Pairtwo6
      */
-    public function read($filename)
+    public function read($filename): ReaderInterface
     {
         $swshandle = fopen($filename, 'rb');
         $swscontents = fread($swshandle, filesize($filename));
@@ -556,7 +556,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
                 $system = TournamentSystem::American;
                 break;
             case 6:
-                $system = TournamentSystem::Imperial;
+                $system = TournamentSystem::Keizer;
                 break;
             case 0:
             default:
@@ -694,6 +694,8 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
             }
         }
 
+        $this->addTiebreaks();
+
         $this->getTournament()->pairingsToRounds();
         return $this;
     }
@@ -798,5 +800,28 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
 
 
         return DateTime::createFromFormat($format, $concat);
+    }
+
+
+    /**
+     * @return $this
+     */
+    private function addTiebreaks(): Pairtwo6
+    {
+        switch ($this->getTournament()->getSystem()) {
+            case TournamentSystem::Keizer:
+                $firstElement = new Tiebreak(Tiebreak::Keizer);
+                break;
+            case TournamentSystem::American:
+                $firstElement = new Tiebreak(Tiebreak::American);
+                break;
+            case TournamentSystem::Closed:
+            case TournamentSystem::Swiss:
+                $firstElement = new Tiebreak(Tiebreak::Points);
+        }
+        $tiebreaks = $this->getTournament()->getTiebreaks();
+        array_unshift($tiebreaks, $firstElement);
+        $this->getTournament()->setTiebreaks($tiebreaks);
+        return $this;
     }
 }

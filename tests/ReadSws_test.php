@@ -73,3 +73,6 @@ echo "Player Pairing 3: " . $sws->getTournament()->getPairings()[2]->getPlayer()
 echo "Tiebreak 1:   " . $sws->getTournament()->getTiebreaks()[0]->getValue() . PHP_EOL;
 echo "Tiebreak 2:   " . $sws->getTournament()->getTiebreaks()[1]->getValue() . PHP_EOL;
 echo "Tiebreak 3:   " . $sws->getTournament()->getTiebreaks()[2]->getValue() . PHP_EOL;
+foreach ($sws->getTournament()->getRanking() as $player) {
+    echo $player->getName() . ' ' . $player->getTiebreaks()[0] . PHP_EOL;
+}

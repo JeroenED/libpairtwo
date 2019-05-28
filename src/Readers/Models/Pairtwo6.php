@@ -72,6 +72,4 @@ abstract class Pairtwo6
         $this->BinaryData[$Key] = $Value;
         return $this;
     }
-
-
 }
