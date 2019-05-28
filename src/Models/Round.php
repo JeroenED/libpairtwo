@@ -28,35 +28,38 @@ abstract class Round
 
     /**
      * @return DateTime
-     *
      */
-    public function getDate()
+    public function getDate(): DateTime
     {
         return $this->date;
     }
 
     /**
      * @param DateTime $date
+     * @return Round
      */
-    public function setDate($date): void
+    public function setDate(DateTime $date): Round
     {
         $this->date = $date;
+        return $this;
     }
 
     /**
      * @return Game[]
      */
-    public function getGames()
+    public function getGames(): array
     {
         return $this->games;
     }
 
     /**
      * @param Game[] $games
+     * @return Round
      */
-    public function setGames($games): void
+    public function setGames(array $games): Round
     {
         $this->games = $games;
+        return $this;
     }
 
     /**
@@ -69,10 +72,12 @@ abstract class Round
 
     /**
      * @param int $roundNo
+     * @return Round
      */
-    public function setRoundNo(int $roundNo): void
+    public function setRoundNo(int $roundNo): Round
     {
         $this->roundNo = $roundNo;
+        return $this;
     }
 
     /**
@@ -85,9 +90,11 @@ abstract class Round
 
     /**
      * @param Pairing[] $pairings
+     * @return Round
      */
-    public function setPairings(array $pairings): void
+    public function setPairings(array $pairings): Round
     {
         $this->pairings = $pairings;
+        return $this;
     }
 }
