@@ -206,7 +206,6 @@ class Tournament extends Tiebreaks
      */
     public function getRanking()
     {
-        $this->calculateTiebreaks();
         $players = $this->getPlayers();
 
         usort($players, array($this, "SortTiebreak"));
@@ -221,28 +220,41 @@ class Tournament extends Tiebreaks
      */
     private function sortTiebreak(Player $a, Player $b)
     {
-        return $b->getTiebreaks()[0] - $a->getTiebreaks()[0];
+        $result = 0;
+        foreach ($this->getTiebreaks() as $key=>$tiebreak) {
+            $result =  $this->CalculateTiebreak($key, $b, $a) - $this->CalculateTiebreak($key, $a, $b);
+            if ($result != 0) {
+                return $result;
+            }
+        }
     }
 
 
     /**
-     * @return Tournament
+     * @return float
      */
-    private function calculateTiebreaks(): Tournament
+    private function calculateTiebreak(int $key, Player $player, Player $opponent): float
     {
-        foreach ($this->getTiebreaks() as $key=>$tiebreak) {
-            switch ($tiebreak) {
-                case Tiebreak::Keizer:
-                    $this->calculateKeizer($key);
-                    break;
-                case Tiebreak::American:
-                    $this->calculateAmerican($key);
-                    break;
-                case Tiebreak::Points:
-                    $this->calculatePoints($key);
-                    break;
-            }
+        $tiebreak = $this->getTiebreaks()[$key];
+        switch ($tiebreak) {
+            case Tiebreak::Keizer:
+                return $this->calculateKeizer($key, $player);
+                break;
+            case Tiebreak::American:
+                return $this->calculateAmerican($key, $player);
+                break;
+            case Tiebreak::Points:
+                return $this->calculatePoints($key, $player);
+                break;
+            case Tiebreak::Baumbach:
+                return $this->calculateBaumbach($key, $player);
+                break;
+            case Tiebreak::BlackPlayed:
+                return $this->calculateBlackPlayed($key, $player);
+                break;
+            case Tiebreak::BlackWin:
+                return $this->calculateBlackWin($key, $player);
+                break;
         }
-        return $this;
     }
 }
