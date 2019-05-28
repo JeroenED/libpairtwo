@@ -35,6 +35,12 @@ class Game extends GameModel
         if (isset($blacksplit[1]) && $blacksplit[1] != 'Bye') {
             $special = ' ' . $blacksplit[1];
         }
+        if ($whitesplit[0] == '*') {
+            $whitesplit[0] = '';
+        }
+        if ($blacksplit[0] == '*') {
+            $blacksplit[0] = '';
+        }
         $result = new Gameresult($whitesplit[0] . '-' . $blacksplit[0] . $special);
         $this->setResult($result);
 
