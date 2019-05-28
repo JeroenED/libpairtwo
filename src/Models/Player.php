@@ -18,42 +18,22 @@ abstract class Player
     /** @var string */
     private $Name;
 
-    /** @var int */
-    private $Rank;
+    /** @var int[] */
+    private $Ids;
 
-    /** @var int */
-    private $FideId;
-
-    /** @var int */
-    private $ExtraPts;
-
-    /** @var int */
-    private $KbsbElo;
+    /** @var int[] */
+    private $Elos;
 
     /** @var DateTime */
-    private $dateofbirth;
+    private $DateOfBirth;
 
-    /** @var int */
-    private $KbsbID;
-
-    /** @var float */
-    private $Points;
-
-    /** @var int */
-    private $ClubNr;
-
-    /** @var float */
-    private $ScoreBucholtz;
-
-    /** @var float */
-    private $ScoreAmerican;
-
-    /** @var int */
-    private $FideElo;
+    /** @var float[] */
+    private $Tiebreaks;
 
     /** @var string */
     private $Nation;
 
+    // TODO: Implement categories
     /** @var string */
     private $Category;
 
@@ -63,14 +43,11 @@ abstract class Player
     /** @var Gender */
     private $Gender;
 
-    /** @var int */
-    private $NumberOfTies;
-
-    /** @var bool */
-    private $Absent;
-
     /** @var Pairing[] */
     private $Pairings = [];
+
+    /** @var bool|DateTime|int|string[] */
+    private $BinaryData;
 
     /**
      * @return string
@@ -91,200 +68,74 @@ abstract class Player
     }
 
     /**
-     * @return int
+     * @return int[]
      */
-    public function getRank(): int
+    public function getIds(): array
     {
-        return $this->Rank;
+        return $this->Ids;
     }
 
     /**
-     * @param int $Rank
+     * @param int[] $Ids
      * @return Player
      */
-    public function setRank(int $Rank): Player
+    public function setIds(array $Ids): Player
     {
-        $this->Rank = $Rank;
+        $this->Ids = $Ids;
         return $this;
     }
 
     /**
-     * @return int
+     * @return int[]
      */
-    public function getFideId(): int
+    public function getElos(): array
     {
-        return $this->FideId;
+        return $this->Elos;
     }
 
     /**
-     * @param int $FideId
+     * @param int[] $Elos
      * @return Player
      */
-    public function setFideId(int $FideId): Player
+    public function setElos(array $Elos): Player
     {
-        $this->FideId = $FideId;
+        $this->Elos = $Elos;
         return $this;
     }
 
     /**
-     * @return int
+     * @return \DateTime
      */
-    public function getExtraPts(): int
+    public function getDateOfBirth(): \DateTime
     {
-        return $this->ExtraPts;
+        return $this->DateOfBirth;
     }
 
     /**
-     * @param int $ExtraPts
+     * @param \DateTime $DateOfBirth
      * @return Player
      */
-    public function setExtraPts(int $ExtraPts): Player
+    public function setDateOfBirth(\DateTime $DateOfBirth): Player
     {
-        $this->ExtraPts = $ExtraPts;
+        $this->DateOfBirth = $DateOfBirth;
         return $this;
     }
 
     /**
-     * @return int
+     * @return float[]
      */
-    public function getKbsbElo(): int
+    public function getTiebreaks(): array
     {
-        return $this->KbsbElo;
+        return $this->Tiebreaks;
     }
 
     /**
-     * @param int $KbsbElo
+     * @param float[] $Tiebreaks
      * @return Player
      */
-    public function setKbsbElo(int $KbsbElo): Player
+    public function setTiebreaks(array $Tiebreaks): Player
     {
-        $this->KbsbElo = $KbsbElo;
-        return $this;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getDateofbirth(): DateTime
-    {
-        return $this->dateofbirth;
-    }
-
-    /**
-     * @param DateTime $dateofbirth
-     * @return Player
-     */
-    public function setDateofbirth(DateTime $dateofbirth): Player
-    {
-        $this->dateofbirth = $dateofbirth;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getKbsbID(): int
-    {
-        return $this->KbsbID;
-    }
-
-    /**
-     * @param int $KbsbID
-     * @return Player
-     */
-    public function setKbsbID(int $KbsbID): Player
-    {
-        $this->KbsbID = $KbsbID;
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getPoints(): float
-    {
-        return $this->Points;
-    }
-
-    /**
-     * @param float $Points
-     * @return Player
-     */
-    public function setPoints(float $Points): Player
-    {
-        $this->Points = $Points;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getClubNr(): int
-    {
-        return $this->ClubNr;
-    }
-
-    /**
-     * @param int $ClubNr
-     * @return Player
-     */
-    public function setClubNr(int $ClubNr): Player
-    {
-        $this->ClubNr = $ClubNr;
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getScoreBucholtz(): float
-    {
-        return $this->ScoreBucholtz;
-    }
-
-    /**
-     * @param float $ScoreBucholtz
-     * @return Player
-     */
-    public function setScoreBucholtz(float $ScoreBucholtz): Player
-    {
-        $this->ScoreBucholtz = $ScoreBucholtz;
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getScoreAmerican(): float
-    {
-        return $this->ScoreAmerican;
-    }
-
-    /**
-     * @param float $ScoreAmerican
-     * @return Player
-     */
-    public function setScoreAmerican(float $ScoreAmerican): Player
-    {
-        $this->ScoreAmerican = $ScoreAmerican;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getFideElo(): int
-    {
-        return $this->FideElo;
-    }
-
-    /**
-     * @param int $FideElo
-     * @return Player
-     */
-    public function setFideElo(int $FideElo): Player
-    {
-        $this->FideElo = $FideElo;
+        $this->Tiebreaks = $Tiebreaks;
         return $this;
     }
 
@@ -365,42 +216,6 @@ abstract class Player
     }
 
     /**
-     * @return int
-     */
-    public function getNumberOfTies(): int
-    {
-        return $this->NumberOfTies;
-    }
-
-    /**
-     * @param int $NumberOfTies
-     * @return Player
-     */
-    public function setNumberOfTies(int $NumberOfTies): Player
-    {
-        $this->NumberOfTies = $NumberOfTies;
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isAbsent(): bool
-    {
-        return $this->Absent;
-    }
-
-    /**
-     * @param bool $Absent
-     * @return Player
-     */
-    public function setAbsent(bool $Absent): Player
-    {
-        $this->Absent = $Absent;
-        return $this;
-    }
-
-    /**
      * @return Pairing[]
      */
     public function getPairings(): array
@@ -415,6 +230,26 @@ abstract class Player
     public function setPairings(array $Pairings): Player
     {
         $this->Pairings = $Pairings;
+        return $this;
+    }
+
+    /**
+     * @param string $Key
+     * @return bool|DateTime|int|string
+     */
+    public function getBinaryData(string $Key)
+    {
+        return $this->BinaryData[$Key];
+    }
+
+    /**
+     * @param string $Key
+     * @param bool|int|DateTime|string $Value
+     * @return Player
+     */
+    public function setBinaryData(string $Key, $Value): Player
+    {
+        $this->BinaryData[$Key] = $Value;
         return $this;
     }
 }
