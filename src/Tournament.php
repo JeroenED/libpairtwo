@@ -297,4 +297,25 @@ class Tournament extends Tiebreaks
                 return null;
         }
     }
+
+    /**
+     * Return the average rating for tournament
+     *
+     * @return int
+     */
+    public function getAverageElo(): int
+    {
+        $totalrating = 0;
+        $players = 0;
+        foreach ($this->getPlayers() as $player) {
+            $toadd = $player->getElos()['home'];
+            if ($toadd == 0) {
+                $toadd = $this->getNonRatedElo();
+            }
+
+            $totalrating += $toadd;
+            $players++;
+        }
+        return intdiv($totalrating, $players);
+    }
 }
