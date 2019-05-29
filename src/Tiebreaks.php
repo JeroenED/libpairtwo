@@ -9,105 +9,152 @@ use JeroenED\Libpairtwo\Enums\Result;
 
 abstract class Tiebreaks extends Tournament
 {
+    private const Won = [ Result::won, Result::wonforfait, Result::wonbye, Result::wonadjourned ];
+    private const Draw = [ Result::draw, Result::drawadjourned];
+    private const Lost = [ Result::absent, Result::bye, Result::lost, Result::adjourned ];
+    private const NotPlayed = [ Result::bye, Result::wonbye, Result::absent ];
+    private const Black = [ Color::black ];
+    private const White = [ Color::white ];
+
 
     /**
-     * @param int $key
      * @param Player $player
-     * @return float
+     * @return float|null
      */
-    protected function calculateKeizer(int $key, Player $player): float
+    protected function calculateKeizer(Player $player): ?float
     {
-        $currentTiebreaks = $player->getTiebreaks();
-        $currentTiebreaks[$key] = $player->getBinaryData('ScoreAmerican');
-        $player->setTiebreaks($currentTiebreaks);
-        return $currentTiebreaks[$key];
-    }
-
-    /**
-     * @param int $key
-     * @param Player $player
-     * @return float
-     */
-    protected function calculateAmerican(int $key, Player $player): float
-    {
-        $currentTiebreaks = $player->getTiebreaks();
-        $currentTiebreaks[$key] = $player->getBinaryData('ScoreAmerican');
-        $player->setTiebreaks($currentTiebreaks);
-        return $currentTiebreaks[$key];
+        return $player->getBinaryData('ScoreAmerican');
     }
 
 
     /**
-     * @param int $key
      * @param Player $player
-     * @return float
+     * @return float|null
      */
-    protected function calculatePoints(int $key, Player $player): float
+    protected function calculateAmerican(Player $player): ?float
     {
-        $currentTiebreaks = $player->getTiebreaks();
-        $currentTiebreaks[$key] = $player->getBinaryData('Points');
-        $player->setTiebreaks($currentTiebreaks);
-        return $currentTiebreaks[$key];
+        return $player->getBinaryData('ScoreAmerican');
     }
 
 
     /**
-     * @param int $key
      * @param Player $player
-     * @return float
+     * @return float|null
      */
-    protected function calculateBaumbach(int $key, Player $player): float
+    protected function calculatePoints(Player $player): ?float
     {
-        $wonArray = [Result::won, Result::wonadjourned, Result::wonbye, Result::wonforfait];
+        $points = 0;
+        foreach ($player->getPairings() as $pairing) {
+            if (array_search($pairing->getResult(), self::Won) !== false) {
+                $points = $points + 1;
+            } elseif (array_search($pairing->getResult(), self::Draw) !== false) {
+                $points = $points + 0.5;
+            }
+        }
+        return $points;
+    }
+
+
+    /**
+     * @param Player $player
+     * @return float|null
+     */
+    protected function calculateBaumbach(Player $player): ?float
+    {
         $totalwins = 0;
         foreach ($player->getPairings() as $pairing) {
-            if (array_search($pairing->getResult(), $wonArray) !== false) {
+            if (array_search($pairing->getResult(), self::Won) !== false) {
                 $totalwins++;
             }
         }
-        $currentTiebreaks = $player->getTiebreaks();
-        $currentTiebreaks[$key] = $totalwins;
-        $player->setTiebreaks($currentTiebreaks);
-        return $currentTiebreaks[$key];
+        return $totalwins;
+    }
+
+
+    /**
+     * @param Player $player
+     * @return float|null
+     */
+    protected function calculateBlackPlayed(Player $player): ?float
+    {
+        $totalwins = 0;
+        foreach ($player->getPairings() as $pairing) {
+            if (array_search($pairing->getColor(), self::Black) !== false) {
+                $totalwins++;
+            }
+        }
+        return $totalwins;
     }
 
     /**
-     * @param int $key
      * @param Player $player
-     * @return float
+     * @return float|null
      */
-    protected function calculateBlackPlayed(int $key, Player $player): float
+    protected function calculateBlackWin(Player $player): ?float
     {
-        $blackArray = [Color::black];
         $totalwins = 0;
         foreach ($player->getPairings() as $pairing) {
-            if (array_search($pairing->getColor(), $blackArray) !== false) {
+            if (array_search($pairing->getColor(), self::Black) !== false && array_search($pairing->getResult(), Self::Won) !== false) {
                 $totalwins++;
             }
         }
-        $currentTiebreaks = $player->getTiebreaks();
-        $currentTiebreaks[$key] = $totalwins;
-        $player->setTiebreaks($currentTiebreaks);
-        return $currentTiebreaks[$key];
+        return $totalwins;
     }
+
+
     /**
+     * @param Player $player
+     * @param array $opponents
      * @param int $key
+     * @return float|null
+     */
+    protected function calculateMutualResult(Player $player, array $opponents, int $key): ?float
+    {
+        $interestingplayers = $opponents;
+        if ($key != 0) {
+            $interestingplayers = [];
+            foreach ($opponents as $opponent) {
+                if (($opponent->getTiebreaks()[$key - 1] == $player->getTiebreaks()[$key - 1]) && ($player != $opponent)) {
+                    $interestingplayers[] = $opponent;
+                }
+            }
+        }
+        $points = 0;
+        $totalmatches = 0;
+        foreach ($player->getPairings() as $pairing) {
+            if (array_search($pairing->getOpponent(), $interestingplayers) !== false) {
+                if (array_search($pairing->getResult(), self::Won) !== false) {
+                    $points = $points + 1;
+                } elseif (array_search($pairing->getResult(), self::Draw) !== false) {
+                    $points = $points + 0.5;
+                }
+                $totalmatches++;
+            }
+        }
+        if ($totalmatches != count($interestingplayers)) {
+            $points = null;
+        }
+        return $points;
+    }
+
+    /**
      * @param Player $player
      * @return float
      */
-    protected function calculateBlackWin(int $key, Player $player): float
+    protected function calculateAverageRating(Player $player)
     {
-        $wonArray = [Result::won, Result::wonadjourned, Result::wonbye, Result::wonforfait];
-        $blackArray = [Color::black];
-        $totalwins = 0;
-        foreach ($player->getPairings() as $pairing) {
-            if (array_search($pairing->getColor(), $blackArray) !== false && array_search($pairing->getResult(), $wonArray) !== false) {
-                $totalwins++;
+        $pairings = $player->getPairings();
+        $totalrating = 0;
+        $totalopponents = 0;
+        foreach ($pairings as $pairing) {
+            if (array_search($pairing->getResult(), self::NotPlayed) === false) {
+                $toadd = $pairing->getOpponent()->getElos()['home'];
+                if ($toadd != 0) {
+                    $totalrating += $toadd;
+                    $totalopponents++;
+                }
             }
         }
-        $currentTiebreaks = $player->getTiebreaks();
-        $currentTiebreaks[$key] = $totalwins;
-        $player->setTiebreaks($currentTiebreaks);
-        return $currentTiebreaks[$key];
+        return round($totalrating / $totalopponents);
     }
 }
