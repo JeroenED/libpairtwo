@@ -68,7 +68,7 @@ abstract class Player
     }
 
     /**
-     * @return int[]
+     * @return string[]
      */
     public function getIds(): array
     {
@@ -76,7 +76,7 @@ abstract class Player
     }
 
     /**
-     * @param int[] $Ids
+     * @param string[] $Ids
      * @return Player
      */
     public function setIds(array $Ids): Player
