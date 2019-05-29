@@ -306,7 +306,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
             $offset += $length;
 
             $length = 4;
-            $ids['fide'] = $this->readData('Int', substr($swscontents, $offset, $length));
+            $ids['world'] = $this->readData('Int', substr($swscontents, $offset, $length));
             $offset += $length;
 
             $length = 4;
@@ -314,7 +314,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
             $offset += $length;
 
             $length = 4;
-            $elos['kbsb'] = $this->readData('Int', substr($swscontents, $offset, $length));
+            $elos['home'] = $this->readData('Int', substr($swscontents, $offset, $length));
             $offset += $length;
 
             $length = 4;
@@ -322,7 +322,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
             $offset += $length;
 
             $length = 4;
-            $ids['kbsb'] = $this->readData('Int', substr($swscontents, $offset, $length));
+            $ids['home'] = $this->readData('Int', substr($swscontents, $offset, $length));
             $offset += $length;
 
             $length = 4;
@@ -346,7 +346,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
             $offset += $length;
 
             $length = 4;
-            $elos['fide'] = $this->readData('Int', substr($swscontents, $offset, $length));
+            $elos['world'] = $this->readData('Int', substr($swscontents, $offset, $length));
             $offset += $length;
 
             $length = 1;
