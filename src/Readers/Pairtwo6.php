@@ -306,7 +306,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
             $offset += $length;
 
             $length = 4;
-            $ids['world'] = $this->readData('Int', substr($swscontents, $offset, $length));
+            $player->setId('world', $this->readData('Int', substr($swscontents, $offset, $length) . ""));
             $offset += $length;
 
             $length = 4;
@@ -314,7 +314,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
             $offset += $length;
 
             $length = 4;
-            $elos['home'] = $this->readData('Int', substr($swscontents, $offset, $length));
+            $player->setElo('home', $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 4;
@@ -322,7 +322,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
             $offset += $length;
 
             $length = 4;
-            $ids['home'] = $this->readData('Int', substr($swscontents, $offset, $length));
+            $player->setId('home', $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 4;
@@ -330,7 +330,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
             $offset += $length;
 
             $length = 4;
-            $ids['club'] = $this->readData('Int', substr($swscontents, $offset, $length));
+            $player->setId('club', $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 4;
@@ -346,7 +346,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
             $offset += $length;
 
             $length = 4;
-            $elos['world'] = $this->readData('Int', substr($swscontents, $offset, $length));
+            $player->setElo('world', $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 1;
