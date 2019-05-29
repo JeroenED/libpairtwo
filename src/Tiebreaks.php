@@ -9,10 +9,10 @@ use JeroenED\Libpairtwo\Enums\Result;
 
 abstract class Tiebreaks extends Tournament
 {
-
     private const Won = [ Result::won, Result::wonforfait, Result::wonbye, Result::wonadjourned ];
     private const Draw = [ Result::draw, Result::drawadjourned];
     private const Lost = [ Result::absent, Result::bye, Result::lost, Result::adjourned ];
+    private const NotPlayed = [ Result::bye, Result::wonbye, Result::absent ];
     private const Black = [ Color::black ];
     private const White = [ Color::white ];
 
@@ -137,12 +137,24 @@ abstract class Tiebreaks extends Tournament
         return $points;
     }
 
-    protected function calculateAverageRating(Player $player) {
+    /**
+     * @param Player $player
+     * @return float
+     */
+    protected function calculateAverageRating(Player $player)
+    {
         $pairings = $player->getPairings();
         $totalrating = 0;
-        $opponents;
+        $totalopponents = 0;
         foreach ($pairings as $pairing) {
-            if ($pairing->getOpponent()->getElos['national'])
+            if (array_search($pairing->getResult(), self::NotPlayed) === false) {
+                $toadd = $pairing->getOpponent()->getElos()['home'];
+                if ($toadd != 0) {
+                    $totalrating += $toadd;
+                    $totalopponents++;
+                }
+            }
         }
+        return round($totalrating / $totalopponents);
     }
 }

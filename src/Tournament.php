@@ -290,6 +290,9 @@ class Tournament extends Tiebreaks
             case Tiebreak::Between:
                 return $this->calculateMutualResult($player, $this->getPlayers(), $tbkey);
                 break;
+            case Tiebreak::Aro:
+                return $this->calculateAverageRating($player);
+                break;
             default:
                 return null;
         }
