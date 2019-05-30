@@ -144,4 +144,20 @@ abstract class Tiebreaks extends Tournament
         $allratings = array_slice($allratings, $cut);
         return round(array_sum($allratings) / count($allratings));
     }
+
+    /**
+     * @param Player $player
+     * @param int $cut
+     * @return int
+     */
+    protected function calculateKoya(Player $player, int $cut = 50)
+    {
+        $tiebreak = 0;
+        foreach ($player->getPairings() as $plkey=>$plpairing) {
+            if (($plpairing->getOpponent()->getNoOfWins() / count($plpairing->getOpponent()->getPairings()) * 100) >= $cut) {
+                $tiebreak += $plpairing->getOpponent()->getNoOfWins();
+            }
+        }
+        return $tiebreak;
+    }
 }
