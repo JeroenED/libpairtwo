@@ -36,15 +36,7 @@ abstract class Tiebreaks extends Tournament
      */
     protected function calculatePoints(Player $player): ?float
     {
-        $points = 0;
-        foreach ($player->getPairings() as $pairing) {
-            if (array_search($pairing->getResult(), Constants::Won) !== false) {
-                $points = $points + 1;
-            } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
-                $points = $points + 0.5;
-            }
-        }
-        return $points;
+       return $player->getPoints();
     }
 
 
