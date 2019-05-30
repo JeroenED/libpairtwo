@@ -112,8 +112,7 @@ class Player extends PlayerModel
     }
 
     /**
-     * @param Player $player
-     * @return float|null
+     * @return float
      */
     public function getPoints(): float
     {
@@ -130,9 +129,9 @@ class Player extends PlayerModel
 
 
     /**
-     * @return float
+     * @return int
      */
-    public function getPerformance()
+    public function getPerformance(): int
     {
         $total = 0;
         $opponents = 0;

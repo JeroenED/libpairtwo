@@ -128,7 +128,7 @@ abstract class Tiebreaks extends Tournament
      * @param int $cut
      * @return float
      */
-    protected function calculateAverageRating(Player $player, int $cut = 0)
+    protected function calculateAverageRating(Player $player, int $cut = 0): ?float
     {
         $pairings = $player->getPairings();
         $totalrating = 0;
@@ -151,9 +151,9 @@ abstract class Tiebreaks extends Tournament
     /**
      * @param Player $player
      * @param int $cut
-     * @return float
+     * @return float|null
      */
-    protected function calculateAveragePerformance(Player $player, int $cut = 0)
+    protected function calculateAveragePerformance(Player $player, int $cut = 0): ?float
     {
         $pairings = $player->getPairings();
         $allratings = [];
@@ -170,12 +170,13 @@ abstract class Tiebreaks extends Tournament
         return round(array_sum($allratings) / count($allratings));
     }
 
+
     /**
      * @param Player $player
      * @param int $cut
-     * @return int
+     * @return float|null
      */
-    protected function calculateKoya(Player $player, int $cut = 50)
+    protected function calculateKoya(Player $player, int $cut = 50): ?float
     {
         $tiebreak = 0;
         foreach ($player->getPairings() as $plkey => $plpairing) {
@@ -191,9 +192,9 @@ abstract class Tiebreaks extends Tournament
      * @param Player $player
      * @param int $cutlowest
      * @param int $cuthighest
-     * @return int
+     * @return float|null
      */
-    protected function calculateBuchholz(Player $player, int $cutlowest = 0, int $cuthighest = 0)
+    protected function calculateBuchholz(Player $player, int $cutlowest = 0, int $cuthighest = 0): ?float
     {
         $tiebreak = 0;
         $intpairings = $player->getPairings();
@@ -217,9 +218,9 @@ abstract class Tiebreaks extends Tournament
 
     /**
      * @param Player $player
-     * @return float|int|null
+     * @return float|null
      */
-    protected function calculateSonneborn(Player $player)
+    protected function calculateSonneborn(Player $player): ?float
     {
         $tiebreak = 0;
         foreach ($player->getPairings() as $key => $pairing) {
@@ -235,9 +236,9 @@ abstract class Tiebreaks extends Tournament
 
     /**
      * @param Player $player
-     * @return int
+     * @return float|null
      */
-    protected function calculateKashdan(Player $player)
+    protected function calculateKashdan(Player $player): ?float
     {
         $tiebreak = 0;
         foreach ($player->getPairings() as $pairing) {
@@ -260,9 +261,9 @@ abstract class Tiebreaks extends Tournament
 
     /**
      * @param Player $player
-     * @return float|int
+     * @return float|null
      */
-    protected function calculateCumulative(Player $player)
+    protected function calculateCumulative(Player $player): ?float
     {
         $tiebreak = 0;
         foreach ($player->getPairings() as $pairing) {
