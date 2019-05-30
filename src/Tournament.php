@@ -317,6 +317,9 @@ class Tournament extends Tiebreaks
             case Tiebreak::Cumulative:
                 return $this->calculateCumulative($player);
                 break;
+            case Tiebreak::Performance:
+                return $this->calculateAveragePerformance($player);
+                break;
             default:
                 return null;
         }
