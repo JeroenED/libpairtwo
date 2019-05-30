@@ -311,6 +311,9 @@ class Tournament extends Tiebreaks
             case Tiebreak::Sonneborn:
                 return $this->calculateSonneborn($player);
                 break;
+            case Tiebreak::Kashdan:
+                return $this->calculateKashdan($player);
+                break;
             default:
                 return null;
         }

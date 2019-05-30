@@ -206,4 +206,30 @@ abstract class Tiebreaks extends Tournament
         }
         return $tiebreak;
     }
+
+
+    /**
+     * @param Player $player
+     * @return int
+     */
+    protected function calculateKashdan(Player $player)
+    {
+        $tiebreak = 0;
+        foreach ($player->getPairings() as $pairing) {
+            $toadd = 0;
+            if (array_search($pairing->getResult(), Constants::Won) !== false) {
+                $toadd = 3;
+            } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
+                $toadd = 2;
+            } elseif (array_search($pairing->getResult(), Constants::Lost) !== false) {
+                $toadd = 1;
+            }
+
+            if (array_search(Constants::NotPlayed, $pairing->getResult()) !== false) {
+                $toadd = 0;
+            }
+            $tiebreak += $toadd;
+        }
+        return $tiebreak;
+    }
 }
