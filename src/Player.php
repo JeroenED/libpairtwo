@@ -96,4 +96,57 @@ class Player extends PlayerModel
         $this->setIds($currentIds);
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getNoOfWins()
+    {
+        $wins = 0;
+        foreach ($this->getPairings() as $pairing) {
+            if (array_search($pairing->getResult(), Constants::Won) !== false) {
+                $wins++;
+            }
+        }
+        return $wins;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPoints(): float
+    {
+        $points = 0;
+        foreach ($this->getPairings() as $pairing) {
+            if (array_search($pairing->getResult(), Constants::Won) !== false) {
+                $points = $points + 1;
+            } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
+                $points = $points + 0.5;
+            }
+        }
+        return $points;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getPerformance(): int
+    {
+        $total = 0;
+        $opponents = 0;
+        foreach ($this->getPairings() as $pairing) {
+            if (array_search($pairing->getResult(), Constants::Notplayed)) {
+                if (array_search(self::Won, $pairing->getResult())) {
+                    $total += $pairing->getOpponent()->getElo('home') + 400;
+                } elseif (array_search(self::Lost, $pairing->getResult())) {
+                    $total += $pairing->getOpponent()->getElo('home') - 400;
+                } elseif (array_search(self::Draw, $pairing->getResult())) {
+                    $total += $pairing->getOpponent()->getElo('home');
+                }
+                $opponents++;
+            }
+            return round($total / $opponents);
+        }
+    }
 }

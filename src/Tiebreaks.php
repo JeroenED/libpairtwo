@@ -9,13 +9,6 @@ use JeroenED\Libpairtwo\Enums\Result;
 
 abstract class Tiebreaks extends Tournament
 {
-    private const Won = [ Result::won, Result::wonforfait, Result::wonbye, Result::wonadjourned ];
-    private const Draw = [ Result::draw, Result::drawadjourned];
-    private const Lost = [ Result::absent, Result::bye, Result::lost, Result::adjourned ];
-    private const NotPlayed = [ Result::bye, Result::wonbye, Result::absent ];
-    private const Black = [ Color::black ];
-    private const White = [ Color::white ];
-
 
     /**
      * @param Player $player
@@ -43,15 +36,7 @@ abstract class Tiebreaks extends Tournament
      */
     protected function calculatePoints(Player $player): ?float
     {
-        $points = 0;
-        foreach ($player->getPairings() as $pairing) {
-            if (array_search($pairing->getResult(), self::Won) !== false) {
-                $points = $points + 1;
-            } elseif (array_search($pairing->getResult(), self::Draw) !== false) {
-                $points = $points + 0.5;
-            }
-        }
-        return $points;
+        return $player->getPoints();
     }
 
 
@@ -63,7 +48,7 @@ abstract class Tiebreaks extends Tournament
     {
         $totalwins = 0;
         foreach ($player->getPairings() as $pairing) {
-            if (array_search($pairing->getResult(), self::Won) !== false) {
+            if (array_search($pairing->getResult(), Constants::Won) !== false) {
                 $totalwins++;
             }
         }
@@ -79,7 +64,7 @@ abstract class Tiebreaks extends Tournament
     {
         $totalwins = 0;
         foreach ($player->getPairings() as $pairing) {
-            if (array_search($pairing->getColor(), self::Black) !== false) {
+            if (array_search($pairing->getColor(), Constants::Black) !== false) {
                 $totalwins++;
             }
         }
@@ -94,7 +79,7 @@ abstract class Tiebreaks extends Tournament
     {
         $totalwins = 0;
         foreach ($player->getPairings() as $pairing) {
-            if (array_search($pairing->getColor(), self::Black) !== false && array_search($pairing->getResult(), Self::Won) !== false) {
+            if (array_search($pairing->getColor(), Constants::Black) !== false && array_search($pairing->getResult(), Constants::Won) !== false) {
                 $totalwins++;
             }
         }
@@ -123,9 +108,9 @@ abstract class Tiebreaks extends Tournament
         $totalmatches = 0;
         foreach ($player->getPairings() as $pairing) {
             if (array_search($pairing->getOpponent(), $interestingplayers) !== false) {
-                if (array_search($pairing->getResult(), self::Won) !== false) {
+                if (array_search($pairing->getResult(), Constants::Won) !== false) {
                     $points = $points + 1;
-                } elseif (array_search($pairing->getResult(), self::Draw) !== false) {
+                } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
                     $points = $points + 0.5;
                 }
                 $totalmatches++;
@@ -137,18 +122,20 @@ abstract class Tiebreaks extends Tournament
         return $points;
     }
 
+
     /**
      * @param Player $player
+     * @param int $cut
      * @return float
      */
-    protected function calculateAverageRating(Player $player, int $cut = 0)
+    protected function calculateAverageRating(Player $player, int $cut = 0): ?float
     {
         $pairings = $player->getPairings();
         $totalrating = 0;
         $totalopponents = 0;
         $allratings = [];
         foreach ($pairings as $pairing) {
-            if (array_search($pairing->getResult(), self::NotPlayed) === false) {
+            if (array_search($pairing->getResult(), Constants::NotPlayed) === false) {
                 $toadd = $pairing->getOpponent()->getElos()['home'];
                 if ($toadd != 0) {
                     $allratings[] = $toadd;
@@ -158,5 +145,136 @@ abstract class Tiebreaks extends Tournament
         sort($allratings);
         $allratings = array_slice($allratings, $cut);
         return round(array_sum($allratings) / count($allratings));
+    }
+
+
+    /**
+     * @param Player $player
+     * @param int $cut
+     * @return float|null
+     */
+    protected function calculateAveragePerformance(Player $player, int $cut = 0): ?float
+    {
+        $pairings = $player->getPairings();
+        $allratings = [];
+        foreach ($pairings as $pairing) {
+            if (array_search($pairing->getResult(), Constants::NotPlayed) === false) {
+                $toadd = $pairing->getOpponent()->getPerformance();
+                if ($toadd != 0) {
+                    $allratings[] = $toadd;
+                }
+            }
+        }
+        sort($allratings);
+        $allratings = array_slice($allratings, $cut);
+        return round(array_sum($allratings) / count($allratings));
+    }
+
+
+    /**
+     * @param Player $player
+     * @param int $cut
+     * @return float|null
+     */
+    protected function calculateKoya(Player $player, int $cut = 50): ?float
+    {
+        $tiebreak = 0;
+        foreach ($player->getPairings() as $plkey => $plpairing) {
+            if (($plpairing->getOpponent()->getNoOfWins() / count($plpairing->getOpponent()->getPairings()) * 100) >= $cut) {
+                $tiebreak += $plpairing->getOpponent()->getNoOfWins();
+            }
+        }
+        return $tiebreak;
+    }
+
+
+    /**
+     * @param Player $player
+     * @param int $cutlowest
+     * @param int $cuthighest
+     * @return float|null
+     */
+    protected function calculateBuchholz(Player $player, int $cutlowest = 0, int $cuthighest = 0): ?float
+    {
+        $tiebreak = 0;
+        $intpairings = $player->getPairings();
+
+        usort($intpairings, function ($a, $b) {
+            if ($b->getOpponent()->getElo('home') == $a->getOpponent()->getElo('home')) {
+                return 0;
+            }
+            return ($b->getOpponent()->getElo('home') > $a->getOpponent()->getElo('home')) ? 1 : -1;
+        });
+
+        array_splice($intpairings, $cutlowest);
+        array_splice($intpairings, 0 - $cuthighest);
+
+        foreach ($intpairings as $intkey => $intpairing) {
+            $tiebreak += $intpairing->getOpponent()->getPoints();
+        }
+        return $tiebreak;
+    }
+
+
+    /**
+     * @param Player $player
+     * @return float|null
+     */
+    protected function calculateSonneborn(Player $player): ?float
+    {
+        $tiebreak = 0;
+        foreach ($player->getPairings() as $key => $pairing) {
+            if (array_search($pairing->getResult(), Constants::Won) !== false) {
+                $tiebreak += $pairing->getOpponent()->getPoints();
+            } elseif (array_search($pairing->getResult(), Constants::draw) !== false) {
+                $tiebreak += $pairing->getOpponent()->getPoints() / 2;
+            }
+        }
+        return $tiebreak;
+    }
+
+
+    /**
+     * @param Player $player
+     * @return float|null
+     */
+    protected function calculateKashdan(Player $player): ?float
+    {
+        $tiebreak = 0;
+        foreach ($player->getPairings() as $pairing) {
+            $toadd = 0;
+            if (array_search($pairing->getResult(), Constants::Won) !== false) {
+                $toadd = 3;
+            } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
+                $toadd = 2;
+            } elseif (array_search($pairing->getResult(), Constants::Lost) !== false) {
+                $toadd = 1;
+            }
+
+            if (array_search(Constants::NotPlayed, $pairing->getResult()) !== false) {
+                $toadd = 0;
+            }
+            $tiebreak += $toadd;
+        }
+        return $tiebreak;
+    }
+
+    /**
+     * @param Player $player
+     * @return float|null
+     */
+    protected function calculateCumulative(Player $player): ?float
+    {
+        $tiebreak = 0;
+        foreach ($player->getPairings() as $pairing) {
+            $toadd = 0;
+            if (array_search($pairing->getResult(), Constants::Won) !== false) {
+                $toadd = 1;
+            } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
+                $toadd = 0.5;
+            }
+            $tiebreak += $tiebreak + $toadd;
+        }
+        return $tiebreak;
     }
 }
