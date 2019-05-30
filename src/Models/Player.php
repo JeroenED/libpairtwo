@@ -70,7 +70,7 @@ abstract class Player
     /**
      * @return string[]
      */
-    public function getIds(): array
+    public function getIds(): ?array
     {
         return $this->Ids;
     }
@@ -88,7 +88,7 @@ abstract class Player
     /**
      * @return int[]
      */
-    public function getElos(): array
+    public function getElos(): ?array
     {
         return $this->Elos;
     }
