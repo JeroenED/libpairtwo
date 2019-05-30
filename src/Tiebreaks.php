@@ -36,7 +36,7 @@ abstract class Tiebreaks extends Tournament
      */
     protected function calculatePoints(Player $player): ?float
     {
-       return $player->getPoints();
+        return $player->getPoints();
     }
 
 
@@ -157,6 +157,34 @@ abstract class Tiebreaks extends Tournament
             if (($plpairing->getOpponent()->getNoOfWins() / count($plpairing->getOpponent()->getPairings()) * 100) >= $cut) {
                 $tiebreak += $plpairing->getOpponent()->getNoOfWins();
             }
+        }
+        return $tiebreak;
+    }
+
+
+    /**
+     * @param Player $player
+     * @param int $cutlowest
+     * @param int $cuthighest
+     * @return int
+     */
+    protected function calculateBuchholz(Player $player, int $cutlowest = 0, int $cuthighest = 0)
+    {
+        $tiebreak = 0;
+        $intpairings = $player->getPairings();
+
+        usort($intpairings, function ($a, $b) {
+            if ($b->getOpponent()->getElo('home') == $a->getOpponent()->getElo('home')) {
+                return 0;
+            }
+            return ($b->getOpponent()->getElo('home') > $a->getOpponent()->getElo('home')) ? 1 : -1;
+        });
+
+        array_splice($intpairings, $cutlowest);
+        array_splice($intpairings, 0 - $cuthighest);
+
+        foreach ($intpairings as $intkey=>$intpairing) {
+            $tiebreak += $intpairing->getOpponent()->getPoints();
         }
         return $tiebreak;
     }
