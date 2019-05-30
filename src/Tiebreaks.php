@@ -141,20 +141,22 @@ abstract class Tiebreaks extends Tournament
      * @param Player $player
      * @return float
      */
-    protected function calculateAverageRating(Player $player)
+    protected function calculateAverageRating(Player $player, int $cut = 0)
     {
         $pairings = $player->getPairings();
         $totalrating = 0;
         $totalopponents = 0;
+        $allratings = [];
         foreach ($pairings as $pairing) {
             if (array_search($pairing->getResult(), self::NotPlayed) === false) {
                 $toadd = $pairing->getOpponent()->getElos()['home'];
                 if ($toadd != 0) {
-                    $totalrating += $toadd;
-                    $totalopponents++;
+                    $allratings[] = $toadd;
                 }
             }
         }
-        return round($totalrating / $totalopponents);
+        sort($allratings);
+        $allratings = array_slice($allratings, $cut);
+        return round(array_sum($allratings) / count($allratings));
     }
 }
