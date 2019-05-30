@@ -296,6 +296,30 @@ class Tournament extends Tiebreaks
             case Tiebreak::AroCut:
                 return $this->calculateAverageRating($player, 1);
                 break;
+            case Tiebreak::Koya:
+                return $this->calculateKoya($player);
+                break;
+            case Tiebreak::Buchholz:
+                return $this->calculateBuchholz($player);
+                break;
+            case Tiebreak::BuchholzCut:
+                return $this->calculateBuchholz($player, 1);
+                break;
+            case Tiebreak::BuchholzMed:
+                return $this->calculateBuchholz($player, 1, 1);
+                break;
+            case Tiebreak::Sonneborn:
+                return $this->calculateSonneborn($player);
+                break;
+            case Tiebreak::Kashdan:
+                return $this->calculateKashdan($player);
+                break;
+            case Tiebreak::Cumulative:
+                return $this->calculateCumulative($player);
+                break;
+            case Tiebreak::Performance:
+                return $this->calculateAveragePerformance($player);
+                break;
             default:
                 return null;
         }
