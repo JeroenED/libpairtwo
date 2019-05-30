@@ -299,6 +299,15 @@ class Tournament extends Tiebreaks
             case Tiebreak::Koya:
                 return $this->calculateKoya($player);
                 break;
+            case Tiebreak::Buchholz:
+                return $this->calculateBuchholz($player);
+                break;
+            case Tiebreak::BuchholzCut:
+                return $this->calculateBuchholz($player, 1);
+                break;
+            case Tiebreak::BuchholzMed:
+                return $this->calculateBuchholz($player, 1, 1);
+                break;
             default:
                 return null;
         }
