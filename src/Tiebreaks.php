@@ -153,7 +153,7 @@ abstract class Tiebreaks extends Tournament
     protected function calculateKoya(Player $player, int $cut = 50)
     {
         $tiebreak = 0;
-        foreach ($player->getPairings() as $plkey=>$plpairing) {
+        foreach ($player->getPairings() as $plkey => $plpairing) {
             if (($plpairing->getOpponent()->getNoOfWins() / count($plpairing->getOpponent()->getPairings()) * 100) >= $cut) {
                 $tiebreak += $plpairing->getOpponent()->getNoOfWins();
             }
@@ -183,8 +183,26 @@ abstract class Tiebreaks extends Tournament
         array_splice($intpairings, $cutlowest);
         array_splice($intpairings, 0 - $cuthighest);
 
-        foreach ($intpairings as $intkey=>$intpairing) {
+        foreach ($intpairings as $intkey => $intpairing) {
             $tiebreak += $intpairing->getOpponent()->getPoints();
+        }
+        return $tiebreak;
+    }
+
+
+    /**
+     * @param Player $player
+     * @return float|int|null
+     */
+    protected function calculateSonneborn(Player $player)
+    {
+        $tiebreak = 0;
+        foreach ($player->getPairings() as $key => $pairing) {
+            if (array_search($pairing->getResult(), Constants::Won) !== false) {
+                $tiebreak += $pairing->getOpponent()->getPoints();
+            } elseif (array_search($pairing->getResult(), Constants::draw) !== false) {
+                $tiebreak += $pairing->getOpponent()->getPoints() / 2;
+            }
         }
         return $tiebreak;
     }

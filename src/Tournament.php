@@ -308,6 +308,9 @@ class Tournament extends Tiebreaks
             case Tiebreak::BuchholzMed:
                 return $this->calculateBuchholz($player, 1, 1);
                 break;
+            case Tiebreak::Sonneborn:
+                return $this->calculateSonneborn($player);
+                break;
             default:
                 return null;
         }
