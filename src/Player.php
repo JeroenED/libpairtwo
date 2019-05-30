@@ -96,4 +96,35 @@ class Player extends PlayerModel
         $this->setIds($currentIds);
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getNoOfWins()
+    {
+        $wins = 0;
+        foreach ($this->getPairings() as $pairing) {
+            if (array_search($pairing->getResult(), Constants::Won) !== false) {
+                $wins++;
+            }
+        }
+        return $wins;
+    }
+
+    /**
+     * @param Player $player
+     * @return float|null
+     */
+    public function getPoints(): float
+    {
+        $points = 0;
+        foreach ($this->getPairings() as $pairing) {
+            if (array_search($pairing->getResult(), Constants::Won) !== false) {
+                $points = $points + 1;
+            } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
+                $points = $points + 0.5;
+            }
+        }
+        return $points;
+    }
 }
