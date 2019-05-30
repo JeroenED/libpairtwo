@@ -9,13 +9,6 @@ use JeroenED\Libpairtwo\Enums\Result;
 
 abstract class Tiebreaks extends Tournament
 {
-    private const Won = [ Result::won, Result::wonforfait, Result::wonbye, Result::wonadjourned ];
-    private const Draw = [ Result::draw, Result::drawadjourned];
-    private const Lost = [ Result::absent, Result::bye, Result::lost, Result::adjourned ];
-    private const NotPlayed = [ Result::bye, Result::wonbye, Result::absent ];
-    private const Black = [ Color::black ];
-    private const White = [ Color::white ];
-
 
     /**
      * @param Player $player
@@ -45,9 +38,9 @@ abstract class Tiebreaks extends Tournament
     {
         $points = 0;
         foreach ($player->getPairings() as $pairing) {
-            if (array_search($pairing->getResult(), self::Won) !== false) {
+            if (array_search($pairing->getResult(), Constants::Won) !== false) {
                 $points = $points + 1;
-            } elseif (array_search($pairing->getResult(), self::Draw) !== false) {
+            } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
                 $points = $points + 0.5;
             }
         }
@@ -63,7 +56,7 @@ abstract class Tiebreaks extends Tournament
     {
         $totalwins = 0;
         foreach ($player->getPairings() as $pairing) {
-            if (array_search($pairing->getResult(), self::Won) !== false) {
+            if (array_search($pairing->getResult(), Constants::Won) !== false) {
                 $totalwins++;
             }
         }
@@ -79,7 +72,7 @@ abstract class Tiebreaks extends Tournament
     {
         $totalwins = 0;
         foreach ($player->getPairings() as $pairing) {
-            if (array_search($pairing->getColor(), self::Black) !== false) {
+            if (array_search($pairing->getColor(), Constants::Black) !== false) {
                 $totalwins++;
             }
         }
@@ -94,7 +87,7 @@ abstract class Tiebreaks extends Tournament
     {
         $totalwins = 0;
         foreach ($player->getPairings() as $pairing) {
-            if (array_search($pairing->getColor(), self::Black) !== false && array_search($pairing->getResult(), Self::Won) !== false) {
+            if (array_search($pairing->getColor(), Constants::Black) !== false && array_search($pairing->getResult(), Constants::Won) !== false) {
                 $totalwins++;
             }
         }
@@ -123,9 +116,9 @@ abstract class Tiebreaks extends Tournament
         $totalmatches = 0;
         foreach ($player->getPairings() as $pairing) {
             if (array_search($pairing->getOpponent(), $interestingplayers) !== false) {
-                if (array_search($pairing->getResult(), self::Won) !== false) {
+                if (array_search($pairing->getResult(), Constants::Won) !== false) {
                     $points = $points + 1;
-                } elseif (array_search($pairing->getResult(), self::Draw) !== false) {
+                } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
                     $points = $points + 0.5;
                 }
                 $totalmatches++;
@@ -148,7 +141,7 @@ abstract class Tiebreaks extends Tournament
         $totalopponents = 0;
         $allratings = [];
         foreach ($pairings as $pairing) {
-            if (array_search($pairing->getResult(), self::NotPlayed) === false) {
+            if (array_search($pairing->getResult(), Constants::NotPlayed) === false) {
                 $toadd = $pairing->getOpponent()->getElos()['home'];
                 if ($toadd != 0) {
                     $allratings[] = $toadd;
