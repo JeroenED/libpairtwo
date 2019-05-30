@@ -264,7 +264,7 @@ class Tournament extends Tiebreaks
 
 
     /**
-     * @return float|bool
+     * @return float|null
      */
     private function calculateTiebreak(Tiebreak $tiebreak, Player $player, int $tbkey = 0): ?float
     {
@@ -292,6 +292,9 @@ class Tournament extends Tiebreaks
                 break;
             case Tiebreak::Aro:
                 return $this->calculateAverageRating($player);
+                break;
+            case Tiebreak::AroCut:
+                return $this->calculateAverageRating($player, 1);
                 break;
             default:
                 return null;
