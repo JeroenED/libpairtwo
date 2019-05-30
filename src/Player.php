@@ -127,4 +127,27 @@ class Player extends PlayerModel
         }
         return $points;
     }
+
+
+    /**
+     * @return float
+     */
+    public function getPerformance()
+    {
+        $total = 0;
+        $opponents = 0;
+        foreach ($this->getPairings() as $pairing) {
+            if (array_search($pairing->getResult(), Constants::Notplayed)) {
+                if (array_search(self::Won, $pairing->getResult())) {
+                    $total += $pairing->getOpponent()->getElo('home') + 400;
+                } elseif (array_search(self::Lost, $pairing->getResult())) {
+                    $total += $pairing->getOpponent()->getElo('home') - 400;
+                } elseif (array_search(self::Draw, $pairing->getResult())) {
+                    $total += $pairing->getOpponent()->getElo('home');
+                }
+                $opponents++;
+            }
+            return round($total / $opponents);
+        }
+    }
 }
