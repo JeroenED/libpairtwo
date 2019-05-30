@@ -458,8 +458,6 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
             $player->setBinaryData("TieMatch", $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
-            $player->setElos($elos);
-            $player->setIds($ids);
             $this->getTournament()->addPlayer($player);
         }
         // PlayerNames

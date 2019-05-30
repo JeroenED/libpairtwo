@@ -264,7 +264,7 @@ class Tournament extends Tiebreaks
 
 
     /**
-     * @return float|bool
+     * @return float|null
      */
     private function calculateTiebreak(Tiebreak $tiebreak, Player $player, int $tbkey = 0): ?float
     {
