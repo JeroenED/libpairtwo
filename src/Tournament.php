@@ -314,6 +314,9 @@ class Tournament extends Tiebreaks
             case Tiebreak::Kashdan:
                 return $this->calculateKashdan($player);
                 break;
+            case Tiebreak::Cumulative:
+                return $this->calculateCumulative($player);
+                break;
             default:
                 return null;
         }

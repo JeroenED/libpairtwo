@@ -232,4 +232,23 @@ abstract class Tiebreaks extends Tournament
         }
         return $tiebreak;
     }
+
+    /**
+     * @param Player $player
+     * @return float|int
+     */
+    protected function calculateCumulative(Player $player)
+    {
+        $tiebreak = 0;
+        foreach ($player->getPairings() as $pairing) {
+            $toadd = 0;
+            if (array_search($pairing->getResult(), Constants::Won) !== false) {
+                $toadd = 1;
+            } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
+                $toadd = 0.5;
+            }
+            $tiebreak += $tiebreak + $toadd;
+        }
+        return $tiebreak;
+    }
 }
