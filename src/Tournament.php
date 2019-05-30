@@ -296,6 +296,9 @@ class Tournament extends Tiebreaks
             case Tiebreak::AroCut:
                 return $this->calculateAverageRating($player, 1);
                 break;
+            case Tiebreak::Koya:
+                return $this->calculateKoya($player);
+                break;
             default:
                 return null;
         }
