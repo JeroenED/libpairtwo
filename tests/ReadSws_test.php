@@ -46,12 +46,12 @@ echo "Place:        " . $sws->getTournament()->getOrganiserPlace() . PHP_EOL;
 echo "Unrated-Elo:  " . $sws->getTournament()->getNonRatedElo() . PHP_EOL;
 echo "Federation:   " . $sws->getTournament()->getFederation() . PHP_EOL;
 echo "Organiser:    " . $sws->getTournament()->getOrganiserClubNo() . PHP_EOL;
-echo "Fide Elo P1:  " . $sws->getTournament()->getPlayerById(0)->getElos()['world'] . PHP_EOL;
-echo "Fide Elo P2:  " . $sws->getTournament()->getPlayerById(1)->getElos()['world'] . PHP_EOL;
-echo "Fide Elo P3:  " . $sws->getTournament()->getPlayerById(2)->getElos()['world'] . PHP_EOL;
-echo "KBSB Elo P1:  " . $sws->getTournament()->getPlayerById(0)->getElos()['home'] . PHP_EOL;
-echo "KBSB Elo P2:  " . $sws->getTournament()->getPlayerById(1)->getElos()['home'] . PHP_EOL;
-echo "KBSB Elo P3:  " . $sws->getTournament()->getPlayerById(2)->getElos()['home'] . PHP_EOL;
+echo "Fide Elo P1:  " . $sws->getTournament()->getPlayerById(0)->getElo('Fide') . PHP_EOL;
+echo "Fide Elo P2:  " . $sws->getTournament()->getPlayerById(1)->getElo('Fide') . PHP_EOL;
+echo "Fide Elo P3:  " . $sws->getTournament()->getPlayerById(2)->getElo('Fide') . PHP_EOL;
+echo "KBSB Elo P1:  " . $sws->getTournament()->getPlayerById(0)->getElo('Nation') . PHP_EOL;
+echo "KBSB Elo P2:  " . $sws->getTournament()->getPlayerById(1)->getElo('Nation') . PHP_EOL;
+echo "KBSB Elo P3:  " . $sws->getTournament()->getPlayerById(2)->getElo('Nation') . PHP_EOL;
 echo "Name P1:      " . $sws->getTournament()->getPlayerById(0)->getName() . PHP_EOL;
 echo "Name P2:      " . $sws->getTournament()->getPlayerById(1)->getName() . PHP_EOL;
 echo "Name P3:      " . $sws->getTournament()->getPlayerById(2)->getName() . PHP_EOL;
@@ -75,5 +75,5 @@ echo "Tiebreak 2:   " . $sws->getTournament()->getTiebreaks()[1]->getValue() . P
 echo "Tiebreak 3:   " . $sws->getTournament()->getTiebreaks()[2]->getValue() . PHP_EOL;
 echo "Average Elo:  " . $sws->getTournament()->getAverageElo() . PHP_EOL;
 foreach ($sws->getTournament()->getRanking() as $player) {
-    echo $player->getName() . '(' . $player->getElos()['home'] . ') ' . implode(' ', $player->getTiebreaks()) . PHP_EOL;
+    echo $player->getName() . '(' . $player->getElo($sws->getTournament()->getPriorityElo()) . ') ' . implode(' ', $player->getTiebreaks()) . PHP_EOL;
 }

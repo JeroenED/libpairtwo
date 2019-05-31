@@ -335,7 +335,7 @@ class Tournament extends Tiebreaks
         $totalrating = 0;
         $players = 0;
         foreach ($this->getPlayers() as $player) {
-            $toadd = $player->getElos()['home'];
+            $toadd = $player->getElo($this->getPriorityElo());
             if ($toadd == 0) {
                 $toadd = $this->getNonRatedElo();
             }

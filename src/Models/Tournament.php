@@ -107,6 +107,12 @@ abstract class Tournament
     /** @var Tiebreak[] */
     private $Tiebreaks = [];
 
+    /** @var string */
+    private $PriorityElo = 'Fide';
+
+    /** @var string */
+    private $PriorityId = 'Nation';
+
     /**
      * @return string
      */
@@ -518,6 +524,41 @@ abstract class Tournament
     public function setTiebreaks(array $Tiebreaks): Tournament
     {
         $this->Tiebreaks = $Tiebreaks;
+        return $this;
+    }
+
+    /**
+      * @return string
+      */
+    public function getPriorityElo(): string
+    {
+        return $this->PriorityElo;
+    }
+
+    /**
+     * @param string $PriorityElo
+     * @return Tournament
+     */
+    public function setPriorityElo(string $PriorityElo): Tournament
+    {
+        $this->PriorityElo = $PriorityElo;
+        return $this;
+    }
+    /**
+       * @return string
+       */
+    public function getPriorityId(): string
+    {
+        return $this->PriorityId;
+    }
+
+    /**
+     * @param string $PriorityId
+     * @return Tournament
+     */
+    public function setPriorityId(string $PriorityId): Tournament
+    {
+        $this->PriorityId = $PriorityId;
         return $this;
     }
 }
