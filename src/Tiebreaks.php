@@ -136,7 +136,7 @@ abstract class Tiebreaks extends Tournament
         $allratings = [];
         foreach ($pairings as $pairing) {
             if (array_search($pairing->getResult(), Constants::NotPlayed) === false) {
-                $toadd = $pairing->getOpponent()->getElos()['home'];
+                $toadd = $pairing->getOpponent()->getElo('Nation');
                 if ($toadd != 0) {
                     $allratings[] = $toadd;
                 }
@@ -159,7 +159,7 @@ abstract class Tiebreaks extends Tournament
         $allratings = [];
         foreach ($pairings as $pairing) {
             if (array_search($pairing->getResult(), Constants::NotPlayed) === false) {
-                $toadd = $pairing->getOpponent()->getPerformance();
+                $toadd = $pairing->getOpponent()->getPerformance('Nation');
                 if ($toadd != 0) {
                     $allratings[] = $toadd;
                 }
@@ -200,10 +200,17 @@ abstract class Tiebreaks extends Tournament
         $intpairings = $player->getPairings();
 
         usort($intpairings, function ($a, $b) {
-            if ($b->getOpponent()->getElo('home') == $a->getOpponent()->getElo('home')) {
+            if (is_null($a->getOpponent())) {
+                return -1;
+            }
+            if (is_null($b->getOpponent())) {
+                return 1;
+            }
+        
+            if ($b->getOpponent()->getElo('Nation') == $a->getOpponent()->getElo('Nation')) {
                 return 0;
             }
-            return ($b->getOpponent()->getElo('home') > $a->getOpponent()->getElo('home')) ? 1 : -1;
+            return ($b->getOpponent()->getElo('Nation') > $a->getOpponent()->getElo('Nation')) ? 1 : -1;
         });
 
         array_splice($intpairings, $cutlowest);
@@ -224,10 +231,12 @@ abstract class Tiebreaks extends Tournament
     {
         $tiebreak = 0;
         foreach ($player->getPairings() as $key => $pairing) {
-            if (array_search($pairing->getResult(), Constants::Won) !== false) {
-                $tiebreak += $pairing->getOpponent()->getPoints();
-            } elseif (array_search($pairing->getResult(), Constants::draw) !== false) {
-                $tiebreak += $pairing->getOpponent()->getPoints() / 2;
+            if ($pairing->getOpponent()) {
+                if (array_search($pairing->getResult(), Constants::Won) !== false) {
+                    $tiebreak += $pairing->getOpponent()->getPoints();
+                } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
+                    $tiebreak += $pairing->getOpponent()->getPoints() / 2;
+                }
             }
         }
         return $tiebreak;

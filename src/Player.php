@@ -137,7 +137,7 @@ class Player extends PlayerModel
         $opponents = 0;
         foreach ($this->getPairings() as $pairing) {
             if (array_search($pairing->getResult(), Constants::Notplayed)) {
-                $opponentElo = $pairing->getOpponent()->getElo('home');
+                $opponentElo = $pairing->getOpponent()->getElo('Nation');
                 $opponentElo = $opponentElo != 0 ? $opponentElo : $this->getUnratedElo();
                 if (array_search(self::Won, $pairing->getResult())) {
                     $total += $opponentElo + 400;

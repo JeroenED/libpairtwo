@@ -306,7 +306,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
             $offset += $length;
 
             $length = 4;
-            $player->setId('world', $this->readData('Int', substr($swscontents, $offset, $length) . ""));
+            $player->setId('Fide', $this->readData('Int', substr($swscontents, $offset, $length) . ""));
             $offset += $length;
 
             $length = 4;
@@ -314,7 +314,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
             $offset += $length;
 
             $length = 4;
-            $player->setElo('home', $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setElo('Nation', $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 4;
@@ -322,7 +322,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
             $offset += $length;
 
             $length = 4;
-            $player->setId('home', $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setId('Nation', $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 4;
@@ -330,7 +330,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
             $offset += $length;
 
             $length = 4;
-            $player->setId('club', $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setId('Club', $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 4;
@@ -346,7 +346,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
             $offset += $length;
 
             $length = 4;
-            $player->setElo('world', $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setElo('Fide', $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 1;
