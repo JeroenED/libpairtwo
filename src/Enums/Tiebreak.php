@@ -20,6 +20,7 @@ class Tiebreak extends Enum
     const Between = "Mutual Result";
     const Koya = "Koya";
     const Baumbach = "Most wins"; // Ref: https://en.wikipedia.org/wiki/Tie-breaking_in_Swiss-system_tournaments#Most_wins_(Baumbach) Please tell me why?
+    const AveragePerformance = "Average performance";
     const Performance = "Performance";
     const Aro = "Average Rating";
     const AroCut = "Average Rating Cut";
