@@ -131,13 +131,13 @@ class Player extends PlayerModel
     /**
      * @return int
      */
-    public function getPerformance(): int
+    public function getPerformance(string $type) : int
     {
         $total = 0;
         $opponents = 0;
         foreach ($this->getPairings() as $pairing) {
             if (array_search($pairing->getResult(), Constants::Notplayed)) {
-                $opponentElo = $pairing->getOpponent()->getElo('Nation');
+                $opponentElo = $pairing->getOpponent()->getElo($type);
                 $opponentElo = $opponentElo != 0 ? $opponentElo : $this->getUnratedElo();
                 if (array_search(self::Won, $pairing->getResult())) {
                     $total += $opponentElo + 400;

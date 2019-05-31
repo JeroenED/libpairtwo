@@ -291,10 +291,10 @@ class Tournament extends Tiebreaks
                 return $this->calculateMutualResult($player, $this->getPlayers(), $tbkey);
                 break;
             case Tiebreak::Aro:
-                return $this->calculateAverageRating($player);
+                return $this->calculateAverageRating($player, $this->getPriorityElo());
                 break;
             case Tiebreak::AroCut:
-                return $this->calculateAverageRating($player, 1);
+                return $this->calculateAverageRating($player, $this->getPriorityElo(), 1);
                 break;
             case Tiebreak::Koya:
                 return $this->calculateKoya($player);
@@ -318,7 +318,7 @@ class Tournament extends Tiebreaks
                 return $this->calculateCumulative($player);
                 break;
             case Tiebreak::AveragePerformance:
-                return $this->calculateAveragePerformance($player);
+                return $this->calculateAveragePerformance($player, $this->getPriorityElo());
                 break;
             case Tiebreak::Performance:
                 return $player->getPerformance($this->getPriorityElo());

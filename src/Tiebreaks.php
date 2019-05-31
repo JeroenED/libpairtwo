@@ -128,15 +128,13 @@ abstract class Tiebreaks extends Tournament
      * @param int $cut
      * @return float
      */
-    protected function calculateAverageRating(Player $player, int $cut = 0): ?float
+    protected function calculateAverageRating(Player $player, string $type, int $cut = 0): ?float
     {
         $pairings = $player->getPairings();
-        $totalrating = 0;
-        $totalopponents = 0;
         $allratings = [];
         foreach ($pairings as $pairing) {
             if (array_search($pairing->getResult(), Constants::NotPlayed) === false) {
-                $toadd = $pairing->getOpponent()->getElo('Nation');
+                $toadd = $pairing->getOpponent()->getElo($type);
                 if ($toadd != 0) {
                     $allratings[] = $toadd;
                 }
@@ -153,13 +151,13 @@ abstract class Tiebreaks extends Tournament
      * @param int $cut
      * @return float|null
      */
-    protected function calculateAveragePerformance(Player $player, int $cut = 0): ?float
+    protected function calculateAveragePerformance(Player $player, string $type, int $cut = 0): ?float
     {
         $pairings = $player->getPairings();
         $allratings = [];
         foreach ($pairings as $pairing) {
             if (array_search($pairing->getResult(), Constants::NotPlayed) === false) {
-                $toadd = $pairing->getOpponent()->getPerformance('Nation');
+                $toadd = $pairing->getOpponent()->getPerformance($type);
                 if ($toadd != 0) {
                     $allratings[] = $toadd;
                 }
