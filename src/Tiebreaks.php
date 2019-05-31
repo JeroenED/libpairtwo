@@ -213,8 +213,8 @@ abstract class Tiebreaks extends Tournament
             return ($b->getOpponent()->getElo('Nation') > $a->getOpponent()->getElo('Nation')) ? 1 : -1;
         });
 
-        array_splice($intpairings, $cutlowest);
-        array_splice($intpairings, 0 - $cuthighest);
+        array_slice($intpairings, $cutlowest);
+        array_slice($intpairings, 0 - $cuthighest);
 
         foreach ($intpairings as $intkey => $intpairing) {
             $tiebreak += $intpairing->getOpponent()->getPoints();

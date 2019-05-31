@@ -73,7 +73,18 @@ echo "Player Pairing 3: " . $sws->getTournament()->getPairings()[2]->getPlayer()
 echo "Tiebreak 1:   " . $sws->getTournament()->getTiebreaks()[0]->getValue() . PHP_EOL;
 echo "Tiebreak 2:   " . $sws->getTournament()->getTiebreaks()[1]->getValue() . PHP_EOL;
 echo "Tiebreak 3:   " . $sws->getTournament()->getTiebreaks()[2]->getValue() . PHP_EOL;
+echo "Tiebreak 4:   " . $sws->getTournament()->getTiebreaks()[3]->getValue() . PHP_EOL;
+echo "Tiebreak 5:   " . $sws->getTournament()->getTiebreaks()[4]->getValue() . PHP_EOL;
+echo "Tiebreak 6:   " . $sws->getTournament()->getTiebreaks()[5]->getValue() . PHP_EOL;
 echo "Average Elo:  " . $sws->getTournament()->getAverageElo() . PHP_EOL;
 foreach ($sws->getTournament()->getRanking() as $player) {
-    echo $player->getName() . '(' . $player->getElo($sws->getTournament()->getPriorityElo()) . ') ' . implode(' ', $player->getTiebreaks()) . PHP_EOL;
+	echo str_pad($player->getName() . '(' . $player->getElo($sws->getTournament()->getPriorityElo()) . ') ', 35) . implode_pad(' ', $player->getTiebreaks(), 5,' ') . PHP_EOL;
+}
+
+function implode_pad ($glue, $collection, $padlength, $padstring): string {
+	$newarray = [];
+	foreach ($collection as $elem) {
+		$newarray[] = str_pad($elem, $padlength, $padstring);
+	}
+	return implode($glue, $newarray);
 }
