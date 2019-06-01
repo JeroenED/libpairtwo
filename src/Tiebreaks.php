@@ -259,17 +259,17 @@ abstract class Tiebreaks extends Tournament
             if (array_search($pairing->getResult(), Constants::Won) !== false) {
                 $toadd = 3;
             } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
-                $toadd = 2;
-            } elseif (array_search($pairing->getResult(), Constants::Lost) !== false) {
                 $toadd = 1;
+            } elseif (array_search($pairing->getResult(), Constants::Lost) !== false) {
+                $toadd = 0;
             }
 
-            if (array_search(Constants::NotPlayed, $pairing->getResult()) !== false) {
-                $toadd = 0;
+            if (array_search($pairing->getResult(), Constants::NotPlayed) !== false) {
+                $toadd = -1;
             }
             $tiebreak += $toadd;
         }
-        return $tiebreak;
+        return $tiebreak; // - $player->getNoOfWins();
     }
 
     /**
