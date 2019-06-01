@@ -231,7 +231,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
                     $tiebreak = Tiebreak::BuchholzMed;
                     break;
                 case 3:
-                    $tiebreak = Tiebreak::BuchholzMed;
+                    $tiebreak = Tiebreak::BuchholzCut;
                     break;
                 case 4:
                     $tiebreak = Tiebreak::Sonneborn;
