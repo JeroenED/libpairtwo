@@ -131,24 +131,24 @@ class Player extends PlayerModel
     /**
      * @return int
      */
-    public function getPerformance(string $type) : int
+    public function getPerformance(string $type, int $unratedElo) : float
     {
         $total = 0;
         $opponents = 0;
         foreach ($this->getPairings() as $pairing) {
-            if (array_search($pairing->getResult(), Constants::Notplayed)) {
+            if (array_search($pairing->getResult(), Constants::NotPlayed) === false) {
                 $opponentElo = $pairing->getOpponent()->getElo($type);
-                $opponentElo = $opponentElo != 0 ? $opponentElo : $this->getUnratedElo();
-                if (array_search(self::Won, $pairing->getResult())) {
+                $opponentElo = $opponentElo != 0 ? $opponentElo : $unratedElo;
+                if (array_search($pairing->getResult(), Constants::Won) !== false) {
                     $total += $opponentElo + 400;
-                } elseif (array_search(self::Lost, $pairing->getResult())) {
+                } elseif (array_search($pairing->getResult(), Constants::Lost) !== false) {
                     $total += $opponentElo - 400;
-                } elseif (array_search(self::Draw, $pairing->getResult())) {
+                } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
                     $total += $opponentElo;
                 }
                 $opponents++;
             }
-            return round($total / $opponents);
         }
+        return round($total / $opponents);
     }
 }
