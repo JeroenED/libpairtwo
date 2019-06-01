@@ -215,8 +215,9 @@ abstract class Tiebreaks extends Tournament
         array_slice($intpairings, 0 - $cuthighest);
 
         foreach ($intpairings as $intkey => $intpairing) {
-            $tiebreak += $intpairing->getOpponent()->getPoints();
-        }
+		if(!is_null($intpairing->getOpponent())){
+		$tiebreak += $intpairing->getOpponent()->getPoints();
+        }}
         return $tiebreak;
     }
 
