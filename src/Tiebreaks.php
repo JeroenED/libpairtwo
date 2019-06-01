@@ -178,8 +178,12 @@ abstract class Tiebreaks extends Tournament
     {
         $tiebreak = 0;
         foreach ($player->getPairings() as $plkey => $plpairing) {
-            if (($plpairing->getOpponent()->getNoOfWins() / count($plpairing->getOpponent()->getPairings()) * 100) >= $cut) {
-                $tiebreak += $plpairing->getOpponent()->getNoOfWins();
+            if (($plpairing->getOpponent()->getPoints() / count($plpairing->getOpponent()->getPairings()) * 100) >= $cut) {
+                if (array_search($plpairing->getResult(), Constants::Won) !== false) {
+                    $tiebreak += 1;
+                } elseif (array_search($plpairing->getResult(), Constants::Draw) !== false) {
+                    $tiebreak += 0.5;
+                }
             }
         }
         return $tiebreak;
@@ -214,8 +218,7 @@ abstract class Tiebreaks extends Tournament
         $intpairings = array_slice($intpairings, $cutlowest);
         $intpairings = array_slice($intpairings, 0, 0 - $cuthighest);
 
-	foreach ($intpairings as $intkey => $intpairing) {
-		echo $tiebreak . PHP_EOL;
+        foreach ($intpairings as $intkey => $intpairing) {
             if (!is_null($intpairing->getOpponent())) {
                 $tiebreak += $intpairing->getOpponent()->getPoints();
             }
