@@ -79,7 +79,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
 
         $this->setTournament(new Tournament());
         $this->getTournament()->setPriorityElo('Nation');
-	$this->getTournament()->setPriorityId('Nation');
+        $this->getTournament()->setPriorityId('Nation');
         // UserCountry
         $length = 4;
         $this->setBinaryData("UserCountry", $this->readData('Int', substr($swscontents, $offset, $length)));

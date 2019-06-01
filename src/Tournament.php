@@ -321,7 +321,7 @@ class Tournament extends Tiebreaks
                 return $this->calculateAveragePerformance($player, $this->getPriorityElo());
                 break;
             case Tiebreak::Performance:
-                return $player->getPerformance($this->getPriorityElo());
+                return $player->getPerformance($this->getPriorityElo(), $this->getNonRatedElo());
                 break;
             default:
                 return null;

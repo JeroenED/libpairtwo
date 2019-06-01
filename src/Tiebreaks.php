@@ -157,7 +157,7 @@ abstract class Tiebreaks extends Tournament
         $allratings = [];
         foreach ($pairings as $pairing) {
             if (array_search($pairing->getResult(), Constants::NotPlayed) === false) {
-                $toadd = $pairing->getOpponent()->getPerformance($type);
+                $toadd = $pairing->getOpponent()->getPerformance($type, $this->getNonRatedElo());
                 if ($toadd != 0) {
                     $allratings[] = $toadd;
                 }
@@ -215,9 +215,10 @@ abstract class Tiebreaks extends Tournament
         array_slice($intpairings, 0 - $cuthighest);
 
         foreach ($intpairings as $intkey => $intpairing) {
-		if(!is_null($intpairing->getOpponent())){
-		$tiebreak += $intpairing->getOpponent()->getPoints();
-        }}
+            if (!is_null($intpairing->getOpponent())) {
+                $tiebreak += $intpairing->getOpponent()->getPoints();
+            }
+        }
         return $tiebreak;
     }
 
