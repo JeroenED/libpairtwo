@@ -279,6 +279,7 @@ abstract class Tiebreaks extends Tournament
     protected function calculateCumulative(Player $player): ?float
     {
         $tiebreak = 0;
+        $score = [];
         foreach ($player->getPairings() as $pairing) {
             $toadd = 0;
             if (array_search($pairing->getResult(), Constants::Won) !== false) {
@@ -286,8 +287,9 @@ abstract class Tiebreaks extends Tournament
             } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
                 $toadd = 0.5;
             }
-            $tiebreak += $tiebreak + $toadd;
+            $tiebreak += $toadd;
+            $score[] = $tiebreak;
         }
-        return $tiebreak;
+        return array_sum($score);
     }
 }
