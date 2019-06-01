@@ -8,10 +8,10 @@
 
 namespace JeroenED\Libpairtwo;
 
-use JeroenED\Libpairtwo\Models\Tournament as TournamentModel;
+use JeroenED\Libpairtwo\Enums\Tiebreak;
 use JeroenED\Libpairtwo\Enums\Color;
 
-class Tournament extends TournamentModel
+class Tournament extends Tiebreaks
 {
     /**
      * Gets a player by its ID
@@ -47,6 +47,18 @@ class Tournament extends TournamentModel
         $newArray = $this->GetPlayers();
         $newArray[$id] = $player;
         $this->setPlayers($newArray);
+    }
+
+    /**
+     * Adds a Tiebreak
+     *
+     * @param Tiebreak $tiebreak
+     */
+    public function addTiebreak(Tiebreak $tiebreak)
+    {
+        $newArray = $this->getTiebreaks();
+        $newArray[] = $tiebreak;
+        $this->setTiebreaks($newArray);
     }
 
     /**
@@ -190,35 +202,150 @@ class Tournament extends TournamentModel
     /**
      * Gets the ranking of the tournament
      *
-     * @param bool $americansort
      * @return Player[]
      */
-    public function getRanking(bool $americansort = false)
+    public function getRanking()
     {
         $players = $this->getPlayers();
-
-        $americansort ? usort($players, array($this, "SortAmerican")) : usort($players, array($this, "SortNormal"));
-
-        return $players;
+        foreach ($this->getTiebreaks() as $tbkey=>$tiebreak) {
+            foreach ($players as $pkey => $player) {
+                $break = $this->calculateTiebreak($tiebreak, $player, $tbkey);
+                $tiebreaks = $player->getTiebreaks();
+                $tiebreaks[$tbkey] = $break;
+                $player->setTiebreaks($tiebreaks);
+                $this->updatePlayer($pkey, $player);
+            }
+        }
+        $sortedplayers[0] = $players;
+        foreach ($this->getTiebreaks() as $tbkey=>$tiebreak) {
+            $newgroupkey = 0;
+            $tosortplayers = $sortedplayers;
+            $sortedplayers = [];
+            foreach ($tosortplayers as $groupkey=>$sortedplayerselem) {
+                usort($tosortplayers[$groupkey], $this->SortTiebreak($tbkey));
+                foreach ($tosortplayers[$groupkey] as $playerkey => $player) {
+                    if (!is_null($player->getTiebreaks()[$tbkey])) {
+                        if ($playerkey != 0) {
+                            $newgroupkey++;
+                            if ($player->getTiebreaks()[$tbkey] == $tosortplayers[$groupkey][$playerkey - 1]->getTiebreaks()[$tbkey]) {
+                                $newgroupkey--;
+                            }
+                        }
+                    }
+                    $sortedplayers[$newgroupkey][] = $player;
+                }
+                $newgroupkey++;
+            }
+        }
+        $finalarray = [];
+        foreach ($sortedplayers as $sort1) {
+            foreach ($sort1 as $player) {
+                $finalarray[] = $player;
+            }
+        }
+        return $finalarray;
     }
 
     /**
      * @param Player $a
      * @param Player $b
-     * @return int
+     * @return \Closure
      */
-    private function sortNormal(Player $a, Player $b)
+
+    private function sortTiebreak(int $key)
     {
-        return $b->getPoints() - $a->getPoints();
+        return function (Player $a, Player $b) use ($key) {
+            if (($b->getTiebreaks()[$key] == $a->getTiebreaks()[$key]) || ($a->getTiebreaks()[$key] === false) || ($b->getTiebreaks()[$key] === false)) {
+                return 0;
+            }
+            return ($b->getTiebreaks()[$key] > $a->getTiebreaks()[$key]) ? +1 : -1;
+        };
+    }
+
+
+    /**
+     * @return float|null
+     */
+    private function calculateTiebreak(Tiebreak $tiebreak, Player $player, int $tbkey = 0): ?float
+    {
+        switch ($tiebreak) {
+            case Tiebreak::Keizer:
+                return $this->calculateKeizer($player);
+                break;
+            case Tiebreak::American:
+                return $this->calculateAmerican($player);
+                break;
+            case Tiebreak::Points:
+                return $this->calculatePoints($player);
+                break;
+            case Tiebreak::Baumbach:
+                return $this->calculateBaumbach($player);
+                break;
+            case Tiebreak::BlackPlayed:
+                return $this->calculateBlackPlayed($player);
+                break;
+            case Tiebreak::BlackWin:
+                return $this->calculateBlackWin($player);
+                break;
+            case Tiebreak::Between:
+                return $this->calculateMutualResult($player, $this->getPlayers(), $tbkey);
+                break;
+            case Tiebreak::Aro:
+                return $this->calculateAverageRating($player, $this->getPriorityElo());
+                break;
+            case Tiebreak::AroCut:
+                return $this->calculateAverageRating($player, $this->getPriorityElo(), 1);
+                break;
+            case Tiebreak::Koya:
+                return $this->calculateKoya($player);
+                break;
+            case Tiebreak::Buchholz:
+                return $this->calculateBuchholz($player);
+                break;
+            case Tiebreak::BuchholzCut:
+                return $this->calculateBuchholz($player, 1);
+                break;
+            case Tiebreak::BuchholzMed:
+                return $this->calculateBuchholz($player, 1, 1);
+                break;
+            case Tiebreak::Sonneborn:
+                return $this->calculateSonneborn($player);
+                break;
+            case Tiebreak::Kashdan:
+                return $this->calculateKashdan($player);
+                break;
+            case Tiebreak::Cumulative:
+                return $this->calculateCumulative($player);
+                break;
+            case Tiebreak::AveragePerformance:
+                return $this->calculateAveragePerformance($player, $this->getPriorityElo());
+                break;
+            case Tiebreak::Performance:
+                return $player->getPerformance($this->getPriorityElo(), $this->getNonRatedElo());
+                break;
+            default:
+                return null;
+        }
     }
 
     /**
-     * @param Player $a
-     * @param Player $b
+     * Return the average rating for tournament
+     *
      * @return int
      */
-    private function sortAmerican(Player $a, Player $b)
+    public function getAverageElo(): int
     {
-        return $b->getScoreAmerican() - $a->getScoreAmerican();
+        $totalrating = 0;
+        $players = 0;
+        foreach ($this->getPlayers() as $player) {
+            $toadd = $player->getElo($this->getPriorityElo());
+            if ($toadd == 0) {
+                $toadd = $this->getNonRatedElo();
+            }
+
+            $totalrating += $toadd;
+            $players++;
+        }
+        return intdiv($totalrating, $players);
     }
 }

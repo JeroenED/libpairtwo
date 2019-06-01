@@ -26,6 +26,7 @@
 
 namespace JeroenED\Libpairtwo\Readers;
 
+use JeroenED\Libpairtwo\Enums\Tiebreak;
 use JeroenED\Libpairtwo\Enums\Title;
 use JeroenED\Libpairtwo\Enums\Gender;
 use JeroenED\Libpairtwo\Enums\Color;
@@ -59,7 +60,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
      * @param string $filename
      * @return Pairtwo6
      */
-    public function read($filename)
+    public function read($filename): ReaderInterface
     {
         $swshandle = fopen($filename, 'rb');
         $swscontents = fread($swshandle, filesize($filename));
@@ -77,7 +78,8 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
         }
 
         $this->setTournament(new Tournament());
-
+        $this->getTournament()->setPriorityElo('Nation');
+        $this->getTournament()->setPriorityId('Nation');
         // UserCountry
         $length = 4;
         $this->setBinaryData("UserCountry", $this->readData('Int', substr($swscontents, $offset, $length)));
@@ -219,9 +221,62 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
         $offset += $length;
 
         // TieOrder
-        $length = 4 * 5;
-        $this->setBinaryData("TieOrder", $this->readData('Int', substr($swscontents, $offset, $length)));
-        $offset += $length;
+        for ($i = 0; $i < 5; $i++) {
+            $length = 4;
+            switch ($this->readData('Int', substr($swscontents, $offset, $length))) {
+                case 1:
+                    $tiebreak = Tiebreak::Buchholz;
+                    break;
+                case 2:
+                    $tiebreak = Tiebreak::BuchholzMed;
+                    break;
+                case 3:
+                    $tiebreak = Tiebreak::BuchholzCut;
+                    break;
+                case 4:
+                    $tiebreak = Tiebreak::Sonneborn;
+                    break;
+                case 5:
+                    $tiebreak = Tiebreak::Kashdan;
+                    break;
+                case 6:
+                    $tiebreak = Tiebreak::Cumulative;
+                    break;
+                case 7:
+                    $tiebreak = Tiebreak::Between;
+                    break;
+                case 8:
+                    $tiebreak = Tiebreak::Koya;
+                    break;
+                case 9:
+                    $tiebreak = Tiebreak::Baumbach;
+                    break;
+                case 10:
+                    $tiebreak = Tiebreak::Performance;
+                    break;
+                case 11:
+                    $tiebreak = Tiebreak::Aro;
+                    break;
+                case 12:
+                    $tiebreak = Tiebreak::AroCut;
+                    break;
+                case 13:
+                    $tiebreak = Tiebreak::BlackPlayed;
+                    break;
+                case 14:
+                    $tiebreak = Tiebreak::Testmatch;
+                    break;
+                case 15:
+                    $tiebreak = Tiebreak::Drawing;
+                    break;
+                case 0:
+                default:
+                    $tiebreak = Tiebreak::None;
+                    break;
+            }
+            $this->getTournament()->addTieBreak(new Tiebreak($tiebreak));
+            $offset += $length;
+        }
 
         // Categorie
         $length = 4 * 10;
@@ -242,24 +297,25 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
         for ($i = 0; $i < $this->getBinaryData("NewPlayer"); $i++) {
             $player = new Player();
 
+            // Rank (Unused value)
             $length = 4;
-            $player->SetRank($this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setBinaryData("Rank", $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 4;
-            $this->setBinaryData("Players($i)_NamePos", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setBinaryData("NamePos", $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 4;
-            $player->SetFideId($this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setId('Fide', $this->readData('Int', substr($swscontents, $offset, $length) . ""));
             $offset += $length;
 
             $length = 4;
-            $player->SetExtraPts($this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setBinaryData("ExtraPts", $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 4;
-            $player->SetKbsbElo($this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setElo('Nation', $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 4;
@@ -267,35 +323,35 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
             $offset += $length;
 
             $length = 4;
-            $player->setKbsbID($this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setId('Nation', $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 4;
-            $player->setPoints($this->readData('Int', substr($swscontents, $offset, $length)) / 2);
+            $player->setBinaryData("Points", $this->readData('Int', substr($swscontents, $offset, $length)) / 2);
             $offset += $length;
 
             $length = 4;
-            $player->setClubNr($this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setId('Club', $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 4;
-            $player->setScoreBucholtz($this->readData('Int', substr($swscontents, $offset, $length)) / 2);
+            $player->setBinaryData("ScoreBuchholz", $this->readData('Int', substr($swscontents, $offset, $length)) / 2);
             $offset += $length;
 
             $length = 4;
-            $player->setScoreAmerican($this->readData('Int', substr($swscontents, $offset, $length)) / 2);
+            $player->setBinaryData("ScoreAmerican", $this->readData('Int', substr($swscontents, $offset, $length)) / 2);
             $offset += $length;
 
             $length = 4;
-            $this->setBinaryData("Players($i)_HelpValue", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setBinaryData("HelpValue", $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 4;
-            $player->setFideElo($this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setElo('Fide', $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 1;
-            $this->setBinaryData("Players($i)_NameLength", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setBinaryData("NameLength", $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 3;
@@ -368,39 +424,39 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
             $offset += $length;
 
             $length = 1;
-            $player->setNumberOfTies($this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setBinaryData('NumberOfTies', $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 1;
-            $player->setAbsent($this->readData('Bool', substr($swscontents, $offset, $length)));
+            $player->setBinaryData('Absent', $this->readData('Bool', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 1;
-            $this->setBinaryData("Players($i)_ColorDiff", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setBinaryData("ColorDiff", $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 1;
-            $this->setBinaryData("Players($i)_ColorPref", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setBinaryData("ColorPref", $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 1;
-            $this->setBinaryData("Players($i)_Paired", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setBinaryData("Paired", $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 1;
-            $this->setBinaryData("Players($i)_Float", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setBinaryData("Float", $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 1;
-            $this->setBinaryData("Players($i)_FloatPrev", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setBinaryData("FloatPrev", $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 1;
-            $this->setBinaryData("Players($i)_FloatBefore", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setBinaryData("FloatBefore", $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 1;
-            $this->setBinaryData("Players($i)_TieMatch", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->setBinaryData("TieMatch", $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $this->getTournament()->addPlayer($player);
@@ -411,9 +467,9 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
         $offset += $length;
 
         for ($i = 0; $i < $this->getBinaryData("NewPlayer"); $i++) {
-            $namelength = $this->getBinaryData("Players($i)_NameLength");
-            $nameoffset = $this->getBinaryData("Players($i)_NamePos");
             $player = $this->getTournament()->getPlayerById($i);
+            $namelength = $player->getBinaryData("NameLength");
+            $nameoffset = $player->getBinaryData("NamePos");
             $player->setName($this->readData("String", substr($this->getBinaryData("PlayerNames"), $nameoffset, $namelength)));
 
             $this->getTournament()->updatePlayer($i, $player);
@@ -499,7 +555,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
                 $system = TournamentSystem::American;
                 break;
             case 6:
-                $system = TournamentSystem::Imperial;
+                $system = TournamentSystem::Keizer;
                 break;
             case 0:
             default:
@@ -637,6 +693,8 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
             }
         }
 
+        $this->addTiebreaks();
+
         $this->getTournament()->pairingsToRounds();
         return $this;
     }
@@ -741,5 +799,28 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
 
 
         return DateTime::createFromFormat($format, $concat);
+    }
+
+
+    /**
+     * @return $this
+     */
+    private function addTiebreaks(): Pairtwo6
+    {
+        switch ($this->getTournament()->getSystem()) {
+            case TournamentSystem::Keizer:
+                $firstElement = new Tiebreak(Tiebreak::Keizer);
+                break;
+            case TournamentSystem::American:
+                $firstElement = new Tiebreak(Tiebreak::American);
+                break;
+            case TournamentSystem::Closed:
+            case TournamentSystem::Swiss:
+                $firstElement = new Tiebreak(Tiebreak::Points);
+        }
+        $tiebreaks = $this->getTournament()->getTiebreaks();
+        array_unshift($tiebreaks, $firstElement);
+        $this->getTournament()->setTiebreaks($tiebreaks);
+        return $this;
     }
 }

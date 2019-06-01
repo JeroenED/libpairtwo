@@ -26,7 +26,7 @@
 
 namespace JeroenED\Libpairtwo;
 
-
+use JeroenED\LibPairtwo\Exceptions\LibpairtwoException;
 
 /**
  * This class reads a SWS file
@@ -41,13 +41,13 @@ class Sws
      * Reads out $swsfile and returns a Pairtwo6 class object
      *
      * @param string $swsfile
+     * @throws LibpairtwoException
      * @deprecated
      */
     public static function ReadSws(string $swsfile)
     {
-        trigger_error ( "This function is deprecated. Please convert your code to use the new pattern. More info to be found on Github (https://github.com/JeroenED/libpairtwo/wiki/Converting-your-code-to-the-generalized-format).", E_USER_DEPRECATED);
+        trigger_error("This function is deprecated. Please convert your code to use the new pattern. More info to be found on Github (https://github.com/JeroenED/libpairtwo/wiki/Converting-your-code-to-the-generalized-format).", E_USER_DEPRECATED);
         $reader = IOFactory::createReader("Pairtwo-6");
         return $reader->read($swsfile);
     }
-
 }
