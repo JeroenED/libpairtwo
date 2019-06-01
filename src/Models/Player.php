@@ -18,42 +18,22 @@ abstract class Player
     /** @var string */
     private $Name;
 
-    /** @var int */
-    private $Rank;
+    /** @var int[] */
+    private $Ids;
 
-    /** @var int */
-    private $FideId;
-
-    /** @var int */
-    private $ExtraPts;
-
-    /** @var int */
-    private $KbsbElo;
+    /** @var int[] */
+    private $Elos;
 
     /** @var DateTime */
-    private $dateofbirth;
+    private $DateOfBirth;
 
-    /** @var int */
-    private $KbsbID;
-
-    /** @var float */
-    private $Points;
-
-    /** @var int */
-    private $ClubNr;
-
-    /** @var float */
-    private $ScoreBucholtz;
-
-    /** @var float */
-    private $ScoreAmerican;
-
-    /** @var int */
-    private $FideElo;
+    /** @var float[] */
+    private $Tiebreaks = [];
 
     /** @var string */
     private $Nation;
 
+    // TODO: Implement categories
     /** @var string */
     private $Category;
 
@@ -63,14 +43,11 @@ abstract class Player
     /** @var Gender */
     private $Gender;
 
-    /** @var int */
-    private $NumberOfTies;
-
-    /** @var bool */
-    private $Absent;
-
     /** @var Pairing[] */
     private $Pairings = [];
+
+    /** @var bool|DateTime|int|string[] */
+    private $BinaryData;
 
     /**
      * @return string
@@ -82,186 +59,84 @@ abstract class Player
 
     /**
      * @param string $Name
+     * @return Player
      */
-    public function setName($Name): void
+    public function setName(string $Name): Player
     {
         $this->Name = $Name;
+        return $this;
     }
 
     /**
-     * @return int
+     * @return string[]
      */
-    public function getRank(): int
+    public function getIds(): ?array
     {
-        return $this->Rank;
+        return $this->Ids;
     }
 
     /**
-     * @param int $Rank
+     * @param string[] $Ids
+     * @return Player
      */
-    public function setRank(int $Rank): void
+    public function setIds(array $Ids): Player
     {
-        $this->Rank = $Rank;
+        $this->Ids = $Ids;
+        return $this;
     }
 
     /**
-     * @return int
+     * @return int[]
      */
-    public function getFideId(): int
+    public function getElos(): ?array
     {
-        return $this->FideId;
+        return $this->Elos;
     }
 
     /**
-     * @param int $FideId
+     * @param int[] $Elos
+     * @return Player
      */
-    public function setFideId(int $FideId): void
+    public function setElos(array $Elos): Player
     {
-        $this->FideId = $FideId;
+        $this->Elos = $Elos;
+        return $this;
     }
 
     /**
-     * @return int
+     * @return \DateTime
      */
-    public function getExtraPts(): int
+    public function getDateOfBirth(): \DateTime
     {
-        return $this->ExtraPts;
+        return $this->DateOfBirth;
     }
 
     /**
-     * @param int $ExtraPts
+     * @param \DateTime $DateOfBirth
+     * @return Player
      */
-    public function setExtraPts(int $ExtraPts): void
+    public function setDateOfBirth(\DateTime $DateOfBirth): Player
     {
-        $this->ExtraPts = $ExtraPts;
+        $this->DateOfBirth = $DateOfBirth;
+        return $this;
     }
 
     /**
-     * @return int
+     * @return float[]
      */
-    public function getKbsbElo(): int
+    public function getTiebreaks(): array
     {
-        return $this->KbsbElo;
+        return $this->Tiebreaks;
     }
 
     /**
-     * @param int $KbsbElo
+     * @param float[] $Tiebreaks
+     * @return Player
      */
-    public function setKbsbElo(int $KbsbElo): void
+    public function setTiebreaks(array $Tiebreaks): Player
     {
-        $this->KbsbElo = $KbsbElo;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getDateofbirth(): DateTime
-    {
-        return $this->dateofbirth;
-    }
-
-    /**
-     * @param DateTime $dateofbirth
-     */
-    public function setDateofbirth(DateTime $dateofbirth): void
-    {
-        $this->dateofbirth = $dateofbirth;
-    }
-
-    /**
-     * @return int
-     */
-    public function getKbsbID(): int
-    {
-        return $this->KbsbID;
-    }
-
-    /**
-     * @param int $KbsbID
-     */
-    public function setKbsbID(int $KbsbID): void
-    {
-        $this->KbsbID = $KbsbID;
-    }
-
-    /**
-     * @return float
-     */
-    public function getPoints(): float
-    {
-        return $this->Points;
-    }
-
-    /**
-     * @param float $Points
-     */
-    public function setPoints(float $Points): void
-    {
-        $this->Points = $Points;
-    }
-
-    /**
-     * @return int
-     */
-    public function getClubNr(): int
-    {
-        return $this->ClubNr;
-    }
-
-    /**
-     * @param int $ClubNr
-     */
-    public function setClubNr(int $ClubNr): void
-    {
-        $this->ClubNr = $ClubNr;
-    }
-
-    /**
-     * @return float
-     */
-    public function getScoreBucholtz(): float
-    {
-        return $this->ScoreBucholtz;
-    }
-
-    /**
-     * @param float $ScoreBucholtz
-     */
-    public function setScoreBucholtz(float $ScoreBucholtz): void
-    {
-        $this->ScoreBucholtz = $ScoreBucholtz;
-    }
-
-    /**
-     * @return int
-     */
-    public function getScoreAmerican(): int
-    {
-        return $this->ScoreAmerican;
-    }
-
-    /**
-     * @param int $ScoreAmerican
-     */
-    public function setScoreAmerican(int $ScoreAmerican): void
-    {
-        $this->ScoreAmerican = $ScoreAmerican;
-    }
-
-    /**
-     * @return int
-     */
-    public function getFideElo(): int
-    {
-        return $this->FideElo;
-    }
-
-    /**
-     * @param int $FideElo
-     */
-    public function setFideElo(int $FideElo): void
-    {
-        $this->FideElo = $FideElo;
+        $this->Tiebreaks = $Tiebreaks;
+        return $this;
     }
 
     /**
@@ -278,10 +153,12 @@ abstract class Player
      * example value: BEL
      *
      * @param string $Nation
+     * @return Player
      */
-    public function setNation(string $Nation): void
+    public function setNation(string $Nation): Player
     {
         $this->Nation = $Nation;
+        return $this;
     }
 
     /**
@@ -294,10 +171,12 @@ abstract class Player
 
     /**
      * @param string $Category
+     * @return Player
      */
-    public function setCategory(string $Category): void
+    public function setCategory(string $Category): Player
     {
         $this->Category = $Category;
+        return $this;
     }
 
     /**
@@ -310,10 +189,12 @@ abstract class Player
 
     /**
      * @param Title $Title
+     * @return Player
      */
-    public function setTitle(Title $Title): void
+    public function setTitle(Title $Title): Player
     {
         $this->Title = $Title;
+        return $this;
     }
 
     /**
@@ -326,42 +207,12 @@ abstract class Player
 
     /**
      * @param Gender $Gender
+     * @return Player
      */
-    public function setGender(Gender $Gender): void
+    public function setGender(Gender $Gender): Player
     {
         $this->Gender = $Gender;
-    }
-
-    /**
-     * @return int
-     */
-    public function getNumberOfTies(): int
-    {
-        return $this->NumberOfTies;
-    }
-
-    /**
-     * @param int $NumberOfTies
-     */
-    public function setNumberOfTies(int $NumberOfTies): void
-    {
-        $this->NumberOfTies = $NumberOfTies;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getAbsent(): bool
-    {
-        return $this->Absent;
-    }
-
-    /**
-     * @param bool $Absent
-     */
-    public function setAbsent(bool $Absent): void
-    {
-        $this->Absent = $Absent;
+        return $this;
     }
 
     /**
@@ -374,9 +225,31 @@ abstract class Player
 
     /**
      * @param Pairing[] $Pairings
+     * @return Player
      */
-    public function setPairings(array $Pairings): void
+    public function setPairings(array $Pairings): Player
     {
         $this->Pairings = $Pairings;
+        return $this;
+    }
+
+    /**
+     * @param string $Key
+     * @return bool|DateTime|int|string
+     */
+    public function getBinaryData(string $Key)
+    {
+        return $this->BinaryData[$Key];
+    }
+
+    /**
+     * @param string $Key
+     * @param bool|int|DateTime|string $Value
+     * @return Player
+     */
+    public function setBinaryData(string $Key, $Value): Player
+    {
+        $this->BinaryData[$Key] = $Value;
+        return $this;
     }
 }

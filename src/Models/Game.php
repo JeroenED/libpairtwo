@@ -13,60 +13,66 @@ use JeroenED\Libpairtwo\Pairing;
 
 abstract class Game
 {
-    /** @var Pairing */
+    /** @var Pairing|null */
     private $white;
 
-    /** @var Pairing */
+    /** @var Pairing|null */
     private $black;
 
-    /** @var GameResult */
+    /** @var GameResult|null */
     private $result;
 
     /**
-     * @return Pairing
+     * @return Pairing|null
      */
-    public function getWhite()
+    public function getWhite(): ?Pairing
     {
         return $this->white;
     }
 
     /**
-     * @param Pairing $white
+     * @param Pairing|null $white
+     * @return Game
      */
-    public function setWhite($white): void
+    public function setWhite(?Pairing $white): Game
     {
         $this->white = $white;
+        return $this;
     }
 
     /**
-     * @return Pairing
+     * @return Pairing|null
      */
-    public function getBlack()
+    public function getBlack(): ?Pairing
     {
         return $this->black;
     }
 
     /**
-     * @param Pairing $black
+     * @param Pairing|null $black
+     * @return Game
      */
-    public function setBlack($black): void
+    public function setBlack(?Pairing $black): Game
     {
         $this->black = $black;
+        return $this;
     }
 
     /**
-     * @return GameResult
+     * @return Gameresult|null
      */
-    public function getResult()
+    public function getResult(): ?Gameresult
     {
         return $this->result;
     }
 
     /**
-     * @param GameResult $result
+     * @param Gameresult|null $result
+     * @return Game
      */
-    public function setResult(GameResult $result): void
+    public function setResult(?Gameresult $result): Game
     {
         $this->result = $result;
+        return $this;
     }
 }

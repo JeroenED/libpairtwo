@@ -16,7 +16,7 @@ abstract class Pairtwo6
     private $BinaryData;
 
     /**
-     * @return String
+     * @return string
      */
     public function getRelease(): string
     {
@@ -24,11 +24,13 @@ abstract class Pairtwo6
     }
 
     /**
-     * @param String $Release
+     * @param string $Release
+     * @return Pairtwo6
      */
-    public function setRelease(string $Release): void
+    public function setRelease(string $Release): Pairtwo6
     {
         $this->Release = $Release;
+        return $this;
     }
 
     /**
@@ -41,31 +43,33 @@ abstract class Pairtwo6
 
     /**
      * @param Tournament $Tournament
+     * @return Pairtwo6
      */
-    public function setTournament(Tournament $Tournament): void
+    public function setTournament(Tournament $Tournament): Pairtwo6
     {
         $this->Tournament = $Tournament;
+        return $this;
     }
 
-    /**
-     * Returns binary data from the sws-file
-     *
-     * @param string
-     * @return string
-     */
-    public function getBinaryData(string $key)
-    {
-        return $this->BinaryData[$key];
-    }
 
     /**
-     * Sets binary data
-     *
-     * @param string
-     * @param mixed
+     * @param string $Key
+     * @return bool|DateTime|int|string
      */
-    public function setBinaryData(string $key, $data): void
+    public function getBinaryData(string $Key)
     {
-        $this->BinaryData[$key] = $data;
+        return $this->BinaryData[$Key];
+    }
+
+
+    /**
+     * @param string $Key
+     * @param bool|int|DateTime|string $Value
+     * @return Pairtwo6
+     */
+    public function setBinaryData(string $Key, $Value): Pairtwo6
+    {
+        $this->BinaryData[$Key] = $Value;
+        return $this;
     }
 }

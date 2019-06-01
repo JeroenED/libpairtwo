@@ -26,6 +26,7 @@
 
 namespace JeroenED\Libpairtwo\Models;
 
+use JeroenED\Libpairtwo\Enums\Tiebreak;
 use JeroenED\Libpairtwo\Enums\TournamentSystem;
 use JeroenED\Libpairtwo\Player;
 use DateTime;
@@ -71,7 +72,7 @@ abstract class Tournament
     private $NoOfRounds;
 
     /** @var Round[] */
-    private $Rounds;
+    private $Rounds = [];
 
     /** @var int */
     private $Participants;
@@ -95,13 +96,22 @@ abstract class Tournament
     private $Federation;
 
     /** @var Player[] */
-    private $Players;
+    private $Players = [];
 
     /** @var int */
     private $Year;
 
     /** @var Pairing[] */
-    private $Pairings;
+    private $Pairings = [];
+
+    /** @var Tiebreak[] */
+    private $Tiebreaks = [];
+
+    /** @var string */
+    private $PriorityElo = 'Fide';
+
+    /** @var string */
+    private $PriorityId = 'Nation';
 
     /**
      * @return string
@@ -113,10 +123,12 @@ abstract class Tournament
 
     /**
      * @param string $Name
+     * @return Tournament
      */
-    public function setName(string $Name): void
+    public function setName(string $Name): Tournament
     {
         $this->Name = $Name;
+        return $this;
     }
 
     /**
@@ -129,26 +141,12 @@ abstract class Tournament
 
     /**
      * @param string $Organiser
+     * @return Tournament
      */
-    public function setOrganiser(string $Organiser): void
+    public function setOrganiser(string $Organiser): Tournament
     {
         $this->Organiser = $Organiser;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOrganiserClub(): string
-    {
-        return $this->OrganiserClub;
-    }
-
-    /**
-     * @param string $OrganiserClub
-     */
-    public function setOrganiserClub(string $OrganiserClub): void
-    {
-        $this->OrganiserClub = $OrganiserClub;
+        return $this;
     }
 
     /**
@@ -161,10 +159,30 @@ abstract class Tournament
 
     /**
      * @param int $OrganiserClubNo
+     * @return Tournament
      */
-    public function setOrganiserClubNo(int $OrganiserClubNo): void
+    public function setOrganiserClubNo(int $OrganiserClubNo): Tournament
     {
         $this->OrganiserClubNo = $OrganiserClubNo;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrganiserClub(): string
+    {
+        return $this->OrganiserClub;
+    }
+
+    /**
+     * @param string $OrganiserClub
+     * @return Tournament
+     */
+    public function setOrganiserClub(string $OrganiserClub): Tournament
+    {
+        $this->OrganiserClub = $OrganiserClub;
+        return $this;
     }
 
     /**
@@ -177,10 +195,12 @@ abstract class Tournament
 
     /**
      * @param string $OrganiserPlace
+     * @return Tournament
      */
-    public function setOrganiserPlace(string $OrganiserPlace): void
+    public function setOrganiserPlace(string $OrganiserPlace): Tournament
     {
         $this->OrganiserPlace = $OrganiserPlace;
+        return $this;
     }
 
     /**
@@ -193,10 +213,12 @@ abstract class Tournament
 
     /**
      * @param string $OrganiserCountry
+     * @return Tournament
      */
-    public function setOrganiserCountry(string $OrganiserCountry): void
+    public function setOrganiserCountry(string $OrganiserCountry): Tournament
     {
         $this->OrganiserCountry = $OrganiserCountry;
+        return $this;
     }
 
     /**
@@ -209,10 +231,12 @@ abstract class Tournament
 
     /**
      * @param int $FideHomol
+     * @return Tournament
      */
-    public function setFideHomol(int $FideHomol): void
+    public function setFideHomol(int $FideHomol): Tournament
     {
         $this->FideHomol = $FideHomol;
+        return $this;
     }
 
     /**
@@ -225,10 +249,12 @@ abstract class Tournament
 
     /**
      * @param DateTime $StartDate
+     * @return Tournament
      */
-    public function setStartDate(DateTime $StartDate): void
+    public function setStartDate(DateTime $StartDate): Tournament
     {
         $this->StartDate = $StartDate;
+        return $this;
     }
 
     /**
@@ -241,10 +267,12 @@ abstract class Tournament
 
     /**
      * @param DateTime $EndDate
+     * @return Tournament
      */
-    public function setEndDate(DateTime $EndDate): void
+    public function setEndDate(DateTime $EndDate): Tournament
     {
         $this->EndDate = $EndDate;
+        return $this;
     }
 
     /**
@@ -257,10 +285,12 @@ abstract class Tournament
 
     /**
      * @param string $Arbiter
+     * @return Tournament
      */
-    public function setArbiter(string $Arbiter): void
+    public function setArbiter(string $Arbiter): Tournament
     {
         $this->Arbiter = $Arbiter;
+        return $this;
     }
 
     /**
@@ -273,26 +303,30 @@ abstract class Tournament
 
     /**
      * @param int $NoOfRounds
+     * @return Tournament
      */
-    public function setNoOfRounds(int $NoOfRounds): void
+    public function setNoOfRounds(int $NoOfRounds): Tournament
     {
         $this->NoOfRounds = $NoOfRounds;
+        return $this;
     }
 
     /**
      * @return Round[]
      */
-    public function getRounds()
+    public function getRounds(): array
     {
         return $this->Rounds;
     }
 
     /**
      * @param Round[] $Rounds
+     * @return Tournament
      */
-    public function setRounds(array $Rounds): void
+    public function setRounds(array $Rounds): Tournament
     {
         $this->Rounds = $Rounds;
+        return $this;
     }
 
     /**
@@ -305,10 +339,12 @@ abstract class Tournament
 
     /**
      * @param int $Participants
+     * @return Tournament
      */
-    public function setParticipants(int $Participants): void
+    public function setParticipants(int $Participants): Tournament
     {
         $this->Participants = $Participants;
+        return $this;
     }
 
     /**
@@ -321,10 +357,12 @@ abstract class Tournament
 
     /**
      * @param string $Tempo
+     * @return Tournament
      */
-    public function setTempo(string $Tempo): void
+    public function setTempo(string $Tempo): Tournament
     {
         $this->Tempo = $Tempo;
+        return $this;
     }
 
     /**
@@ -337,10 +375,12 @@ abstract class Tournament
 
     /**
      * @param int $NonRatedElo
+     * @return Tournament
      */
-    public function setNonRatedElo(int $NonRatedElo): void
+    public function setNonRatedElo(int $NonRatedElo): Tournament
     {
         $this->NonRatedElo = $NonRatedElo;
+        return $this;
     }
 
     /**
@@ -353,10 +393,12 @@ abstract class Tournament
 
     /**
      * @param TournamentSystem $System
+     * @return Tournament
      */
-    public function setSystem(TournamentSystem $System): void
+    public function setSystem(TournamentSystem $System): Tournament
     {
         $this->System = $System;
+        return $this;
     }
 
     /**
@@ -369,10 +411,12 @@ abstract class Tournament
 
     /**
      * @param string $FirstPeriod
+     * @return Tournament
      */
-    public function setFirstPeriod(string $FirstPeriod): void
+    public function setFirstPeriod(string $FirstPeriod): Tournament
     {
         $this->FirstPeriod = $FirstPeriod;
+        return $this;
     }
 
     /**
@@ -385,10 +429,12 @@ abstract class Tournament
 
     /**
      * @param string $SecondPeriod
+     * @return Tournament
      */
-    public function setSecondPeriod(string $SecondPeriod): void
+    public function setSecondPeriod(string $SecondPeriod): Tournament
     {
         $this->SecondPeriod = $SecondPeriod;
+        return $this;
     }
 
     /**
@@ -401,26 +447,30 @@ abstract class Tournament
 
     /**
      * @param string $Federation
+     * @return Tournament
      */
-    public function setFederation(string $Federation): void
+    public function setFederation(string $Federation): Tournament
     {
         $this->Federation = $Federation;
+        return $this;
     }
 
     /**
      * @return Player[]
      */
-    public function getPlayers()
+    public function getPlayers(): array
     {
         return $this->Players;
     }
 
     /**
      * @param Player[] $Players
+     * @return Tournament
      */
-    public function setPlayers($Players): void
+    public function setPlayers(array $Players): Tournament
     {
         $this->Players = $Players;
+        return $this;
     }
 
     /**
@@ -433,25 +483,82 @@ abstract class Tournament
 
     /**
      * @param int $Year
+     * @return Tournament
      */
-    public function setYear(int $Year): void
+    public function setYear(int $Year): Tournament
     {
         $this->Year = $Year;
+        return $this;
     }
 
     /**
      * @return Pairing[]
      */
-    public function getPairings()
+    public function getPairings(): array
     {
         return $this->Pairings;
     }
 
     /**
      * @param Pairing[] $Pairings
+     * @return Tournament
      */
-    public function setPairings($Pairings): void
+    public function setPairings(array $Pairings): Tournament
     {
         $this->Pairings = $Pairings;
+        return $this;
+    }
+
+    /**
+     * @return Tiebreak[]
+     */
+    public function getTiebreaks(): array
+    {
+        return $this->Tiebreaks;
+    }
+
+    /**
+     * @param Tiebreak[] $Tiebreaks
+     * @return Tournament
+     */
+    public function setTiebreaks(array $Tiebreaks): Tournament
+    {
+        $this->Tiebreaks = $Tiebreaks;
+        return $this;
+    }
+
+    /**
+      * @return string
+      */
+    public function getPriorityElo(): string
+    {
+        return $this->PriorityElo;
+    }
+
+    /**
+     * @param string $PriorityElo
+     * @return Tournament
+     */
+    public function setPriorityElo(string $PriorityElo): Tournament
+    {
+        $this->PriorityElo = $PriorityElo;
+        return $this;
+    }
+    /**
+       * @return string
+       */
+    public function getPriorityId(): string
+    {
+        return $this->PriorityId;
+    }
+
+    /**
+     * @param string $PriorityId
+     * @return Tournament
+     */
+    public function setPriorityId(string $PriorityId): Tournament
+    {
+        $this->PriorityId = $PriorityId;
+        return $this;
     }
 }

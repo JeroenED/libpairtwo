@@ -3,8 +3,6 @@
 
 namespace JeroenED\Libpairtwo\Exceptions;
 
-
-class IncompatibleReaderException Extends LibpairtwoException
+class IncompatibleReaderException extends LibpairtwoException
 {
-
 }

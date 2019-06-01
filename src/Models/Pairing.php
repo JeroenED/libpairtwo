@@ -14,10 +14,10 @@ use JeroenED\Libpairtwo\Player;
 
 abstract class Pairing
 {
-    /** @var Player */
+    /** @var Player|null */
     private $Player;
 
-    /** @var Player */
+    /** @var Player|null */
     private $Opponent;
 
     /** @var Color */
@@ -30,35 +30,39 @@ abstract class Pairing
     private $Round;
 
     /**
-     * @return Player
+     * @return Player|null
      */
-    public function getPlayer()
+    public function getPlayer(): ?Player
     {
         return $this->Player;
     }
 
     /**
-     * @param Player $Player
+     * @param Player|null $Player
+     * @return Pairing
      */
-    public function setPlayer(Player $Player): void
+    public function setPlayer(?Player $Player): Pairing
     {
         $this->Player = $Player;
+        return $this;
     }
 
     /**
-     * @return Player
+     * @return Player|null
      */
-    public function getOpponent()
+    public function getOpponent(): ?Player
     {
         return $this->Opponent;
     }
 
     /**
-     * @param Player $Opponent
+     * @param Player|null $Opponent
+     * @return Pairing
      */
-    public function setOpponent(Player $Opponent): void
+    public function setOpponent(?Player $Opponent): Pairing
     {
         $this->Opponent = $Opponent;
+        return $this;
     }
 
     /**
@@ -71,10 +75,12 @@ abstract class Pairing
 
     /**
      * @param Color $Color
+     * @return Pairing
      */
-    public function setColor(Color $Color): void
+    public function setColor(Color $Color): Pairing
     {
         $this->Color = $Color;
+        return $this;
     }
 
     /**
@@ -87,10 +93,12 @@ abstract class Pairing
 
     /**
      * @param Result $Result
+     * @return Pairing
      */
-    public function setResult(Result $Result): void
+    public function setResult(Result $Result): Pairing
     {
         $this->Result = $Result;
+        return $this;
     }
 
     /**
@@ -103,9 +111,11 @@ abstract class Pairing
 
     /**
      * @param int $Round
+     * @return Pairing
      */
-    public function setRound(int $Round): void
+    public function setRound(int $Round): Pairing
     {
         $this->Round = $Round;
+        return $this;
     }
 }
