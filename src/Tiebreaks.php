@@ -205,14 +205,14 @@ abstract class Tiebreaks extends Tournament
                 return 1;
             }
         
-            if ($b->getOpponent()->getElo('Nation') == $a->getOpponent()->getElo('Nation')) {
+            if ($b->getOpponent()->getPoints() == $a->getOpponent()->getPoints()) {
                 return 0;
             }
-            return ($b->getOpponent()->getElo('Nation') > $a->getOpponent()->getElo('Nation')) ? 1 : -1;
+            return ($a->getOpponent()->getPoints() > $b->getOpponent()->getPoints()) ? 1 : -1;
         });
 
-        array_slice($intpairings, $cutlowest);
-        array_slice($intpairings, 0 - $cuthighest);
+        $intpairings = array_slice($intpairings, $cutlowest);
+        $intpairings = array_slice($intpairings, 0 - $cuthighest);
 
         foreach ($intpairings as $intkey => $intpairing) {
             if (!is_null($intpairing->getOpponent())) {
