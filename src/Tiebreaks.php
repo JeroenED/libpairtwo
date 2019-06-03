@@ -251,7 +251,7 @@ abstract class Tiebreaks extends Tournament
      * @param Player $player
      * @return float|null
      */
-    protected function calculateKashdan(Player $player): ?float
+    protected function calculateSoccerKashdan(Player $player): ?float
     {
         $tiebreak = 0;
         foreach ($player->getPairings() as $pairing) {
@@ -266,6 +266,32 @@ abstract class Tiebreaks extends Tournament
 
             if (array_search($pairing->getResult(), Constants::NotPlayed) !== false) {
                 $toadd = -1;
+            }
+            $tiebreak += $toadd;
+        }
+        return $tiebreak; // - $player->getNoOfWins();
+    }
+
+
+    /**
+     * @param Player $player
+     * @return float|null
+     */
+    protected function calculateKashdan(Player $player): ?float
+    {
+        $tiebreak = 0;
+        foreach ($player->getPairings() as $pairing) {
+            $toadd = 0;
+            if (array_search($pairing->getResult(), Constants::Won) !== false) {
+                $toadd = 4;
+            } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
+                $toadd = 2;
+            } elseif (array_search($pairing->getResult(), Constants::Lost) !== false) {
+                $toadd = 1;
+            }
+
+            if (array_search($pairing->getResult(), Constants::NotPlayed) !== false) {
+                $toadd = 0;
             }
             $tiebreak += $toadd;
         }
