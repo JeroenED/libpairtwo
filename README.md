@@ -1,13 +1,14 @@
-# Lib Pairtwo
+# libpairtwo
 
 Copyright 2018- (c) Jeroen De Meerleer <schaak@jeroened.be>
 
-This library reads sws-files that are saved using PairTwo developed by the Belgian Chess Federation (KBSB-FRBE).
+This library reads out pairing files that are saved using common pairing applications
 
 ## Special thanks
 
 * Daniel Halleux (Webmaster KBSB)
 * Bernard Malfliet (Original developer Pairtwo)
+* Sylvin De Vet (Arbiter at VSF championship 2019 who helped me explaining several tiebreaks and other arbiter related stuff)
 
 ## Licence
 
