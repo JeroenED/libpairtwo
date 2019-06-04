@@ -50,7 +50,7 @@ class Round extends RoundModel
         $allPairings = $this->getPairings();
         $byePairings = [];
         foreach ($allPairings as $pairing) {
-            if ($pairing->getResult() == Result::bye) {
+            if ($pairing->getResult() == Result::wonbye) {
                 $byePairings[] = $pairing;
             }
         }
