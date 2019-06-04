@@ -98,8 +98,12 @@ abstract class Tiebreaks extends Tournament
         $interestingplayers = $opponents;
         if ($key != 0) {
             $interestingplayers = [];
+            $playerstiebreaks = $player->getTiebreaks();
+            array_splice($playerstiebreaks, $key);
             foreach ($opponents as $opponent) {
-                if (($opponent->getTiebreaks()[$key - 1] == $player->getTiebreaks()[$key - 1]) && ($player != $opponent)) {
+                $opponenttiebreaks = $opponent->getTiebreaks();
+                array_splice($opponenttiebreaks, $key);
+                if (($playerstiebreaks == $opponenttiebreaks) && ($player != $opponent)) {
                     $interestingplayers[] = $opponent;
                 }
             }
