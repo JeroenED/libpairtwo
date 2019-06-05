@@ -16,6 +16,7 @@ class Tiebreak extends Enum
     const BuchholzCut = "Buchholz Cut";
     const Sonneborn = "Sonneborn-Berger";
     const Kashdan = "Kashdan";
+    const SoccerKashdan = "Soccer Kashdan";
     const Cumulative = "Cumulative";
     const Between = "Mutual Result";
     const Koya = "Koya";
