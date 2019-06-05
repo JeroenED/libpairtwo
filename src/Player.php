@@ -151,4 +151,19 @@ class Player extends PlayerModel
         }
         return round($total / $opponents);
     }
+
+
+    /**
+     * @return int
+     */
+    public function getPlayedGames(): int
+    {
+        $total = 0;
+        foreach ($this->getPairings() as $pairing) {
+            if (array_search($pairing->getResult(), Constants::Played) !== false) {
+                $total++;
+            }
+        }
+        return $total;
+    }
 }
