@@ -220,7 +220,7 @@ abstract class Tiebreaks extends Tournament
         });
 
         $intpairings = array_slice($intpairings, $cutlowest);
-        $intpairings = array_slice($intpairings, 0, 0 - $cuthighest);
+        $intpairings = array_slice($intpairings, 0 - $cuthighest);
 
         foreach ($intpairings as $intkey => $intpairing) {
             if (!is_null($intpairing->getOpponent())) {
