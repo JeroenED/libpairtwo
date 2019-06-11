@@ -3,6 +3,7 @@
 ## vx.x.x (Released: xx-xxx-xx)
 * NEW FEATURE: Soccer Kashdan (aka: kashdan using 3-1-0 scoring)
 * CHANGE: Deprecated `sws::class` was removed
+* CHANGE: Added a logo to the project
 
 ## v1.0.2 (Released: 05-jun-2019)
 * NEW FEATURE: `Player::getPlayedGames()` to return the number of played games
