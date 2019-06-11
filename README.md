@@ -1,5 +1,7 @@
 # libpairtwo
 
+![logo](https://raw.githubusercontent.com/JeroenED/libpairtwo/develop/res/logo-lightback-250px.png "Logo libpairtwo")
+
 Copyright 2018- (c) Jeroen De Meerleer <schaak@jeroened.be>
 
 This library reads out pairing files that are saved using common pairing applications
