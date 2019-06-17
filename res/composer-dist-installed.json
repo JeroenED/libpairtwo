@@ -1,5 +1,5 @@
 {
     "require": {
         "jeroened/libpairtwo": "^1.0"
-    },
+    }
 }
