@@ -13,6 +13,29 @@ coverage: ## Executes the test suite and creates code coverage reports
 view-coverage: ## Shows the code coverage report
 	open build/coverage/index.html
 
+api: ## Generates api-docs
+	wget -O vendor/bin/phpdoc http://www.phpdoc.org/phpDocumentor.phar
+	chmod +x vendor/bin/phpdoc
+	vendor/bin/phpdoc
+
+distro: ## Generates distribution
+	mkdir distro
+	touch .libpairtwo-distro
+	git add -A
+	git commit -m "Commit before release"
+	cp res/composer-dist.json distro/composer.json
+	cd distro && composer install
+	rm distro/composer.json
+	cp res/composer-dist-installed.json distro/composer.json
+	git reset --soft HEAD^
+	wget -O vendor/bin/phpdoc http://www.phpdoc.org/phpDocumentor.phar
+	chmod +x vendor/bin/phpdoc
+	vendor/bin/phpdoc
+	mkdir -p distro/doc
+	cp -r doc/api distro/doc
+	cp -r res/boilerplate.php distro/libpairtwo.php
+	cd distro && zip -r ../libpairtwo-distro *
+
 cs: ## Fixes coding standard problems
 	vendor/bin/php-cs-fixer fix || true
 

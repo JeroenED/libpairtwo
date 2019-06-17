@@ -7,3 +7,7 @@ composer.lock
 /res/protected/
 /.idea
 doc/api/*
+
+libpairtwo-distro\.zip
+
+distro/
