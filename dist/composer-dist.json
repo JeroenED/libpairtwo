@@ -1,0 +1,12 @@
+{
+    "repositories": [
+        {
+            "type": "git",
+            "url": "../"
+        }
+    ],
+     "require": {
+        "jeroened/libpairtwo": "*"
+    },
+    "minimum-stability": "dev"
+}
