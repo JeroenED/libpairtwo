@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## vx.x.x (Released: xx-xxx-xx)
+* NEW FEATURE: Libpairtwo distribution releases (use these if you don't have knowledge of composer or dependency management)
 * NEW FEATURE: Soccer Kashdan (aka: kashdan using 3-1-0 scoring)
 * CHANGE: Deprecated `sws::class` was removed
 * CHANGE: Added a logo to the project
