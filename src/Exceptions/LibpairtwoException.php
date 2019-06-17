@@ -1,7 +1,7 @@
 <?php
 
 
-namespace JeroenED\LibPairtwo\Exceptions;
+namespace JeroenED\Libpairtwo\Exceptions;
 
 class LibpairtwoException extends \Exception
 {
