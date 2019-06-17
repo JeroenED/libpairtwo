@@ -33,6 +33,7 @@ distro: ## Generates distribution
 	vendor/bin/phpdoc
 	mkdir -p distro/doc
 	cp -r doc/api distro/doc
+	cp -r res/boilerplate.php distro/libpairtwo.php
 	cd distro && zip -r ../libpairtwo-distro *
 
 cs: ## Fixes coding standard problems
