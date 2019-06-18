@@ -74,9 +74,6 @@ abstract class Tournament
     /** @var Round[] */
     private $Rounds = [];
 
-    /** @var int */
-    private $Participants;
-
     /** @var string */
     private $Tempo;
 
@@ -326,24 +323,6 @@ abstract class Tournament
     public function setRounds(array $Rounds): Tournament
     {
         $this->Rounds = $Rounds;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getParticipants(): int
-    {
-        return $this->Participants;
-    }
-
-    /**
-     * @param int $Participants
-     * @return Tournament
-     */
-    public function setParticipants(int $Participants): Tournament
-    {
-        $this->Participants = $Participants;
         return $this;
     }
 
