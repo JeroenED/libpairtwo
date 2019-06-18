@@ -14,6 +14,7 @@ view-coverage: ## Shows the code coverage report
 	open build/coverage/index.html
 
 api: ## Generates api-docs
+	mkdir -p vendor/bin/
 	wget -O vendor/bin/phpdoc http://www.phpdoc.org/phpDocumentor.phar
 	chmod +x vendor/bin/phpdoc
 	vendor/bin/phpdoc
@@ -28,14 +29,26 @@ dist: ## Generates distribution
 	rm dist/composer.json
 	rm dist/composer.lock
 	mv dist/composer-dist-installed.json dist/composer.json
-	git reset --hard HEAD^
+	mkdir -p vendor/bin/
 	wget -O vendor/bin/phpdoc http://www.phpdoc.org/phpDocumentor.phar
 	chmod +x vendor/bin/phpdoc
 	vendor/bin/phpdoc
 	mkdir -p dist/doc
 	cp -r doc/api dist/doc
 	cd dist && zip -r ../libpairtwo-dist *
-	mv res/composer* res/
+	git reset --hard HEAD^
+	mv res/composer* dist/
+
+clean: ## Cleans the repository
+	rm -rf dist/doc
+	rm -rf doc/api
+	rm -rf .idea
+	rm -rf .libpairtwo-distro
+	rm -rf vendor
+	rm -rf composer.lock
+	rm -rf dist/vendor
+	rm -rf dist/composer.json
+	rm -rf libpairtwo-dist.zip
 
 cs: ## Fixes coding standard problems
 	vendor/bin/php-cs-fixer fix || true
