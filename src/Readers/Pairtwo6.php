@@ -507,7 +507,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
 
         // Participants
         $length = 4;
-        $this->getTournament()->setParticipants($this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->getTournament()->setBinaryData('Participants', $this->readData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // Fidehomol

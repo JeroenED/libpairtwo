@@ -351,4 +351,13 @@ class Tournament extends Tiebreaks
         }
         return intdiv($totalrating, $players);
     }
+
+    /**
+     * Returns the number of participants
+     *
+     * @return int
+     */
+    public function getParticipants(): int {
+        return count($this->getPlayers());
+    }
 }
