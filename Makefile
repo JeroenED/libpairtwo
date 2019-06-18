@@ -1,4 +1,4 @@
-.PHONY: help tests
+.PHONY: help tests dist
 .DEFAULT_GOAL := help
 
 help:
@@ -18,23 +18,24 @@ api: ## Generates api-docs
 	chmod +x vendor/bin/phpdoc
 	vendor/bin/phpdoc
 
-distro: ## Generates distribution
-	mkdir distro
-	touch .libpairtwo-distro
+dist: ## Generates distribution
+	touch .libpairtwo-dist
 	git add -A
 	git commit -m "Commit before release"
-	cp res/composer-dist.json distro/composer.json
-	cd distro && composer install
-	rm distro/composer.json
-	cp res/composer-dist-installed.json distro/composer.json
-	git reset --soft HEAD^
+	cp dist/composer* res/
+	mv dist/composer-dist.json dist/composer.json
+	cd dist && composer install
+	rm dist/composer.json
+	rm dist/composer.lock
+	mv dist/composer-dist-installed.json dist/composer.json
+	git reset --hard HEAD^
 	wget -O vendor/bin/phpdoc http://www.phpdoc.org/phpDocumentor.phar
 	chmod +x vendor/bin/phpdoc
 	vendor/bin/phpdoc
-	mkdir -p distro/doc
-	cp -r doc/api distro/doc
-	cp -r res/boilerplate.php distro/libpairtwo.php
-	cd distro && zip -r ../libpairtwo-distro *
+	mkdir -p dist/doc
+	cp -r doc/api dist/doc
+	cd dist && zip -r ../libpairtwo-dist *
+	mv res/composer* res/
 
 cs: ## Fixes coding standard problems
 	vendor/bin/php-cs-fixer fix || true

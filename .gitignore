@@ -8,6 +8,8 @@ composer.lock
 /.idea
 doc/api/*
 
-libpairtwo-distro\.zip
+libpairtwo-dist.zip
 
-distro/
+dist/*
+!dist/boilerplate.php
+!dist/composer-*.json
