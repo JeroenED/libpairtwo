@@ -6,10 +6,10 @@ composer.lock
 /nbproject/
 /res/protected/
 /.idea
-doc/api/*
+/doc/api/*
 
-libpairtwo-dist.zip
+/libpairtwo-dist.zip
 
-dist/*
-!dist/boilerplate.php
-!dist/composer-*.json
+/dist/vendor/
+/dist/composer.json
+/dist/doc/
