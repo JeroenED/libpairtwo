@@ -1,42 +1,88 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jeroen
- * Date: 1/02/19
- * Time: 17:16
+ * Class Round
+ *
+ * Class for a round of the tournament
+ *
+ * @author      Jeroen De Meerleer <schaak@jeroened.be>
+ * @category    Main
+ * @package     Libpairtwo
+ * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 
 namespace JeroenED\Libpairtwo;
 
+use DateTime;
 use JeroenED\Libpairtwo\Enums\Result;
-use JeroenED\Libpairtwo\Models\Round as RoundModel;
 use JeroenED\Libpairtwo\Game;
 use JeroenED\Libpairtwo\Pairing;
 
-class Round extends RoundModel
+/**
+ * Class Round
+ *
+ * Class for a round of the tournament
+ *
+ * @author      Jeroen De Meerleer <schaak@jeroened.be>
+ * @category    Main
+ * @package     Libpairtwo
+ * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ */
+class Round
 {
+    /**
+     * Date of the round
+     *
+     * @var DateTime
+     */
+    private $date;
+
+    /**
+     * Array of all games
+     *
+     * @var Game[]
+     */
+    private $games = [];
+
+    /**
+     * Number of the round
+     *
+     * @var int
+     */
+    private $roundNo;
+
+    /**
+     * Array of all pairings for this round
+     *
+     * @var Pairing[]
+     */
+    private $pairings = [];
+
     /**
      * Adds a game to the round
      *
      * @param Game $game
+     * @return Round
      */
-    public function addGame(Game $game)
+    public function addGame(Game $game): Round
     {
         $newarray = $this->getGames();
         $newarray[] = $game;
         $this->setGames($newarray);
+        return $this;
     }
 
     /**
      * Adds a pairing to the round
      *
      * @param Pairing $pairing
+     * @return Round
      */
-    public function addPairing(Pairing $pairing)
+    public function addPairing(Pairing $pairing): Round
     {
         $newarray = $this->getPairings();
         $newarray[] = $pairing;
         $this->setPairings($newarray);
+        return $this;
     }
 
 
@@ -73,5 +119,86 @@ class Round extends RoundModel
             }
         }
         return $absentPairings;
+    }
+
+    /**
+     * Returns the date of the round
+     *
+     * @return DateTime
+     */
+    public function getDate(): DateTime
+    {
+        return $this->date;
+    }
+    /**
+     * Sets the date of the round
+     *
+     * @param DateTime $date
+     * @return Round
+     */
+    public function setDate(DateTime $date): Round
+    {
+        $this->date = $date;
+        return $this;
+    }
+    /**
+     * Returns an array of all games in the tournament
+     *
+     * @return Game[]
+     */
+    public function getGames(): array
+    {
+        return $this->games;
+    }
+    /**
+     * Sets Round::games to $games
+     *
+     * @param Game[] $games
+     * @return Round
+     */
+    public function setGames(array $games): Round
+    {
+        $this->games = $games;
+        return $this;
+    }
+    /**
+     * Returns the round number
+     *
+     * @return int
+     */
+    public function getRoundNo(): int
+    {
+        return $this->roundNo;
+    }
+    /**
+     * Sets the round number
+     *
+     * @param int $roundNo
+     * @return Round
+     */
+    public function setRoundNo(int $roundNo): Round
+    {
+        $this->roundNo = $roundNo;
+        return $this;
+    }
+    /**
+     * Returns an array of all pairings for this round
+     *
+     * @return Pairing[]
+     */
+    public function getPairings(): array
+    {
+        return $this->pairings;
+    }
+    /**
+     * Sets Round::Pairings to $pairings
+     *
+     * @param Pairing[] $pairings
+     * @return Round
+     */
+    public function setPairings(array $pairings): Round
+    {
+        $this->pairings = $pairings;
+        return $this;
     }
 }

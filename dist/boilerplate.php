@@ -10,8 +10,8 @@ require_once 'vendor/autoload.php';
 $pairingfile = 'your pairing-file.sws';
 
 
-if(!file_exists($pairingfile)) {
-	trigger_error('Your file is not set or doesn\'t exist! Edit the file: ' . __FILE__ . ' and try again', E_USER_ERROR);
+if (!file_exists($pairingfile)) {
+    trigger_error('Your file is not set or doesn\'t exist! Edit the file: ' . __FILE__ . ' and try again', E_USER_ERROR);
 }
 
 $reader = IOFactory::createReader('Pairtwo-6');

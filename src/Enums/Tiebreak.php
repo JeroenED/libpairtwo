@@ -1,10 +1,29 @@
 <?php
-
+/**
+ * Enum Tiebreak
+ *
+ * List of all compatible tiebreaks
+ *
+ * @author      Jeroen De Meerleer <schaak@jeroened.be>
+ * @category    Main
+ * @package     Libpairtwo
+ * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ */
 
 namespace JeroenED\Libpairtwo\Enums;
 
 use MyCLabs\Enum\Enum;
 
+/**
+ * Enum Tiebreak
+ *
+ * List of all compatible tiebreaks
+ *
+ * @author      Jeroen De Meerleer <schaak@jeroened.be>
+ * @category    Main
+ * @package     Libpairtwo
+ * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ */
 class Tiebreak extends Enum
 {
     const None = "";

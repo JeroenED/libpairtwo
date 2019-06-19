@@ -1,15 +1,29 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jeroen
- * Date: 11/02/19
- * Time: 21:28
+ * Enum Gameresult
+ *
+ * List of all compatible gameresults
+ *
+ * @author      Jeroen De Meerleer <schaak@jeroened.be>
+ * @category    Main
+ * @package     Libpairtwo
+ * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 
 namespace JeroenED\Libpairtwo\Enums;
 
 use MyCLabs\Enum\Enum;
 
+/**
+ * Enum Gameresult
+ *
+ * List of all compatible gameresults
+ *
+ * @author      Jeroen De Meerleer <schaak@jeroened.be>
+ * @category    Main
+ * @package     Libpairtwo
+ * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ */
 class Gameresult extends Enum
 {
     const None = '-';
