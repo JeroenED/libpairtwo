@@ -14,10 +14,7 @@ view-coverage: ## Shows the code coverage report
 	open build/coverage/index.html
 
 api: ## Generates api-docs
-	mkdir -p vendor/bin/
-	wget -O vendor/bin/phpdoc http://www.phpdoc.org/phpDocumentor.phar
-	chmod +x vendor/bin/phpdoc
-	vendor/bin/phpdoc
+	doxygen
 
 dist: ## Generates distribution
 	touch .libpairtwo-dist
@@ -29,10 +26,7 @@ dist: ## Generates distribution
 	rm dist/composer.json
 	rm dist/composer.lock
 	mv dist/composer-dist-installed.json dist/composer.json
-	mkdir -p vendor/bin/
-	wget -O vendor/bin/phpdoc http://www.phpdoc.org/phpDocumentor.phar
-	chmod +x vendor/bin/phpdoc
-	vendor/bin/phpdoc
+	doxygen
 	mkdir -p dist/doc
 	cp -r doc/api dist/doc
 	cd dist && zip -r ../libpairtwo-dist *
