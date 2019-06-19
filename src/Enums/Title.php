@@ -1,15 +1,29 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jeroen
- * Date: 25/01/19
- * Time: 17:10
+ * Enum Title
+ *
+ * List of all compatible titles
+ *
+ * @author      Jeroen De Meerleer <schaak@jeroened.be>
+ * @category    Main
+ * @package     Libpairtwo
+ * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 
 namespace JeroenED\Libpairtwo\Enums;
 
 use MyCLabs\Enum\Enum;
 
+/**
+ * Enum Title
+ *
+ * List of all compatible titles
+ *
+ * @author      Jeroen De Meerleer <schaak@jeroened.be>
+ * @category    Main
+ * @package     Libpairtwo
+ * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ */
 class Title extends Enum
 {
     const NONE = '*';

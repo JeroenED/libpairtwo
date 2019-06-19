@@ -1,28 +1,15 @@
 <?php
-
-/*
- * The MIT License
+/**
+ * Reader Pairtwo6
  *
- * Copyright 2019 Jeroen De Meerleer <schaak@jeroened.be>.
+ * Reads out Pairtwo-6 files
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * @author      Jeroen De Meerleer <schaak@jeroened.be>
+ * @category    Main
+ * @package     Libpairtwo
+ * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
+
 
 namespace JeroenED\Libpairtwo\Readers;
 
@@ -37,16 +24,20 @@ use JeroenED\Libpairtwo\Player;
 use JeroenED\Libpairtwo\Round;
 use JeroenED\Libpairtwo\Pairing;
 use JeroenED\Libpairtwo\Interfaces\ReaderInterface;
-use JeroenED\Libpairtwo\Readers\Models\Pairtwo6 as Pairtwo6Model;
 use JeroenED\Libpairtwo\Enums\TournamentSystem;
 use DateTime;
 
 /**
- * This class reads a SWS file
+ * Reader Pairtwo6
  *
- * @author Jeroen De Meerleer
+ * Reads out Pairtwo-6 files
+ *
+ * @author      Jeroen De Meerleer <schaak@jeroened.be>
+ * @category    Main
+ * @package     Libpairtwo
+ * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
-class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
+class Pairtwo6 implements ReaderInterface
 {
     private const PT_DAYFACTOR = 32;
     private const PT_MONTHFACTOR = 16;
@@ -54,11 +45,79 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
     private const PT_PASTOFFSET = 117;
     private const CompatibleVersions = ['6.', '5.'];
 
+    /** @var string */
+    private $Release;
+
+    /** @var Tournament */
+    private $Tournament;
+
+    /** @var bool|DateTime|int|string[] */
+    private $BinaryData;
+
+    /**
+     * @return string
+     */
+    public function getRelease(): string
+    {
+        return $this->Release;
+    }
+
+    /**
+     * @param string $Release
+     * @return \JeroenED\Libpairtwo\Readers\Models\Pairtwo6
+     */
+    public function setRelease(string $Release): Pairtwo6
+    {
+        $this->Release = $Release;
+        return $this;
+    }
+
+    /**
+     * @return Tournament
+     */
+    public function getTournament(): Tournament
+    {
+        return $this->Tournament;
+    }
+
+    /**
+     * @param Tournament $Tournament
+     * @return Pairtwo6
+     */
+    public function setTournament(Tournament $Tournament): Pairtwo6
+    {
+        $this->Tournament = $Tournament;
+        return $this;
+    }
+
+
+    /**
+     * @param string $Key
+     * @return bool|DateTime|int|string
+     */
+    public function getBinaryData(string $Key)
+    {
+        return $this->BinaryData[$Key];
+    }
+
+
+    /**
+     * @param string $Key
+     * @param bool|int|DateTime|string $Value
+     * @return Pairtwo6
+     */
+    public function setBinaryData(string $Key, $Value): Pairtwo6
+    {
+        $this->BinaryData[$Key] = $Value;
+        return $this;
+    }
+
     /**
      * Reads out $swsfile and returns a Pairtwo6 class object
      *
      * @param string $filename
      * @return Pairtwo6
+     * @throws IncompatibleReaderException
      */
     public function read($filename): ReaderInterface
     {
@@ -507,7 +566,7 @@ class Pairtwo6 extends Pairtwo6Model implements ReaderInterface
 
         // Participants
         $length = 4;
-        $this->getTournament()->setBinaryData('Participants', $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->setBinaryData('Participants', $this->readData('Int', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // Fidehomol
