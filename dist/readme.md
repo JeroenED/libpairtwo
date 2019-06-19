@@ -4,7 +4,7 @@ This distribution is a good start to use libpairtwo if you don't have knowledge 
 
 How to use this distribution?
 -----------------------------
-The file `boilerplate.php` is the one you'll probably want to work with. You'll want to point your browser to file file. It contains some initializations where the most important one is the variable `$pairingfile`. You'll want to set this to existing pairing file.
+The file `boilerplate.php` is the one you'll probably want to work with. You'll want to point your browser to this file. It contains some initializations where the most important one is the variable `$pairingfile`. You'll want to set this to existing pairing file.
 The other variable (`$pairingfileformat`) is a variable that defines the format of the above pairing file. For now only `Pairtwo-6` and `Pairtwo-5` are available. In the future more formats will become available.
 
 Below the comments you'll find some example code. This code is only a aggregation of several fields that are read out. If you need any modifications like putting the rankings in a table or you want to just write it to a file, go ahead it's all yours.
