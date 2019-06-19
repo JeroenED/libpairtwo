@@ -8,13 +8,14 @@ require_once 'vendor/autoload.php';
 
 // EDIT ME!
 $pairingfile = 'your pairing-file.sws';
+$fileformat = 'Pairtwo-6'; // Possible values: Pairtwo-5, Pairtwo-6
 
 
 if (!file_exists($pairingfile)) {
     trigger_error('Your file is not set or doesn\'t exist! Edit the file: ' . __FILE__ . ' and try again', E_USER_ERROR);
 }
 
-$reader = IOFactory::createReader('Pairtwo-6');
+$reader = IOFactory::createReader($fileformat);
 $reader->read($pairingfile);
 
 // From here on you can start. Please use the examples on https://github.com/jeroened/libpairtwo/wiki
