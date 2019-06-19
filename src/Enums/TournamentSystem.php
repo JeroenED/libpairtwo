@@ -1,15 +1,29 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jeroen
- * Date: 19/01/19
- * Time: 12:23
+ * Enum TournamentSystem
+ *
+ * List of all compatible tournament systems
+ *
+ * @author      Jeroen De Meerleer <schaak@jeroened.be>
+ * @category    Main
+ * @package     Libpairtwo
+ * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 
 namespace JeroenED\Libpairtwo\Enums;
 
 use MyCLabs\Enum\Enum;
 
+/**
+ * Enum TournamentSystem
+ *
+ * List of all compatible tournament systems
+ *
+ * @author      Jeroen De Meerleer <schaak@jeroened.be>
+ * @category    Main
+ * @package     Libpairtwo
+ * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ */
 class TournamentSystem extends Enum
 {
     const Swiss = 'Swiss';
