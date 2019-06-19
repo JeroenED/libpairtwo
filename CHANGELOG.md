@@ -3,8 +3,10 @@
 ## vx.x.x (Released: xx-xxx-xx)
 * NEW FEATURE: Libpairtwo distribution releases (use these if you don't have knowledge of composer or dependency management)
 * NEW FEATURE: Soccer Kashdan (aka: kashdan using 3-1-0 scoring)
+* MAJOR CHANGE: Model Classes has been removed
 * CHANGE: Deprecated `sws::class` was removed
 * CHANGE: Added a logo to the project
+* CHANGE: Replaced PhpDoc with Doxygen
 * BUGFIX: `Tournament::getParticipants()` did not return a correct value
 
 ## v1.0.2 (Released: 05-jun-2019)
