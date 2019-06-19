@@ -1,11 +1,30 @@
 <?php
-
+/**
+ * Class Constants
+ *
+ * Static class for constants
+ *
+ * @author      Jeroen De Meerleer <schaak@jeroened.be>
+ * @category    Main
+ * @package     Libpairtwo
+ * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ */
 
 namespace JeroenED\Libpairtwo;
 
 use JeroenED\Libpairtwo\Enums\Color;
 use JeroenED\Libpairtwo\Enums\Result;
 
+/**
+ * Class Constants
+ *
+ * Static class for constants
+ *
+ * @author      Jeroen De Meerleer <schaak@jeroened.be>
+ * @category    Main
+ * @package     Libpairtwo
+ * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ */
 class Constants
 {
     const Won = [ Result::won, Result::wonforfait, Result::wonbye, Result::wonadjourned ];

@@ -1,15 +1,29 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jeroen
- * Date: 11/02/19
- * Time: 16:03
+ * Enum Result
+ *
+ * List of all compatible results
+ *
+ * @author      Jeroen De Meerleer <schaak@jeroened.be>
+ * @category    Main
+ * @package     Libpairtwo
+ * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 
 namespace JeroenED\Libpairtwo\Enums;
 
 use MyCLabs\Enum\Enum;
 
+/**
+ * Enum Result
+ *
+ * List of all compatible results
+ *
+ * @author      Jeroen De Meerleer <schaak@jeroened.be>
+ * @category    Main
+ * @package     Libpairtwo
+ * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ */
 class Result extends Enum
 {
     const none = '*';
