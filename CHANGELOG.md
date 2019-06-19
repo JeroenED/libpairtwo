@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## vx.x.x (Released: xx-xxx-xx)
+## v1.1 (Released: 20-jun-2019)
 * NEW FEATURE: Libpairtwo distribution releases (use these if you don't have knowledge of composer or dependency management)
 * NEW FEATURE: Soccer Kashdan (aka: kashdan using 3-1-0 scoring)
 * MAJOR CHANGE: Model Classes has been removed
