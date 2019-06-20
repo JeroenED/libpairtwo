@@ -8,7 +8,7 @@ composer.lock
 /.idea
 /doc/api/*
 
-/libpairtwo-dist.zip
+/libpairtwo-*-dist.zip
 
 /dist/vendor/
 /dist/composer.json
