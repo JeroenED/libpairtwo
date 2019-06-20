@@ -39,7 +39,7 @@ class Game
     private $result;
 
     /**
-     * This function gets the result from the game
+     * Returns the result for the game
      *
      * @return Gameresult
      */
