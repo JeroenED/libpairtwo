@@ -39,7 +39,7 @@ class Game
     private $result;
 
     /**
-     * This function gets the result from the game
+     * Returns the result for the game
      *
      * @return Gameresult
      */
@@ -75,7 +75,7 @@ class Game
     }
 
     /**
-     * Gets pairing for white player
+     * Returns the pairing for white player
      *
      * @return Pairing | null
      */
@@ -97,7 +97,7 @@ class Game
     }
 
     /**
-     * Gets pairing for black player
+     * Returns the pairing for black player
      *
      * @return Pairing | null
      */
