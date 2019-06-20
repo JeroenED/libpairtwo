@@ -351,11 +351,12 @@ class Tournament
     }
 
     /**
+     * Sort by tiebreak
+     *
      * @param Player $a
      * @param Player $b
      * @return Closure
      */
-
     private function sortTiebreak(int $key): Closure
     {
         return function (Player $a, Player $b) use ($key) {
@@ -368,6 +369,11 @@ class Tournament
 
 
     /**
+     * Calculates a specific tiebreak for $player
+     *
+     * @param Tiebreak $tiebreak
+     * @param Player $player
+     * @param int $tbkey
      * @return float | null
      */
     private function calculateTiebreak(Tiebreak $tiebreak, Player $player, int $tbkey = 0): ?float
@@ -416,10 +422,10 @@ class Tournament
                 return $this->calculateSonneborn($player);
                 break;
             case Tiebreak::Kashdan:
-                return $this->calculateKashdan($player);
+                return $this->calculateKashdan($player, ["Won" => 4, "Draw" => 2, "Lost" => 1, "NotPlayed" => 0]);
                 break;
             case Tiebreak::SoccerKashdan:
-                return $this->calculateSoccerKashdan($player);
+                return $this->calculateKashdan($player,  ["Won" => 3, "Draw" => 1, "Lost" => 0, "NotPlayed" => -1]);
                 break;
             case Tiebreak::Cumulative:
                 return $this->calculateCumulative($player);
@@ -467,6 +473,8 @@ class Tournament
     }
 
     /**
+     * Points following keizer system
+     *
      * @param Player $player
      * @return float | null
      */
@@ -477,6 +485,8 @@ class Tournament
 
 
     /**
+     * Points following american system
+     *
      * @param Player $player
      * @return float | null
      */
@@ -487,6 +497,8 @@ class Tournament
 
 
     /**
+     * Number of points
+     *
      * @param Player $player
      * @return float | null
      */
@@ -497,6 +509,8 @@ class Tournament
 
 
     /**
+     * Number of won games
+     *
      * @param Player $player
      * @return float | null
      */
@@ -513,6 +527,8 @@ class Tournament
 
 
     /**
+     * Number of played games with black
+     *
      * @param Player $player
      * @return float | null
      */
@@ -528,6 +544,8 @@ class Tournament
     }
 
     /**
+     * Number of won games with black
+     *
      * @param Player $player
      * @return float | null
      */
@@ -719,53 +737,27 @@ class Tournament
 
 
     /**
-     * 3 points for each, 1 for each draw and no for losing. -1 for not played games
+     * $points["Won"] points for each win, $points["Draw"] for each draw and $points["Lost"] point for losing. $points["NotPlayed"] points for not played games
      *
      * @param Player $player
+     * @param int[] $points
      * @return float | null
      */
-    private function calculateSoccerKashdan(Player $player): ?float
+    private function calculateKashdan(Player $player, array $points): ?float
     {
         $tiebreak = 0;
         foreach ($player->getPairings() as $pairing) {
             $toadd = 0;
             if (array_search($pairing->getResult(), Constants::Won) !== false) {
-                $toadd = 3;
+                $toadd = $points["Won"];
             } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
-                $toadd = 1;
+                $toadd = $points["Draw"];
             } elseif (array_search($pairing->getResult(), Constants::Lost) !== false) {
-                $toadd = 0;
+                $toadd = $points["Lost"];
             }
 
             if (array_search($pairing->getResult(), Constants::NotPlayed) !== false) {
-                $toadd = -1;
-            }
-            $tiebreak += $toadd;
-        }
-        return $tiebreak; // - $player->getNoOfWins();
-    }
-
-    /**
-     * 4 points for each, 2 for each draw and 1 point for losing. 0 points for not played games
-     *
-     * @param Player $player
-     * @return float | null
-     */
-    private function calculateKashdan(Player $player): ?float
-    {
-        $tiebreak = 0;
-        foreach ($player->getPairings() as $pairing) {
-            $toadd = 0;
-            if (array_search($pairing->getResult(), Constants::Won) !== false) {
-                $toadd = 4;
-            } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
-                $toadd = 2;
-            } elseif (array_search($pairing->getResult(), Constants::Lost) !== false) {
-                $toadd = 1;
-            }
-
-            if (array_search($pairing->getResult(), Constants::NotPlayed) !== false) {
-                $toadd = 0;
+                $toadd = $points["NotPlayed"];
             }
             $tiebreak += $toadd;
         }
