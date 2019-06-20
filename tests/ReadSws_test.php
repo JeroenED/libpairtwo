@@ -64,6 +64,9 @@ echo "Absent P3:    " . $sws->getTournament()->getPlayerById(2)->getBinaryData("
 echo "Date Round 1: " . $sws->getTournament()->getRoundByNo(0)->getDate()->format('d/m/Y') . PHP_EOL;
 echo "Date Round 2: " . $sws->getTournament()->getRoundByNo(1)->getDate()->format('d/m/Y') . PHP_EOL;
 echo "Date Round 3: " . $sws->getTournament()->getRoundByNo(2)->getDate()->format('d/m/Y') . PHP_EOL;
+echo "Game Round 1: " . $sws->getTournament()->getRoundByNo(0)->getGames()[0]->getResult()->getValue() . PHP_EOL;
+echo "Game Round 2: " . $sws->getTournament()->getRoundByNo(1)->getGames()[0]->getResult()->getValue() . PHP_EOL;
+echo "Game Round 3: " . $sws->getTournament()->getRoundByNo(2)->getGames()[0]->getResult()->getValue() . PHP_EOL;
 echo "Color Pairing 1: " . $sws->getTournament()->getPairings()[1]->getColor()->getKey() . PHP_EOL;
 echo "Color Pairing 2: " . $sws->getTournament()->getPairings()[2]->getColor()->getKey() . PHP_EOL;
 echo "Color Pairing 3: " . $sws->getTournament()->getPairings()[3]->getColor()->getKey() . PHP_EOL;
