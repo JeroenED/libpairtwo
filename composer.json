@@ -1,7 +1,7 @@
 {
     "name": "jeroened/libpairtwo",
     "type": "library",
-    "description": "A library written in PHP that are saved using common pairing applications",
+    "description": "A library written in PHP that reads files which are saved using common pairing applications",
     "keywords": ["chess", "pairing"],
     "license": "MIT",
     "authors": [
