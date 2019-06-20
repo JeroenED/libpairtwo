@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## v1.1.2 (Release: 21-jun-2019)
+* ENHANCEMENT: Added update section to dist/readme.md
 * MAJOR BUGFIX: `Game::GetResult` throws fatal error `Cannot access parent:: when current class scope has no parent`
 
 ## v1.1.1 (Released: 20-jun-2019)
