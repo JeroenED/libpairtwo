@@ -10,6 +10,7 @@
 * CHANGE: Updated composer metadata
 * CHANGE: Some setters changed to fluent setters. (More info: 7aca35057c10d2b982f93a698499c0c01df2fdc5)
 * CHANGE: Kashdan and Soccer Kashdan are combined in 1 function
+* BUGFIX: Tagging did not work
 
 ## v1.1 (Released: 20-jun-2019)
 * NEW FEATURE: Libpairtwo distribution releases (use these if you don't have knowledge of composer or dependency management)
