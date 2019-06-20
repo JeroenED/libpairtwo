@@ -1,5 +1,7 @@
 .PHONY: help tests dist
 .DEFAULT_GOAL := help
+BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
+VERSION := $(if $(VERSION),$(VERSION),$(BRANCH))
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-12s\033[0m %s\n", $$1, $$2}'
@@ -14,7 +16,7 @@ view-coverage: ## Shows the code coverage report
 	open build/coverage/index.html
 
 api: ## Generates api-docs
-	doxygen
+	VERSIONTAG=$(VERSION) doxygen
 
 dist: ## Generates distribution
 	touch .libpairtwo-dist
@@ -26,7 +28,7 @@ dist: ## Generates distribution
 	rm dist/composer.json
 	rm dist/composer.lock
 	mv dist/composer-dist-installed.json dist/composer.json
-	doxygen
+	VERSIONTAG=$(VERSION) doxygen
 	mkdir -p dist/doc
 	cp -r doc/api dist/doc
 	cd dist && zip -r ../libpairtwo-dist *
