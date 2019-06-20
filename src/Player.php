@@ -101,6 +101,7 @@ class Player
     }
 
     /**
+     * Returns the elo of elotype for the player
      * @param string $type
      * @return int
      */
@@ -110,6 +111,8 @@ class Player
     }
 
     /**
+     * Sets the elo of elotype for the player
+     *
      * @param string $type
      * @param int $value
      * @return Player
@@ -123,6 +126,10 @@ class Player
     }
 
     /**
+     * Returns the identifier of type for the player
+     *
+     * Common possible values are Fide or National
+     *
      * @param string $type
      * @return string
      */
@@ -132,6 +139,10 @@ class Player
     }
 
     /**
+     * Sets the identifier of type for the player
+     *
+     * Common possible values are Fide or National
+     *
      * @param string $type
      * @param string $value
      * @return Player
@@ -145,6 +156,8 @@ class Player
     }
 
     /**
+     * Returns the number of won matches for the player
+     *
      * @return int
      */
     public function getNoOfWins(): int
@@ -159,6 +172,11 @@ class Player
     }
 
     /**
+     * Returns the points of the player.
+     *
+     * 1 Point is awarded for winning
+     * 0.5 points are awarded for draw
+     *
      * @return float
      */
     public function getPoints(): float
@@ -176,6 +194,10 @@ class Player
 
 
     /**
+     * Returns the performance rating of the player
+     *
+     * WARNING: Calculation currently incorrect. Uses the rule of 400 as temporary solution
+     *
      * @return int
      */
     public function getPerformance(string $type, int $unratedElo): float
@@ -201,6 +223,8 @@ class Player
 
 
     /**
+     * Returns the number of played games of the player
+     *
      * @return int
      */
     public function getPlayedGames(): int
@@ -215,6 +239,8 @@ class Player
     }
 
     /**
+     * Returns the name of the player
+     *
      * @return string
      */
     public function getName(): string
@@ -223,8 +249,10 @@ class Player
     }
 
     /**
+     * Sets the name of the player
+     *
      * @param string $Name
-     * @return \JeroenED\Libpairtwo\Models\Player
+     * @return Player
      */
     public function setName(string $Name): Player
     {
@@ -233,6 +261,8 @@ class Player
     }
 
     /**
+     * Returns an array of all ID's of the player
+     *
      * @return string[]
      */
     public function getIds(): ?array
@@ -241,6 +271,8 @@ class Player
     }
 
     /**
+     * Sets an array of all ID's of the player
+     *
      * @param string[] $Ids
      * @return Player
      */
@@ -251,6 +283,8 @@ class Player
     }
 
     /**
+     * Returns an array of all elos of the player
+     *
      * @return int[]
      */
     public function getElos(): ?array
@@ -259,6 +293,8 @@ class Player
     }
 
     /**
+     * Sets an array of all elos of the player
+     *
      * @param int[] $Elos
      * @return Player
      */
@@ -269,24 +305,30 @@ class Player
     }
 
     /**
-     * @return \DateTime
+     * Returns the date of birth of the player
+     *
+     * @return DateTime
      */
-    public function getDateOfBirth(): \DateTime
+    public function getDateOfBirth(): DateTime
     {
         return $this->DateOfBirth;
     }
 
     /**
-     * @param \DateTime $DateOfBirth
+     * Sets the date of birth of the player
+     *
+     * @param DateTime $DateOfBirth
      * @return Player
      */
-    public function setDateOfBirth(\DateTime $DateOfBirth): Player
+    public function setDateOfBirth(DateTime $DateOfBirth): Player
     {
         $this->DateOfBirth = $DateOfBirth;
         return $this;
     }
 
     /**
+     * Returns an array of all tiebreaks for the player
+     *
      * @return float[]
      */
     public function getTiebreaks(): array
@@ -295,6 +337,8 @@ class Player
     }
 
     /**
+     * Sets an array of all tiebreaks for the player
+     *
      * @param float[] $Tiebreaks
      * @return Player
      */
@@ -305,6 +349,7 @@ class Player
     }
 
     /**
+     * Returns the nation of the player
      * example value: BEL
      *
      * @return string
@@ -315,6 +360,7 @@ class Player
     }
 
     /**
+     * Sets the nation of the player
      * example value: BEL
      *
      * @param string $Nation
@@ -327,6 +373,8 @@ class Player
     }
 
     /**
+     * Returns the category of the player
+     *
      * @return string
      */
     public function getCategory(): string
@@ -335,6 +383,8 @@ class Player
     }
 
     /**
+     * Sets the category of the player
+     *
      * @param string $Category
      * @return Player
      */
@@ -345,6 +395,8 @@ class Player
     }
 
     /**
+     * Returns the title of the player
+     *
      * @return Title
      */
     public function getTitle(): Title
@@ -353,6 +405,8 @@ class Player
     }
 
     /**
+     * Sets the title of the player
+     *
      * @param Title $Title
      * @return Player
      */
@@ -363,6 +417,8 @@ class Player
     }
 
     /**
+     * Returns the gender of the player
+     *
      * @return Gender
      */
     public function getGender(): Gender
@@ -371,6 +427,8 @@ class Player
     }
 
     /**
+     * Sets the gender of the player
+     *
      * @param Gender $Gender
      * @return Player
      */
@@ -381,6 +439,8 @@ class Player
     }
 
     /**
+     * Returns an array of all pairings of the player
+     *
      * @return Pairing[]
      */
     public function getPairings(): array
@@ -389,6 +449,8 @@ class Player
     }
 
     /**
+     * Sets an array of all pairings of the player
+     *
      * @param Pairing[] $Pairings
      * @return Player
      */
@@ -399,6 +461,8 @@ class Player
     }
 
     /**
+     * Returns binary data that was read out the pairtwo file but was not needed immediately
+     *
      * @param string $Key
      * @return bool|DateTime|int|string
      */
@@ -408,6 +472,8 @@ class Player
     }
 
     /**
+     * Sets binary data that is read out the pairtwo file but is not needed immediately
+     *
      * @param string $Key
      * @param bool|int|DateTime|string $Value
      * @return Player

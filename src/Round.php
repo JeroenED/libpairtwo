@@ -142,7 +142,7 @@ class Round
         return $this;
     }
     /**
-     * Returns an array of all games in the tournament
+     * Returns an array of all games for the round
      *
      * @return Game[]
      */
@@ -151,7 +151,7 @@ class Round
         return $this->games;
     }
     /**
-     * Sets Round::games to $games
+     * Sets an array of all games for the round
      *
      * @param Game[] $games
      * @return Round
@@ -162,7 +162,7 @@ class Round
         return $this;
     }
     /**
-     * Returns the round number
+     * Returns the round number of the round
      *
      * @return int
      */
@@ -171,7 +171,7 @@ class Round
         return $this->roundNo;
     }
     /**
-     * Sets the round number
+     * Sets the round number of the round
      *
      * @param int $roundNo
      * @return Round
@@ -182,7 +182,7 @@ class Round
         return $this;
     }
     /**
-     * Returns an array of all pairings for this round
+     * Returns an array of all pairings for the round
      *
      * @return Pairing[]
      */
@@ -191,7 +191,7 @@ class Round
         return $this->pairings;
     }
     /**
-     * Sets Round::Pairings to $pairings
+     * Sets an array of all pairings for the round
      *
      * @param Pairing[] $pairings
      * @return Round
