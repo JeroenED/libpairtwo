@@ -29,13 +29,13 @@ use JeroenED\Libpairtwo\Pairing;
  */
 class Game
 {
-    /** @var Pairing|null */
+    /** @var Pairing | null */
     private $white;
 
-    /** @var Pairing|null */
+    /** @var Pairing | null */
     private $black;
 
-    /** @var GameResult|null */
+    /** @var GameResult | null */
     private $result;
 
     /**
@@ -77,7 +77,7 @@ class Game
     /**
      * Gets pairing for white player
      *
-     * @return Pairing|null
+     * @return Pairing | null
      */
     public function getWhite(): ?Pairing
     {
@@ -87,7 +87,7 @@ class Game
     /**
      * Sets pairing for white player
      *
-     * @param Pairing|null $white
+     * @param Pairing | null $white
      * @return Game
      */
     public function setWhite(?Pairing $white): Game
@@ -99,7 +99,7 @@ class Game
     /**
      * Gets pairing for black player
      *
-     * @return Pairing|null
+     * @return Pairing | null
      */
     public function getBlack(): ?Pairing
     {
@@ -109,7 +109,7 @@ class Game
     /**
      * Sets pairing for black player
      *
-     * @param Pairing|null $black
+     * @param Pairing | null $black
      * @return Game
      */
     public function setBlack(?Pairing $black): Game
@@ -121,7 +121,7 @@ class Game
     /**
      * Sets result for game
      *
-     * @param Gameresult|null $result
+     * @param Gameresult | null $result
      * @return Game
      */
     public function setResult(?Gameresult $result): Game

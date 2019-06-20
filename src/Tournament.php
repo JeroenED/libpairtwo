@@ -12,6 +12,7 @@
 
 namespace JeroenED\Libpairtwo;
 
+use Closure;
 use DateTime;
 use JeroenED\Libpairtwo\Enums\Tiebreak;
 use JeroenED\Libpairtwo\Enums\Color;
@@ -288,8 +289,9 @@ class Tournament
      *
      * @param Game $game
      * @param int $round
+     * @return Tournament
      */
-    public function addGame(Game $game, int $round)
+    public function addGame(Game $game, int $round): Tournament
     {
         if (!isset($this->getRounds()[$round])) {
             $roundObj = new Round();
@@ -298,6 +300,7 @@ class Tournament
         }
 
         $this->getRoundByNo($round)->addGame($game);
+        return $this;
     }
 
     /**
@@ -305,7 +308,7 @@ class Tournament
      *
      * @return Player[]
      */
-    public function getRanking()
+    public function getRanking(): array
     {
         $players = $this->getPlayers();
         foreach ($this->getTiebreaks() as $tbkey=>$tiebreak) {
@@ -350,10 +353,10 @@ class Tournament
     /**
      * @param Player $a
      * @param Player $b
-     * @return \Closure
+     * @return Closure
      */
 
-    private function sortTiebreak(int $key)
+    private function sortTiebreak(int $key): Closure
     {
         return function (Player $a, Player $b) use ($key) {
             if (($b->getTiebreaks()[$key] == $a->getTiebreaks()[$key]) || ($a->getTiebreaks()[$key] === false) || ($b->getTiebreaks()[$key] === false)) {
@@ -365,7 +368,7 @@ class Tournament
 
 
     /**
-     * @return float|null
+     * @return float | null
      */
     private function calculateTiebreak(Tiebreak $tiebreak, Player $player, int $tbkey = 0): ?float
     {
@@ -465,7 +468,7 @@ class Tournament
 
     /**
      * @param Player $player
-     * @return float|null
+     * @return float | null
      */
     private function calculateKeizer(Player $player): ?float
     {
@@ -475,7 +478,7 @@ class Tournament
 
     /**
      * @param Player $player
-     * @return float|null
+     * @return float | null
      */
     private function calculateAmerican(Player $player): ?float
     {
@@ -485,7 +488,7 @@ class Tournament
 
     /**
      * @param Player $player
-     * @return float|null
+     * @return float | null
      */
     private function calculatePoints(Player $player): ?float
     {
@@ -495,7 +498,7 @@ class Tournament
 
     /**
      * @param Player $player
-     * @return float|null
+     * @return float | null
      */
     private function calculateBaumbach(Player $player): ?float
     {
@@ -511,7 +514,7 @@ class Tournament
 
     /**
      * @param Player $player
-     * @return float|null
+     * @return float | null
      */
     private function calculateBlackPlayed(Player $player): ?float
     {
@@ -526,7 +529,7 @@ class Tournament
 
     /**
      * @param Player $player
-     * @return float|null
+     * @return float | null
      */
     private function calculateBlackWin(Player $player): ?float
     {
@@ -541,10 +544,12 @@ class Tournament
 
 
     /**
+     * Result between the tied players
+     *
      * @param Player $player
      * @param array $opponents
      * @param int $key
-     * @return float|null
+     * @return float | null
      */
     private function calculateMutualResult(Player $player, array $opponents, int $key): ?float
     {
@@ -581,6 +586,8 @@ class Tournament
 
 
     /**
+     * The average rating of the opponents
+     *
      * @param Player $player
      * @param int $cut
      * @return float
@@ -604,9 +611,11 @@ class Tournament
 
 
     /**
+     * The average performance of the opponents
+     *
      * @param Player $player
      * @param int $cut
-     * @return float|null
+     * @return float | null
      */
     private function calculateAveragePerformance(Player $player, string $type, int $cut = 0): ?float
     {
@@ -627,9 +636,11 @@ class Tournament
 
 
     /**
+     * Points against players who have more than $cut % points
+     *
      * @param Player $player
      * @param int $cut
-     * @return float|null
+     * @return float | null
      */
     private function calculateKoya(Player $player, int $cut = 50): ?float
     {
@@ -648,10 +659,11 @@ class Tournament
 
 
     /**
+     * The combined points of the opponents
      * @param Player $player
      * @param int $cutlowest
      * @param int $cuthighest
-     * @return float|null
+     * @return float | null
      */
     private function calculateBuchholz(Player $player, int $cutlowest = 0, int $cuthighest = 0): ?float
     {
@@ -685,8 +697,10 @@ class Tournament
 
 
     /**
+     * The points of $player's opponents who $player won against, plus half of the points of $player's opponents who $player drew against
+     *
      * @param Player $player
-     * @return float|null
+     * @return float | null
      */
     private function calculateSonneborn(Player $player): ?float
     {
@@ -705,8 +719,10 @@ class Tournament
 
 
     /**
+     * 3 points for each, 1 for each draw and no for losing. -1 for not played games
+     *
      * @param Player $player
-     * @return float|null
+     * @return float | null
      */
     private function calculateSoccerKashdan(Player $player): ?float
     {
@@ -730,8 +746,10 @@ class Tournament
     }
 
     /**
+     * 4 points for each, 2 for each draw and 1 point for losing. 0 points for not played games
+     *
      * @param Player $player
-     * @return float|null
+     * @return float | null
      */
     private function calculateKashdan(Player $player): ?float
     {
@@ -755,8 +773,10 @@ class Tournament
     }
 
     /**
+     * Combined score of $player after each round
+     *
      * @param Player $player
-     * @return float|null
+     * @return float | null
      */
     private function calculateCumulative(Player $player): ?float
     {
@@ -776,6 +796,8 @@ class Tournament
     }
 
     /**
+     * Returns the name of the tournament
+     *
      * @return string
      */
     public function getName(): string
@@ -784,8 +806,10 @@ class Tournament
     }
 
     /**
+     * Sets the name of the tournament
+     *
      * @param string $Name
-     * @return \JeroenED\Libpairtwo\Models\Tournament
+     * @return Tournament
      */
     public function setName(string $Name): Tournament
     {
@@ -794,6 +818,8 @@ class Tournament
     }
 
     /**
+     * Returns the organiser of the tournament
+     *
      * @return string
      */
     public function getOrganiser(): string
@@ -802,6 +828,8 @@ class Tournament
     }
 
     /**
+     * Sets the organiser of the tournament
+     *
      * @param string $Organiser
      * @return Tournament
      */
@@ -812,6 +840,8 @@ class Tournament
     }
 
     /**
+     * Returns the clubidentifier of the tournament
+     *
      * @return int
      */
     public function getOrganiserClubNo(): int
@@ -820,6 +850,8 @@ class Tournament
     }
 
     /**
+     * Sets the clubidentifier of the tournament
+     *
      * @param int $OrganiserClubNo
      * @return Tournament
      */
@@ -830,6 +862,8 @@ class Tournament
     }
 
     /**
+     * Returns the club of the organiser
+     *
      * @return string
      */
     public function getOrganiserClub(): string
@@ -838,6 +872,8 @@ class Tournament
     }
 
     /**
+     * Sets the club of the organiser
+     *
      * @param string $OrganiserClub
      * @return Tournament
      */
@@ -848,6 +884,8 @@ class Tournament
     }
 
     /**
+     * Returns the location of the tournament
+     *
      * @return string
      */
     public function getOrganiserPlace(): string
@@ -856,6 +894,8 @@ class Tournament
     }
 
     /**
+     * Sets the location of the tournament
+     *
      * @param string $OrganiserPlace
      * @return Tournament
      */
@@ -866,6 +906,8 @@ class Tournament
     }
 
     /**
+     * Returns the country where the tournament is held
+     *
      * @return string
      */
     public function getOrganiserCountry(): string
@@ -874,6 +916,8 @@ class Tournament
     }
 
     /**
+     * Sets the country where the tournament is held
+     *
      * @param string $OrganiserCountry
      * @return Tournament
      */
@@ -884,6 +928,8 @@ class Tournament
     }
 
     /**
+     * Returns the fide homologation
+     *
      * @return int
      */
     public function getFideHomol(): int
@@ -892,6 +938,8 @@ class Tournament
     }
 
     /**
+     * Sets the fide homologation
+     *
      * @param int $FideHomol
      * @return Tournament
      */
@@ -902,6 +950,8 @@ class Tournament
     }
 
     /**
+     * Returns the start date of the tournament
+     *
      * @return DateTime
      */
     public function getStartDate(): DateTime
@@ -910,6 +960,8 @@ class Tournament
     }
 
     /**
+     * Sets the start date of the tournament
+     *
      * @param DateTime $StartDate
      * @return Tournament
      */
@@ -920,6 +972,8 @@ class Tournament
     }
 
     /**
+     * Returns the end date of the tournament
+     *
      * @return DateTime
      */
     public function getEndDate(): DateTime
@@ -928,6 +982,8 @@ class Tournament
     }
 
     /**
+     * Sets the end date of the tournament
+     *
      * @param DateTime $EndDate
      * @return Tournament
      */
@@ -938,6 +994,8 @@ class Tournament
     }
 
     /**
+     * Returns the arbiter of the tournament
+     *
      * @return string
      */
     public function getArbiter(): string
@@ -946,6 +1004,8 @@ class Tournament
     }
 
     /**
+     * Sets the arbiter of the tournament
+     *
      * @param string $Arbiter
      * @return Tournament
      */
@@ -956,6 +1016,8 @@ class Tournament
     }
 
     /**
+     * Returns the number of round
+     *
      * @return int
      */
     public function getNoOfRounds(): int
@@ -964,6 +1026,8 @@ class Tournament
     }
 
     /**
+     * Sets the number of rounds
+     *
      * @param int $NoOfRounds
      * @return Tournament
      */
@@ -974,6 +1038,8 @@ class Tournament
     }
 
     /**
+     * Returns an array containing all rounds of the tournament
+     *
      * @return Round[]
      */
     public function getRounds(): array
@@ -982,6 +1048,8 @@ class Tournament
     }
 
     /**
+     * Sets an array containing all rounds of the tournament
+     *
      * @param Round[] $Rounds
      * @return Tournament
      */
@@ -992,6 +1060,8 @@ class Tournament
     }
 
     /**
+     * Returns the tempo of the tournament
+     *
      * @return string
      */
     public function getTempo(): string
@@ -1000,6 +1070,8 @@ class Tournament
     }
 
     /**
+     * Sets the tempo of the tournament
+     *
      * @param string $Tempo
      * @return Tournament
      */
@@ -1010,6 +1082,8 @@ class Tournament
     }
 
     /**
+     * Returns the elo of a player if the player does not have one
+     *
      * @return int
      */
     public function getNonRatedElo(): int
@@ -1018,6 +1092,8 @@ class Tournament
     }
 
     /**
+     * Sets the elo of a player if the player does not have one
+     *
      * @param int $NonRatedElo
      * @return Tournament
      */
@@ -1028,6 +1104,8 @@ class Tournament
     }
 
     /**
+     * Returns the tournament system
+     *
      * @return TournamentSystem
      */
     public function getSystem(): TournamentSystem
@@ -1036,6 +1114,8 @@ class Tournament
     }
 
     /**
+     * Sets the tournament system
+     *
      * @param TournamentSystem $System
      * @return Tournament
      */
@@ -1046,6 +1126,8 @@ class Tournament
     }
 
     /**
+     * Returns the first period of the tempo
+     *
      * @return string
      */
     public function getFirstPeriod(): string
@@ -1054,6 +1136,8 @@ class Tournament
     }
 
     /**
+     * Sets the first period of the tempo
+     *
      * @param string $FirstPeriod
      * @return Tournament
      */
@@ -1064,6 +1148,8 @@ class Tournament
     }
 
     /**
+     * Returns the second period of the tempo
+     *
      * @return string
      */
     public function getSecondPeriod(): string
@@ -1072,6 +1158,8 @@ class Tournament
     }
 
     /**
+     * Sets the second period of the tempo
+     *
      * @param string $SecondPeriod
      * @return Tournament
      */
@@ -1082,6 +1170,8 @@ class Tournament
     }
 
     /**
+     * Returns the federation the tournament belongs to
+     *
      * @return string
      */
     public function getFederation(): string
@@ -1090,6 +1180,8 @@ class Tournament
     }
 
     /**
+     * Sets the federation the tournament belongs to
+     *
      * @param string $Federation
      * @return Tournament
      */
@@ -1100,6 +1192,8 @@ class Tournament
     }
 
     /**
+     * Returns an array of all players of the tournament
+     *
      * @return Player[]
      */
     public function getPlayers(): array
@@ -1108,6 +1202,8 @@ class Tournament
     }
 
     /**
+     * Sets an array of all players of the tournament
+     *
      * @param Player[] $Players
      * @return Tournament
      */
@@ -1118,6 +1214,8 @@ class Tournament
     }
 
     /**
+     * Returns the year the tournament is held in
+     *
      * @return int
      */
     public function getYear(): int
@@ -1126,6 +1224,8 @@ class Tournament
     }
 
     /**
+     * Sets the year the tournament is held in
+     *
      * @param int $Year
      * @return Tournament
      */
@@ -1136,6 +1236,8 @@ class Tournament
     }
 
     /**
+     * Returns an array of all pairings of the tournament
+     *
      * @return Pairing[]
      */
     public function getPairings(): array
@@ -1144,6 +1246,8 @@ class Tournament
     }
 
     /**
+     * Sets an array of all pairings of the tournament
+     *
      * @param Pairing[] $Pairings
      * @return Tournament
      */
@@ -1154,6 +1258,8 @@ class Tournament
     }
 
     /**
+     * Returns an array of all tiebreaks of the tournament
+     *
      * @return Tiebreak[]
      */
     public function getTiebreaks(): array
@@ -1162,6 +1268,8 @@ class Tournament
     }
 
     /**
+     * Sets an array of all tiebreaks of the tournament
+     *
      * @param Tiebreak[] $Tiebreaks
      * @return Tournament
      */
@@ -1172,6 +1280,8 @@ class Tournament
     }
 
     /**
+     * Returns the elo that has priority
+     *
      * @return string
      */
     public function getPriorityElo(): string
@@ -1180,6 +1290,8 @@ class Tournament
     }
 
     /**
+     * Sets the elo that has priority
+     *
      * @param string $PriorityElo
      * @return Tournament
      */
@@ -1189,6 +1301,8 @@ class Tournament
         return $this;
     }
     /**
+     * Returns the identifier that has priority
+     *
      * @return string
      */
     public function getPriorityId(): string
@@ -1197,6 +1311,8 @@ class Tournament
     }
 
     /**
+     * Sets the identifier that has priority
+     *
      * @param string $PriorityId
      * @return Tournament
      */

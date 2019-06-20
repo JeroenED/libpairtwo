@@ -27,10 +27,10 @@ use JeroenED\Libpairtwo\Enums\Result;
  */
 class Pairing
 {
-    /** @var Player|null */
+    /** @var Player | null */
     private $Player;
 
-    /** @var Player|null */
+    /** @var Player | null */
     private $Opponent;
 
     /** @var Color */
@@ -43,7 +43,9 @@ class Pairing
     private $Round;
 
     /**
-     * @return Player|null
+     * Returns the player of the pairing
+     *
+     * @return Player | null
      */
     public function getPlayer(): ?Player
     {
@@ -51,7 +53,9 @@ class Pairing
     }
 
     /**
-     * @param Player|null $Player
+     * Sets the player of the pairing
+     *
+     * @param Player | null $Player
      * @return Pairing
      */
     public function setPlayer(?Player $Player): Pairing
@@ -61,7 +65,9 @@ class Pairing
     }
 
     /**
-     * @return Player|null
+     * Returns the opponent of the pairing
+     *
+     * @return Player | null
      */
     public function getOpponent(): ?Player
     {
@@ -69,7 +75,9 @@ class Pairing
     }
 
     /**
-     * @param Player|null $Opponent
+     * Sets the opponent of the pairing
+     *
+     * @param Player | null $Opponent
      * @return Pairing
      */
     public function setOpponent(?Player $Opponent): Pairing
@@ -79,6 +87,8 @@ class Pairing
     }
 
     /**
+     * Returns the color of the pairing
+     *
      * @return Color
      */
     public function getColor(): Color
@@ -87,6 +97,8 @@ class Pairing
     }
 
     /**
+     * Sets the color of the pairing
+     *
      * @param Color $Color
      * @return Pairing
      */
@@ -97,6 +109,8 @@ class Pairing
     }
 
     /**
+     * Returns the individual result of the pairing
+     *
      * @return Result
      */
     public function getResult(): Result
@@ -105,6 +119,8 @@ class Pairing
     }
 
     /**
+     * Sets the individual result of the pairing
+     *
      * @param Result $Result
      * @return Pairing
      */
@@ -115,6 +131,8 @@ class Pairing
     }
 
     /**
+     * Returns the round number of the pairing
+     *
      * @return int
      */
     public function getRound(): int
@@ -123,6 +141,8 @@ class Pairing
     }
 
     /**
+     * Sets the round number of the pairing
+     *
      * @param int $Round
      * @return Pairing
      */
