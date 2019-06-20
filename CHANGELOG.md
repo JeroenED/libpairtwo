@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## v1.1.2 (Release: 21-jun-2019)
+* ENHANCEMENT: Added update section to dist/readme.md
+
 ## v1.1.1 (Released: 20-jun-2019)
 * NEW FEATURE: Added clean-dist and clean-dev targets
 * ENHANCEMENT: Better Docs generation
