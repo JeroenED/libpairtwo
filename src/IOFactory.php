@@ -42,8 +42,11 @@ abstract class IOFactory
     /**
      * Creates a reader for $type
      *
+     * Compatible types are Pairtwo-5 and Pairtwo-6
+     *
      * @param string $type
      * @return ReaderInterface
+     * @throws LibpairtwoException
      */
     public static function createReader(string $type): ReaderInterface
     {
