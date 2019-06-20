@@ -31,7 +31,7 @@ dist: ## Generates distribution
 	make api
 	mkdir -p dist/doc
 	cp -r doc/api dist/doc
-	cd dist && zip -r ../libpairtwo-$(VERSION)-dist *
+	cd dist && zip -r ../libpairtwo-$(VERSION)-dist.zip *
 	git reset --hard HEAD^
 	mv res/composer* dist/
 
