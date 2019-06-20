@@ -237,7 +237,7 @@ class Tournament
                 $cache[] = $pairing;
             } else {
                 // Check if game already exists
-                if (!$this->GameExists($game, $round)) {
+                if (!$this->gameExists($game, $round)) {
                     $this->AddGame($game, $round);
                 }
             }
@@ -252,7 +252,7 @@ class Tournament
      * @param int $round
      * @return bool
      */
-    public function GameExists(Game $game, int $round = -1): bool
+    public function gameExists(Game $game, int $round = -1): bool
     {
         $search = [ $round ];
         if ($round == -1) {
