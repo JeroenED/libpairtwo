@@ -75,7 +75,7 @@ class Game
     }
 
     /**
-     * Gets pairing for white player
+     * Returns the pairing for white player
      *
      * @return Pairing | null
      */
@@ -97,7 +97,7 @@ class Game
     }
 
     /**
-     * Gets pairing for black player
+     * Returns the pairing for black player
      *
      * @return Pairing | null
      */
