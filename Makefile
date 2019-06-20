@@ -28,10 +28,10 @@ dist: ## Generates distribution
 	rm dist/composer.json
 	rm dist/composer.lock
 	mv dist/composer-dist-installed.json dist/composer.json
-	VERSIONTAG=$(VERSION) doxygen
+	make api
 	mkdir -p dist/doc
 	cp -r doc/api dist/doc
-	cd dist && zip -r ../libpairtwo-dist *
+	cd dist && zip -r ../libpairtwo-$(VERSION)-dist *
 	git reset --hard HEAD^
 	mv res/composer* dist/
 
