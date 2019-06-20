@@ -55,6 +55,8 @@ class Pairtwo6 implements ReaderInterface
     private $BinaryData;
 
     /**
+     * Returns the version tag of Pairtwo which created the pairtwo file
+     *
      * @return string
      */
     public function getRelease(): string
@@ -63,8 +65,10 @@ class Pairtwo6 implements ReaderInterface
     }
 
     /**
+     * Sets the version tag of Pairtwo which created the pairtwo file
+     *
      * @param string $Release
-     * @return \JeroenED\Libpairtwo\Readers\Models\Pairtwo6
+     * @return Pairtwo6
      */
     public function setRelease(string $Release): Pairtwo6
     {
@@ -73,6 +77,8 @@ class Pairtwo6 implements ReaderInterface
     }
 
     /**
+     * Returns the tournament that was read out of the pairtwo file
+     *
      * @return Tournament
      */
     public function getTournament(): Tournament
@@ -81,6 +87,8 @@ class Pairtwo6 implements ReaderInterface
     }
 
     /**
+     * Sets the tournament that was read out of the pairtwo file
+     *
      * @param Tournament $Tournament
      * @return Pairtwo6
      */
@@ -92,6 +100,8 @@ class Pairtwo6 implements ReaderInterface
 
 
     /**
+     * Returns binary data that was read out the pairtwo file but was not needed immediately
+     *
      * @param string $Key
      * @return bool|DateTime|int|string
      */
@@ -102,6 +112,8 @@ class Pairtwo6 implements ReaderInterface
 
 
     /**
+     * Sets binary data that is read out the pairtwo file but is not needed immediately
+     *
      * @param string $Key
      * @param bool|int|DateTime|string $Value
      * @return Pairtwo6
@@ -119,7 +131,7 @@ class Pairtwo6 implements ReaderInterface
      * @return Pairtwo6
      * @throws IncompatibleReaderException
      */
-    public function read($filename): ReaderInterface
+    public function read(string $filename): ReaderInterface
     {
         $swshandle = fopen($filename, 'rb');
         $swscontents = fread($swshandle, filesize($filename));
