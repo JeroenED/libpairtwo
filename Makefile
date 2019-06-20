@@ -1,7 +1,7 @@
 .PHONY: help tests dist
 .DEFAULT_GOAL := help
 BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
-VERSION := $(if $(VERSION),$(VERSION),$(BRANCH))
+VERSION := $(if $(TAG),$(TAG),$(BRANCH))
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-12s\033[0m %s\n", $$1, $$2}'
@@ -54,5 +54,6 @@ tag: ## Creates a new signed git tag
 	@echo Tagging $(TAG)
 	chag update $(TAG)
 	git add --all
-	git commit -m 'Release $(TAG)'
-	git tag -s $(TAG) -m 'Release $(TAG)'
+	git commit -m 'RELEASE: $(TAG) Release'
+	git tag -s $(TAG) -m 'Release $(TAG) Release'
+	make dist
