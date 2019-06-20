@@ -20,7 +20,7 @@ api: ## Generates api-docs
 
 dist: ## Generates distribution
 	touch .libpairtwo-dist
-	git add -A
+	git add .libpairtwo-dist
 	git commit -m "Commit before release"
 	cp dist/composer* res/
 	mv dist/composer-dist.json dist/composer.json
