@@ -107,7 +107,7 @@ class Tournament
      * @param integer $id
      * @return Player
      */
-    public function getPlayerById(int $id)
+    public function getPlayerById(int $id): Player
     {
         return $this->GetPlayers()[$id];
     }
@@ -116,12 +116,14 @@ class Tournament
      * Adds a player
      *
      * @param Player $Player
+     * @return Tournament
      */
-    public function addPlayer(Player $Player)
+    public function addPlayer(Player $Player): Tournament
     {
         $newArray = $this->GetPlayers();
         $newArray[] = $Player;
         $this->setPlayers($newArray);
+        return $this;
     }
 
     /**
@@ -129,36 +131,42 @@ class Tournament
      *
      * @param int $id
      * @param Player $player
+     * @return Tournament
      */
-    public function updatePlayer(int $id, Player $player)
+    public function updatePlayer(int $id, Player $player): Tournament
     {
         $newArray = $this->GetPlayers();
         $newArray[$id] = $player;
         $this->setPlayers($newArray);
+        return $this;
     }
 
     /**
      * Adds a Tiebreak
      *
      * @param Tiebreak $tiebreak
+     * @return Tournament
      */
-    public function addTiebreak(Tiebreak $tiebreak)
+    public function addTiebreak(Tiebreak $tiebreak): Tournament
     {
         $newArray = $this->getTiebreaks();
         $newArray[] = $tiebreak;
         $this->setTiebreaks($newArray);
+        return $this;
     }
 
     /**
      * Adds a round with given Round object
      *
      * @param Round $round
+     * @return Tournament
      */
-    public function addRound(Round $round)
+    public function addRound(Round $round): Tournament
     {
         $newArray = $this->getRounds();
         $newArray[$round->getRoundNo()] = $round;
         $this->setRounds($newArray);
+        return $this;
     }
 
     /**
@@ -176,18 +184,22 @@ class Tournament
      * Adds a pairing to the tournament
      *
      * @param Pairing $pairing
+     * @return Tournament
      */
-    public function addPairing(Pairing $pairing)
+    public function addPairing(Pairing $pairing): Tournament
     {
         $newArray = $this->GetPairings();
         $newArray[] = $pairing;
         $this->setPairings($newArray);
+        return $this;
     }
 
     /**
      * Converts pairings into games with a black and white player
+     *
+     * @return Tournament
      */
-    public function pairingsToRounds(): void
+    public function pairingsToRounds(): Tournament
     {
         /** @var Pairing[] $pairings */
         $pairings = $this->getPairings();
@@ -230,6 +242,7 @@ class Tournament
                 }
             }
         }
+        return $this;
     }
 
     /**

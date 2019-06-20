@@ -66,12 +66,14 @@ class Player
      * Adds a pairing to the tournament
      *
      * @param Pairing $pairing
+     * @return Player
      */
-    public function addPairing(Pairing $pairing)
+    public function addPairing(Pairing $pairing): Player
     {
         $newArray = $this->GetPairings();
         $newArray[] = $pairing;
         $this->setPairings($newArray);
+        return $this;
     }
 
     /**
@@ -145,7 +147,7 @@ class Player
     /**
      * @return int
      */
-    public function getNoOfWins()
+    public function getNoOfWins(): int
     {
         $wins = 0;
         foreach ($this->getPairings() as $pairing) {
@@ -176,7 +178,7 @@ class Player
     /**
      * @return int
      */
-    public function getPerformance(string $type, int $unratedElo) : float
+    public function getPerformance(string $type, int $unratedElo): float
     {
         $total = 0;
         $opponents = 0;
