@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## vx.y.z (Released: xx-yyy-zzzz)
+* NEW FEATURE: Added clean-dist and clean-dev targets
+* ENHANCEMENT: Better Docs generation
+* ENHANCEMENT: Resied logo in Doxygen for better fit
+* ENHANCEMENT: Doxygen takes branch name or version tag as `PROJECT_NUMBER`
+* CHANGE: Version tag directly put in distribution filename
+* CHANGE: `Tournament::GameExists()` renamed to `Tournament::gameExists()`
+* CHANGE: Updated composer metadata
+* CHANGE: Some setters changed to fluent setters. (More info: 7aca35057c10d2b982f93a698499c0c01df2fdc5)
+
 ## v1.1 (Released: 20-jun-2019)
 * NEW FEATURE: Libpairtwo distribution releases (use these if you don't have knowledge of composer or dependency management)
 * NEW FEATURE: Soccer Kashdan (aka: kashdan using 3-1-0 scoring)

@@ -29,13 +29,13 @@ use JeroenED\Libpairtwo\Pairing;
  */
 class Game
 {
-    /** @var Pairing|null */
+    /** @var Pairing | null */
     private $white;
 
-    /** @var Pairing|null */
+    /** @var Pairing | null */
     private $black;
 
-    /** @var GameResult|null */
+    /** @var GameResult | null */
     private $result;
 
     /**
@@ -77,7 +77,7 @@ class Game
     /**
      * Gets pairing for white player
      *
-     * @return Pairing|null
+     * @return Pairing | null
      */
     public function getWhite(): ?Pairing
     {
@@ -87,7 +87,7 @@ class Game
     /**
      * Sets pairing for white player
      *
-     * @param Pairing|null $white
+     * @param Pairing | null $white
      * @return Game
      */
     public function setWhite(?Pairing $white): Game
@@ -99,7 +99,7 @@ class Game
     /**
      * Gets pairing for black player
      *
-     * @return Pairing|null
+     * @return Pairing | null
      */
     public function getBlack(): ?Pairing
     {
@@ -109,7 +109,7 @@ class Game
     /**
      * Sets pairing for black player
      *
-     * @param Pairing|null $black
+     * @param Pairing | null $black
      * @return Game
      */
     public function setBlack(?Pairing $black): Game
@@ -121,84 +121,12 @@ class Game
     /**
      * Sets result for game
      *
-     * @param Gameresult|null $result
+     * @param Gameresult | null $result
      * @return Game
      */
     public function setResult(?Gameresult $result): Game
     {
         $this->result = $result;
-        return $this;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getDate(): DateTime
-    {
-        return $this->date;
-    }
-
-    /**
-     * @param DateTime $date
-     * @return Round
-     */
-    public function setDate(DateTime $date): Round
-    {
-        $this->date = $date;
-        return $this;
-    }
-
-    /**
-     * @return Game[]
-     */
-    public function getGames(): array
-    {
-        return $this->games;
-    }
-
-    /**
-     * @param Game[] $games
-     * @return Round
-     */
-    public function setGames(array $games): Round
-    {
-        $this->games = $games;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getRoundNo(): int
-    {
-        return $this->roundNo;
-    }
-
-    /**
-     * @param int $roundNo
-     * @return Round
-     */
-    public function setRoundNo(int $roundNo): Round
-    {
-        $this->roundNo = $roundNo;
-        return $this;
-    }
-
-    /**
-     * @return Pairing[]
-     */
-    public function getPairings(): array
-    {
-        return $this->pairings;
-    }
-
-    /**
-     * @param Pairing[] $pairings
-     * @return Round
-     */
-    public function setPairings(array $pairings): Round
-    {
-        $this->pairings = $pairings;
         return $this;
     }
 }
