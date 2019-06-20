@@ -45,8 +45,8 @@ class Game
      */
     public function getResult(): Gameresult
     {
-        if (!is_null(parent::getResult())) {
-            return parent::getResult();
+        if (!is_null($this->result)) {
+            return $this->result;
         }
 
         $whiteResult = $this->getWhite()->getResult();
