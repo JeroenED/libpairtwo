@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## vx.y.z (Released: xx-yyy-zzzz)
+## v1.1.1 (Released: 20-jun-2019)
 * NEW FEATURE: Added clean-dist and clean-dev targets
 * ENHANCEMENT: Better Docs generation
 * ENHANCEMENT: Resized logo in Doxygen for better fit
