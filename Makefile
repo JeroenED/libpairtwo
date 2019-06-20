@@ -55,5 +55,5 @@ tag: ## Creates a new signed git tag
 	chag update $(TAG)
 	git add --all
 	git commit -m 'RELEASE: $(TAG) Release'
-	git tag -s $(TAG) -m 'Release $(TAG) Release'
+	git tag -s $(TAG) -m 'RELEASE: $(TAG) Release'
 	make dist
