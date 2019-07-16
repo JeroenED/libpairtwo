@@ -76,17 +76,30 @@ class Swar4 implements ReaderInterface
     {
         switch ($type) {
             case 'String':
+            case 'Date':
                 $length = $this->readData('Int', $handle);
-                $data = fread($handle, $length);
-                if ($data == '') {
-                    return (is_null($default)) ? '' : $default;
+                echo $length . ' ';
+                if ($length == 0) {
+                    return '';
                 }
-                return iconv('windows-1252', 'utf-8', $data);
+                $data = fread($handle, $length);
+                if ($type == 'String') {
+                    if ($data == '') {
+                        return (is_null($default)) ? '' : $default;
+                    }
+                    echo $data . PHP_EOL;
+                    return iconv('windows-1252', 'utf-8', $data);
+                } elseif ($type == 'Date') {
+                    echo $data . 'date' . PHP_EOL;
+                    if ($data == '') {
+                        return (is_null($default)) ? $this->convertStringToDate('01/01/1900') : $default;
+                    }
+                    return $this->convertStringToDate($data);
+                }
                 break;
             case 'Hex':
             case 'Int':
             case 'Bool':
-            case 'Date':
                 $data = fread($handle, 4);
                 $hex = implode(unpack("H*", $data));
                 $hex = array_reverse(str_split($hex, 2));
@@ -111,11 +124,6 @@ class Swar4 implements ReaderInterface
                         return (is_null($default)) ? 0 : $default;
                     }
                     return hexdec($hex);
-                } elseif ($type == 'Date') {
-                    if ($hex == '00') {
-                        return (is_null($default)) ? $this->convertUIntToTimestamp(0) : $default;
-                    }
-                    return $this->convertUIntToTimestamp(hexdec($hex));
                 } elseif ($type == 'Bool') {
                     return ($hex == "01") ? true : false;
                 }
@@ -145,7 +153,7 @@ class Swar4 implements ReaderInterface
     }
 
     /**
-     * Returns binary data that was read out the pairtwo file but was not needed immediately
+     * Returns binary data that was read out the swar file but was not needed immediately
      *
      * @param string $Key
      * @return bool|DateTime|int|string
@@ -156,15 +164,21 @@ class Swar4 implements ReaderInterface
     }
 
     /**
-     * Sets binary data that is read out the pairtwo file but is not needed immediately
+     * Sets binary data that is read out the swar file but is not needed immediately
      *
      * @param string $Key
      * @param bool|int|DateTime|string $Value
      * @return Pairtwo6
      */
-    public function setBinaryData(string $Key, $Value): Pairtwo6
+    public function setBinaryData(string $Key, $Value): Swar4
     {
         $this->BinaryData[$Key] = $Value;
         return $this;
+    }
+
+    public function convertStringToDate(string $string): \DateTime
+    {
+        echo $string;
+        return DateTime::createFromFormat('d/m/Y', $string);
     }
 }
