@@ -44,6 +44,23 @@ class Swar4 implements ReaderInterface
 
         $this->setTournament(new Tournament());
 
+        $this->setBinaryData('Guid', $this->readData('String', $swshandle));
+        $this->setBinaryData('MacAddress', $this->readData('String', $swshandle));
+        $this->setBinaryData('[Tournoi]', $this->readData('String', $swshandle));
+        $this->getTournament()->setName($this->readData('String', $swshandle));
+        $this->getTournament()->setOrganiser($this->readData('String', $swshandle));
+        $this->getTournament()->setOrganiserClub($this->readData('String', $swshandle));
+        $this->getTournament()->setOrganiserPlace($this->readData('String', $swshandle));
+
+        // @todo: Make arbiter an array to set multiple arbiters
+        $this->getTournament()->setArbiter($this->readData('String', $swshandle));
+        $this->getTournament()->setBinaryData('Arbiter2', $this->readData('String', $swshandle));
+
+        $this->getTournament()->setStartDate($this->readData('Date', $swshandle));
+        $this->getTournament()->setEndDate($this->readData('Date', $swshandle));
+
+        // Tempo string is not variable and dependant on kind of tournament
+        $this->getTournament()->setBinaryData('TempoIndex', $this->readData('Int', $swshandle));
 
         fclose($swshandle);
 
