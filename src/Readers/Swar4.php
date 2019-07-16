@@ -95,7 +95,6 @@ class Swar4 implements ReaderInterface
             case 'String':
             case 'Date':
                 $length = $this->readData('Int', $handle);
-                echo $length . ' ';
                 if ($length == 0) {
                     return '';
                 }
@@ -104,10 +103,8 @@ class Swar4 implements ReaderInterface
                     if ($data == '') {
                         return (is_null($default)) ? '' : $default;
                     }
-                    echo $data . PHP_EOL;
                     return iconv('windows-1252', 'utf-8', $data);
                 } elseif ($type == 'Date') {
-                    echo $data . 'date' . PHP_EOL;
                     if ($data == '') {
                         return (is_null($default)) ? $this->convertStringToDate('01/01/1900') : $default;
                     }
@@ -195,7 +192,6 @@ class Swar4 implements ReaderInterface
 
     public function convertStringToDate(string $string): \DateTime
     {
-        echo $string;
         return DateTime::createFromFormat('d/m/Y', $string);
     }
 }
