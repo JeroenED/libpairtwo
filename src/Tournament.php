@@ -102,6 +102,9 @@ class Tournament
     /** @var string */
     private $PriorityId = 'Nation';
 
+    /** @var bool|DateTime|int|string[] */
+    private $binaryData = [];
+
     /**
      * Gets a player by its ID
      *
@@ -1311,6 +1314,30 @@ class Tournament
     public function setPriorityId(string $PriorityId): Tournament
     {
         $this->PriorityId = $PriorityId;
+        return $this;
+    }
+
+    /**
+     * Returns binary data that was read out the pairing file but was not needed immediately
+     *
+     * @param string $Key
+     * @return bool|DateTime|int|string
+     */
+    public function getBinaryData(string $Key)
+    {
+        return $this->BinaryData[$Key];
+    }
+
+    /**
+     * Sets binary data that is read out the pairing file but is not needed immediately
+     *
+     * @param string $Key
+     * @param bool|int|DateTime|string $Value
+     * @return Pairtwo6
+     */
+    public function setBinaryData(string $Key, $Value): Tournament
+    {
+        $this->BinaryData[$Key] = $Value;
         return $this;
     }
 }
