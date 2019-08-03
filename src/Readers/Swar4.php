@@ -15,6 +15,7 @@ namespace JeroenED\Libpairtwo\Readers;
 
 use DateTime;
 use JeroenED\Libpairtwo\Enums\TournamentSystem;
+use JeroenED\Libpairtwo\Exceptions\IncompatibleReaderException;
 use JeroenED\Libpairtwo\Interfaces\ReaderInterface;
 use JeroenED\Libpairtwo\Tournament;
 
@@ -33,15 +34,24 @@ class Swar4 implements ReaderInterface
     /** @var string */
     private $release;
 
+    /** @var array  */
+    private const CompatibleVersions = ['v4.'];
+
+
     /**
      * @param string $filename
      * @return ReaderInterface
+     * @throws IncompatibleReaderException
      */
     public function read(string $filename): ReaderInterface
     {
         $swshandle = fopen($filename, 'rb');
 
         $this->setRelease($this->readData('String', $swshandle));
+
+        if (array_search(substr($this->getRelease(), 0, 3), self::CompatibleVersions) === false) {
+            throw new IncompatibleReaderException("This file was not created with Swar 4");
+        }
 
         $this->setTournament(new Tournament());
 
