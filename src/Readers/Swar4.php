@@ -14,6 +14,7 @@
 namespace JeroenED\Libpairtwo\Readers;
 
 use DateTime;
+use JeroenED\Libpairtwo\Enums\TournamentSystem;
 use JeroenED\Libpairtwo\Interfaces\ReaderInterface;
 use JeroenED\Libpairtwo\Tournament;
 
@@ -62,6 +63,50 @@ class Swar4 implements ReaderInterface
         // Tempo string is not variable and dependant on kind of tournament
         $this->getTournament()->setBinaryData('TempoIndex', $this->readData('Int', $swshandle));
 
+        $this->getTournament()->setNoOfRounds($this->readData('Int', $swshandle));
+
+        $this->getTournament()->setBinaryData('FRBEfrom', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('FRBEto', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('FIDEfrom', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('FIDEto', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('CatSepares', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('AfficherEloOuPays', $this->readData('Int', $swshandle));
+
+        $this->getTournament()->setFideHomol($this->readData('Int', $swshandle));
+
+        $this->getTournament()->setBinaryData('FideId', $this->readData('String', $swshandle));
+        $this->getTournament()->setBinaryData('FideArbitre1', $this->readData('String', $swshandle));
+        $this->getTournament()->setBinaryData('FideArbitre2', $this->readData('String', $swshandle));
+        $this->getTournament()->setBinaryData('FideEmail', $this->readData('String', $swshandle));
+        $this->getTournament()->setBinaryData('FideRemarques', $this->readData('String', $swshandle));
+
+        $typeIndex = $this->readData('Int', $swshandle);
+
+
+        $this->getTournament()->setBinaryData('Dummy1', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('Dummy2', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('SW_AmerPresence', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('Plusieurs', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('FirstTable', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('SW321_Win', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('SW321_Nul', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('SW321_Los', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('SW321_Bye', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('SW321_Pre', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('EloUsed', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('TournoiStd', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('TbPersonel', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('ApparOrder', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('EloEqual', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('ByeValue', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('AbsValue', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('FF_Value', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('Federation', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('[DATES]', $this->readData('String', $swshandle));
+
+        for ($i = 0; $i < $this->getTournament()->getNoOfRounds(); $i++) {
+            $this->getTournament()->setBinaryData('Round_' . $i . '_date', $this->readData('Date', $swshandle));
+        }
         fclose($swshandle);
 
         return $this;
@@ -87,7 +132,8 @@ class Swar4 implements ReaderInterface
     /**
      * @param string $type
      * @param $handle
-     * @return array|bool|false|float|int|string
+     * @param null $default
+     * @return array|bool|DateTime|false|float|int|string|null
      */
     private function readData(string $type, $handle, $default = null)
     {
@@ -190,6 +236,10 @@ class Swar4 implements ReaderInterface
         return $this;
     }
 
+    /**
+     * @param string $string
+     * @return DateTime
+     */
     public function convertStringToDate(string $string): \DateTime
     {
         return DateTime::createFromFormat('d/m/Y', $string);
