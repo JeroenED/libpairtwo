@@ -117,6 +117,18 @@ class Swar4 implements ReaderInterface
         for ($i = 0; $i < $this->getTournament()->getNoOfRounds(); $i++) {
             $this->getTournament()->setBinaryData('Round_' . $i . '_date', $this->readData('Date', $swshandle));
         }
+
+        $this->getTournament()->setBinaryData('[TIE_BREAK]', $this->readData('String', $swshandle));
+
+        for ($i = 0; $i < 5; $i++) {
+            $this->getTournament()->setBinaryData('Tiebreak_' . $i, $this->readData('String', $swshandle));
+        }
+
+
+        $this->getTournament()->setBinaryData('[EXCLUSION]', $this->readData('String', $swshandle));
+        $this->getTournament()->setBinaryData('ExclusionType', $this->readData('Int', $swshandle));
+        $this->getTournament()->setBinaryData('ExclusionValue', $this->readData('String', $swshandle));
+        
         fclose($swshandle);
 
         return $this;
