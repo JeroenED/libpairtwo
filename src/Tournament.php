@@ -428,7 +428,7 @@ class Tournament
                 return $this->calculateKashdan($player, ["Won" => 4, "Draw" => 2, "Lost" => 1, "NotPlayed" => 0]);
                 break;
             case Tiebreak::SoccerKashdan:
-                return $this->calculateKashdan($player,  ["Won" => 3, "Draw" => 1, "Lost" => 0, "NotPlayed" => -1]);
+                return $this->calculateKashdan($player, ["Won" => 3, "Draw" => 1, "Lost" => 0, "NotPlayed" => -1]);
                 break;
             case Tiebreak::Cumulative:
                 return $this->calculateCumulative($player);

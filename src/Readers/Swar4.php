@@ -372,7 +372,7 @@ class Swar4 implements ReaderInterface
 
             $pairing->setPlayer($this->getTournament()->getPlayerById($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_player')));
             $pairing->setRound($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_round'));
-            if($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_opponent') != 4294967294) {
+            if ($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_opponent') != 4294967294) {
                 $pairing->setOpponent($this->getTournament()->getPlayerById($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_opponent')));
             }
             //echo $ptn . ' ' . $this->getTournament()->getBinaryData('Pairing_' . $ptn . '_round') . ' ' . $pairing->getPlayer()->getName() . ' -  ' . $opponent . ' ' . $this->getTournament()->getBinaryData('Pairing_' . $ptn . '_result') . PHP_EOL;
