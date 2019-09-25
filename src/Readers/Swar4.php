@@ -17,7 +17,11 @@ use DateTime;
 use JeroenED\Libpairtwo\Enums\TournamentSystem;
 use JeroenED\Libpairtwo\Exceptions\IncompatibleReaderException;
 use JeroenED\Libpairtwo\Interfaces\ReaderInterface;
+use JeroenED\Libpairtwo\Pairing;
+use JeroenED\Libpairtwo\Player;
 use JeroenED\Libpairtwo\Tournament;
+use JeroenED\Libpairtwo\Enums\Gender;
+use JeroenED\Libpairtwo\Enums\Title;
 
 /**
  * Class Swar4
@@ -48,7 +52,6 @@ class Swar4 implements ReaderInterface
         $swshandle = fopen($filename, 'rb');
 
         $this->setRelease($this->readData('String', $swshandle));
-
         if (array_search(substr($this->getRelease(), 0, 3), self::CompatibleVersions) === false) {
             throw new IncompatibleReaderException("This file was not created with Swar 4");
         }
@@ -92,7 +95,6 @@ class Swar4 implements ReaderInterface
 
         $typeIndex = $this->readData('Int', $swshandle);
 
-
         $this->getTournament()->setBinaryData('Dummy1', $this->readData('Int', $swshandle));
         $this->getTournament()->setBinaryData('Dummy2', $this->readData('Int', $swshandle));
         $this->getTournament()->setBinaryData('SW_AmerPresence', $this->readData('Int', $swshandle));
@@ -121,14 +123,190 @@ class Swar4 implements ReaderInterface
         $this->getTournament()->setBinaryData('[TIE_BREAK]', $this->readData('String', $swshandle));
 
         for ($i = 0; $i < 5; $i++) {
-            $this->getTournament()->setBinaryData('Tiebreak_' . $i, $this->readData('String', $swshandle));
+            $this->getTournament()->setBinaryData('Tiebreak_' . $i, $this->readData('Int', $swshandle));
         }
-
 
         $this->getTournament()->setBinaryData('[EXCLUSION]', $this->readData('String', $swshandle));
         $this->getTournament()->setBinaryData('ExclusionType', $this->readData('Int', $swshandle));
         $this->getTournament()->setBinaryData('ExclusionValue', $this->readData('String', $swshandle));
-        
+
+        $this->getTournament()->setBinaryData('[CATEGORIES]', $this->readData('String', $swshandle));
+
+        $this->getTournament()->setBinaryData('Catogory_type', $this->readData('Int', $swshandle));
+        for ($i = 0; $i <= 12; $i++) {
+            $this->getTournament()->setBinaryData('Category_' . $i . '_Cat1', $this->readData('String', $swshandle));
+        }
+
+        for ($i = 0; $i <= 12; $i++) {
+            $this->getTournament()->setBinaryData('Category_' . $i . '_Cat2', $this->readData('String', $swshandle));
+        }
+
+        $this->getTournament()->setBinaryData('[XTRA_POINTS]', $this->readData('String', $swshandle));
+
+        for ($i = 0; $i < 4; $i++) {
+            $this->getTournament()->setBinaryData('Extrapoints_' . $i . '_pts', $this->readData('Int', $swshandle));
+            $this->getTournament()->setBinaryData('Extrapoints_' . $i . '_elo', $this->readData('Int', $swshandle));
+        }
+
+        $this->getTournament()->setBinaryData('[JOUEURS]', $this->readData('String', $swshandle));
+
+        $roundNo = 0;
+        $playerNo = 0;
+        $this->getTournament()->setBinaryData('NumberOfPlayers', $this->readData('Int', $swshandle));
+
+        $pt = 0;
+        for ($i = 0; $i < $this->getTournament()->getBinaryData('NumberOfPlayers'); $i++) {
+            $player = new Player();
+            $player->setBinaryData('Classement', $this->readData('Int', $swshandle));
+            $player->setName($this->readData('String', $swshandle));
+            $player->setBinaryData('InscriptionNo', $this->readData('Int', $swshandle));
+            $player->setBinaryData('Rank', $this->readData('Int', $swshandle));
+            $player->setBinaryData('CatIndex', $this->readData('Int', $swshandle));
+            echo ''; $this->readData('String', $swshandle);
+            //$player->setDateOfBirth($this->readData('Date', $swshandle));
+            switch ($this->readData('Int', $swshandle)) {
+                case 1:
+                    $gender = Gender::Male;
+                    break;
+                case 2:
+                    $gender = Gender::Female;
+                    break;
+                default:
+                    $gender = Gender::Neutral;
+                    break;
+            }
+            $player->setGender(new Gender($gender));
+            $player->setNation($this->readData('String', $swshandle));
+            //echo ftell($swshandle);
+            //echo $this->readData('Int', $swshandle); exit;
+            $player->setId('Nation', $this->readData('Int', $swshandle));
+            echo $player->getId('Nation');
+            $player->setId('Fide', $this->readData('Int', $swshandle));
+            $player->setBinaryData('Affliation', $this->readData('Int', $swshandle));
+            $player->setElo('Nation', $this->readData('Int', $swshandle));
+            $player->setElo('Fide', $this->readData('Int', $swshandle));
+            exit;
+            switch ($this->readData('Int', $swshandle)) {
+                case 1:
+                    $title = Title::NM;
+                    break;
+                case 2:
+                    $title = Title::WCM;
+                    break;
+                case 3:
+                    $title = Title::WFM;
+                    break;
+                case 4:
+                    $title = Title::CM;
+                    break;
+                case 5:
+                    $title = Title::WIM;
+                    break;
+                case 6:
+                    $title = Title::FM;
+                    break;
+                case 7:
+                    $title = Title::WGM;
+                    break;
+                case 8:
+                    $title = Title::HM;
+                    break;
+                case 9:
+                    $title = Title::IM;
+                    break;
+                case 10:
+                    $title = Title::HG;
+                    break;
+                case 11:
+                    $title = Title::GM;
+                    break;
+                case 0:
+                default:
+                    $title = Title::NONE;
+                    break;
+            }
+            $player->setTitle(new Title($title));
+
+            $player->setId('Club', $this->readData('Int', $swshandle));
+            $player->setId('ClubName', $this->readData('String', $swshandle));
+
+            $player->setBinaryData('NoOfMatchesNoBye', $this->readData('Int', $swshandle));
+            $player->setBinaryData('Points', $this->readData('Int', $swshandle)); // To Calculate by libpairtwo
+            $player->setBinaryData('AmericanPoints', $this->readData('Int', $swshandle)); // To Calculate by libpairtwo
+            for ($i = 0; $i < 5; $i++) {
+                $player->setBinaryData('Tiebreak_' . $i, $this->readData('Int', $swshandle)); // To Calculate by libpairtwo
+            }
+            $player->setBinaryData('Performance', $this->readData('Int', $swshandle)); // To Calculate by libpairtwo
+            $player->setBinaryData('Absent', $this->readData('Int', $swshandle));
+            $player->setBinaryData('AbsentRounds', $this->readData('String', $swshandle));
+            $player->setBinaryData('ExtraPoints', $this->readData('Int', $swshandle));
+            $player->setBinaryData('AllocatedRounds', $this->readData('Int', $swshandle));
+
+            $player->setBinaryData('[RONDE]', $this->readData('String', $swshandle));
+            if ($player->getBinaryData('AllocatedRounds') != 0) {
+                for ($j = 0; $j < $player->getBinaryData('AllocatedRounds'); $j++) {
+                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_player', count($this->getTournament()->getPlayers()));
+                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_round', $this->readData('Int', $swshandle));
+                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_table', $this->readData('Int', $swshandle));
+                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_opponent', $this->readData('Int', $swshandle));
+                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_result', $this->readData('Hex', $swshandle));
+                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_color', $this->readData('Int', $swshandle));
+                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_float', $this->readData('Int', $swshandle));
+                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_extrapoints', $this->readData('Int', $swshandle));
+
+                    $pt++;
+                }
+            }
+
+            $this->getTournament()->addPlayer($player);
+        }
+
+        $ptn = 0;
+        while ('' !== $this->getTournament()->getBinaryData('Pairing_' . $ptn . '_round')) {
+            $pairing = new Pairing();
+
+            $pairing->setPlayer($this->getTournament()->getPlayerById($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_player')));
+            $pairing->setRound($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_round'));
+            $pairing->setOpponent($this->getTournament()->getPlayerById($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_opponent')));
+            switch ($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_result')) {
+                case 1:
+                    $result = Result::lost;
+                    break;
+                case 2:
+                    $result = Result::absent;
+                    break;
+                case 3:
+                    $result = Result::adjourned;
+                    break;
+                case 4:
+                    $result = Result::bye;
+                    break;
+                case 6:
+                    $result = Result::draw;
+                    break;
+                case 8:
+                    $result = Result::drawadjourned;
+                    break;
+                case 11:
+                    $result = Result::won;
+                    break;
+                case 12:
+                    $result = Result::wonforfait;
+                    break;
+                case 13:
+                    $result = Result::wonadjourned;
+                    break;
+                case 14:
+                    $result = Result::wonbye;
+                    break;
+                case 0:
+                default:
+                    $result = Result::none;
+                    break;
+            }
+            $pairing->setResult(new Result($result));
+            $ptn++;
+        }
         fclose($swshandle);
 
         return $this;
