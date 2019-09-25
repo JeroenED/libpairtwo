@@ -34,6 +34,7 @@ abstract class IOFactory
      * @var array
      */
     private static $readers = [
+        'Swar-4' => Readers\Swar4::class,
         'Pairtwo-6' => Readers\Pairtwo6::class,
         'Pairtwo-5' => Readers\Pairtwo6::class // File structure identical
     ];
@@ -42,7 +43,7 @@ abstract class IOFactory
     /**
      * Creates a reader for $type
      *
-     * Compatible types are Pairtwo-5 and Pairtwo-6
+     * Compatible types are Swar-4, Pairtwo-5, Pairtwo-6
      *
      * @param string $type
      * @return ReaderInterface
