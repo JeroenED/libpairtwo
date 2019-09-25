@@ -14,11 +14,13 @@
 namespace JeroenED\Libpairtwo\Readers;
 
 use DateTime;
+use JeroenED\Libpairtwo\Enums\Color;
 use JeroenED\Libpairtwo\Enums\TournamentSystem;
 use JeroenED\Libpairtwo\Exceptions\IncompatibleReaderException;
 use JeroenED\Libpairtwo\Interfaces\ReaderInterface;
 use JeroenED\Libpairtwo\Pairing;
 use JeroenED\Libpairtwo\Player;
+use JeroenED\Libpairtwo\Round;
 use JeroenED\Libpairtwo\Tournament;
 use JeroenED\Libpairtwo\Enums\Gender;
 use JeroenED\Libpairtwo\Enums\Title;
@@ -42,6 +44,64 @@ class Swar4 implements ReaderInterface
     /** @var array  */
     private const CompatibleVersions = ['v4.'];
 
+    private const Tempos = [
+        [
+            '105 min/40 moves + 15 min. QPF',
+            '120 min/40 moves + 15 min. with incr. 30" starting from 40th move',
+            '120 min/40 moves + 30 min. QPF',
+            '120 min/10 moves + 30 min. avec incr. 30" starting from 40th move',
+            '120 min QPF',
+            '150 min QPF',
+            '60 min QPF',
+            '60 min with incr. 30"',
+            '65 min QPF',
+            '75 min with incr. 30"',
+            '90 min/40 moves + 15 min with incr. 30" starting from 1st move',
+            '90 min/40 moves + 30 min with incr. 30" starting from 1st move',
+            '90 min with incr. 30"',
+            '50 min with incr. 10"',
+            'other'
+        ],[
+            '10 min. with incr. 10"',
+            '10 min. with incr. 15"',
+            '10 min. with incr.5"',
+            '11 min. QPF',
+            '12 min. QPF',
+            '13 min. with incr.3"',
+            '13 min. with incr.5"',
+            '15 min. QPF',
+            '15 min. with incr. 10"',
+            '15 min. with incr. 15"',
+            '15 min. with incr.5"',
+            '20 min. QPF',
+            '20 min. with incr. 10"',
+            '20 min. with incr. 15"',
+            '20 min. with incr.5"',
+            '25 min. QPF',
+            '25 min. with incr. 10"',
+            '25 min. with incr. 15"',
+            '25 min. with incr.5"',
+            '30 min. QPF',
+            '45 min. QPF',
+            '8 min. with incr.4"',
+            'other'
+        ],[
+            '3 min. with incr. 2"',
+            '3 min. with incr. 3"',
+            '4 min. with incr. 2"',
+            '4 min. with incr. 3"',
+            '5 min. QPF',
+            '5 min. with incr. 2"',
+            '5 min. with incr. 3"',
+            '6 min. with incr. 2"',
+            '6 min. with incr. 3"',
+            '7 min. with incr. 2"',
+            '7 min. with incr. 3"',
+            '8 min. with incr. 2"',
+            '10 min. QPF',
+            'other'
+        ]
+    ];
 
     /**
      * @param string $filename
@@ -94,7 +154,7 @@ class Swar4 implements ReaderInterface
         $this->getTournament()->setBinaryData('FideEmail', $this->readData('String', $swshandle));
         $this->getTournament()->setBinaryData('FideRemarques', $this->readData('String', $swshandle));
 
-        $typeIndex = $this->readData('Int', $swshandle);
+        $typeIndex = $this->readData('Int', $swshandle);// Tournament System
 
         $this->getTournament()->setBinaryData('Dummy1', $this->readData('Int', $swshandle));
         $this->getTournament()->setBinaryData('Dummy2', $this->readData('Int', $swshandle));
@@ -117,8 +177,13 @@ class Swar4 implements ReaderInterface
         $this->getTournament()->setBinaryData('Federation', $this->readData('Int', $swshandle));
         $this->getTournament()->setBinaryData('[DATES]', $this->readData('String', $swshandle));
 
+        $this->getTournament()->setTempo(Self::Tempos[$this->getTournament()->getBinaryData('TournoiStd')][$this->getTournament()->getBinaryData('TempoIndex')]);
+
         for ($i = 0; $i < $this->getTournament()->getNoOfRounds(); $i++) {
-            $this->getTournament()->setBinaryData('Round_' . $i . '_date', $this->readData('Date', $swshandle));
+            $round = new Round();
+            $round->setRoundNo($i);
+            $round->setDate($this->readData('Date', $swshandle));
+            $this->getTournament()->addRound($round);
         }
 
         $this->getTournament()->setBinaryData('[TIE_BREAK]', $this->readData('String', $swshandle));
@@ -293,7 +358,22 @@ class Swar4 implements ReaderInterface
                     break;
             }
             $pairing->setResult(new Result($result));
+
+            switch ($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_color')) {
+                case 4294967295:
+                    $color = Color::black;
+                    break;
+                case 1:
+                    $color = Color::white;
+                    break;
+                case 0:
+                default:
+                    $color = Color::none;
+                    break;
+            }
+            $pairing->setColor(new Color($color));
             $ptn++;
+            $this->getTournament()->addPairing($pairing);
         }
         fclose($swshandle);
         $this->getTournament()->pairingsToRounds();
