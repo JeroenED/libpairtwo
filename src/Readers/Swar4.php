@@ -477,6 +477,7 @@ class Swar4 implements ReaderInterface
         }
         fclose($swshandle);
         $this->getTournament()->pairingsToRounds();
+        $this->addTiebreaks();
         return $this;
     }
 
@@ -618,5 +619,25 @@ class Swar4 implements ReaderInterface
         } elseif (strlen($string) == 8) {
             return DateTime::createFromFormat('Ymd', $string);
         }
+    }
+
+    /**
+     * @return $this
+     */
+    private function addTiebreaks(): Swar4
+    {
+        switch ($this->getTournament()->getSystem()) {
+            case TournamentSystem::American:
+                $firstElement = new Tiebreak(Tiebreak::American);
+                break;
+            case TournamentSystem::Closed:
+            case TournamentSystem::Swiss:
+            default:
+                $firstElement = new Tiebreak(Tiebreak::Points);
+        }
+        $tiebreaks = $this->getTournament()->getTiebreaks();
+        array_unshift($tiebreaks, $firstElement);
+        $this->getTournament()->setTiebreaks($tiebreaks);
+        return $this;
     }
 }
