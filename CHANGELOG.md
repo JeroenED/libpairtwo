@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## vx.y.z (Release: aa-bbb-cccc)
+## v1.2 (Release: aa-bbb-cccc)
 * NEW READER: `swar-4` for reading out files created with Swar version 4.
 * ENHANCEMENT: `Class::getBinaryData` methods return null if field is non-existent
 * BUGFIX: `Player:GetId` returns elo instead of id
