@@ -15,6 +15,7 @@ namespace JeroenED\Libpairtwo\Readers;
 
 use DateTime;
 use JeroenED\Libpairtwo\Enums\Color;
+use JeroenED\Libpairtwo\Enums\Tiebreak;
 use JeroenED\Libpairtwo\Enums\TournamentSystem;
 use JeroenED\Libpairtwo\Exceptions\IncompatibleReaderException;
 use JeroenED\Libpairtwo\Interfaces\ReaderInterface;
@@ -234,9 +235,62 @@ class Swar4 implements ReaderInterface
 
         $this->getTournament()->setBinaryData('[TIE_BREAK]', $this->readData('String', $swshandle));
 
+        $tiebreaks = [];
         for ($i = 0; $i < 5; $i++) {
-            $this->getTournament()->setBinaryData('Tiebreak_' . $i, $this->readData('Int', $swshandle));
+            switch($this->readData('Int', $swshandle)) {
+                case 0:
+                default:
+                    $tiebreak = Tiebreak::None;
+                    break;
+                case 1:
+                    $tiebreak = Tiebreak::Buchholz;
+                    break;
+                case 2:
+                    $tiebreak = Tiebreak::BuchholzMed;
+                    break;
+                case 3:
+                    $tiebreak = Tiebreak::BuchholzMed2;
+                    break;
+                case 4:
+                    $tiebreak = Tiebreak::BuchholzCut;
+                    break;
+                case 5:
+                    $tiebreak = Tiebreak::BuchholzCut2;
+                    break;
+                case 6:
+                    $tiebreak = Tiebreak::Sonneborn;
+                    break;
+                case 7:
+                    $tiebreak = Tiebreak::Cumulative;
+                    break;
+                case 8:
+                    $tiebreak = Tiebreak::Between;
+                    break;
+                case 9:
+                    $tiebreak = Tiebreak::Koya;
+                    break;
+                case 10:
+                    $tiebreak = Tiebreak::Baumbach;
+                    break;
+                case 11:
+                    $tiebreak = Tiebreak::AveragePerformance;
+                    break;
+                case 12:
+                    $tiebreak = Tiebreak::Aro;
+                    break;
+                case 13:
+                    $tiebreak = Tiebreak::AroCut;
+                    break;
+                case 14:
+                    $tiebreak = Tiebreak::BlackPlayed;
+                    break;
+                case 15:
+                    $tiebreak = Tiebreak::BlackWin;
+                    break;
+            }
+            $tiebreaks[] = new Tiebreak($tiebreak);
         }
+        $this->getTournament()->setTiebreaks($tiebreaks);
 
         $this->getTournament()->setBinaryData('[EXCLUSION]', $this->readData('String', $swshandle));
         $this->getTournament()->setBinaryData('ExclusionType', $this->readData('Int', $swshandle));
@@ -423,6 +477,7 @@ class Swar4 implements ReaderInterface
         }
         fclose($swshandle);
         $this->getTournament()->pairingsToRounds();
+        $this->addTiebreaks();
         return $this;
     }
 
@@ -564,5 +619,25 @@ class Swar4 implements ReaderInterface
         } elseif (strlen($string) == 8) {
             return DateTime::createFromFormat('Ymd', $string);
         }
+    }
+
+    /**
+     * @return $this
+     */
+    private function addTiebreaks(): Swar4
+    {
+        switch ($this->getTournament()->getSystem()) {
+            case TournamentSystem::American:
+                $firstElement = new Tiebreak(Tiebreak::American);
+                break;
+            case TournamentSystem::Closed:
+            case TournamentSystem::Swiss:
+            default:
+                $firstElement = new Tiebreak(Tiebreak::Points);
+        }
+        $tiebreaks = $this->getTournament()->getTiebreaks();
+        array_unshift($tiebreaks, $firstElement);
+        $this->getTournament()->setTiebreaks($tiebreaks);
+        return $this;
     }
 }
