@@ -272,31 +272,22 @@ class Swar4 implements ReaderInterface
                 case '01':
                     $result = Result::absent;
                     break;
-                case 3:
-                    $result = Result::adjourned;
-                    break;
-                case 4:
+                case '0010':
                     $result = Result::bye;
                     break;
-                case 6:
+                case '2000':
                     $result = Result::draw;
                     break;
-                case 8:
-                    $result = Result::drawadjourned;
-                    break;
-                case 11:
+                case '4000':
                     $result = Result::won;
                     break;
-                case 12:
+                case '04':
                     $result = Result::wonforfait;
                     break;
-                case 13:
-                    $result = Result::wonadjourned;
-                    break;
-                case 14:
+                case '40':
                     $result = Result::wonbye;
                     break;
-                case 0:
+                case '00':
                 default:
                     $result = Result::none;
                     break;
@@ -305,7 +296,7 @@ class Swar4 implements ReaderInterface
             $ptn++;
         }
         fclose($swshandle);
-
+        $this->getTournament()->pairingsToRounds();
         return $this;
     }
 
