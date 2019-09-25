@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## vx.y.z (Release: aa-bbb-cccc)
+* ENHANCEMENT: `Class::getBinaryData` methods return null if field is non-existent
 * BUGFIX: `Player:GetId` returns elo instead of id
 
 ## v1.1.2 (Release: 21-jun-2019)
