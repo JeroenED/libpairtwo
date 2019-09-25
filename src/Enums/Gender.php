@@ -14,7 +14,6 @@ namespace JeroenED\Libpairtwo\Enums;
 
 use MyCLabs\Enum\Enum;
 
-
 /**
  * Enum Gender
  *

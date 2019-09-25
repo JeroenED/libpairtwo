@@ -421,6 +421,12 @@ class Tournament
             case Tiebreak::BuchholzMed:
                 return $this->calculateBuchholz($player, 1, 1);
                 break;
+            case Tiebreak::BuchholzCut2:
+                return $this->calculateBuchholz($player, 2);
+                break;
+            case Tiebreak::BuchholzMed2:
+                return $this->calculateBuchholz($player, 2, 2);
+                break;
             case Tiebreak::Sonneborn:
                 return $this->calculateSonneborn($player);
                 break;
@@ -428,7 +434,7 @@ class Tournament
                 return $this->calculateKashdan($player, ["Won" => 4, "Draw" => 2, "Lost" => 1, "NotPlayed" => 0]);
                 break;
             case Tiebreak::SoccerKashdan:
-                return $this->calculateKashdan($player,  ["Won" => 3, "Draw" => 1, "Lost" => 0, "NotPlayed" => -1]);
+                return $this->calculateKashdan($player, ["Won" => 3, "Draw" => 1, "Lost" => 0, "NotPlayed" => -1]);
                 break;
             case Tiebreak::Cumulative:
                 return $this->calculateCumulative($player);
