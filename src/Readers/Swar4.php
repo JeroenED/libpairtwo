@@ -154,7 +154,26 @@ class Swar4 implements ReaderInterface
         $this->getTournament()->setBinaryData('FideEmail', $this->readData('String', $swshandle));
         $this->getTournament()->setBinaryData('FideRemarques', $this->readData('String', $swshandle));
 
-        $typeIndex = $this->readData('Int', $swshandle);// Tournament System
+        switch ($this->readData('Int', $swshandle)) {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            default:
+                $system = TournamentSystem::Swiss;
+                break;
+            case 5:
+            case 6:
+            case 7:
+                $system = TournamentSystem::Closed;
+                break;
+            case 8:
+            case 9:
+                $system = TournamentSystem::American;
+                break;
+        }
+        $this->getTournament()->setSystem(new TournamentSystem($system));
 
         $this->getTournament()->setBinaryData('Dummy1', $this->readData('Int', $swshandle));
         $this->getTournament()->setBinaryData('Dummy2', $this->readData('Int', $swshandle));
@@ -174,7 +193,34 @@ class Swar4 implements ReaderInterface
         $this->getTournament()->setBinaryData('ByeValue', $this->readData('Int', $swshandle));
         $this->getTournament()->setBinaryData('AbsValue', $this->readData('Int', $swshandle));
         $this->getTournament()->setBinaryData('FF_Value', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('Federation', $this->readData('Int', $swshandle));
+
+        switch ($this->readData('Int', $swshandle)) {
+            case 0:
+            default:
+                $federation = '';
+                break;
+            case 1:
+                $federation = 'FRBE';
+                break;
+            case 2:
+                $federation = 'KBSB';
+                break;
+            case 3:
+                $federation = 'FEFB';
+                break;
+            case 4:
+                $federation = 'VSF';
+                break;
+            case 5:
+                $federation = 'SVDB';
+                break;
+            case 6:
+                $federation = 'FIDE';
+                break;
+        }
+        $this->getTournament()->setFederation($federation);
+        $this->getTournament()->setNonRatedElo(0);
+        $this->getTournament()->setOrganiserClubNo(0);
         $this->getTournament()->setBinaryData('[DATES]', $this->readData('String', $swshandle));
 
         $this->getTournament()->setTempo(Self::Tempos[$this->getTournament()->getBinaryData('TournoiStd')][$this->getTournament()->getBinaryData('TempoIndex')]);
@@ -305,7 +351,7 @@ class Swar4 implements ReaderInterface
             if ($player->getBinaryData('AllocatedRounds') != 0) {
                 for ($j = 0; $j < $player->getBinaryData('AllocatedRounds'); $j++) {
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_player', $i);
-                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_round', $this->readData('Int', $swshandle));
+                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_round', $this->readData('Int', $swshandle) - 1);
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_table', $this->readData('Int', $swshandle));
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_opponent', $this->readData('Int', $swshandle) - 1);
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_result', $this->readData('Hex', $swshandle));
