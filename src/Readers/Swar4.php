@@ -22,6 +22,7 @@ use JeroenED\Libpairtwo\Player;
 use JeroenED\Libpairtwo\Tournament;
 use JeroenED\Libpairtwo\Enums\Gender;
 use JeroenED\Libpairtwo\Enums\Title;
+use JeroenED\Libpairtwo\Enums\Result;
 
 /**
  * Class Swar4
@@ -162,8 +163,7 @@ class Swar4 implements ReaderInterface
             $player->setBinaryData('InscriptionNo', $this->readData('Int', $swshandle));
             $player->setBinaryData('Rank', $this->readData('Int', $swshandle));
             $player->setBinaryData('CatIndex', $this->readData('Int', $swshandle));
-            echo ''; $this->readData('String', $swshandle);
-            //$player->setDateOfBirth($this->readData('Date', $swshandle));
+            $player->setDateOfBirth($this->readData('Date', $swshandle));
             switch ($this->readData('Int', $swshandle)) {
                 case 1:
                     $gender = Gender::Male;
@@ -176,48 +176,42 @@ class Swar4 implements ReaderInterface
                     break;
             }
             $player->setGender(new Gender($gender));
+
             $player->setNation($this->readData('String', $swshandle));
-            //echo ftell($swshandle);
-            //echo $this->readData('Int', $swshandle); exit;
             $player->setId('Nation', $this->readData('Int', $swshandle));
-            echo $player->getId('Nation');
             $player->setId('Fide', $this->readData('Int', $swshandle));
             $player->setBinaryData('Affliation', $this->readData('Int', $swshandle));
             $player->setElo('Nation', $this->readData('Int', $swshandle));
             $player->setElo('Fide', $this->readData('Int', $swshandle));
-            exit;
             switch ($this->readData('Int', $swshandle)) {
                 case 1:
-                    $title = Title::NM;
-                    break;
-                case 2:
                     $title = Title::WCM;
                     break;
-                case 3:
+                case 2:
                     $title = Title::WFM;
                     break;
-                case 4:
+                case 3:
                     $title = Title::CM;
                     break;
-                case 5:
+                case 4:
                     $title = Title::WIM;
                     break;
-                case 6:
+                case 5:
                     $title = Title::FM;
                     break;
-                case 7:
+                case 6:
                     $title = Title::WGM;
                     break;
-                case 8:
+                case 7:
                     $title = Title::HM;
                     break;
-                case 9:
+                case 8:
                     $title = Title::IM;
                     break;
-                case 10:
+                case 9:
                     $title = Title::HG;
                     break;
-                case 11:
+                case 10:
                     $title = Title::GM;
                     break;
                 case 0:
@@ -228,27 +222,27 @@ class Swar4 implements ReaderInterface
             $player->setTitle(new Title($title));
 
             $player->setId('Club', $this->readData('Int', $swshandle));
-            $player->setId('ClubName', $this->readData('String', $swshandle));
-
+            $player->setBinaryData('ClubName', $this->readData('String', $swshandle));
             $player->setBinaryData('NoOfMatchesNoBye', $this->readData('Int', $swshandle));
             $player->setBinaryData('Points', $this->readData('Int', $swshandle)); // To Calculate by libpairtwo
             $player->setBinaryData('AmericanPoints', $this->readData('Int', $swshandle)); // To Calculate by libpairtwo
-            for ($i = 0; $i < 5; $i++) {
-                $player->setBinaryData('Tiebreak_' . $i, $this->readData('Int', $swshandle)); // To Calculate by libpairtwo
+            for ($t = 0; $t < 5; $t++) {
+                $player->setBinaryData('Tiebreak_' . $t, $this->readData('Int', $swshandle)); // To Calculate by libpairtwo
             }
             $player->setBinaryData('Performance', $this->readData('Int', $swshandle)); // To Calculate by libpairtwo
             $player->setBinaryData('Absent', $this->readData('Int', $swshandle));
             $player->setBinaryData('AbsentRounds', $this->readData('String', $swshandle));
             $player->setBinaryData('ExtraPoints', $this->readData('Int', $swshandle));
+            $player->setBinaryData('SpecialPoints', $this->readData('Int', $swshandle));
             $player->setBinaryData('AllocatedRounds', $this->readData('Int', $swshandle));
-
             $player->setBinaryData('[RONDE]', $this->readData('String', $swshandle));
+
             if ($player->getBinaryData('AllocatedRounds') != 0) {
                 for ($j = 0; $j < $player->getBinaryData('AllocatedRounds'); $j++) {
-                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_player', count($this->getTournament()->getPlayers()));
+                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_player', $i);
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_round', $this->readData('Int', $swshandle));
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_table', $this->readData('Int', $swshandle));
-                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_opponent', $this->readData('Int', $swshandle));
+                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_opponent', $this->readData('Int', $swshandle) - 1);
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_result', $this->readData('Hex', $swshandle));
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_color', $this->readData('Int', $swshandle));
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_float', $this->readData('Int', $swshandle));
@@ -262,17 +256,20 @@ class Swar4 implements ReaderInterface
         }
 
         $ptn = 0;
-        while ('' !== $this->getTournament()->getBinaryData('Pairing_' . $ptn . '_round')) {
+        while (null !== $this->getTournament()->getBinaryData('Pairing_' . $ptn . '_round')) {
             $pairing = new Pairing();
 
             $pairing->setPlayer($this->getTournament()->getPlayerById($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_player')));
             $pairing->setRound($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_round'));
-            $pairing->setOpponent($this->getTournament()->getPlayerById($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_opponent')));
+            if($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_opponent') != 4294967294) {
+                $pairing->setOpponent($this->getTournament()->getPlayerById($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_opponent')));
+            }
+            //echo $ptn . ' ' . $this->getTournament()->getBinaryData('Pairing_' . $ptn . '_round') . ' ' . $pairing->getPlayer()->getName() . ' -  ' . $opponent . ' ' . $this->getTournament()->getBinaryData('Pairing_' . $ptn . '_result') . PHP_EOL;
             switch ($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_result')) {
-                case 1:
+                case '1000':
                     $result = Result::lost;
                     break;
-                case 2:
+                case '01':
                     $result = Result::absent;
                     break;
                 case 3:
@@ -416,11 +413,14 @@ class Swar4 implements ReaderInterface
      * Returns binary data that was read out the swar file but was not needed immediately
      *
      * @param string $Key
-     * @return bool|DateTime|int|string
+     * @return bool|DateTime|int|string|null
      */
     public function getBinaryData(string $Key)
     {
-        return $this->BinaryData[$Key];
+        if (isset($this->BinaryData[$Key])) {
+            return $this->BinaryData[$Key];
+        }
+        return null;
     }
 
     /**
@@ -442,6 +442,10 @@ class Swar4 implements ReaderInterface
      */
     public function convertStringToDate(string $string): \DateTime
     {
-        return DateTime::createFromFormat('d/m/Y', $string);
+        if (strlen($string) == 10) {
+            return DateTime::createFromFormat('d/m/Y', $string);
+        } elseif (strlen($string) == 8) {
+            return DateTime::createFromFormat('Ymd', $string);
+        }
     }
 }

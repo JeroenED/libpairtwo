@@ -27,8 +27,8 @@ use JeroenED\Libpairtwo\IOFactory;
 
 require_once '../vendor/autoload.php';
 
-$sws = IOFactory::createReader('Pairtwo-6');
-$sws->read('../res/testsws.sws');
+$sws = IOFactory::createReader('Swar-4');
+$sws->read('../res/testswar.swar');
 
 echo "Release:      " . $sws->getRelease() . PHP_EOL;
 echo "Name:         " . $sws->getTournament()->getName() . PHP_EOL;
