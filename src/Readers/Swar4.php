@@ -237,7 +237,7 @@ class Swar4 implements ReaderInterface
 
         $tiebreaks = [];
         for ($i = 0; $i < 5; $i++) {
-            switch($this->readData('Int', $swshandle)) {
+            switch ($this->readData('Int', $swshandle)) {
                 case 0:
                 default:
                     $tiebreak = Tiebreak::None;
