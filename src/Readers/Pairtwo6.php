@@ -103,11 +103,14 @@ class Pairtwo6 implements ReaderInterface
      * Returns binary data that was read out the pairtwo file but was not needed immediately
      *
      * @param string $Key
-     * @return bool|DateTime|int|string
+     * @return bool|DateTime|int|string|null
      */
     public function getBinaryData(string $Key)
     {
-        return $this->BinaryData[$Key];
+        if (isset($this->BinaryData[$Key])) {
+            return $this->BinaryData[$Key];
+        }
+        return null;
     }
 
 
@@ -138,7 +141,7 @@ class Pairtwo6 implements ReaderInterface
         fclose($swshandle);
 
         $offset = 0;
-        
+
 
         $length = 4;
         $this->setRelease($this->readData('String', substr($swscontents, $offset, $length)));
