@@ -27,17 +27,18 @@ use JeroenED\Libpairtwo\IOFactory;
 
 require_once '../vendor/autoload.php';
 
-$sws = IOFactory::createReader('Pairtwo-6');
-$sws->read('../res/testsws.sws');
+$sws = IOFactory::createReader('Swar-4');
+$sws->read('../res/testswar.swar');
 
 echo "Release:      " . $sws->getRelease() . PHP_EOL;
 echo "Name:         " . $sws->getTournament()->getName() . PHP_EOL;
 echo "Organiser:    " . $sws->getTournament()->getOrganiser(). PHP_EOL;
+echo "TempoIndex:   " . $sws->getTournament()->getBinaryData('TempoIndex') . PHP_EOL;
+echo "TempoType:    " . $sws->getTournament()->getBinaryData('TournoiStd') . PHP_EOL;
 echo "Tempo:        " . $sws->getTournament()->getTempo() . PHP_EOL;
-echo "Country:      " . $sws->getTournament()->getOrganiserCountry() . PHP_EOL;
+echo "Place:        " . $sws->getTournament()->getOrganiserPlace() . PHP_EOL;
 echo "Arbiter:      " . $sws->getTournament()->getArbiter() . PHP_EOL;
 echo "Rounds:       " . $sws->getTournament()->getNoOfRounds() . PHP_EOL;
-echo "Participants: " . $sws->getTournament()->getNoOfRounds() . PHP_EOL;
 echo "Fidehomol:    " . $sws->getTournament()->getFideHomol() . PHP_EOL;
 echo "Start-Date:   " . $sws->getTournament()->getStartDate()->format('d/m/Y') . PHP_EOL;
 echo "End-Date:     " . $sws->getTournament()->getEndDate()->format('d/m/Y') . PHP_EOL;
