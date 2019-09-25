@@ -33,6 +33,8 @@ class Tiebreak extends Enum
     const Buchholz = "Buchholz";
     const BuchholzMed = "Buchholz Median";
     const BuchholzCut = "Buchholz Cut";
+    const BuchholzMed2 = "Buchholz Median 2";
+    const BuchholzCut2 = "Buchholz Cut 2";
     const Sonneborn = "Sonneborn-Berger";
     const Kashdan = "Kashdan";
     const SoccerKashdan = "Soccer Kashdan";
