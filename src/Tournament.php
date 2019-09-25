@@ -1325,7 +1325,10 @@ class Tournament
      */
     public function getBinaryData(string $Key)
     {
-        return $this->BinaryData[$Key];
+        if (isset($this->BinaryData[$Key])) {
+            return $this->BinaryData[$Key];
+        }
+        return null;
     }
 
     /**
