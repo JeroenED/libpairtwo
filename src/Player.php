@@ -135,7 +135,7 @@ class Player
      */
     public function getId(string $type): string
     {
-        return $this->getElos()[$type];
+        return $this->getIds()[$type];
     }
 
     /**
