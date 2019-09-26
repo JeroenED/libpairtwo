@@ -571,7 +571,7 @@ class Pairtwo6 implements ReaderInterface
 
         // Arbiters
         $length = 128;
-        $this->getTournament()->setArbiter($this->readData('String', substr($swscontents, $offset, $length)));
+        $this->getTournament()->setArbiter($this->readData('String', substr($swscontents, $offset, $length)), 0);
         $offset += $length;
 
         // Rounds
