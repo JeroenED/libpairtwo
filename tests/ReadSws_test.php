@@ -37,7 +37,8 @@ echo "TempoIndex:   " . $sws->getTournament()->getBinaryData('TempoIndex') . PHP
 echo "TempoType:    " . $sws->getTournament()->getBinaryData('TournoiStd') . PHP_EOL;
 echo "Tempo:        " . $sws->getTournament()->getTempo() . PHP_EOL;
 echo "Place:        " . $sws->getTournament()->getOrganiserPlace() . PHP_EOL;
-echo "Arbiter:      " . $sws->getTournament()->getArbiter() . PHP_EOL;
+echo "Arbiter 1:    " . $sws->getTournament()->getArbiter(0) . PHP_EOL;
+echo "Arbiter 2:    " . $sws->getTournament()->getArbiter(1) . PHP_EOL;
 echo "Rounds:       " . $sws->getTournament()->getNoOfRounds() . PHP_EOL;
 echo "Fidehomol:    " . $sws->getTournament()->getFideHomol() . PHP_EOL;
 echo "Start-Date:   " . $sws->getTournament()->getStartDate()->format('d/m/Y') . PHP_EOL;
