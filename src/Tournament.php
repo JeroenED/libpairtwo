@@ -57,8 +57,8 @@ class Tournament
     /** @var DateTime */
     private $EndDate;
 
-    /** @var string */
-    private $Arbiter;
+    /** @var string[] */
+    private $Arbiters;
 
     /** @var int */
     private $NoOfRounds;
@@ -195,6 +195,21 @@ class Tournament
         $newArray = $this->GetPairings();
         $newArray[] = $pairing;
         $this->setPairings($newArray);
+        return $this;
+    }
+
+
+    /**
+     * Adds an arbiter to the tournament
+     * 
+     * @param string $Arbiter
+     * @return Tournament
+     */
+    public function addArbiter(string $Arbiter): Tournament
+    {
+        $newArray = $this->getArbiters();
+        $newArray[] = $Arbiter;
+        $this->setArbiters($newArray);
         return $this;
     }
 
@@ -999,20 +1014,42 @@ class Tournament
      *
      * @return string
      */
-    public function getArbiter(): string
+    public function getArbiter(int $order = 0): string
     {
-        return $this->Arbiter;
+        return $this->Arbiters[$order];
+    }
+
+    /**
+     * Returns the arbiters of the tournament
+     *
+     * @return string
+     */
+    public function getArbiters(): array
+    {
+        return $this->Arbiters;
     }
 
     /**
      * Sets the arbiter of the tournament
      *
-     * @param string $Arbiter
+     * @param string[] $Arbiter
      * @return Tournament
      */
-    public function setArbiter(string $Arbiter): Tournament
+    public function setArbiter(string $Arbiter, int $order = 0): Tournament
     {
-        $this->Arbiter = $Arbiter;
+        $this->Arbiters[$order] = $Arbiter;
+        return $this;
+    }
+
+    /**
+     * Sets the arbiters of the tournament
+     *
+     * @param string[] $Arbiters
+     * @return Tournament
+     */
+    public function setArbiters(array $Arbiters): Tournament
+    {
+        $this->Arbiters = $Arbiters;
         return $this;
     }
 
