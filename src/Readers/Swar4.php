@@ -128,9 +128,8 @@ class Swar4 implements ReaderInterface
         $this->getTournament()->setOrganiserClub($this->readData('String', $swshandle));
         $this->getTournament()->setOrganiserPlace($this->readData('String', $swshandle));
 
-        // @todo: Make arbiter an array to set multiple arbiters
-        $this->getTournament()->setArbiter($this->readData('String', $swshandle));
-        $this->getTournament()->setBinaryData('Arbiter2', $this->readData('String', $swshandle));
+        $this->getTournament()->setArbiter($this->readData('String', $swshandle), 0);
+        $this->getTournament()->setArbiter($this->readData('String', $swshandle), 1);
 
         $this->getTournament()->setStartDate($this->readData('Date', $swshandle));
         $this->getTournament()->setEndDate($this->readData('Date', $swshandle));
