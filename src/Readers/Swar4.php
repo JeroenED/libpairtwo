@@ -324,7 +324,7 @@ class Swar4 implements ReaderInterface
             $player = new Player();
             $player->setBinaryData('Classement', $this->readData('Int', $swshandle));
             $player->setName($this->readData('String', $swshandle));
-            $player->setBinaryData('InscriptionNo', $this->readData('Int', $swshandle));
+            $inscriptionNos[$this->readData('Int', $swshandle)] = $i;
             $player->setBinaryData('Rank', $this->readData('Int', $swshandle));
             $player->setBinaryData('CatIndex', $this->readData('Int', $swshandle));
             $player->setDateOfBirth($this->readData('Date', $swshandle));
@@ -406,7 +406,7 @@ class Swar4 implements ReaderInterface
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_player', $i);
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_round', $this->readData('Int', $swshandle) - 1);
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_table', $this->readData('Int', $swshandle));
-                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_opponent', $this->readData('Int', $swshandle) - 1);
+                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_opponent', $this->readData('Int', $swshandle));
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_result', $this->readData('Hex', $swshandle));
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_color', $this->readData('Int', $swshandle));
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_float', $this->readData('Int', $swshandle));
@@ -425,8 +425,8 @@ class Swar4 implements ReaderInterface
 
             $pairing->setPlayer($this->getTournament()->getPlayerById($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_player')));
             $pairing->setRound($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_round'));
-            if ($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_opponent') != 4294967294) {
-                $pairing->setOpponent($this->getTournament()->getPlayerById($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_opponent')));
+            if ($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_opponent') != 4294967295) {
+                $pairing->setOpponent($this->getTournament()->getPlayerById($inscriptionNos[$this->getTournament()->getBinaryData('Pairing_' . $ptn . '_opponent')]));
             }
             //echo $ptn . ' ' . $this->getTournament()->getBinaryData('Pairing_' . $ptn . '_round') . ' ' . $pairing->getPlayer()->getName() . ' -  ' . $opponent . ' ' . $this->getTournament()->getBinaryData('Pairing_' . $ptn . '_result') . PHP_EOL;
             switch ($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_result')) {
