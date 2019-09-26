@@ -8,7 +8,7 @@ require_once 'vendor/autoload.php';
 
 // EDIT ME!
 $pairingfile = 'your pairing-file.sws';
-$fileformat = 'Pairtwo-6'; // Possible values: Pairtwo-5, Pairtwo-6
+$fileformat = 'Pairtwo-6'; // Possible values: Pairtwo-5, Pairtwo-6, Swar-4
 
 
 if (!file_exists($pairingfile)) {
