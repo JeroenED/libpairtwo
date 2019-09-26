@@ -2,7 +2,9 @@
 
 ## v1.2 (Release: aa-bbb-cccc)
 * NEW READER: `swar-4` for reading out files created with Swar version 4.
+* NEW FEATURE: `Tournament::getArbiters` for multiple arbiters in 1 tournament
 * ENHANCEMENT: `Class::getBinaryData` methods return null if field is non-existent
+* CHANGE: `Tournament::getArbiter` accepts a `int` parameter representing the order of the arbiters
 * BUGFIX: `Player:GetId` returns elo instead of id
 
 ## v1.1.2 (Release: 21-jun-2019)
