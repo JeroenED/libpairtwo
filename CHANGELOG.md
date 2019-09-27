@@ -9,6 +9,7 @@
 * BUGFIX: `Tournament::calculateBuchholz()` did not return the correct score when player had unplayed rounds
 * BUGFIX: `Tournament::calculateMutualResult()` returned NULL if result was invalid
 * BUGFIX: `Tournament::calculateBaumbach()` treated bye as won
+* BUGFIX: `Tournament::calculateAverageRating()` returned NaN if no games were played
 
 ## v1.1.2 (Release: 21-jun-2019)
 * ENHANCEMENT: Added update section to dist/readme.md
