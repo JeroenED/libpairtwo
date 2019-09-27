@@ -650,7 +650,11 @@ class Tournament
         }
         sort($allratings);
         $allratings = array_slice($allratings, $cut);
-        return round(array_sum($allratings) / count($allratings));
+        $tiebreak = 0;
+        if (count($allratings) > 0) {
+            $tiebreak = round(array_sum($allratings) / count($allratings));
+        }
+        return $tiebreak;
     }
 
 
