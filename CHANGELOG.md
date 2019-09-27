@@ -5,8 +5,9 @@
 * NEW FEATURE: `Tournament::getArbiters` for multiple arbiters in 1 tournament
 * ENHANCEMENT: `Class::getBinaryData` methods return null if field is non-existent
 * CHANGE: `Tournament::getArbiter` accepts a `int` parameter representing the order of the arbiters
-* BUGFIX: `Player:GetId` returns elo instead of id
-* BUGFIX: `Tournament::CalculateBuchholz` did not return the correct score when player had unplayed rounds
+* BUGFIX: `Player:getId` returns elo instead of id
+* BUGFIX: `Tournament::calculateBuchholz` did not return the correct score when player had unplayed rounds
+* BUGFIX: `Tournament::calculateMutualResult` Returned NULL if result was invalid
 
 ## v1.1.2 (Release: 21-jun-2019)
 * ENHANCEMENT: Added update section to dist/readme.md
