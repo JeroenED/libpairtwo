@@ -6,7 +6,7 @@
 * ENHANCEMENT: `Class::getBinaryData` methods return null if field is non-existent
 * CHANGE: `Tournament::getArbiter` accepts a `int` parameter representing the order of the arbiters
 * BUGFIX: `Player:GetId` returns elo instead of id
-* BUGFIX: `Tournament::CalculateBuchholz` did not return the correct score when player had onplayed rounds
+* BUGFIX: `Tournament::CalculateBuchholz` did not return the correct score when player had unplayed rounds
 
 ## v1.1.2 (Release: 21-jun-2019)
 * ENHANCEMENT: Added update section to dist/readme.md

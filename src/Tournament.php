@@ -742,10 +742,7 @@ class Tournament
         $intpairings = array_slice($intpairings, $cutlowest);
         $intpairings = array_slice($intpairings, 0 - $cuthighest);
 
-        foreach ($intpairings as $intkey => $intpairing) {
-            $tiebreak += $intpairing;
-        }
-        return $tiebreak;
+        return array_sum($intpairings);
     }
 
 
