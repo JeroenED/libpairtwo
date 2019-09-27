@@ -1,17 +1,18 @@
 # CHANGELOG
 
 ## v1.2 (Release: aa-bbb-cccc)
-* NEW READER: `swar-4` for reading out files created with Swar version 4.
-* NEW FEATURE: `Tournament::getArbiters` for multiple arbiters in 1 tournament
-* ENHANCEMENT: `Class::getBinaryData` methods return null if field is non-existent
-* CHANGE: `Tournament::getArbiter` accepts a `int` parameter representing the order of the arbiters
-* BUGFIX: `Player:getId` returns elo instead of id
-* BUGFIX: `Tournament::calculateBuchholz` did not return the correct score when player had unplayed rounds
-* BUGFIX: `Tournament::calculateMutualResult` Returned NULL if result was invalid
+* NEW READER: `Reader::swar-4` for reading out files created with Swar version 4.
+* NEW FEATURE: `Tournament::getArbiters()` for multiple arbiters in 1 tournament
+* ENHANCEMENT: `Class::getBinaryData()` methods return null if field is non-existent
+* CHANGE: `Tournament::getArbiter()` accepts a `int` parameter representing the order of the arbiters
+* BUGFIX: `Player:getId()` returned elo instead of id
+* BUGFIX: `Tournament::calculateBuchholz()` did not return the correct score when player had unplayed rounds
+* BUGFIX: `Tournament::calculateMutualResult()` returned NULL if result was invalid
+* BUGFIX: `Tournament::calculateBaumbach()` treated bye as won
 
 ## v1.1.2 (Release: 21-jun-2019)
 * ENHANCEMENT: Added update section to dist/readme.md
-* MAJOR BUGFIX: `Game::GetResult` throws fatal error `Cannot access parent:: when current class scope has no parent`
+* MAJOR BUGFIX: `Game::GetResult` threw fatal error `Cannot access parent:: when current class scope has no parent`
 
 ## v1.1.1 (Released: 20-jun-2019)
 * NEW FEATURE: Added clean-dist and clean-dev targets
@@ -36,8 +37,8 @@
 
 ## v1.0.2 (Released: 05-jun-2019)
 * NEW FEATURE: `Player::getPlayedGames()` to return the number of played games
-* BUGFIX: Calculating Buchholz tiebreak always returned 0
-* BUGFIX: Calculating Mutual Result only took account of last tiebreak instead all previous
+* BUGFIX: `Tournament::calculateBuchholz()` always returned 0
+* BUGFIX: `Tournament::calculateMutualResult()` only took account of last tiebreak instead all previous
 
 ## v1.0.1 (Released: 04-jun-2019)
 * BUGFIX: `Round::getBye()` did not return bye players
