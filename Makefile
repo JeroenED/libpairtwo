@@ -19,9 +19,6 @@ api: ## Generates api-docs
 	VERSIONTAG=$(VERSION) doxygen
 
 dist: ## Generates distribution
-	touch .libpairtwo-dist
-	git add .libpairtwo-dist
-	git commit -m "Commit before release"
 	cp dist/composer* res/
 	mv dist/composer-dist.json dist/composer.json
 	cd dist && composer install
@@ -32,7 +29,7 @@ dist: ## Generates distribution
 	mkdir -p dist/doc
 	cp -r doc/api dist/doc
 	cd dist && zip -r ../libpairtwo-$(VERSION)-dist.zip *
-	git reset --hard HEAD^
+	git reset --hard HEAD
 	mv res/composer* dist/
 
 clean: clean-dist clean-dev
