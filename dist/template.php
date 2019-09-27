@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8">
 
-    <title>The HTML5 Herald</title>
+    <title>My tournament</title>
     <meta name="description" content="Libpairtwo">
-    <meta name="author" content="The clubclub">
+    <meta name="author" content="The chessclub">
 
     <link rel="stylesheet" href="css/styles.css">
 
@@ -19,11 +19,9 @@ use JeroenED\Libpairtwo\IOFactory;
 
 require_once 'vendor/autoload.php';
 
-
 // EDIT ME!
-$pairingfile = 'your pairing-file.sws';
-$fileformat = 'Pairtwo-6'; // Possible values: Pairtwo-5, Pairtwo-6, Swar-4
-
+$pairingfile = 'your pairing-file.swar';
+$fileformat = 'Swar-4'; // Possible values: Pairtwo-5, Pairtwo-6, Swar-4
 
 if (!file_exists($pairingfile)) {
     trigger_error('Your file is not set or doesn\'t exist! Edit the file: ' . __FILE__ . ' and try again', E_USER_ERROR);
