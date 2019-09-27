@@ -192,7 +192,29 @@ class Player
         return $points;
     }
 
-
+    /**
+     * Returns the points of the player that should be used for buchholz.
+     *
+     * 1 Point is awarded for winning
+     * 0.5 points are awarded for draw
+     * 0.5 points for not played
+     *
+     * @return float
+     */
+    public function getPointsForBuchholz(): float
+    {
+        $points = 0;
+        foreach ($this->getPairings() as $pairing) {
+            if (array_search($pairing->getResult(), Constants::NotPlayed) !== false) {
+                $points = $points + 0.5;
+            } elseif (array_search($pairing->getResult(), Constants::Won) !== false) {
+                $points = $points + 1;
+            } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
+                $points = $points + 0.5;
+            }
+        }
+        return $points;
+    }
     /**
      * Returns the performance rating of the player
      *
