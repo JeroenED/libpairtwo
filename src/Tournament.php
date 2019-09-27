@@ -542,8 +542,10 @@ class Tournament
     {
         $totalwins = 0;
         foreach ($player->getPairings() as $pairing) {
-            if (array_search($pairing->getResult(), Constants::Won) !== false) {
-                $totalwins++;
+            if (array_search($pairing->getResult(), Constants::NotPlayed) === false) {
+                if (array_search($pairing->getResult(), Constants::Won) !== false) {
+                    $totalwins++;
+                }
             }
         }
         return $totalwins;
