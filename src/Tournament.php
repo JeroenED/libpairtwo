@@ -621,7 +621,7 @@ class Tournament
             }
         }
         if ($totalmatches != count($interestingplayers)) {
-            $points = null;
+            $points = 0;
         }
         return $points;
     }
