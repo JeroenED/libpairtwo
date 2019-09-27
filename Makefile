@@ -1,7 +1,7 @@
 .PHONY: help tests dist
 .DEFAULT_GOAL := help
 BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
-VERSION := $(if $(TAG),$(TAG),$(BRANCH))
+VERSION := $(if $(TAG),$(TAG),dev-$(BRANCH))
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-12s\033[0m %s\n", $$1, $$2}'
@@ -19,11 +19,9 @@ api: ## Generates api-docs
 	VERSIONTAG=$(VERSION) doxygen
 
 dist: ## Generates distribution
-	touch .libpairtwo-dist
-	git add .libpairtwo-dist
-	git commit -m "Commit before release"
 	cp dist/composer* res/
 	mv dist/composer-dist.json dist/composer.json
+	sed -i -e "s%//VERSION//%$(VERSION)%g" dist/composer.json
 	cd dist && composer install
 	rm dist/composer.json
 	rm dist/composer.lock
@@ -32,7 +30,7 @@ dist: ## Generates distribution
 	mkdir -p dist/doc
 	cp -r doc/api dist/doc
 	cd dist && zip -r ../libpairtwo-$(VERSION)-dist.zip *
-	git reset --hard HEAD^
+	git reset --hard HEAD
 	mv res/composer* dist/
 
 clean: clean-dist clean-dev

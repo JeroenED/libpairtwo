@@ -6,7 +6,7 @@
         }
     ],
      "require": {
-        "jeroened/libpairtwo": "*"
+        "jeroened/libpairtwo": "//VERSION//"
     },
     "minimum-stability": "dev"
 }
