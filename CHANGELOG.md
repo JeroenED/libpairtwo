@@ -12,6 +12,7 @@
 * BUGFIX: `Tournament::calculateMutualResult()` returned NULL if result was invalid
 * BUGFIX: `Tournament::calculateBaumbach()` treated bye as won
 * BUGFIX: `Tournament::calculateAverageRating()` returned NaN if no games were played
+* BUGFIX: Distributions could be created from a branch other than master
 
 ## v1.1.2 (Release: 21-jun-2019)
 * ENHANCEMENT: Added update section to dist/readme.md
