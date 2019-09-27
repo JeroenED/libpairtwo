@@ -201,7 +201,7 @@ class Tournament
 
     /**
      * Adds an arbiter to the tournament
-     * 
+     *
      * @param string $Arbiter
      * @return Tournament
      */
@@ -710,29 +710,40 @@ class Tournament
     private function calculateBuchholz(Player $player, int $cutlowest = 0, int $cuthighest = 0): ?float
     {
         $tiebreak = 0;
-        $intpairings = $player->getPairings();
+        $intpairingsWithBye = $player->getPairings();
+
+        $intpairings = [];
+        $curpoints = 0;
+        $curround = 1;
+        foreach ($intpairingsWithBye as $pairing) {
+            $roundstoplay = (count($intpairingsWithBye)) - $curround;
+            if (is_null($pairing->getOpponent())) {
+                $forfait = explode(' ', $pairing->getResult())[0]+0;
+                $notaplayer = $curpoints + (1 - $forfait) + 0.5 * $roundstoplay;
+                $intpairings[] = $notaplayer;
+            } else {
+                $intpairings[] = $pairing->getOpponent()->getPointsForBuchholz();
+                if (array_search($pairing->getResult(), Constants::Won) !== false) {
+                    $curpoints += 1;
+                } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
+                    $curpoints += 0.5;
+                }
+            }
+            $curround++;
+        }
 
         usort($intpairings, function ($a, $b) {
-            if (is_null($a->getOpponent())) {
-                return -1;
-            }
-            if (is_null($b->getOpponent())) {
-                return 1;
-            }
-
-            if ($b->getOpponent()->getPoints() == $a->getOpponent()->getPoints()) {
+            if ($b == $a) {
                 return 0;
             }
-            return ($a->getOpponent()->getPoints() > $b->getOpponent()->getPoints()) ? 1 : -1;
+            return ($a > $b) ? 1 : -1;
         });
 
         $intpairings = array_slice($intpairings, $cutlowest);
         $intpairings = array_slice($intpairings, 0 - $cuthighest);
 
         foreach ($intpairings as $intkey => $intpairing) {
-            if (!is_null($intpairing->getOpponent())) {
-                $tiebreak += $intpairing->getOpponent()->getPoints();
-            }
+            $tiebreak += $intpairing;
         }
         return $tiebreak;
     }
