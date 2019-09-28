@@ -3,7 +3,7 @@
 ## vx.y.z (Release: aa-bbb-cccc)
 
 ## v1.2 (Release: 28-sep-2019)
-* NEW READER: `Reader::swar-4` for reading out files created with Swar version 4.
+* NEW READER: `Reader::swar-4` for reading out files created with SWAR version 4.
 * NEW FEATURE: `Tournament::getArbiters()` for multiple arbiters in 1 tournament
 * ENHANCEMENT: `Class::getBinaryData()` methods return null if field is non-existent
 * ENHANCEMENT: The template in distributions provides a more usable starting implementation

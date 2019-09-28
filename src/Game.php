@@ -12,10 +12,9 @@
 
 namespace JeroenED\Libpairtwo;
 
-use DateTime;
 use JeroenED\Libpairtwo\Enums\Gameresult;
-use JeroenED\Libpairtwo\Models\Round;
 use JeroenED\Libpairtwo\Pairing;
+use DateTime;
 
 /**
  * Class Games
