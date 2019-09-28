@@ -365,7 +365,7 @@ class Tournament
             $tosortplayers = $sortedplayers;
             $sortedplayers = [];
             foreach ($tosortplayers as $groupkey=>$sortedplayerselem) {
-                usort($tosortplayers[$groupkey], $this->SortTiebreak($tbkey));
+                usort($tosortplayers[$groupkey], $this->sortTiebreak($tbkey));
                 foreach ($tosortplayers[$groupkey] as $playerkey => $player) {
                     if (!is_null($player->getTiebreaks()[$tbkey])) {
                         if ($playerkey != 0) {

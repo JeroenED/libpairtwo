@@ -83,7 +83,6 @@ class Round
         return $this;
     }
 
-
     /**
      * Returns an array of pairings where the player is bye
      *
@@ -100,7 +99,6 @@ class Round
         }
         return $byePairings;
     }
-
 
     /**
      * Returns an array of pairings where the player is absent
@@ -139,6 +137,7 @@ class Round
         $this->Date = $Date;
         return $this;
     }
+
     /**
      * Returns an array of all games for the round
      *
@@ -148,6 +147,7 @@ class Round
     {
         return $this->Games;
     }
+
     /**
      * Sets an array of all games for the round
      *
@@ -159,6 +159,7 @@ class Round
         $this->Games = $Games;
         return $this;
     }
+
     /**
      * Returns the round number of the round
      *
@@ -168,6 +169,7 @@ class Round
     {
         return $this->RoundNo;
     }
+
     /**
      * Sets the round number of the round
      *
@@ -179,6 +181,7 @@ class Round
         $this->RoundNo = $RoundNo;
         return $this;
     }
+
     /**
      * Returns an array of all pairings for the round
      *
@@ -188,6 +191,7 @@ class Round
     {
         return $this->Pairings;
     }
+    
     /**
      * Sets an array of all pairings for the round
      *
