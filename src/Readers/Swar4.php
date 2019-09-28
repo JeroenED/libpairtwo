@@ -613,7 +613,7 @@ class Swar4 implements ReaderInterface
      * @param string $string
      * @return DateTime
      */
-    public function convertStringToDate(string $string): \DateTime
+    public function convertStringToDate(string $string): DateTime
     {
         if (strlen($string) == 10) {
             return DateTime::createFromFormat('d/m/Y', $string);
