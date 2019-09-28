@@ -32,28 +32,28 @@ class Round
      *
      * @var DateTime
      */
-    private $date;
+    private $Date;
 
     /**
      * Array of all games
      *
      * @var Game[]
      */
-    private $games = [];
+    private $Games = [];
 
     /**
      * Number of the round
      *
      * @var int
      */
-    private $roundNo;
+    private $RoundNo;
 
     /**
      * Array of all pairings for this round
      *
      * @var Pairing[]
      */
-    private $pairings = [];
+    private $Pairings = [];
 
     /**
      * Adds a game to the round
@@ -83,7 +83,6 @@ class Round
         return $this;
     }
 
-
     /**
      * Returns an array of pairings where the player is bye
      *
@@ -94,13 +93,12 @@ class Round
         $allPairings = $this->getPairings();
         $byePairings = [];
         foreach ($allPairings as $pairing) {
-            if ($pairing->getResult() == Result::wonbye) {
+            if ($pairing->getResult() == Result::WonBye) {
                 $byePairings[] = $pairing;
             }
         }
         return $byePairings;
     }
-
 
     /**
      * Returns an array of pairings where the player is absent
@@ -112,11 +110,38 @@ class Round
         $allPairings = $this->getPairings();
         $absentPairings = [];
         foreach ($allPairings as $pairing) {
-            if ($pairing->getResult() == Result::absent) {
+            if ($pairing->getResult() == Result::Absent) {
                 $absentPairings[] = $pairing;
             }
         }
         return $absentPairings;
+    }
+
+    /**
+     * Retuns an array with the games of this round sorted by board
+     *
+     * @return Game[]
+     */
+    public function getGamesByBoard(): array
+    {
+        $allGames = $this->getGames();
+        usort($allGames, array($this, 'sortByBoard'));
+        return $allGames;
+    }
+
+    /**
+     * Sort by board
+     *
+     * @param Game $a
+     * @param Game $b
+     * @return int
+     */
+    private function sortByBoard(Game $a, Game $b): int
+    {
+        if (($a->getBoard() == $b->getBoard()) || ($a->getBoard() === false) || ($b->getBoard() === false)) {
+            return 0;
+        }
+        return ($a->getBoard() > $b->getBoard()) ? +1 : -1;
     }
 
     /**
@@ -126,19 +151,20 @@ class Round
      */
     public function getDate(): DateTime
     {
-        return $this->date;
+        return $this->Date;
     }
     /**
      * Sets the date of the round
      *
-     * @param DateTime $date
+     * @param DateTime $Date
      * @return Round
      */
-    public function setDate(DateTime $date): Round
+    public function setDate(DateTime $Date): Round
     {
-        $this->date = $date;
+        $this->Date = $Date;
         return $this;
     }
+
     /**
      * Returns an array of all games for the round
      *
@@ -146,19 +172,21 @@ class Round
      */
     public function getGames(): array
     {
-        return $this->games;
+        return $this->Games;
     }
+
     /**
      * Sets an array of all games for the round
      *
-     * @param Game[] $games
+     * @param Game[] $Games
      * @return Round
      */
-    public function setGames(array $games): Round
+    public function setGames(array $Games): Round
     {
-        $this->games = $games;
+        $this->Games = $Games;
         return $this;
     }
+
     /**
      * Returns the round number of the round
      *
@@ -166,19 +194,21 @@ class Round
      */
     public function getRoundNo(): int
     {
-        return $this->roundNo;
+        return $this->RoundNo;
     }
+
     /**
      * Sets the round number of the round
      *
-     * @param int $roundNo
+     * @param int $RoundNo
      * @return Round
      */
-    public function setRoundNo(int $roundNo): Round
+    public function setRoundNo(int $RoundNo): Round
     {
-        $this->roundNo = $roundNo;
+        $this->RoundNo = $RoundNo;
         return $this;
     }
+
     /**
      * Returns an array of all pairings for the round
      *
@@ -186,17 +216,18 @@ class Round
      */
     public function getPairings(): array
     {
-        return $this->pairings;
+        return $this->Pairings;
     }
+
     /**
      * Sets an array of all pairings for the round
      *
-     * @param Pairing[] $pairings
+     * @param Pairing[] $Pairings
      * @return Round
      */
-    public function setPairings(array $pairings): Round
+    public function setPairings(array $Pairings): Round
     {
-        $this->pairings = $pairings;
+        $this->Pairings = $Pairings;
         return $this;
     }
 }

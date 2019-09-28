@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## vx.y.z (Release: aa-bbb-cccc)
+* NEW FEATURE: `Game::getBoard()` for getting the board number of the game
+* ENHANCEMENT: Some fields has been renamed to match coding guideline (Please see [1ab96fa](https://github.com/JeroenED/libpairtwo/commit/1ab96fa04782c1b0f2b6bb9d1bac8397a74ab38e) for more info)
 
 ## v1.2 (Release: 28-sep-2019)
 * NEW READER: `Reader::swar-4` for reading out files created with SWAR version 4.
