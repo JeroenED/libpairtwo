@@ -12,8 +12,8 @@
 
 namespace JeroenED\Libpairtwo;
 
-use JeroenED\Libpairtwo\Enums\Title;
 use JeroenED\Libpairtwo\Enums\Gender;
+use JeroenED\Libpairtwo\Enums\Title;
 use DateTime;
 
 /**
