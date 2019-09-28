@@ -103,7 +103,7 @@ class Tournament
     private $PriorityId = 'Nation';
 
     /** @var bool|DateTime|int|string[] */
-    private $binaryData = [];
+    private $BinaryData = [];
 
     /**
      * Gets a player by its ID
@@ -244,10 +244,10 @@ class Tournament
                 }
             }
             $game = new Game();
-            if ($color->getValue() == Color::white) {
+            if ($color->getValue() == Color::White) {
                 $game->setWhite($pairing);
                 $game->setBlack($opponent);
-            } elseif ($color->getValue() == Color::black) {
+            } elseif ($color->getValue() == Color::Black) {
                 $game->setWhite($opponent);
                 $game->setBlack($pairing);
             }
