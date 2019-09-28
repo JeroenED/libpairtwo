@@ -42,6 +42,9 @@ class Pairing
     /** @var int */
     private $Round;
 
+    /** @var int */
+    private $Board;
+
     /**
      * Returns the player of the pairing
      *
@@ -150,5 +153,25 @@ class Pairing
     {
         $this->Round = $Round;
         return $this;
+    }
+
+    /**
+     * Sets the board no of the pairing
+     *
+     * @return int
+     */
+    public function getBoard(): int
+    {
+        return $this->Board;
+    }
+
+    /**
+     * Returns the board no of the pairing
+     *
+     * @param int $Board
+     */
+    public function setBoard(int $Board): void
+    {
+        $this->Board = $Board;
     }
 }

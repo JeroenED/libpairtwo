@@ -29,13 +29,16 @@ use DateTime;
 class Game
 {
     /** @var Pairing | null */
-    private $white;
+    private $White;
 
     /** @var Pairing | null */
-    private $black;
+    private $Black;
 
     /** @var GameResult | null */
-    private $result;
+    private $Result;
+
+    /** @var int */
+    private $Board;
 
     /**
      * Returns the result for the game
@@ -44,8 +47,8 @@ class Game
      */
     public function getResult(): Gameresult
     {
-        if (!is_null($this->result)) {
-            return $this->result;
+        if (!is_null($this->Result)) {
+            return $this->Result;
         }
 
         $whiteResult = $this->getWhite()->getResult();
@@ -80,18 +83,18 @@ class Game
      */
     public function getWhite(): ?Pairing
     {
-        return $this->white;
+        return $this->White;
     }
 
     /**
      * Sets pairing for white player
      *
-     * @param Pairing | null $white
+     * @param Pairing | null $White
      * @return Game
      */
-    public function setWhite(?Pairing $white): Game
+    public function setWhite(?Pairing $White): Game
     {
-        $this->white = $white;
+        $this->White = $White;
         return $this;
     }
 
@@ -102,30 +105,50 @@ class Game
      */
     public function getBlack(): ?Pairing
     {
-        return $this->black;
+        return $this->Black;
     }
 
     /**
      * Sets pairing for black player
      *
-     * @param Pairing | null $black
+     * @param Pairing | null $Black
      * @return Game
      */
-    public function setBlack(?Pairing $black): Game
+    public function setBlack(?Pairing $Black): Game
     {
-        $this->black = $black;
+        $this->Black = $Black;
         return $this;
     }
 
     /**
      * Sets result for game
      *
-     * @param Gameresult | null $result
+     * @param Gameresult | null $Result
      * @return Game
      */
-    public function setResult(?Gameresult $result): Game
+    public function setResult(?Gameresult $Result): Game
     {
-        $this->result = $result;
+        $this->Result = $Result;
         return $this;
+    }
+
+    /**
+     * Sets the board no of the game
+     *
+     * @return int
+     */
+    public function getBoard(): int
+    {
+        return $this->Board;
+    }
+
+    /**
+     * Returns the board no of the game
+     *
+     * @param int $Board
+     */
+    public function setBoard(int $Board): void
+    {
+        $this->Board = $Board;
     }
 }
