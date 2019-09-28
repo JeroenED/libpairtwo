@@ -405,7 +405,7 @@ class Swar4 implements ReaderInterface
                 for ($j = 0; $j < $player->getBinaryData('AllocatedRounds'); $j++) {
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_player', $i);
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_round', $this->readData('Int', $swshandle) - 1);
-                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_table', $this->readData('Int', $swshandle));
+                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_table', $this->readData('Int', $swshandle) - 1);
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_opponent', $this->readData('Int', $swshandle));
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_result', $this->readData('Hex', $swshandle));
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_color', $this->readData('Int', $swshandle));
@@ -473,7 +473,7 @@ class Swar4 implements ReaderInterface
                     break;
             }
             $pairing->setColor(new Color($color));
-            
+
             $pairing->setBoard($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_table'));
             $ptn++;
             $this->getTournament()->addPairing($pairing);
