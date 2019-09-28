@@ -268,7 +268,7 @@ class Tournament
                 if (!$this->gameExists($game, $round)) {
                     $game->setBoard($game->getWhite()->getBoard());
                     // Add board if inexistent
-                    if($game->getBoard() == -1) {
+                    if ($game->getBoard() == -1) {
                         if (isset($lastboards[$round])) {
                             $lastboards[$round] += 1;
                         } else {
