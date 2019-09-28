@@ -1,6 +1,6 @@
 <?php
 /**
- * Reader Pairtwo6
+ * Reader Swar4
  *
  * Reads out Swar-4 files
  *
