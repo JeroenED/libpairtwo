@@ -37,6 +37,9 @@ class Game
     /** @var GameResult | null */
     private $result;
 
+    /** @var int */
+    private $Board;
+
     /**
      * Returns the result for the game
      *
@@ -127,5 +130,25 @@ class Game
     {
         $this->result = $result;
         return $this;
+    }
+
+    /**
+     * Sets the board no of the game
+     *
+     * @return int
+     */
+    public function getBoard(): int
+    {
+        return $this->Board;
+    }
+
+    /**
+     * Returns the board no of the game
+     *
+     * @param int $Board
+     */
+    public function setBoard(int $Board): void
+    {
+        $this->Board = $Board;
     }
 }
