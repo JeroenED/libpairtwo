@@ -103,7 +103,7 @@ class Tournament
     private $PriorityId = 'Nation';
 
     /** @var bool|DateTime|int|string[] */
-    private $binaryData = [];
+    private $BinaryData = [];
 
     /**
      * Gets a player by its ID
@@ -226,6 +226,10 @@ class Tournament
         /** @var Pairing[] */
         $cache = array();
 
+        /** @var int[] */
+        $lastboards;
+
+        /** @var Pairing $pairing */
         foreach ($pairings as $pairing) {
             // Add pairing to player
             $pairing->getPlayer()->addPairing($pairing);
@@ -234,6 +238,11 @@ class Tournament
 
             $this->getRoundByNo($round)->addPairing($pairing);
             $opponent = null;
+
+            /**
+             * @var int $key
+             * @var Pairing $cached
+             */
             foreach ($cache as $key=>$cached) {
                 if (!is_null($cached)) {
                     if (($cached->getOpponent() == $pairing->getPlayer()) && ($cached->getRound() == $pairing->getRound())) {
@@ -244,10 +253,10 @@ class Tournament
                 }
             }
             $game = new Game();
-            if ($color->getValue() == Color::white) {
+            if ($color->getValue() == Color::White) {
                 $game->setWhite($pairing);
                 $game->setBlack($opponent);
-            } elseif ($color->getValue() == Color::black) {
+            } elseif ($color->getValue() == Color::Black) {
                 $game->setWhite($opponent);
                 $game->setBlack($pairing);
             }
@@ -257,6 +266,18 @@ class Tournament
             } else {
                 // Check if game already exists
                 if (!$this->gameExists($game, $round)) {
+                    $game->setBoard($game->getWhite()->getBoard());
+                    // Add board if inexistent
+                    if ($game->getBoard() == -1) {
+                        if (isset($lastboards[$round])) {
+                            $lastboards[$round] += 1;
+                        } else {
+                            $lastboards[$round] = 0;
+                        }
+                        $game->setBoard($lastboards[$round]);
+                        $game->getWhite()->setBoard($lastboards[$round]);
+                        $game->getBlack()->setBoard($lastboards[$round]);
+                    }
                     $this->AddGame($game, $round);
                 }
             }
@@ -344,7 +365,7 @@ class Tournament
             $tosortplayers = $sortedplayers;
             $sortedplayers = [];
             foreach ($tosortplayers as $groupkey=>$sortedplayerselem) {
-                usort($tosortplayers[$groupkey], $this->SortTiebreak($tbkey));
+                usort($tosortplayers[$groupkey], $this->sortTiebreak($tbkey));
                 foreach ($tosortplayers[$groupkey] as $playerkey => $player) {
                     if (!is_null($player->getTiebreaks()[$tbkey])) {
                         if ($playerkey != 0) {

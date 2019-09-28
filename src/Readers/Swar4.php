@@ -37,10 +37,10 @@ class Swar4 implements ReaderInterface
     private $tournament;
 
     /** @var bool|int|DateTime|string[] */
-    private $binaryData;
+    private $BinaryData;
 
     /** @var string */
-    private $release;
+    private $Release;
 
     /** @var array  */
     private const CompatibleVersions = ['v4.'];
@@ -405,7 +405,7 @@ class Swar4 implements ReaderInterface
                 for ($j = 0; $j < $player->getBinaryData('AllocatedRounds'); $j++) {
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_player', $i);
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_round', $this->readData('Int', $swshandle) - 1);
-                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_table', $this->readData('Int', $swshandle));
+                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_table', $this->readData('Int', $swshandle) - 1);
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_opponent', $this->readData('Int', $swshandle));
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_result', $this->readData('Hex', $swshandle));
                     $this->getTournament()->setBinaryData('Pairing_' . $pt . '_color', $this->readData('Int', $swshandle));
@@ -430,49 +430,51 @@ class Swar4 implements ReaderInterface
             }
             switch ($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_result')) {
                 case '1000':
-                    $result = Result::lost;
+                    $result = Result::Lost;
                     break;
                 case '01':
-                    $result = Result::absent;
+                    $result = Result::Absent;
                     break;
                 case '0010':
-                    $result = Result::bye;
+                    $result = Result::Bye;
                     break;
                 case '2000':
-                    $result = Result::draw;
+                    $result = Result::Draw;
                     break;
                 case '4000':
-                    $result = Result::won;
+                    $result = Result::Won;
                     break;
                 case '04':
-                    $result = Result::wonforfait;
+                    $result = Result::WonForfait;
                     break;
                 case '40':
-                    $result = Result::wonbye;
+                    $result = Result::WonBye;
                     break;
                 case '00':
                 default:
-                    $result = Result::none;
+                    $result = Result::None;
                     break;
             }
             if (array_search($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_table'), [ 16384, 8192 ]) !== false) {
-                $result = Result::absent;
+                $result = Result::Absent;
             }
             $pairing->setResult(new Result($result));
 
             switch ($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_color')) {
                 case 4294967295:
-                    $color = Color::black;
+                    $color = Color::Black;
                     break;
                 case 1:
-                    $color = Color::white;
+                    $color = Color::White;
                     break;
                 case 0:
                 default:
-                    $color = Color::none;
+                    $color = Color::None;
                     break;
             }
             $pairing->setColor(new Color($color));
+
+            $pairing->setBoard($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_table'));
             $ptn++;
             $this->getTournament()->addPairing($pairing);
         }
@@ -571,15 +573,15 @@ class Swar4 implements ReaderInterface
      */
     public function getRelease(): string
     {
-        return $this->release;
+        return $this->Release;
     }
 
     /**
-     * @param string $release
+     * @param string $Release
      */
-    public function setRelease(string $release): void
+    public function setRelease(string $Release): void
     {
-        $this->release = $release;
+        $this->Release = $Release;
     }
 
     /**
