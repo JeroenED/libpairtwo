@@ -118,6 +118,33 @@ class Round
     }
 
     /**
+     * Retuns an array with the games of this round sorted by board
+     *
+     * @return Game[]
+     */
+    public function getGamesByBoard(): array
+    {
+        $allGames = $this->getGames();
+        usort($allGames, array($this, 'sortByBoard'));
+        return $allGames;
+    }
+
+    /**
+     * Sort by board
+     *
+     * @param Game $a
+     * @param Game $b
+     * @return int
+     */
+    private function sortByBoard(Game $a, Game $b): int
+    {
+        if (($a->getBoard() == $b->getBoard()) || ($a->getBoard() === false) || ($b->getBoard() === false)) {
+            return 0;
+        }
+        return ($a->getBoard() > $b->getBoard()) ? +1 : -1;
+    }
+
+    /**
      * Returns the date of the round
      *
      * @return DateTime
@@ -191,7 +218,7 @@ class Round
     {
         return $this->Pairings;
     }
-    
+
     /**
      * Sets an array of all pairings for the round
      *
