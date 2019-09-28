@@ -13,9 +13,11 @@
 
 namespace JeroenED\Libpairtwo\Readers;
 
-use DateTime;
 use JeroenED\Libpairtwo\Enums\Color;
+use JeroenED\Libpairtwo\Enums\Gender;
+use JeroenED\Libpairtwo\Enums\Result;
 use JeroenED\Libpairtwo\Enums\Tiebreak;
+use JeroenED\Libpairtwo\Enums\Title;
 use JeroenED\Libpairtwo\Enums\TournamentSystem;
 use JeroenED\Libpairtwo\Exceptions\IncompatibleReaderException;
 use JeroenED\Libpairtwo\Interfaces\ReaderInterface;
@@ -23,9 +25,7 @@ use JeroenED\Libpairtwo\Pairing;
 use JeroenED\Libpairtwo\Player;
 use JeroenED\Libpairtwo\Round;
 use JeroenED\Libpairtwo\Tournament;
-use JeroenED\Libpairtwo\Enums\Gender;
-use JeroenED\Libpairtwo\Enums\Title;
-use JeroenED\Libpairtwo\Enums\Result;
+use DateTime;
 
 /**
  * Class Swar4
