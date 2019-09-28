@@ -33,7 +33,7 @@ abstract class IOFactory
      *
      * @var array
      */
-    private static $readers = [
+    private static $Readers = [
         'Swar-4' => Readers\Swar4::class,
         'Pairtwo-6' => Readers\Pairtwo6::class,
         'Pairtwo-5' => Readers\Pairtwo6::class // File structure identical
@@ -51,12 +51,12 @@ abstract class IOFactory
      */
     public static function createReader(string $type): ReaderInterface
     {
-        if (!isset(self::$readers[$type])) {
+        if (!isset(self::$Readers[$type])) {
             throw new LibpairtwoException("Cannot read type $type");
         }
 
         // create reader class
-        $readerClass = self::$readers[$type];
+        $readerClass = self::$Readers[$type];
         $reader = new $readerClass;
 
         return $reader;
