@@ -1,6 +1,6 @@
 <?php
 /**
- * Reader Pairtwo6
+ * Reader Swar4
  *
  * Reads out Swar-4 files
  *
@@ -13,9 +13,11 @@
 
 namespace JeroenED\Libpairtwo\Readers;
 
-use DateTime;
 use JeroenED\Libpairtwo\Enums\Color;
+use JeroenED\Libpairtwo\Enums\Gender;
+use JeroenED\Libpairtwo\Enums\Result;
 use JeroenED\Libpairtwo\Enums\Tiebreak;
+use JeroenED\Libpairtwo\Enums\Title;
 use JeroenED\Libpairtwo\Enums\TournamentSystem;
 use JeroenED\Libpairtwo\Exceptions\IncompatibleReaderException;
 use JeroenED\Libpairtwo\Interfaces\ReaderInterface;
@@ -23,9 +25,7 @@ use JeroenED\Libpairtwo\Pairing;
 use JeroenED\Libpairtwo\Player;
 use JeroenED\Libpairtwo\Round;
 use JeroenED\Libpairtwo\Tournament;
-use JeroenED\Libpairtwo\Enums\Gender;
-use JeroenED\Libpairtwo\Enums\Title;
-use JeroenED\Libpairtwo\Enums\Result;
+use DateTime;
 
 /**
  * Class Swar4
@@ -613,7 +613,7 @@ class Swar4 implements ReaderInterface
      * @param string $string
      * @return DateTime
      */
-    public function convertStringToDate(string $string): \DateTime
+    public function convertStringToDate(string $string): DateTime
     {
         if (strlen($string) == 10) {
             return DateTime::createFromFormat('d/m/Y', $string);

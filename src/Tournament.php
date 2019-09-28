@@ -12,11 +12,11 @@
 
 namespace JeroenED\Libpairtwo;
 
+use JeroenED\Libpairtwo\Enums\Color;
+use JeroenED\Libpairtwo\Enums\Tiebreak;
+use JeroenED\Libpairtwo\Enums\TournamentSystem;
 use Closure;
 use DateTime;
-use JeroenED\Libpairtwo\Enums\Tiebreak;
-use JeroenED\Libpairtwo\Enums\Color;
-use JeroenED\Libpairtwo\Enums\TournamentSystem;
 
 /**
  * Class Tournament
