@@ -760,6 +760,7 @@ class Pairtwo6 implements ReaderInterface
                     $pairing->setRound($x);
                     $offset += 2;
 
+                    $pairing->setBoard(-1);
                     if ($x < $this->getBinaryData("CurrentRound")) {
                         $this->getTournament()->addPairing($pairing);
                     }
