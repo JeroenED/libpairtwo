@@ -35,15 +35,15 @@ $reader->read($pairingfile);
 
 // Below is an example of what can be used. Feel free to modify this.
 echo '<h1>' . $reader->getTournament()->getName() . '</h1>' . PHP_EOL;
-foreach($reader->getTournament()->getRounds() as $round) {
-    echo '<h2>Ronde ' . ($round->getRoundNo() + 1) . ': ' . $round->getDate()->format('d/m/Y') . '</h2>' . PHP_EOL;
+foreach ($reader->getTournament()->getRounds() as $round) {
+    echo '<h2>Round ' . ($round->getRoundNo() + 1) . ': ' . $round->getDate()->format('m/d/Y') . '</h2>' . PHP_EOL;
 
     echo '<table>' . PHP_EOL;
     echo '<thead>' . PHP_EOL;
-    echo '<tr><th>Wit</th><th>Zwart</th><th>Resultaat</th></tr>' . PHP_EOL;
+    echo '<tr><th>White</th><th>Black</th><th>Result</th></tr>' . PHP_EOL;
     echo '</thead>' . PHP_EOL;
     echo '<tbody>' . PHP_EOL;
-    foreach($round->getGames() as $game) {
+    foreach ($round->getGames() as $game) {
         echo '<tr>' . PHP_EOL;
         echo '<td>' . $game->getWhite()->getPlayer()->getName() . '</td>' . PHP_EOL;
         echo '<td>' . $game->getBlack()->getPlayer()->getName() . '</td>' . PHP_EOL;
@@ -59,7 +59,7 @@ foreach($reader->getTournament()->getRounds() as $round) {
     }
     echo implode(', ', $bye);
     echo '</p>' . PHP_EOL;
-    echo '<p><strong>Afwezig:</strong> ';
+    echo '<p><strong>Absent:</strong> ';
     $bye = [];
     foreach ($round->getAbsent() as $pairing) {
         $bye[] = $pairing->getPlayer()->getName();
@@ -68,10 +68,10 @@ foreach($reader->getTournament()->getRounds() as $round) {
     echo '</p>' . PHP_EOL;
 }
 
-echo '<h2>Klassement</h2>' . PHP_EOL;
+echo '<h2>Rankings</h2>' . PHP_EOL;
 echo '<table>' . PHP_EOL;
 echo '<thead>' . PHP_EOL;
-echo '<tr><th> </th><th>Naam (elo)</th>' . PHP_EOL;
+echo '<tr><th> </th><th>Name (elo)</th>' . PHP_EOL;
 foreach ($reader->getTournament()->getTieBreaks() as $tiebreak) {
     echo '<th>' . $tiebreak->getValue() . '</th>' . PHP_EOL;
 }
