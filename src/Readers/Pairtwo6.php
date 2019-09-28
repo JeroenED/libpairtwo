@@ -703,15 +703,15 @@ class Pairtwo6 implements ReaderInterface
                     switch ($this->readData('Int', substr($swscontents, $offset, $length))) {
                         case 255:
                         case 253:
-                            $color = Color::black;
+                            $color = Color::Black;
                             break;
                         case 1:
                         case 3:
-                            $color = Color::white;
+                            $color = Color::White;
                            break;
                         case 0:
                         default:
-                            $color = Color::none;
+                            $color = Color::None;
                             break;
                     }
                     $pairing->setColor(new Color($color));
@@ -720,38 +720,38 @@ class Pairtwo6 implements ReaderInterface
                     $length = 1;
                     switch ($this->readData('Int', substr($swscontents, $offset, $length))) {
                         case 1:
-                            $result = Result::lost;
+                            $result = Result::Lost;
                             break;
                         case 2:
-                            $result = Result::absent;
+                            $result = Result::Absent;
                             break;
                         case 3:
-                            $result = Result::adjourned;
+                            $result = Result::Adjourned;
                             break;
                         case 4:
-                            $result = Result::bye;
+                            $result = Result::Bye;
                             break;
                         case 6:
-                            $result = Result::draw;
+                            $result = Result::Draw;
                             break;
                         case 8:
-                            $result = Result::drawadjourned;
+                            $result = Result::DrawAdjourned;
                             break;
                         case 11:
-                            $result = Result::won;
+                            $result = Result::Won;
                             break;
                         case 12:
-                            $result = Result::wonforfait;
+                            $result = Result::WonForfait;
                             break;
                         case 13:
-                            $result = Result::wonadjourned;
+                            $result = Result::WonAdjourned;
                             break;
                         case 14:
-                            $result = Result::wonbye;
+                            $result = Result::WonBye;
                             break;
                         case 0:
                         default:
-                            $result = Result::none;
+                            $result = Result::None;
                             break;
                     }
                     $pairing->setResult(new Result($result));

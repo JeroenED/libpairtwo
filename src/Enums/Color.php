@@ -26,7 +26,7 @@ use MyCLabs\Enum\Enum;
  */
 class Color extends Enum
 {
-    const black = 'B';
-    const white = 'W';
-    const none = '*';
+    const Black = 'B';
+    const White = 'W';
+    const None = '*';
 }
