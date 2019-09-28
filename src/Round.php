@@ -14,8 +14,6 @@ namespace JeroenED\Libpairtwo;
 
 use DateTime;
 use JeroenED\Libpairtwo\Enums\Result;
-use JeroenED\Libpairtwo\Game;
-use JeroenED\Libpairtwo\Pairing;
 
 /**
  * Class Round
