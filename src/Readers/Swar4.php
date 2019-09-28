@@ -473,6 +473,8 @@ class Swar4 implements ReaderInterface
                     break;
             }
             $pairing->setColor(new Color($color));
+            
+            $pairing->setBoard($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_table'));
             $ptn++;
             $this->getTournament()->addPairing($pairing);
         }
