@@ -45,7 +45,7 @@ foreach ($reader->getTournament()->getRounds() as $round) {
     echo '<tbody>' . PHP_EOL;
     foreach ($round->getGamesByBoard() as $game) {
         echo '<tr>' . PHP_EOL;
-        echo '<td>' . $game->getBoard() . '</td>' . PHP_EOL;
+        echo '<td>' . ($game->getBoard() + 1) . '</td>' . PHP_EOL;
         echo '<td>' . $game->getWhite()->getPlayer()->getName() . '</td>' . PHP_EOL;
         echo '<td>' . $game->getBlack()->getPlayer()->getName() . '</td>' . PHP_EOL;
         echo '<td>' . $game->getResult()->getValue() . '</td>' . PHP_EOL;
