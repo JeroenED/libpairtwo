@@ -226,6 +226,10 @@ class Tournament
         /** @var Pairing[] */
         $cache = array();
 
+        /** @var int[] */
+        $lastboards;
+
+        /** @var Pairing $pairing */
         foreach ($pairings as $pairing) {
             // Add pairing to player
             $pairing->getPlayer()->addPairing($pairing);
@@ -234,6 +238,11 @@ class Tournament
 
             $this->getRoundByNo($round)->addPairing($pairing);
             $opponent = null;
+
+            /**
+             * @var int $key
+             * @var Pairing $cached
+             */
             foreach ($cache as $key=>$cached) {
                 if (!is_null($cached)) {
                     if (($cached->getOpponent() == $pairing->getPlayer()) && ($cached->getRound() == $pairing->getRound())) {
@@ -257,6 +266,18 @@ class Tournament
             } else {
                 // Check if game already exists
                 if (!$this->gameExists($game, $round)) {
+                    $game->setBoard($game->getWhite()->getBoard());
+                    // Add board if inexistent
+                    if($game->getBoard() == -1) {
+                        if (isset($lastboards[$round])) {
+                            $lastboards[$round] += 1;
+                        } else {
+                            $lastboards[$round] = 0;
+                        }
+                        $game->setBoard($lastboards[$round]);
+                        $game->getWhite()->setBoard($lastboards[$round]);
+                        $game->getBlack()->setBoard($lastboards[$round]);
+                    }
                     $this->AddGame($game, $round);
                 }
             }
