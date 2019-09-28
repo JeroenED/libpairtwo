@@ -40,11 +40,12 @@ foreach ($reader->getTournament()->getRounds() as $round) {
 
     echo '<table>' . PHP_EOL;
     echo '<thead>' . PHP_EOL;
-    echo '<tr><th>White</th><th>Black</th><th>Result</th></tr>' . PHP_EOL;
+    echo '<tr><th></th><th>White</th><th>Black</th><th>Result</th></tr>' . PHP_EOL;
     echo '</thead>' . PHP_EOL;
     echo '<tbody>' . PHP_EOL;
-    foreach ($round->getGames() as $game) {
+    foreach ($round->getGamesByBoard() as $game) {
         echo '<tr>' . PHP_EOL;
+        echo '<td>' . $game->getBoard() . '</td>' . PHP_EOL;
         echo '<td>' . $game->getWhite()->getPlayer()->getName() . '</td>' . PHP_EOL;
         echo '<td>' . $game->getBlack()->getPlayer()->getName() . '</td>' . PHP_EOL;
         echo '<td>' . $game->getResult()->getValue() . '</td>' . PHP_EOL;
