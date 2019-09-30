@@ -1,3 +1,10 @@
+<?php
+
+// EDIT ME!
+$pairingfile = 'your pairing-file.swar';
+$fileformat = 'Swar-4'; // Possible values: Pairtwo-5, Pairtwo-6, Swar-4
+
+?>
 <!doctype html>
 
 <html lang="en">
@@ -18,10 +25,6 @@
 use JeroenED\Libpairtwo\IOFactory;
 
 require_once 'vendor/autoload.php';
-
-// EDIT ME!
-$pairingfile = 'your pairing-file.swar';
-$fileformat = 'Swar-4'; // Possible values: Pairtwo-5, Pairtwo-6, Swar-4
 
 if (!file_exists($pairingfile)) {
     trigger_error('Your file is not set or doesn\'t exist! Edit the file: ' . __FILE__ . ' and try again', E_USER_ERROR);
@@ -58,8 +61,9 @@ foreach ($reader->getTournament()->getRounds() as $round) {
     foreach ($round->getBye() as $pairing) {
         $bye[] = $pairing->getPlayer()->getName();
     }
-    echo implode(', ', $bye);
+    echo implode('; ', $bye);
     echo '</p>' . PHP_EOL;
+
     echo '<p><strong>Absent:</strong> ';
     $bye = [];
     foreach ($round->getAbsent() as $pairing) {
