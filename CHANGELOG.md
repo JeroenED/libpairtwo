@@ -2,10 +2,10 @@
 
 ## vx.y.z (Release: aa-bbb-cccc)
 * NEW FEATURE: `Game::getBoard()` for getting the board number of the game
-* ENHANCEMENT: Some fields has been renamed to match coding guideline (Please see [1ab96fa](https://github.com/JeroenED/libpairtwo/commit/1ab96fa04782c1b0f2b6bb9d1bac8397a74ab38e) for more info)
+* CHANGE: Some fields has been renamed to match coding guideline (Please see [1ab96fa](https://github.com/JeroenED/libpairtwo/commit/1ab96fa04782c1b0f2b6bb9d1bac8397a74ab38e) for more info)
 
 ## v1.2 (Release: 28-sep-2019)
-* NEW READER: `Reader::swar-4` for reading out files created with SWAR version 4.
+* NEW READER: `Readers\Swar-4` for reading out files created with SWAR version 4.
 * NEW FEATURE: `Tournament::getArbiters()` for multiple arbiters in 1 tournament
 * ENHANCEMENT: `Class::getBinaryData()` methods return null if field is non-existent
 * ENHANCEMENT: The template in distributions provides a more usable starting implementation
@@ -30,7 +30,7 @@
 * CHANGE: Version tag directly put in distribution filename
 * CHANGE: `Tournament::GameExists()` renamed to `Tournament::gameExists()`
 * CHANGE: Updated composer metadata
-* CHANGE: Some setters changed to fluent setters. (More info: 7aca35057c10d2b982f93a698499c0c01df2fdc5)
+* CHANGE: Some setters changed to fluent setters. (More info: [7aca350](https://github.com/JeroenED/libpairtwo/commit/7aca35057c10d2b982f93a698499c0c01df2fdc5))
 * CHANGE: Kashdan and Soccer Kashdan are combined in 1 function
 * BUGFIX: Tagging did not work
 
