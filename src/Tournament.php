@@ -421,9 +421,6 @@ class Tournament
             case Tiebreak::Keizer:
                 return $this->calculateKeizer($player);
                 break;
-            case Tiebreak::American:
-                return $this->calculateAmerican($player);
-                break;
             case Tiebreak::Points:
                 return $this->calculatePoints($player);
                 break;
@@ -527,19 +524,6 @@ class Tournament
     {
         return $player->getBinaryData('ScoreAmerican');
     }
-
-
-    /**
-     * Points following american system
-     *
-     * @param Player $player
-     * @return float | null
-     */
-    private function calculateAmerican(Player $player): ?float
-    {
-        return $player->getBinaryData('ScoreAmerican');
-    }
-
 
     /**
      * Number of points
