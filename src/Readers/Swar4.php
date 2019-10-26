@@ -631,8 +631,6 @@ class Swar4 implements ReaderInterface
     {
         switch ($this->getTournament()->getSystem()) {
             case TournamentSystem::American:
-                $firstElement = new Tiebreak(Tiebreak::American);
-                break;
             case TournamentSystem::Closed:
             case TournamentSystem::Swiss:
             default:

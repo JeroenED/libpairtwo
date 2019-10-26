@@ -29,7 +29,6 @@ class Tiebreak extends Enum
     const None = "";
     const Keizer = "Keizer";
     const Points = "Points";
-    const American = "American";
     const Buchholz = "Buchholz";
     const BuchholzMed = "Buchholz Median";
     const BuchholzCut = "Buchholz Cut";
