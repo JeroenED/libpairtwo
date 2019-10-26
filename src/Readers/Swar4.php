@@ -455,7 +455,7 @@ class Swar4 implements ReaderInterface
                     $result = Result::None;
                     break;
             }
-            if (array_search($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_table'), [ 16384, 8192 ]) !== false) {
+            if (array_search($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_table'), [ 16383, 8191 ]) !== false) {
                 $result = Result::Absent;
             }
             $pairing->setResult(new Result($result));
