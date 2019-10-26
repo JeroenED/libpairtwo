@@ -887,11 +887,10 @@ class Pairtwo6 implements ReaderInterface
                 $firstElement = new Tiebreak(Tiebreak::Keizer);
                 break;
             case TournamentSystem::American:
-                $firstElement = new Tiebreak(Tiebreak::American);
-                break;
             case TournamentSystem::Closed:
             case TournamentSystem::Swiss:
                 $firstElement = new Tiebreak(Tiebreak::Points);
+                break;
         }
         $tiebreaks = $this->getTournament()->getTiebreaks();
         array_unshift($tiebreaks, $firstElement);
