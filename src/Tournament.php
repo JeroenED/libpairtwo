@@ -311,10 +311,7 @@ class Tournament
                 return false;
             }
             foreach ($games as $roundgame) {
-                if ($roundgame->White == $game->White &&
-                    $roundgame->Black == $game->Black &&
-                    $roundgame->Result == $game->Result
-                ) {
+                if ($game->equals($roundgame)) {
                     return true;
                 }
             }
