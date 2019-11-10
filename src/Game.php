@@ -82,4 +82,19 @@ class Game
 
         return $result;
     }
+
+    /**
+     * Checks if 2 games are equal
+     *
+     * @param Game $game1
+     * @param Game $game2
+     * @return bool
+     */
+    public function equals(Game $game): bool
+    {
+        return (
+            $this->White->Player === $game->White->Player &&
+            $this->Black->Player === $game->Black->Player &&
+            $this->Result == $game->Result);
+    }
 }
