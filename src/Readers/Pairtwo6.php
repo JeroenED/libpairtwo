@@ -46,58 +46,13 @@ class Pairtwo6 implements ReaderInterface
     private const CompatibleVersions = ['6.', '5.'];
 
     /** @var string */
-    private $Release;
+    public $Release;
 
     /** @var Tournament */
-    private $Tournament;
+    public $Tournament;
 
     /** @var bool|DateTime|int|string[] */
     private $BinaryData;
-
-    /**
-     * Returns the version tag of Pairtwo which created the pairtwo file
-     *
-     * @return string
-     */
-    public function getRelease(): string
-    {
-        return $this->Release;
-    }
-
-    /**
-     * Sets the version tag of Pairtwo which created the pairtwo file
-     *
-     * @param string $Release
-     * @return Pairtwo6
-     */
-    public function setRelease(string $Release): Pairtwo6
-    {
-        $this->Release = $Release;
-        return $this;
-    }
-
-    /**
-     * Returns the tournament that was read out of the pairtwo file
-     *
-     * @return Tournament
-     */
-    public function getTournament(): Tournament
-    {
-        return $this->Tournament;
-    }
-
-    /**
-     * Sets the tournament that was read out of the pairtwo file
-     *
-     * @param Tournament $Tournament
-     * @return Pairtwo6
-     */
-    public function setTournament(Tournament $Tournament): Pairtwo6
-    {
-        $this->Tournament = $Tournament;
-        return $this;
-    }
-
 
     /**
      * Returns binary data that was read out the pairtwo file but was not needed immediately
@@ -105,7 +60,7 @@ class Pairtwo6 implements ReaderInterface
      * @param string $Key
      * @return bool|DateTime|int|string|null
      */
-    public function getBinaryData(string $Key)
+    public function __get(string $Key)
     {
         if (isset($this->BinaryData[$Key])) {
             return $this->BinaryData[$Key];
@@ -113,18 +68,16 @@ class Pairtwo6 implements ReaderInterface
         return null;
     }
 
-
     /**
      * Sets binary data that is read out the pairtwo file but is not needed immediately
      *
      * @param string $Key
      * @param bool|int|DateTime|string $Value
-     * @return Pairtwo6
+     * @return void
      */
-    public function setBinaryData(string $Key, $Value): Pairtwo6
+    public function __set(string $Key, $Value): void
     {
         $this->BinaryData[$Key] = $Value;
-        return $this;
     }
 
     /**
@@ -144,154 +97,154 @@ class Pairtwo6 implements ReaderInterface
 
 
         $length = 4;
-        $this->setRelease($this->readData('String', substr($swscontents, $offset, $length)));
+        $this->Release = $this->readData('String', substr($swscontents, $offset, $length));
         $offset += $length;
 
-        if (array_search(substr($this->getRelease(), 0, 2), self::CompatibleVersions) === false) {
+        if (array_search(substr($this->Release, 0, 2), self::CompatibleVersions) === false) {
             throw new IncompatibleReaderException("This file was not created with Pairtwo 5 or higher");
         }
 
-        $this->setTournament(new Tournament());
-        $this->getTournament()->setPriorityElo('Nation');
-        $this->getTournament()->setPriorityId('Nation');
+        $this->Tournament = new Tournament();
+        $this->Tournament->PriorityElo = 'Nation';
+        $this->Tournament->PriorityId = 'Nation';
         // UserCountry
         $length = 4;
-        $this->setBinaryData("UserCountry", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->UserCountry = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // SavedOffset
         $length = 4;
-        $this->setBinaryData("SavedOffset", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->SavedOffset = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // NewPlayer
         $length = 4;
-        $this->setBinaryData("NewPlayer", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->NewPlayer = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // AmericanHandicap
         $length = 4;
-        $this->setBinaryData("AmericanHandicap", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->AmericanHandicap = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // LowOrder
         $length = 4;
-        $this->setBinaryData("LowOrder", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->LowOrder = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // PairingMethod
         $length = 4;
-        $this->setBinaryData("PairingMethod", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->PairingMethod = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // AmericanPresence
         $length = 4;
-        $this->setBinaryData("AmericanPresence", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->AmericanPresence = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // CheckSameClub
         $length = 4;
-        $this->setBinaryData("CheckSameClub", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->CheckSameClub = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // NoColorCheck
         $length = 4;
-        $this->setBinaryData("NoColorCheck", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->NoColorCheck = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // SeparateCategories
         $length = 4;
-        $this->setBinaryData("SeparateCategories", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->SeparateCategories = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // EloUsed
         $length = 4;
-        $this->setBinaryData("EloUsed", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->EloUsed = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // AlternateColors
         $length = 4;
-        $this->setBinaryData("AlternateColors", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->AlternateColors = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // MaxMeetings
         $length = 4;
-        $this->setBinaryData("MaxMeetings", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->MaxMeetings = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // MaxDistance
         $length = 4;
-        $this->setBinaryData("MaxDistance", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->MaxDistance = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // MinimizeKeizer
         $length = 4;
-        $this->setBinaryData("MinimizeKeizer", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->MinimizeKeizer = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // MinRoundsMeetings
         $length = 4;
-        $this->setBinaryData("MinRoundsMeetings", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->MinRoundsMeetings = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // MaxRoundsAbsent
         $length = 4;
-        $this->setBinaryData("MaxRoundsAbsent", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->MaxRoundsAbsent = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // SpecialPoints
         $length = 4 * 6;
-        $this->setBinaryData("SpecialPoints", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->SpecialPoints = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // NewNamePos
         $length = 4;
-        $this->setBinaryData("NewNamePos", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->NewNamePos = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // CurrentRound
         $length = 4;
-        $this->setBinaryData("CurrentRound", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->CurrentRound = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // CreatedRounds
         $length = 4;
-        $this->setBinaryData("CreatedRounds", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->CreatedRounds = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // CreatedPlayers
         $length = 4;
-        $this->setBinaryData("CreatedPlayers", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->CreatedPlayers = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // MaxSelection
         $length = 4;
-        $this->setBinaryData("MaxSelection", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->MaxSelection = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // NumberOfRounds
         $length = 4;
-        $this->setBinaryData("NumberOfRounds", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->NumberOfRounds = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // NumberOfPairings
         $length = 4;
-        $this->setBinaryData("NumberOfPairings", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->NumberOfPairings = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // CreatedPairings
         $length = 4;
-        $this->setBinaryData("CreatedPairings", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->CreatedPairings = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // PairingElems
         $length = 4;
-        $this->setBinaryData("PairingElems", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->PairingElems = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // RandomSeed
         $length = 4;
-        $this->setBinaryData("RandomSeed", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->RandomSeed = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // TieOrder
@@ -348,44 +301,44 @@ class Pairtwo6 implements ReaderInterface
                     $tiebreak = Tiebreak::None;
                     break;
             }
-            $this->getTournament()->addTieBreak(new Tiebreak($tiebreak));
+            $this->Tournament->addTieBreak(new Tiebreak($tiebreak));
             $offset += $length;
         }
 
         // Categorie
         $length = 4 * 10;
-        $this->setBinaryData("Categorie", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->Categorie = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // ExtraPoints
         $length = 4 * 20;
-        $this->setBinaryData("ExtraPoints", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->ExtraPoints = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // SelectP
         $length = 4 * 20;
-        $this->setBinaryData("SelectP", $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->SelectP = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // Players
-        for ($i = 0; $i < $this->getBinaryData("NewPlayer"); $i++) {
+        for ($i = 0; $i < $this->NewPlayer; $i++) {
             $player = new Player();
 
             // Rank (Unused value)
             $length = 4;
-            $player->setBinaryData("Rank", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->Rank = $this->readData('Int', substr($swscontents, $offset, $length));
             $offset += $length;
 
             $length = 4;
-            $player->setBinaryData("NamePos", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->NamePos = $this->readData('Int', substr($swscontents, $offset, $length));
             $offset += $length;
 
             $length = 4;
-            $player->setId('Fide', $this->readData('Int', substr($swscontents, $offset, $length) . ""));
+            $player->setId('Fide', $this->readData('Int', substr($swscontents, $offset, $length)));
             $offset += $length;
 
             $length = 4;
-            $player->setBinaryData("ExtraPts", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->ExtraPts = $this->readData('Int', substr($swscontents, $offset, $length));
             $offset += $length;
 
             $length = 4;
@@ -401,7 +354,7 @@ class Pairtwo6 implements ReaderInterface
             $offset += $length;
 
             $length = 4;
-            $player->setBinaryData("Points", $this->readData('Int', substr($swscontents, $offset, $length)) / 2);
+            $player->Points = $this->readData('Int', substr($swscontents, $offset, $length)) / 2;
             $offset += $length;
 
             $length = 4;
@@ -409,15 +362,15 @@ class Pairtwo6 implements ReaderInterface
             $offset += $length;
 
             $length = 4;
-            $player->setBinaryData("ScoreBuchholz", $this->readData('Int', substr($swscontents, $offset, $length)) / 2);
+            $player->ScoreBuchholz = $this->readData('Int', substr($swscontents, $offset, $length)) / 2;
             $offset += $length;
 
             $length = 4;
-            $player->setBinaryData("ScoreAmerican", $this->readData('Int', substr($swscontents, $offset, $length)) / 2);
+            $player->ScoreAmerican = $this->readData('Int', substr($swscontents, $offset, $length)) / 2;
             $offset += $length;
 
             $length = 4;
-            $player->setBinaryData("HelpValue", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->HelpValue = $this->readData('Int', substr($swscontents, $offset, $length));
             $offset += $length;
 
             $length = 4;
@@ -425,15 +378,15 @@ class Pairtwo6 implements ReaderInterface
             $offset += $length;
 
             $length = 1;
-            $player->setBinaryData("NameLength", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->NameLength = $this->readData('Int', substr($swscontents, $offset, $length));
             $offset += $length;
 
             $length = 3;
-            $player->setNation($this->readData('String', substr($swscontents, $offset, $length)));
+            $player->Nation = $this->readData('String', substr($swscontents, $offset, $length));
             $offset += $length;
 
             $length = 1;
-            $player->setCategory($this->readData('String', substr($swscontents, $offset, $length)));
+            $player->Category = $this->readData('String', substr($swscontents, $offset, $length));
             $offset += $length;
 
             $length = 1;
@@ -479,7 +432,7 @@ class Pairtwo6 implements ReaderInterface
                     $title = Title::NONE;
                     break;
             }
-            $player->setTitle(new Title($title));
+            $player->Title = new Title($title);
             $offset += $length;
 
             $length = 1;
@@ -494,129 +447,129 @@ class Pairtwo6 implements ReaderInterface
                     $gender = Gender::Neutral;
                     break;
             }
-            $player->setGender(new Gender($gender));
+            $player->Gender = new Gender($gender);
             $offset += $length;
 
             $length = 1;
-            $player->setBinaryData('NumberOfTies', $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->NumberOfTies = $this->readData('Int', substr($swscontents, $offset, $length));
             $offset += $length;
 
             $length = 1;
-            $player->setBinaryData('Absent', $this->readData('Bool', substr($swscontents, $offset, $length)));
+            $player->Absent = $this->readData('Bool', substr($swscontents, $offset, $length));
             $offset += $length;
 
             $length = 1;
-            $player->setBinaryData("ColorDiff", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->ColorDiff = $this->readData('Int', substr($swscontents, $offset, $length));
             $offset += $length;
 
             $length = 1;
-            $player->setBinaryData("ColorPref", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->ColorPref = $this->readData('Int', substr($swscontents, $offset, $length));
             $offset += $length;
 
             $length = 1;
-            $player->setBinaryData("Paired", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->Paired = $this->readData('Int', substr($swscontents, $offset, $length));
             $offset += $length;
 
             $length = 1;
-            $player->setBinaryData("Float", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->Float = $this->readData('Int', substr($swscontents, $offset, $length));
             $offset += $length;
 
             $length = 1;
-            $player->setBinaryData("FloatPrev", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->FloatPrev = $this->readData('Int', substr($swscontents, $offset, $length));
             $offset += $length;
 
             $length = 1;
-            $player->setBinaryData("FloatBefore", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->FloatBefore = $this->readData('Int', substr($swscontents, $offset, $length));
             $offset += $length;
 
             $length = 1;
-            $player->setBinaryData("TieMatch", $this->readData('Int', substr($swscontents, $offset, $length)));
+            $player->TieMatch = $this->readData('Int', substr($swscontents, $offset, $length));
             $offset += $length;
 
-            $this->getTournament()->addPlayer($player);
+            $this->Tournament->addPlayer($player);
         }
         // PlayerNames
-        $length = (Integer)$this->getBinaryData("NewNamePos") + 0;
-        $this->setBinaryData("PlayerNames", substr($swscontents, $offset, $length));
+        $length = (Integer)$this->NewNamePos + 0;
+        $this->PlayerNames = substr($swscontents, $offset, $length);
         $offset += $length;
 
-        for ($i = 0; $i < $this->getBinaryData("NewPlayer"); $i++) {
-            $player = $this->getTournament()->getPlayerById($i);
-            $namelength = $player->getBinaryData("NameLength");
-            $nameoffset = $player->getBinaryData("NamePos");
-            $player->setName($this->readData("String", substr($this->getBinaryData("PlayerNames"), $nameoffset, $namelength)));
+        for ($i = 0; $i < $this->NewPlayer; $i++) {
+            $player = $this->Tournament->getPlayerById($i);
+            $namelength = $player->NameLength;
+            $nameoffset = $player->NamePos;
+            $player->Name = $this->readData("String", substr($this->PlayerNames, $nameoffset, $namelength));
 
-            $this->getTournament()->updatePlayer($i, $player);
+            $this->Tournament->updatePlayer($i, $player);
         }
 
         // TournamentName
         $length = 80;
-        $this->getTournament()->setName($this->readData('String', substr($swscontents, $offset, $length)));
+        $this->Tournament->Name = $this->readData('String', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // TournamentOrganiser
         $length = 50;
-        $this->getTournament()->setOrganiser($this->readData('String', substr($swscontents, $offset, $length)));
+        $this->Tournament->Organiser = $this->readData('String', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // TournamentTempo
         $length = 50;
-        $this->getTournament()->setTempo($this->readData('String', substr($swscontents, $offset, $length)));
+        $this->Tournament->Tempo = $this->readData('String', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // TournamentCountry
         $length = 32;
-        $this->getTournament()->setOrganiserCountry($this->readData('String', substr($swscontents, $offset, $length)));
+        $this->Tournament->OrganiserCountry = $this->readData('String', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // Arbiters
         $length = 128;
-        $this->getTournament()->setArbiter($this->readData('String', substr($swscontents, $offset, $length)), 0);
+        $this->Tournament->addArbiter($this->readData('String', substr($swscontents, $offset, $length)));
         $offset += $length;
 
         // Rounds
         $length = 4;
-        $this->getTournament()->setNoOfRounds($this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->Tournament->NoOfRounds = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // Participants
         $length = 4;
-        $this->setBinaryData('Participants', $this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->Participants = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // Fidehomol
         $length = 4;
-        $this->getTournament()->setFideHomol($this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->Tournament->FideHomol = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // StartDate
         $length = 4;
-        $this->getTournament()->setStartDate($this->readData('Date', substr($swscontents, $offset, $length)));
+        $this->Tournament->StartDate = $this->readData('Date', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // EndDate
         $length = 4;
-        $this->getTournament()->setEndDate($this->readData('Date', substr($swscontents, $offset, $length)));
+        $this->Tournament->EndDate = $this->readData('Date', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // Place
         $length = 36;
-        $this->getTournament()->setOrganiserPlace($this->readData('String', substr($swscontents, $offset, $length)));
+        $this->Tournament->OrganiserPlace = $this->readData('String', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // First period
         $length = 32;
-        $this->getTournament()->setFirstPeriod($this->readData('String', substr($swscontents, $offset, $length)));
+        $this->Tournament->FirstPeriod = $this->readData('String', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // Second period
         $length = 32;
-        $this->getTournament()->setSecondPeriod($this->readData('String', substr($swscontents, $offset, $length)));
+        $this->Tournament->SecondPeriod = $this->readData('String', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // Unrated Elo
         $length = 4;
-        $this->getTournament()->setNonRatedElo($this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->Tournament->NonRatedElo = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // Type
@@ -636,12 +589,12 @@ class Pairtwo6 implements ReaderInterface
                 $system = TournamentSystem::Swiss;
                 break;
         }
-        $this->getTournament()->setSystem(new TournamentSystem($system));
+        $this->Tournament->System = new TournamentSystem($system);
         $offset += $length;
 
         // Federation
         $length = 12;
-        $this->getTournament()->setFederation($this->readData('String', substr($swscontents, $offset, $length)));
+        $this->Tournament->Federation = $this->readData('String', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // Soustype
@@ -656,45 +609,45 @@ class Pairtwo6 implements ReaderInterface
          * 1 bit  = Double round robin
          */
         $length = 4;
-        $this->setBinaryData('SousType', $this->readData('Hex', substr($swscontents, $offset, $length)));
+        $this->SousType = $this->readData('Hex', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // Organising club no
         $length = 4;
-        $this->getTournament()->setOrganiserClubNo($this->readData('String', substr($swscontents, $offset, $length), 0));
+        $this->Tournament->OrganiserClubNo = $this->readData('String', substr($swscontents, $offset, $length), 0);
         $offset += $length;
 
         // Organising club
         $length = 8;
-        $this->getTournament()->setOrganiserClub($this->readData('String', substr($swscontents, $offset, $length)));
+        $this->Tournament->OrganiserClub = $this->readData('String', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // Tournament year
         $length = 4;
-        $this->getTournament()->setYear($this->readData('Int', substr($swscontents, $offset, $length)));
+        $this->Tournament->Year = $this->readData('Int', substr($swscontents, $offset, $length));
         $offset += $length;
 
         // Round dates
-        for ($i = 0; $i < $this->getTournament()->getNoOfRounds(); $i++) {
+        for ($i = 0; $i < $this->Tournament->NoOfRounds; $i++) {
             $length = 4;
             $round = new Round();
-            $round->setRoundNo($i);
-            $round->setDate($this->readData('Date', substr($swscontents, $offset, $length)));
-            $this->getTournament()->addRound($round);
+            $round->RoundNo = $i;
+            $round->Date = $this->readData('Date', substr($swscontents, $offset, $length));
+            $this->Tournament->addRound($round);
             $offset += $length;
         }
 
-        if ($this->getBinaryData("CurrentRound") > 0) {
-            for ($i = 0; $i < $this->getBinaryData("NewPlayer"); $i++) {
-                for ($x = 0; $x < $this->getBinaryData("CreatedRounds"); $x++) {
+        if ($this->CurrentRound > 0) {
+            for ($i = 0; $i < $this->NewPlayer; $i++) {
+                for ($x = 0; $x < $this->CreatedRounds; $x++) {
                     $pairing = new Pairing();
 
-                    $pairing->setPlayer($this->getTournament()->getPlayerById($i));
+                    $pairing->Player = $this->Tournament->getPlayerById($i);
 
                     $length = 4;
                     $opponent = $this->readData('Int', substr($swscontents, $offset, $length));
                     if ($opponent != 4294967295) {
-                        $pairing->setOpponent($this->getTournament()->getPlayerById($opponent));
+                        $pairing->Opponent = $this->Tournament->getPlayerById($opponent);
                     }
                     $offset += $length;
 
@@ -714,7 +667,7 @@ class Pairtwo6 implements ReaderInterface
                             $color = Color::None;
                             break;
                     }
-                    $pairing->setColor(new Color($color));
+                    $pairing->Color = new Color($color);
                     $offset += $length;
 
                     $length = 1;
@@ -754,15 +707,15 @@ class Pairtwo6 implements ReaderInterface
                             $result = Result::None;
                             break;
                     }
-                    $pairing->setResult(new Result($result));
+                    $pairing->Result = new Result($result);
                     $offset += $length;
 
-                    $pairing->setRound($x);
+                    $pairing->Round = $x;
                     $offset += 2;
 
-                    $pairing->setBoard(-1);
-                    if ($x < $this->getBinaryData("CurrentRound")) {
-                        $this->getTournament()->addPairing($pairing);
+                    $pairing->Board = -1;
+                    if ($x < $this->CurrentRound) {
+                        $this->Tournament->addPairing($pairing);
                     }
                 }
             }
@@ -770,7 +723,7 @@ class Pairtwo6 implements ReaderInterface
 
         $this->addTiebreaks();
 
-        $this->getTournament()->pairingsToRounds();
+        $this->Tournament->pairingsToRounds();
         return $this;
     }
 
@@ -882,7 +835,7 @@ class Pairtwo6 implements ReaderInterface
      */
     private function addTiebreaks(): Pairtwo6
     {
-        switch ($this->getTournament()->getSystem()) {
+        switch ($this->Tournament->System) {
             case TournamentSystem::Keizer:
                 $firstElement = new Tiebreak(Tiebreak::Keizer);
                 break;
@@ -892,9 +845,9 @@ class Pairtwo6 implements ReaderInterface
                 $firstElement = new Tiebreak(Tiebreak::Points);
                 break;
         }
-        $tiebreaks = $this->getTournament()->getTiebreaks();
+        $tiebreaks = $this->Tournament->Tiebreaks;
         array_unshift($tiebreaks, $firstElement);
-        $this->getTournament()->setTiebreaks($tiebreaks);
+        $this->Tournament->Tiebreaks = $tiebreaks;
         return $this;
     }
 }
