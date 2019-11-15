@@ -33,20 +33,25 @@ dist: ## Generates distribution
 	git reset --hard HEAD
 	mv res/composer* dist/
 
-clean: clean-dist clean-dev
+clean: clean-dist clean-dev clean-repo ## Cleans all assets
 
-clean-dev:
+clean-dev: ## Cleans dev assets
 	rm -rf doc/api
 	rm -rf .idea
 	rm -rf .libpairtwo-distro
 	rm -rf vendor
 	rm -rf composer.lock
 
-clean-dist:
+clean-dist: ## Cleans distribution assets
 	rm -rf dist/doc
 	rm -rf dist/vendor
 	rm -rf dist/composer.json
 	rm -rf libpairtwo-*-dist.zip
+
+clean-repo: ## Cleans the git repository
+	git fsck
+	git prune
+	git gc
 
 cs: ## Fixes coding standard problems
 	vendor/bin/php-cs-fixer fix || true
