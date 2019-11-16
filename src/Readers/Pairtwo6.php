@@ -492,7 +492,7 @@ class Pairtwo6 implements ReaderInterface
         $offset += $length;
 
         for ($i = 0; $i < $this->NewPlayer; $i++) {
-            $player = $this->Tournament->getPlayerById($i);
+            $player = $this->Tournament->PlayerById($i);
             $namelength = $player->NameLength;
             $nameoffset = $player->NamePos;
             $player->Name = $this->readData("String", substr($this->PlayerNames, $nameoffset, $namelength));
@@ -640,12 +640,12 @@ class Pairtwo6 implements ReaderInterface
                 for ($x = 0; $x < $this->CreatedRounds; $x++) {
                     $pairing = new Pairing();
 
-                    $pairing->Player = $this->Tournament->getPlayerById($i);
+                    $pairing->Player = $this->Tournament->PlayerById($i);
 
                     $length = 4;
                     $opponent = $this->readData('Int', substr($swscontents, $offset, $length));
                     if ($opponent != 4294967295) {
-                        $pairing->Opponent = $this->Tournament->getPlayerById($opponent);
+                        $pairing->Opponent = $this->Tournament->PlayerById($opponent);
                     }
                     $offset += $length;
 

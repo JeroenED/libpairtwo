@@ -111,7 +111,7 @@ class Tournament
      * @param integer $id
      * @return Player
      */
-    public function getPlayerById(int $id): Player
+    public function PlayerById(int $id): Player
     {
         return $this->Players[$id];
     }
@@ -175,7 +175,7 @@ class Tournament
      * @param int $roundNo
      * @return Round
      */
-    public function getRoundByNo(int $roundNo): Round
+    public function RoundByNo(int $roundNo): Round
     {
         return $this->Rounds[$roundNo];
     }
@@ -230,7 +230,7 @@ class Tournament
             $round = $pairing->Round;
             $color = $pairing->Color;
 
-            $this->getRoundByNo($round)->addPairing($pairing);
+            $this->RoundByNo($round)->addPairing($pairing);
             $opponent = null;
 
             /**
@@ -328,7 +328,7 @@ class Tournament
             $this->addRound($roundObj);
         }
 
-        $this->getRoundByNo($round)->addGame($game);
+        $this->RoundByNo($round)->addGame($game);
     }
 
     /**
@@ -336,7 +336,7 @@ class Tournament
      *
      * @return Player[]
      */
-    public function getRanking(): array
+    private function ranking(): array
     {
         $players = $this->Players;
         foreach ($this->Tiebreaks as $tbkey=>$tiebreak) {
@@ -465,7 +465,7 @@ class Tournament
                 return $this->calculateAveragePerformance($player, $this->PriorityElo);
                 break;
             case Tiebreak::Performance:
-                return $player->getPerformance($this->PriorityElo, $this->NonRatedElo);
+                return $player->Performance($this->PriorityElo, $this->NonRatedElo);
                 break;
             default:
                 return null;
@@ -477,7 +477,7 @@ class Tournament
      *
      * @return int
      */
-    public function getAverageElo(): int
+    private function averageElo(): int
     {
         $totalrating = 0;
         $players = 0;
@@ -498,7 +498,7 @@ class Tournament
      *
      * @return int
      */
-    public function getParticipants(): int
+    private function participants(): int
     {
         return count($this->Players);
     }
@@ -665,7 +665,7 @@ class Tournament
         $allratings = [];
         foreach ($pairings as $pairing) {
             if (array_search($pairing->Result, Constants::NotPlayed) === false) {
-                $toadd = $pairing->Opponent->getPerformance($type, $this->NonRatedElo);
+                $toadd = $pairing->Opponent->Performance($type, $this->NonRatedElo);
                 if ($toadd != 0) {
                     $allratings[] = $toadd;
                 }
@@ -820,14 +820,23 @@ class Tournament
     }
 
     /**
-     * Returns binary data that was read out the pairing file but was not needed immediately
+     * Magic method to read out several fields. If field was not found it is being searched in the binary data fields
      *
      * @param string $key
      * @return bool|DateTime|int|string|null
      */
     public function __get(string $key)
     {
-        if (isset($this->BinaryData[$key])) {
+        if ($key == 'Participants') {
+            return $this->participants();
+        }
+        elseif ($key == 'AverageElo') {
+            return $this->averageElo();
+        }
+        elseif ($key == 'Ranking') {
+            return $this->ranking();
+        }
+        elseif (isset($this->BinaryData[$key])) {
             return $this->BinaryData[$key];
         }
         return null;

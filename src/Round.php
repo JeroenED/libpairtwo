@@ -84,7 +84,7 @@ class Round
      *
      * @return Pairing[]
      */
-    public function getBye(): array
+    private function bye(): array
     {
         $allPairings = $this->Pairings;
         $byePairings = [];
@@ -101,7 +101,7 @@ class Round
      *
      * @return Pairing[]
      */
-    public function getAbsent(): array
+    private function absent(): array
     {
         $allPairings = $this->Pairings;
         $absentPairings = [];
@@ -118,7 +118,7 @@ class Round
      *
      * @return Game[]
      */
-    public function getGamesByBoard(): array
+    private function gamesByBoard(): array
     {
         $allGames = $this->Games;
         usort($allGames, array($this, 'sortByBoard'));
@@ -138,5 +138,28 @@ class Round
             return 0;
         }
         return ($a->Board > $b->Board) ? +1 : -1;
+    }
+
+    /**
+     * Magic method to read out several fields. If field was not found it is being searched in the binary data fields
+     *
+     * @param string $key
+     * @return bool|DateTime|int|string|null
+     */
+    public function __get(string $key)
+    {
+        if ($key == 'Bye') {
+            return $this->bye();
+        }
+        elseif ($key == 'Absent') {
+            return $this->absent();
+        }
+        elseif ($key == 'GamesByBoard') {
+            return $this->gamesByBoard();
+        }
+        elseif (isset($this->BinaryData[$key])) {
+            return $this->BinaryData[$key];
+        }
+        return null;
     }
 }

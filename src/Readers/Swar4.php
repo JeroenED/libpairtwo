@@ -432,10 +432,10 @@ class Swar4 implements ReaderInterface
         while (null !== $this->Tournament->Pairing[$ptn]['round']) {
             $pairing = new Pairing();
 
-            $pairing->Player = $this->Tournament->getPlayerById($this->Tournament->Pairing[$ptn]['player']);
+            $pairing->Player = $this->Tournament->PlayerById($this->Tournament->Pairing[$ptn]['player']);
             $pairing->Round = $this->Tournament->Pairing[$ptn]['round'];
             if ($this->Tournament->Pairing[$ptn]['opponent'] != 4294967295) {
-                $pairing->Opponent = $this->Tournament->getPlayerById($inscriptionNos[$this->Tournament->Pairing[$ptn]['opponent']]);
+                $pairing->Opponent = $this->Tournament->PlayerById($inscriptionNos[$this->Tournament->Pairing[$ptn]['opponent']]);
             }
             switch ($this->Tournament->Pairing[$ptn]['result']) {
                 case '1000':
