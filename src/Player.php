@@ -29,35 +29,35 @@ use DateTime;
 class Player
 {
     /** @var string */
-    private $Name;
+    public $Name;
 
     /** @var int[] */
-    private $Ids;
+    public $Ids;
 
     /** @var int[] */
-    private $Elos;
+    public $Elos;
 
     /** @var DateTime */
-    private $DateOfBirth;
+    public $DateOfBirth;
 
     /** @var float[] */
-    private $Tiebreaks = [];
+    public $Tiebreaks = [];
 
     /** @var string */
-    private $Nation;
+    public $Nation;
 
     // TODO: Implement categories
     /** @var string */
-    private $Category;
+    public $Category;
 
     /** @var Title */
-    private $Title;
+    public $Title;
 
     /** @var Gender */
-    private $Gender;
+    public $Gender;
 
     /** @var Pairing[] */
-    private $Pairings = [];
+    public $Pairings = [];
 
     /** @var bool|DateTime|int|string[] */
     private $BinaryData;
@@ -66,14 +66,12 @@ class Player
      * Adds a pairing to the tournament
      *
      * @param Pairing $pairing
-     * @return Player
      */
-    public function addPairing(Pairing $pairing): Player
+    public function addPairing(Pairing $pairing): void
     {
-        $newArray = $this->GetPairings();
+        $newArray = $this->Pairings;
         $newArray[] = $pairing;
-        $this->setPairings($newArray);
-        return $this;
+        $this->Pairings = $newArray;
     }
 
     /**
@@ -83,16 +81,16 @@ class Player
      * @param Tournament $tournament
      * @return Player[]
      */
-    public static function getPlayersByName(string $search, Tournament $tournament): array
+    public static function PlayersByName(string $search, Tournament $tournament): array
     {
         /** @var Player[] */
-        $players = $tournament->getPlayers();
+        $players = $tournament->Players;
 
         /** @var Player[] */
         $return = [];
 
         foreach ($players as $player) {
-            if (fnmatch($search, $player->getName())) {
+            if (fnmatch($search, $player->Name)) {
                 $return[] = $player;
             }
         }
@@ -107,7 +105,7 @@ class Player
      */
     public function getElo(string $type): int
     {
-        return $this->getElos()[$type];
+        return $this->Elos[$type];
     }
 
     /**
@@ -115,14 +113,12 @@ class Player
      *
      * @param string $type
      * @param int $value
-     * @return Player
      */
-    public function setElo(string $type, int $value): Player
+    public function setElo(string $type, int $value): void
     {
-        $currentElos = $this->getElos();
+        $currentElos = $this->Elos;
         $currentElos[$type] = $value;
-        $this->setElos($currentElos);
-        return $this;
+        $this->Elos = $currentElos;
     }
 
     /**
@@ -135,7 +131,7 @@ class Player
      */
     public function getId(string $type): string
     {
-        return $this->getIds()[$type];
+        return $this->Ids[$type];
     }
 
     /**
@@ -145,14 +141,12 @@ class Player
      *
      * @param string $type
      * @param string $value
-     * @return Player
      */
-    public function setId(string $type, string $value): Player
+    public function setId(string $type, string $value): void
     {
-        $currentIds = $this->getIds();
+        $currentIds = $this->Ids;
         $currentIds[$type] = $value;
-        $this->setIds($currentIds);
-        return $this;
+        $this->Ids = $currentIds;
     }
 
     /**
@@ -160,11 +154,11 @@ class Player
      *
      * @return int
      */
-    public function getNoOfWins(): int
+    private function noOfWins(): int
     {
         $wins = 0;
-        foreach ($this->getPairings() as $pairing) {
-            if (array_search($pairing->getResult(), Constants::Won) !== false) {
+        foreach ($this->Pairings as $pairing) {
+            if (array_search($pairing->Result, Constants::Won) !== false) {
                 $wins++;
             }
         }
@@ -179,13 +173,13 @@ class Player
      *
      * @return float
      */
-    public function getPoints(): float
+    public function calculatePoints(): float
     {
         $points = 0;
-        foreach ($this->getPairings() as $pairing) {
-            if (array_search($pairing->getResult(), Constants::Won) !== false) {
+        foreach ($this->Pairings as $pairing) {
+            if (array_search($pairing->Result, Constants::Won) !== false) {
                 $points = $points + 1;
-            } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
+            } elseif (array_search($pairing->Result, Constants::Draw) !== false) {
                 $points = $points + 0.5;
             }
         }
@@ -201,15 +195,15 @@ class Player
      *
      * @return float
      */
-    public function getPointsForBuchholz(): float
+    private function pointsForBuchholz(): float
     {
         $points = 0;
-        foreach ($this->getPairings() as $pairing) {
-            if (array_search($pairing->getResult(), Constants::NotPlayed) !== false) {
+        foreach ($this->Pairings as $pairing) {
+            if (array_search($pairing->Result, Constants::NotPlayed) !== false) {
                 $points = $points + 0.5;
-            } elseif (array_search($pairing->getResult(), Constants::Won) !== false) {
+            } elseif (array_search($pairing->Result, Constants::Won) !== false) {
                 $points = $points + 1;
-            } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
+            } elseif (array_search($pairing->Result, Constants::Draw) !== false) {
                 $points = $points + 0.5;
             }
         }
@@ -222,19 +216,19 @@ class Player
      *
      * @return int
      */
-    public function getPerformance(string $type, int $unratedElo): float
+    public function Performance(string $type, int $unratedElo): float
     {
         $total = 0;
         $opponents = 0;
-        foreach ($this->getPairings() as $pairing) {
-            if (array_search($pairing->getResult(), Constants::NotPlayed) === false) {
-                $opponentElo = $pairing->getOpponent()->getElo($type);
+        foreach ($this->Pairings as $pairing) {
+            if (array_search($pairing->Result, Constants::NotPlayed) === false) {
+                $opponentElo = $pairing->Opponent->getElo($type);
                 $opponentElo = $opponentElo != 0 ? $opponentElo : $unratedElo;
-                if (array_search($pairing->getResult(), Constants::Won) !== false) {
+                if (array_search($pairing->Result, Constants::Won) !== false) {
                     $total += $opponentElo + 400;
-                } elseif (array_search($pairing->getResult(), Constants::Lost) !== false) {
+                } elseif (array_search($pairing->Result, Constants::Lost) !== false) {
                     $total += $opponentElo - 400;
-                } elseif (array_search($pairing->getResult(), Constants::Draw) !== false) {
+                } elseif (array_search($pairing->Result, Constants::Draw) !== false) {
                     $total += $opponentElo;
                 }
                 $opponents++;
@@ -249,11 +243,11 @@ class Player
      *
      * @return int
      */
-    public function getPlayedGames(): int
+    private function playedGames(): int
     {
         $total = 0;
-        foreach ($this->getPairings() as $pairing) {
-            if (array_search($pairing->getResult(), Constants::Played) !== false) {
+        foreach ($this->Pairings as $pairing) {
+            if (array_search($pairing->Result, Constants::Played) !== false) {
                 $total++;
             }
         }
@@ -261,251 +255,33 @@ class Player
     }
 
     /**
-     * Returns the name of the player
+     * Magic method to read out several fields. If field was not found it is being searched in the binary data fields
      *
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->Name;
-    }
-
-    /**
-     * Sets the name of the player
-     *
-     * @param string $Name
-     * @return Player
-     */
-    public function setName(string $Name): Player
-    {
-        $this->Name = $Name;
-        return $this;
-    }
-
-    /**
-     * Returns an array of all ID's of the player
-     *
-     * @return string[]
-     */
-    public function getIds(): ?array
-    {
-        return $this->Ids;
-    }
-
-    /**
-     * Sets an array of all ID's of the player
-     *
-     * @param string[] $Ids
-     * @return Player
-     */
-    public function setIds(array $Ids): Player
-    {
-        $this->Ids = $Ids;
-        return $this;
-    }
-
-    /**
-     * Returns an array of all elos of the player
-     *
-     * @return int[]
-     */
-    public function getElos(): ?array
-    {
-        return $this->Elos;
-    }
-
-    /**
-     * Sets an array of all elos of the player
-     *
-     * @param int[] $Elos
-     * @return Player
-     */
-    public function setElos(array $Elos): Player
-    {
-        $this->Elos = $Elos;
-        return $this;
-    }
-
-    /**
-     * Returns the date of birth of the player
-     *
-     * @return DateTime
-     */
-    public function getDateOfBirth(): DateTime
-    {
-        return $this->DateOfBirth;
-    }
-
-    /**
-     * Sets the date of birth of the player
-     *
-     * @param DateTime $DateOfBirth
-     * @return Player
-     */
-    public function setDateOfBirth(DateTime $DateOfBirth): Player
-    {
-        $this->DateOfBirth = $DateOfBirth;
-        return $this;
-    }
-
-    /**
-     * Returns an array of all tiebreaks for the player
-     *
-     * @return float[]
-     */
-    public function getTiebreaks(): array
-    {
-        return $this->Tiebreaks;
-    }
-
-    /**
-     * Sets an array of all tiebreaks for the player
-     *
-     * @param float[] $Tiebreaks
-     * @return Player
-     */
-    public function setTiebreaks(array $Tiebreaks): Player
-    {
-        $this->Tiebreaks = $Tiebreaks;
-        return $this;
-    }
-
-    /**
-     * Returns the nation of the player
-     * example value: BEL
-     *
-     * @return string
-     */
-    public function getNation(): string
-    {
-        return $this->Nation;
-    }
-
-    /**
-     * Sets the nation of the player
-     * example value: BEL
-     *
-     * @param string $Nation
-     * @return Player
-     */
-    public function setNation(string $Nation): Player
-    {
-        $this->Nation = $Nation;
-        return $this;
-    }
-
-    /**
-     * Returns the category of the player
-     *
-     * @return string
-     */
-    public function getCategory(): string
-    {
-        return $this->Category;
-    }
-
-    /**
-     * Sets the category of the player
-     *
-     * @param string $Category
-     * @return Player
-     */
-    public function setCategory(string $Category): Player
-    {
-        $this->Category = $Category;
-        return $this;
-    }
-
-    /**
-     * Returns the title of the player
-     *
-     * @return Title
-     */
-    public function getTitle(): Title
-    {
-        return $this->Title;
-    }
-
-    /**
-     * Sets the title of the player
-     *
-     * @param Title $Title
-     * @return Player
-     */
-    public function setTitle(Title $Title): Player
-    {
-        $this->Title = $Title;
-        return $this;
-    }
-
-    /**
-     * Returns the gender of the player
-     *
-     * @return Gender
-     */
-    public function getGender(): Gender
-    {
-        return $this->Gender;
-    }
-
-    /**
-     * Sets the gender of the player
-     *
-     * @param Gender $Gender
-     * @return Player
-     */
-    public function setGender(Gender $Gender): Player
-    {
-        $this->Gender = $Gender;
-        return $this;
-    }
-
-    /**
-     * Returns an array of all pairings of the player
-     *
-     * @return Pairing[]
-     */
-    public function getPairings(): array
-    {
-        return $this->Pairings;
-    }
-
-    /**
-     * Sets an array of all pairings of the player
-     *
-     * @param Pairing[] $Pairings
-     * @return Player
-     */
-    public function setPairings(array $Pairings): Player
-    {
-        $this->Pairings = $Pairings;
-        return $this;
-    }
-
-    /**
-     * Returns binary data that was read out the pairtwo file but was not needed immediately
-     *
-     * @param string $Key
+     * @param string $key
      * @return bool|DateTime|int|string|null
      */
-    public function getBinaryData(string $Key)
+    public function __get(string $key)
     {
-        if (isset($this->BinaryData[$Key])) {
-            return $this->BinaryData[$Key];
+        if($key == 'PlayedGames') {
+            return $this->playedGames();
+        } elseif ($key == 'NoOfWins') {
+            return $this->noOfWins();
+        } elseif ($key == 'PointsForBuchholz') {
+            return $this->pointsForBuchholz();
+        } elseif (isset($this->BinaryData[$key])) {
+            return $this->BinaryData[$key];
         }
         return null;
     }
 
     /**
-     * Sets binary data that is read out the pairtwo file but is not needed immediately
+     * Sets binary data that is read out the pairing file but is not needed immediately
      *
-     * @param string $Key
-     * @param bool|int|DateTime|string $Value
-     * @return Player
+     * @param string $key
+     * @param bool|int|DateTime|string $Valueey
      */
-    public function setBinaryData(string $Key, $Value): Player
+    public function __set(string $key, $Valueey): void
     {
-        $this->BinaryData[$Key] = $Value;
-        return $this;
+        $this->BinaryData[$key] = $Valueey;
     }
 }
