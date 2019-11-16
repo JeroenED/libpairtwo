@@ -562,13 +562,13 @@ class Swar4 implements ReaderInterface
     /**
      * Returns binary data that was read out the swar file but was not needed immediately
      *
-     * @param string $Key
+     * @param string $key
      * @return bool|DateTime|int|string|null
      */
-    public function __get(string $Key)
+    public function __get(string $key)
     {
-        if (isset($this->BinaryData[$Key])) {
-            return $this->BinaryData[$Key];
+        if (isset($this->BinaryData[$key])) {
+            return $this->BinaryData[$key];
         }
         return null;
     }
@@ -576,12 +576,12 @@ class Swar4 implements ReaderInterface
     /**
      * Sets binary data that is read out the swar file but is not needed immediately
      *
-     * @param string $Key
-     * @param bool|int|DateTime|string $Value
+     * @param string $key
+     * @param bool|int|DateTime|string $Valueey
      */
-    public function __set(string $Key, $Value): void
+    public function __set(string $key, $Valueey): void
     {
-        $this->BinaryData[$Key] = $Value;
+        $this->BinaryData[$key] = $Valueey;
     }
 
     /**
