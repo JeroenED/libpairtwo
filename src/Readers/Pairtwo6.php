@@ -346,7 +346,7 @@ class Pairtwo6 implements ReaderInterface
             $offset += $length;
 
             $length = 4;
-            $player->SetDateOfBirth($this->readData('Date', substr($swscontents, $offset, $length)));
+            $player->DateOfBirth = $this->readData('Date', substr($swscontents, $offset, $length));
             $offset += $length;
 
             $length = 4;
