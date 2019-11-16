@@ -29,30 +29,37 @@ use DateTime;
 class Game
 {
     /** @var Pairing | null */
-    private $White;
+    public $White;
 
     /** @var Pairing | null */
-    private $Black;
+    public $Black;
 
     /** @var GameResult | null */
-    private $Result;
+    private $CalculatedResult;
 
     /** @var int */
-    private $Board;
+    public $Board;
+
+    public function __get(string $key)
+    {
+        if ($key == 'Result') {
+            return $this->calculateResult();
+        }
+    }
 
     /**
      * Returns the result for the game
      *
      * @return Gameresult
      */
-    public function getResult(): Gameresult
+    private function calculateResult(): Gameresult
     {
-        if (!is_null($this->Result)) {
-            return $this->Result;
+        if (!is_null($this->CalculatedResult)) {
+            return $this->CalculatedResult;
         }
 
-        $whiteResult = $this->getWhite()->getResult();
-        $blackResult = $this->getBlack()->getResult();
+        $whiteResult = $this->White->Result;
+        $blackResult = $this->Black->Result;
 
         $whitesplit = explode(" ", $whiteResult);
         $blacksplit = explode(" ", $blackResult);
@@ -71,84 +78,23 @@ class Game
             $blacksplit[0] = '';
         }
         $result = new Gameresult($whitesplit[0] . '-' . $blacksplit[0] . $special);
-        $this->setResult($result);
+        $this->CalculatedResult = $result;
 
         return $result;
     }
 
     /**
-     * Returns the pairing for white player
+     * Checks if 2 games are equal
      *
-     * @return Pairing | null
+     * @param Game $game1
+     * @param Game $game2
+     * @return bool
      */
-    public function getWhite(): ?Pairing
+    public function equals(Game $game): bool
     {
-        return $this->White;
-    }
-
-    /**
-     * Sets pairing for white player
-     *
-     * @param Pairing | null $White
-     * @return Game
-     */
-    public function setWhite(?Pairing $White): Game
-    {
-        $this->White = $White;
-        return $this;
-    }
-
-    /**
-     * Returns the pairing for black player
-     *
-     * @return Pairing | null
-     */
-    public function getBlack(): ?Pairing
-    {
-        return $this->Black;
-    }
-
-    /**
-     * Sets pairing for black player
-     *
-     * @param Pairing | null $Black
-     * @return Game
-     */
-    public function setBlack(?Pairing $Black): Game
-    {
-        $this->Black = $Black;
-        return $this;
-    }
-
-    /**
-     * Sets result for game
-     *
-     * @param Gameresult | null $Result
-     * @return Game
-     */
-    public function setResult(?Gameresult $Result): Game
-    {
-        $this->Result = $Result;
-        return $this;
-    }
-
-    /**
-     * Sets the board no of the game
-     *
-     * @return int
-     */
-    public function getBoard(): int
-    {
-        return $this->Board;
-    }
-
-    /**
-     * Returns the board no of the game
-     *
-     * @param int $Board
-     */
-    public function setBoard(int $Board): void
-    {
-        $this->Board = $Board;
+        return (
+            $this->White->Player === $game->White->Player &&
+            $this->Black->Player === $game->Black->Player &&
+            $this->Result == $game->Result);
     }
 }

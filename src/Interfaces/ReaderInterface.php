@@ -32,12 +32,5 @@ interface ReaderInterface
      * @param $filename
      * @return ReaderInterface
      */
-    public function read(string $filename): ReaderInterface;
-
-    /**
-     * Gets the tournament out of $filename
-     *
-     * @return Tournament
-     */
-    public function getTournament(): Tournament;
+    public function read(string $filename): void;
 }
