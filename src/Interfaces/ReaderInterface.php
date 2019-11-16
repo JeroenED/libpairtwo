@@ -32,5 +32,5 @@ interface ReaderInterface
      * @param $filename
      * @return ReaderInterface
      */
-    public function read(string $filename): ReaderInterface;
+    public function read(string $filename): void;
 }

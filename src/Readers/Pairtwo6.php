@@ -73,7 +73,6 @@ class Pairtwo6 implements ReaderInterface
      *
      * @param string $Key
      * @param bool|int|DateTime|string $Value
-     * @return void
      */
     public function __set(string $Key, $Value): void
     {
@@ -84,10 +83,9 @@ class Pairtwo6 implements ReaderInterface
      * Reads out $swsfile and returns a Pairtwo6 class object
      *
      * @param string $filename
-     * @return Pairtwo6
      * @throws IncompatibleReaderException
      */
-    public function read(string $filename): ReaderInterface
+    public function read(string $filename): void
     {
         $swshandle = fopen($filename, 'rb');
         $swscontents = fread($swshandle, filesize($filename));
@@ -724,7 +722,6 @@ class Pairtwo6 implements ReaderInterface
         $this->addTiebreaks();
 
         $this->Tournament->pairingsToRounds();
-        return $this;
     }
 
     /**
@@ -848,6 +845,5 @@ class Pairtwo6 implements ReaderInterface
         $tiebreaks = $this->Tournament->Tiebreaks;
         array_unshift($tiebreaks, $firstElement);
         $this->Tournament->Tiebreaks = $tiebreaks;
-        return $this;
     }
 }
