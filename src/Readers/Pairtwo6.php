@@ -828,9 +828,9 @@ class Pairtwo6 implements ReaderInterface
 
 
     /**
-     * @return $this
+     * Adds the first tiebreak to the tournament
      */
-    private function addTiebreaks(): Pairtwo6
+    private function addTiebreaks(): void
     {
         switch ($this->Tournament->System) {
             case TournamentSystem::Keizer:

@@ -305,20 +305,21 @@ class Swar4 implements ReaderInterface
 
         $this->Tournament->Catogory_type = $this->readData('Int', $swshandle);
         for ($i = 0; $i <= 12; $i++) {
-            $this->Tournament->Category[$i]['Cat1'] =$this->readData('String', $swshandle);
+            $category[$i]['Cat1'] =$this->readData('String', $swshandle);
         }
 
         for ($i = 0; $i <= 12; $i++) {
-            $this->Tournament->Category[$i]['Cat2'] =$this->readData('String', $swshandle);
+            $category[$i]['Cat2'] =$this->readData('String', $swshandle);
         }
-
+        $this->Tournament->Category = $category;
         // [XTRA_POINTS]
         $this->readData('String', $swshandle);
 
         for ($i = 0; $i < 4; $i++) {
-            $this->Tournament->Extrapoints[$i]['pts'] =$this->readData('Int', $swshandle);
-            $this->Tournament->Extrapoints[$i]['elo'] =$this->readData('Int', $swshandle);
+            $extrapoints[$i]['pts'] = $this->readData('Int', $swshandle);
+            $extrapoints[$i]['elo'] = $this->readData('Int', $swshandle);
         }
+        $this->Tournament->Extrapoints = $extrapoints;
 
         // [JOUEURS]
         $this->readData('String', $swshandle);
@@ -399,8 +400,9 @@ class Swar4 implements ReaderInterface
             $player->Points = $this->readData('Int', $swshandle); // To Calculate by libpairtwo
             $player->AmericanPoints = $this->readData('Int', $swshandle); // To Calculate by libpairtwo
             for ($t = 0; $t < 5; $t++) {
-                $player->Tiebreak[$t] = $this->readData('Int', $swshandle); // To Calculate by libpairtwo
+                $tiebreaks[$t] = $this->readData('Int', $swshandle); // To Calculate by libpairtwo
             }
+            $player->Tiebreak = $tiebreaks;
             $player->Performance = $this->readData('Int', $swshandle); // To Calculate by libpairtwo
             $player->Absent = $this->readData('Int', $swshandle);
             $player->AbsentRounds = $this->readData('String', $swshandle);
@@ -412,24 +414,25 @@ class Swar4 implements ReaderInterface
 
             if ($player->AllocatedRounds != 0) {
                 for ($j = 0; $j < $player->AllocatedRounds; $j++) {
-                    $this->Tournament->Pairing[$pt]['player'] =$i;
-                    $this->Tournament->Pairing[$pt]['round'] =$this->readData('Int', $swshandle) - 1;
-                    $this->Tournament->Pairing[$pt]['table'] =$this->readData('Int', $swshandle) - 1;
-                    $this->Tournament->Pairing[$pt]['opponent'] =$this->readData('Int', $swshandle);
-                    $this->Tournament->Pairing[$pt]['result'] =$this->readData('Hex', $swshandle);
-                    $this->Tournament->Pairing[$pt]['color'] =$this->readData('Int', $swshandle);
-                    $this->Tournament->Pairing[$pt]['float'] =$this->readData('Int', $swshandle);
-                    $this->Tournament->Pairing[$pt]['extrapoints'] =$this->readData('Int', $swshandle);
+                    $pairing[$pt]['player'] = $i;
+                    $pairing[$pt]['round'] = $this->readData('Int', $swshandle) - 1;
+                    $pairing[$pt]['table'] = $this->readData('Int', $swshandle) - 1;
+                    $pairing[$pt]['opponent'] = $this->readData('Int', $swshandle);
+                    $pairing[$pt]['result'] = $this->readData('Hex', $swshandle);
+                    $pairing[$pt]['color'] = $this->readData('Int', $swshandle);
+                    $pairing[$pt]['float'] = $this->readData('Int', $swshandle);
+                    $pairing[$pt]['extrapoints'] = $this->readData('Int', $swshandle);
 
                     $pt++;
                 }
+                $this->Tournament->Pairing = $pairing;
             }
 
             $this->Tournament->addPlayer($player);
         }
 
         $ptn = 0;
-        while (null !== $this->Tournament->Pairing[$ptn]['round']) {
+        while (isset($this->Tournament->Pairing[$ptn]['round'])) {
             $pairing = new Pairing();
 
             $pairing->Player = $this->Tournament->PlayerById($this->Tournament->Pairing[$ptn]['player']);
