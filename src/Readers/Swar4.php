@@ -34,13 +34,13 @@ use DateTime;
 class Swar4 implements ReaderInterface
 {
     /** @var Tournament */
-    private $tournament;
+    public $Tournament;
+
+    /** @var string */
+    public $Release;
 
     /** @var bool|int|DateTime|string[] */
     private $BinaryData;
-
-    /** @var string */
-    private $Release;
 
     /** @var array  */
     private const CompatibleVersions = ['v4.'];
@@ -106,53 +106,55 @@ class Swar4 implements ReaderInterface
 
     /**
      * @param string $filename
-     * @return ReaderInterface
      * @throws IncompatibleReaderException
      */
-    public function read(string $filename): ReaderInterface
+    public function read(string $filename): void
     {
         $swshandle = fopen($filename, 'rb');
 
-        $this->setRelease($this->readData('String', $swshandle));
-        if (array_search(substr($this->getRelease(), 0, 3), self::CompatibleVersions) === false) {
+        $this->Release = $this->readData('String', $swshandle);
+        if (array_search(substr($this->Release, 0, 3), self::CompatibleVersions) === false) {
             throw new IncompatibleReaderException("This file was not created with Swar 4");
         }
 
-        $this->setTournament(new Tournament());
+        $this->Tournament = new Tournament();
 
-        $this->setBinaryData('Guid', $this->readData('String', $swshandle));
-        $this->setBinaryData('MacAddress', $this->readData('String', $swshandle));
-        $this->setBinaryData('[Tournoi]', $this->readData('String', $swshandle));
-        $this->getTournament()->setName($this->readData('String', $swshandle));
-        $this->getTournament()->setOrganiser($this->readData('String', $swshandle));
-        $this->getTournament()->setOrganiserClub($this->readData('String', $swshandle));
-        $this->getTournament()->setOrganiserPlace($this->readData('String', $swshandle));
+        $this->Guid = $this->readData('String', $swshandle);
+        $this->MacAddress = $this->readData('String', $swshandle);
 
-        $this->getTournament()->setArbiter($this->readData('String', $swshandle), 0);
-        $this->getTournament()->setArbiter($this->readData('String', $swshandle), 1);
+        // [Tournoi]
+        $this->readData('String', $swshandle);
 
-        $this->getTournament()->setStartDate($this->readData('Date', $swshandle));
-        $this->getTournament()->setEndDate($this->readData('Date', $swshandle));
+        $this->Tournament->Name = $this->readData('String', $swshandle);
+        $this->Tournament->Organiser = $this->readData('String', $swshandle);
+        $this->Tournament->OrganiserClub = $this->readData('String', $swshandle);
+        $this->Tournament->OrganiserPlace = $this->readData('String', $swshandle);
+
+        $this->Tournament->addArbiter($this->readData('String', $swshandle));
+        $this->Tournament->addArbiter($this->readData('String', $swshandle));
+
+        $this->Tournament->StartDate = $this->readData('Date', $swshandle);
+        $this->Tournament->EndDate = $this->readData('Date', $swshandle);
 
         // Tempo string is not variable and dependant on kind of tournament
-        $this->getTournament()->setBinaryData('TempoIndex', $this->readData('Int', $swshandle));
+        $this->Tournament->TempoIndex = $this->readData('Int', $swshandle);
 
-        $this->getTournament()->setNoOfRounds($this->readData('Int', $swshandle));
+        $this->Tournament->NoOfRounds = $this->readData('Int', $swshandle);
 
-        $this->getTournament()->setBinaryData('FRBEfrom', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('FRBEto', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('FIDEfrom', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('FIDEto', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('CatSepares', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('AfficherEloOuPays', $this->readData('Int', $swshandle));
+        $this->Tournament->FRBEfrom = $this->readData('Int', $swshandle);
+        $this->Tournament->FRBEto = $this->readData('Int', $swshandle);
+        $this->Tournament->FIDEfrom = $this->readData('Int', $swshandle);
+        $this->Tournament->FIDEto = $this->readData('Int', $swshandle);
+        $this->Tournament->CatSepares = $this->readData('Int', $swshandle);
+        $this->Tournament->AfficherEloOuPays = $this->readData('Int', $swshandle);
 
-        $this->getTournament()->setFideHomol($this->readData('Int', $swshandle));
+        $this->Tournament->FideHomol = $this->readData('Int', $swshandle);
 
-        $this->getTournament()->setBinaryData('FideId', $this->readData('String', $swshandle));
-        $this->getTournament()->setBinaryData('FideArbitre1', $this->readData('String', $swshandle));
-        $this->getTournament()->setBinaryData('FideArbitre2', $this->readData('String', $swshandle));
-        $this->getTournament()->setBinaryData('FideEmail', $this->readData('String', $swshandle));
-        $this->getTournament()->setBinaryData('FideRemarques', $this->readData('String', $swshandle));
+        $this->Tournament->FideId = $this->readData('String', $swshandle);
+        $this->Tournament->FideArbitre1 = $this->readData('String', $swshandle);
+        $this->Tournament->FideArbitre2 = $this->readData('String', $swshandle);
+        $this->Tournament->FideEmail = $this->readData('String', $swshandle);
+        $this->Tournament->FideRemarques = $this->readData('String', $swshandle);
 
         switch ($this->readData('Int', $swshandle)) {
             case 0:
@@ -173,26 +175,26 @@ class Swar4 implements ReaderInterface
                 $system = TournamentSystem::American;
                 break;
         }
-        $this->getTournament()->setSystem(new TournamentSystem($system));
+        $this->Tournament->System = new TournamentSystem($system);
 
-        $this->getTournament()->setBinaryData('Dummy1', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('Dummy2', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('SW_AmerPresence', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('Plusieurs', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('FirstTable', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('SW321_Win', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('SW321_Nul', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('SW321_Los', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('SW321_Bye', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('SW321_Pre', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('EloUsed', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('TournoiStd', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('TbPersonel', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('ApparOrder', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('EloEqual', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('ByeValue', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('AbsValue', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('FF_Value', $this->readData('Int', $swshandle));
+        $this->Tournament->Dummy1 = $this->readData('Int', $swshandle);
+        $this->Tournament->Dummy2 = $this->readData('Int', $swshandle);
+        $this->Tournament->SW_AmerPresence = $this->readData('Int', $swshandle);
+        $this->Tournament->Plusieurs = $this->readData('Int', $swshandle);
+        $this->Tournament->FirstTable = $this->readData('Int', $swshandle);
+        $this->Tournament->SW321_Win = $this->readData('Int', $swshandle);
+        $this->Tournament->SW321_Nul = $this->readData('Int', $swshandle);
+        $this->Tournament->SW321_Los = $this->readData('Int', $swshandle);
+        $this->Tournament->SW321_Bye = $this->readData('Int', $swshandle);
+        $this->Tournament->SW321_Pre = $this->readData('Int', $swshandle);
+        $this->Tournament->EloUsed = $this->readData('Int', $swshandle);
+        $this->Tournament->TournoiStd = $this->readData('Int', $swshandle);
+        $this->Tournament->TbPersonel = $this->readData('Int', $swshandle);
+        $this->Tournament->ApparOrder = $this->readData('Int', $swshandle);
+        $this->Tournament->EloEqual = $this->readData('Int', $swshandle);
+        $this->Tournament->ByeValue = $this->readData('Int', $swshandle);
+        $this->Tournament->AbsValue = $this->readData('Int', $swshandle);
+        $this->Tournament->FF_Value = $this->readData('Int', $swshandle);
 
         switch ($this->readData('Int', $swshandle)) {
             case 0:
@@ -218,21 +220,23 @@ class Swar4 implements ReaderInterface
                 $federation = 'FIDE';
                 break;
         }
-        $this->getTournament()->setFederation($federation);
-        $this->getTournament()->setNonRatedElo(0);
-        $this->getTournament()->setOrganiserClubNo(0);
-        $this->getTournament()->setBinaryData('[DATES]', $this->readData('String', $swshandle));
+        $this->Tournament->Federation = $federation;
+        $this->Tournament->NonRatedElo = 0;
+        $this->Tournament->OrganiserClubNo = 0;
+        // [DATES]
+        $this->readData('String', $swshandle);
 
-        $this->getTournament()->setTempo(Self::Tempos[$this->getTournament()->getBinaryData('TournoiStd')][$this->getTournament()->getBinaryData('TempoIndex')]);
+        $this->Tournament->Tempo = Self::Tempos[$this->Tournament->TournoiStd][$this->Tournament->TempoIndex];
 
-        for ($i = 0; $i < $this->getTournament()->getNoOfRounds(); $i++) {
+        for ($i = 0; $i < $this->Tournament->NoOfRounds; $i++) {
             $round = new Round();
-            $round->setRoundNo($i);
-            $round->setDate($this->readData('Date', $swshandle));
-            $this->getTournament()->addRound($round);
+            $round->RoundNo = $i;
+            $round->Date = $this->readData('Date', $swshandle);
+            $this->Tournament->addRound($round);
         }
 
-        $this->getTournament()->setBinaryData('[TIE_BREAK]', $this->readData('String', $swshandle));
+        // [TIE_BREAK]
+        $this->readData('String', $swshandle);
 
         $tiebreaks = [];
         for ($i = 0; $i < 5; $i++) {
@@ -289,45 +293,50 @@ class Swar4 implements ReaderInterface
             }
             $tiebreaks[] = new Tiebreak($tiebreak);
         }
-        $this->getTournament()->setTiebreaks($tiebreaks);
+        $this->Tournament->Tiebreaks = $tiebreaks;
 
-        $this->getTournament()->setBinaryData('[EXCLUSION]', $this->readData('String', $swshandle));
-        $this->getTournament()->setBinaryData('ExclusionType', $this->readData('Int', $swshandle));
-        $this->getTournament()->setBinaryData('ExclusionValue', $this->readData('String', $swshandle));
+        // [EXCLUSION]
+        $this->readData('String', $swshandle);
+        $this->Tournament->ExclusionType = $this->readData('Int', $swshandle);
+        $this->Tournament->ExclusionValue = $this->readData('String', $swshandle);
 
-        $this->getTournament()->setBinaryData('[CATEGORIES]', $this->readData('String', $swshandle));
+        // [CATEGORIES]
+        $this->readData('String', $swshandle);
 
-        $this->getTournament()->setBinaryData('Catogory_type', $this->readData('Int', $swshandle));
+        $this->Tournament->Catogory_type = $this->readData('Int', $swshandle);
         for ($i = 0; $i <= 12; $i++) {
-            $this->getTournament()->setBinaryData('Category_' . $i . '_Cat1', $this->readData('String', $swshandle));
+            $category[$i]['Cat1'] =$this->readData('String', $swshandle);
         }
 
         for ($i = 0; $i <= 12; $i++) {
-            $this->getTournament()->setBinaryData('Category_' . $i . '_Cat2', $this->readData('String', $swshandle));
+            $category[$i]['Cat2'] =$this->readData('String', $swshandle);
         }
-
-        $this->getTournament()->setBinaryData('[XTRA_POINTS]', $this->readData('String', $swshandle));
+        $this->Tournament->Category = $category;
+        // [XTRA_POINTS]
+        $this->readData('String', $swshandle);
 
         for ($i = 0; $i < 4; $i++) {
-            $this->getTournament()->setBinaryData('Extrapoints_' . $i . '_pts', $this->readData('Int', $swshandle));
-            $this->getTournament()->setBinaryData('Extrapoints_' . $i . '_elo', $this->readData('Int', $swshandle));
+            $extrapoints[$i]['pts'] = $this->readData('Int', $swshandle);
+            $extrapoints[$i]['elo'] = $this->readData('Int', $swshandle);
         }
+        $this->Tournament->Extrapoints = $extrapoints;
 
-        $this->getTournament()->setBinaryData('[JOUEURS]', $this->readData('String', $swshandle));
+        // [JOUEURS]
+        $this->readData('String', $swshandle);
 
         $roundNo = 0;
         $playerNo = 0;
-        $this->getTournament()->setBinaryData('NumberOfPlayers', $this->readData('Int', $swshandle));
+        $this->Tournament->NumberOfPlayers = $this->readData('Int', $swshandle);
 
         $pt = 0;
-        for ($i = 0; $i < $this->getTournament()->getBinaryData('NumberOfPlayers'); $i++) {
+        for ($i = 0; $i < $this->Tournament->NumberOfPlayers; $i++) {
             $player = new Player();
-            $player->setBinaryData('Classement', $this->readData('Int', $swshandle));
-            $player->setName($this->readData('String', $swshandle));
+            $player->Classement = $this->readData('Int', $swshandle);
+            $player->Name = $this->readData('String', $swshandle);
             $inscriptionNos[$this->readData('Int', $swshandle)] = $i;
-            $player->setBinaryData('Rank', $this->readData('Int', $swshandle));
-            $player->setBinaryData('CatIndex', $this->readData('Int', $swshandle));
-            $player->setDateOfBirth($this->readData('Date', $swshandle));
+            $player->Rank = $this->readData('Int', $swshandle);
+            $player->CatIndex = $this->readData('Int', $swshandle);
+            $player->DateOfBirth = $this->readData('Date', $swshandle);
             switch ($this->readData('Int', $swshandle)) {
                 case 1:
                     $gender = Gender::Male;
@@ -339,12 +348,12 @@ class Swar4 implements ReaderInterface
                     $gender = Gender::Neutral;
                     break;
             }
-            $player->setGender(new Gender($gender));
+            $player->Gender = new Gender($gender);
 
-            $player->setNation($this->readData('String', $swshandle));
+            $player->Nation = $this->readData('String', $swshandle);
             $player->setId('Nation', $this->readData('Int', $swshandle));
             $player->setId('Fide', $this->readData('Int', $swshandle));
-            $player->setBinaryData('Affliation', $this->readData('Int', $swshandle));
+            $player->Affliation = $this->readData('Int', $swshandle);
             $player->setElo('Nation', $this->readData('Int', $swshandle));
             $player->setElo('Fide', $this->readData('Int', $swshandle));
             switch ($this->readData('Int', $swshandle)) {
@@ -383,52 +392,55 @@ class Swar4 implements ReaderInterface
                     $title = Title::NONE;
                     break;
             }
-            $player->setTitle(new Title($title));
+            $player->Title = new Title($title);
 
             $player->setId('Club', $this->readData('Int', $swshandle));
-            $player->setBinaryData('ClubName', $this->readData('String', $swshandle));
-            $player->setBinaryData('NoOfMatchesNoBye', $this->readData('Int', $swshandle));
-            $player->setBinaryData('Points', $this->readData('Int', $swshandle)); // To Calculate by libpairtwo
-            $player->setBinaryData('AmericanPoints', $this->readData('Int', $swshandle)); // To Calculate by libpairtwo
+            $player->ClubName = $this->readData('String', $swshandle);
+            $player->NoOfMatchesNoBye = $this->readData('Int', $swshandle);
+            $player->Points = $this->readData('Int', $swshandle); // To Calculate by libpairtwo
+            $player->AmericanPoints = $this->readData('Int', $swshandle); // To Calculate by libpairtwo
             for ($t = 0; $t < 5; $t++) {
-                $player->setBinaryData('Tiebreak_' . $t, $this->readData('Int', $swshandle)); // To Calculate by libpairtwo
+                $tiebreaks[$t] = $this->readData('Int', $swshandle); // To Calculate by libpairtwo
             }
-            $player->setBinaryData('Performance', $this->readData('Int', $swshandle)); // To Calculate by libpairtwo
-            $player->setBinaryData('Absent', $this->readData('Int', $swshandle));
-            $player->setBinaryData('AbsentRounds', $this->readData('String', $swshandle));
-            $player->setBinaryData('ExtraPoints', $this->readData('Int', $swshandle));
-            $player->setBinaryData('SpecialPoints', $this->readData('Int', $swshandle));
-            $player->setBinaryData('AllocatedRounds', $this->readData('Int', $swshandle));
-            $player->setBinaryData('[RONDE]', $this->readData('String', $swshandle));
+            $player->Tiebreak = $tiebreaks;
+            $player->Performance = $this->readData('Int', $swshandle); // To Calculate by libpairtwo
+            $player->Absent = $this->readData('Int', $swshandle);
+            $player->AbsentRounds = $this->readData('String', $swshandle);
+            $player->ExtraPoints = $this->readData('Int', $swshandle);
+            $player->SpecialPoints = $this->readData('Int', $swshandle);
+            $player->AllocatedRounds = $this->readData('Int', $swshandle);
+            // [RONDE]
+            $this->readData('String', $swshandle);
 
-            if ($player->getBinaryData('AllocatedRounds') != 0) {
-                for ($j = 0; $j < $player->getBinaryData('AllocatedRounds'); $j++) {
-                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_player', $i);
-                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_round', $this->readData('Int', $swshandle) - 1);
-                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_table', $this->readData('Int', $swshandle) - 1);
-                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_opponent', $this->readData('Int', $swshandle));
-                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_result', $this->readData('Hex', $swshandle));
-                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_color', $this->readData('Int', $swshandle));
-                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_float', $this->readData('Int', $swshandle));
-                    $this->getTournament()->setBinaryData('Pairing_' . $pt . '_extrapoints', $this->readData('Int', $swshandle));
+            if ($player->AllocatedRounds != 0) {
+                for ($j = 0; $j < $player->AllocatedRounds; $j++) {
+                    $pairing[$pt]['player'] = $i;
+                    $pairing[$pt]['round'] = $this->readData('Int', $swshandle) - 1;
+                    $pairing[$pt]['table'] = $this->readData('Int', $swshandle) - 1;
+                    $pairing[$pt]['opponent'] = $this->readData('Int', $swshandle);
+                    $pairing[$pt]['result'] = $this->readData('Hex', $swshandle);
+                    $pairing[$pt]['color'] = $this->readData('Int', $swshandle);
+                    $pairing[$pt]['float'] = $this->readData('Int', $swshandle);
+                    $pairing[$pt]['extrapoints'] = $this->readData('Int', $swshandle);
 
                     $pt++;
                 }
+                $this->Tournament->Pairing = $pairing;
             }
 
-            $this->getTournament()->addPlayer($player);
+            $this->Tournament->addPlayer($player);
         }
 
         $ptn = 0;
-        while (null !== $this->getTournament()->getBinaryData('Pairing_' . $ptn . '_round')) {
+        while (isset($this->Tournament->Pairing[$ptn]['round'])) {
             $pairing = new Pairing();
 
-            $pairing->setPlayer($this->getTournament()->getPlayerById($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_player')));
-            $pairing->setRound($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_round'));
-            if ($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_opponent') != 4294967295) {
-                $pairing->setOpponent($this->getTournament()->getPlayerById($inscriptionNos[$this->getTournament()->getBinaryData('Pairing_' . $ptn . '_opponent')]));
+            $pairing->Player = $this->Tournament->PlayerById($this->Tournament->Pairing[$ptn]['player']);
+            $pairing->Round = $this->Tournament->Pairing[$ptn]['round'];
+            if ($this->Tournament->Pairing[$ptn]['opponent'] != 4294967295) {
+                $pairing->Opponent = $this->Tournament->PlayerById($inscriptionNos[$this->Tournament->Pairing[$ptn]['opponent']]);
             }
-            switch ($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_result')) {
+            switch ($this->Tournament->Pairing[$ptn]['result']) {
                 case '1000':
                     $result = Result::Lost;
                     break;
@@ -455,12 +467,12 @@ class Swar4 implements ReaderInterface
                     $result = Result::None;
                     break;
             }
-            if (array_search($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_table'), [ 16383, 8191 ]) !== false) {
+            if (array_search($this->Tournament->Pairing[$ptn]['table'], [ 16383, 8191 ]) !== false) {
                 $result = Result::Absent;
             }
-            $pairing->setResult(new Result($result));
+            $pairing->Result = new Result($result);
 
-            switch ($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_color')) {
+            switch ($this->Tournament->Pairing[$ptn]['color']) {
                 case 4294967295:
                     $color = Color::Black;
                     break;
@@ -472,34 +484,16 @@ class Swar4 implements ReaderInterface
                     $color = Color::None;
                     break;
             }
-            $pairing->setColor(new Color($color));
+            $pairing->Color = new Color($color);
 
-            $pairing->setBoard($this->getTournament()->getBinaryData('Pairing_' . $ptn . '_table'));
+            $pairing->Board = $this->Tournament->Pairing[$ptn]['table'];
             $ptn++;
-            $this->getTournament()->addPairing($pairing);
+            $this->Tournament->addPairing($pairing);
         }
         fclose($swshandle);
-        $this->getTournament()->pairingsToRounds();
+        $this->Tournament->pairingsToRounds();
         $this->addTiebreaks();
-        return $this;
     }
-
-    /**
-     * @return Tournament
-     */
-    public function getTournament(): Tournament
-    {
-        return $this->tournament;
-    }
-
-    /**
-     * @param Tournament $tournament
-     */
-    public function setTournament(Tournament $tournament): void
-    {
-        $this->tournament = $tournament;
-    }
-
 
     /**
      * @param string $type
@@ -569,31 +563,15 @@ class Swar4 implements ReaderInterface
     }
 
     /**
-     * @return string
-     */
-    public function getRelease(): string
-    {
-        return $this->Release;
-    }
-
-    /**
-     * @param string $Release
-     */
-    public function setRelease(string $Release): void
-    {
-        $this->Release = $Release;
-    }
-
-    /**
      * Returns binary data that was read out the swar file but was not needed immediately
      *
-     * @param string $Key
+     * @param string $key
      * @return bool|DateTime|int|string|null
      */
-    public function getBinaryData(string $Key)
+    public function __get(string $key)
     {
-        if (isset($this->BinaryData[$Key])) {
-            return $this->BinaryData[$Key];
+        if (isset($this->BinaryData[$key])) {
+            return $this->BinaryData[$key];
         }
         return null;
     }
@@ -601,14 +579,12 @@ class Swar4 implements ReaderInterface
     /**
      * Sets binary data that is read out the swar file but is not needed immediately
      *
-     * @param string $Key
-     * @param bool|int|DateTime|string $Value
-     * @return Pairtwo6
+     * @param string $key
+     * @param bool|int|DateTime|string $Valueey
      */
-    public function setBinaryData(string $Key, $Value): Swar4
+    public function __set(string $key, $Valueey): void
     {
-        $this->BinaryData[$Key] = $Value;
-        return $this;
+        $this->BinaryData[$key] = $Valueey;
     }
 
     /**
@@ -624,21 +600,17 @@ class Swar4 implements ReaderInterface
         }
     }
 
-    /**
-     * @return $this
-     */
-    private function addTiebreaks(): Swar4
+    private function addTiebreaks(): void
     {
-        switch ($this->getTournament()->getSystem()) {
+        switch ($this->Tournament->System) {
             case TournamentSystem::American:
             case TournamentSystem::Closed:
             case TournamentSystem::Swiss:
             default:
                 $firstElement = new Tiebreak(Tiebreak::Points);
         }
-        $tiebreaks = $this->getTournament()->getTiebreaks();
+        $tiebreaks = $this->Tournament->Tiebreaks;
         array_unshift($tiebreaks, $firstElement);
-        $this->getTournament()->setTiebreaks($tiebreaks);
-        return $this;
+        $this->Tournament->Tiebreaks = $tiebreaks;
     }
 }
