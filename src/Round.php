@@ -55,32 +55,28 @@ class Round
      */
     public $Pairings = [];
 
-    /**
+    /*
      * Adds a game to the round
      *
      * @param Game $game
-     * @return Round
      */
-    public function addGame(Game $game): Round
+    public function addGame(Game $game): void
     {
         $newarray = $this->Games;
         $newarray[] = $game;
         $this->Games = $newarray;
-        return $this;
     }
 
     /**
      * Adds a pairing to the round
      *
      * @param Pairing $pairing
-     * @return Round
      */
-    public function addPairing(Pairing $pairing): Round
+    public function addPairing(Pairing $pairing): void
     {
         $newarray = $this->Pairings;
         $newarray[] = $pairing;
         $this->Pairings = $newarray;
-        return $this;
     }
 
     /**

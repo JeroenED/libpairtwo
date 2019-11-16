@@ -66,14 +66,12 @@ class Player
      * Adds a pairing to the tournament
      *
      * @param Pairing $pairing
-     * @return Player
      */
-    public function addPairing(Pairing $pairing): Player
+    public function addPairing(Pairing $pairing): void
     {
         $newArray = $this->Pairings;
         $newArray[] = $pairing;
         $this->Pairings = $newArray;
-        return $this;
     }
 
     /**
@@ -115,7 +113,6 @@ class Player
      *
      * @param string $type
      * @param int $value
-     * @return Player
      */
     public function setElo(string $type, int $value): void
     {
@@ -144,7 +141,6 @@ class Player
      *
      * @param string $type
      * @param string $value
-     * @return Player
      */
     public function setId(string $type, string $value): void
     {
@@ -277,11 +273,9 @@ class Player
      *
      * @param string $Key
      * @param bool|int|DateTime|string $Value
-     * @return Player
      */
-    public function __set(string $Key, $Value): Player
+    public function __set(string $Key, $Value): void
     {
         $this->BinaryData[$Key] = $Value;
-        return $this;
     }
 }

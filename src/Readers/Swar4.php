@@ -106,10 +106,9 @@ class Swar4 implements ReaderInterface
 
     /**
      * @param string $filename
-     * @return ReaderInterface
      * @throws IncompatibleReaderException
      */
-    public function read(string $filename): ReaderInterface
+    public function read(string $filename): void
     {
         $swshandle = fopen($filename, 'rb');
 
@@ -491,7 +490,6 @@ class Swar4 implements ReaderInterface
         fclose($swshandle);
         $this->Tournament->pairingsToRounds();
         $this->addTiebreaks();
-        return $this;
     }
 
     /**
@@ -580,7 +578,6 @@ class Swar4 implements ReaderInterface
      *
      * @param string $Key
      * @param bool|int|DateTime|string $Value
-     * @return void
      */
     public function __set(string $Key, $Value): void
     {
@@ -600,10 +597,7 @@ class Swar4 implements ReaderInterface
         }
     }
 
-    /**
-     * @return $this
-     */
-    private function addTiebreaks(): Swar4
+    private function addTiebreaks(): void
     {
         switch ($this->Tournament->System) {
             case TournamentSystem::American:
@@ -615,6 +609,5 @@ class Swar4 implements ReaderInterface
         $tiebreaks = $this->Tournament->Tiebreaks;
         array_unshift($tiebreaks, $firstElement);
         $this->Tournament->Tiebreaks = $tiebreaks;
-        return $this;
     }
 }
