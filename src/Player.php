@@ -81,7 +81,7 @@ class Player
      * @param Tournament $tournament
      * @return Player[]
      */
-    public static function getPlayersByName(string $search, Tournament $tournament): array
+    public static function PlayersByName(string $search, Tournament $tournament): array
     {
         /** @var Player[] */
         $players = $tournament->Players;
@@ -154,7 +154,7 @@ class Player
      *
      * @return int
      */
-    public function getNoOfWins(): int
+    private function noOfWins(): int
     {
         $wins = 0;
         foreach ($this->Pairings as $pairing) {
@@ -195,7 +195,7 @@ class Player
      *
      * @return float
      */
-    public function getPointsForBuchholz(): float
+    private function pointsForBuchholz(): float
     {
         $points = 0;
         foreach ($this->Pairings as $pairing) {
@@ -216,7 +216,7 @@ class Player
      *
      * @return int
      */
-    public function getPerformance(string $type, int $unratedElo): float
+    public function Performance(string $type, int $unratedElo): float
     {
         $total = 0;
         $opponents = 0;
@@ -243,7 +243,7 @@ class Player
      *
      * @return int
      */
-    public function getPlayedGames(): int
+    private function playedGames(): int
     {
         $total = 0;
         foreach ($this->Pairings as $pairing) {
@@ -255,14 +255,20 @@ class Player
     }
 
     /**
-     * Returns binary data that was read out the pairing file but was not needed immediately
+     * Magic method to read out several fields. If field was not found it is being searched in the binary data fields
      *
      * @param string $key
      * @return bool|DateTime|int|string|null
      */
     public function __get(string $key)
     {
-        if (isset($this->BinaryData[$key])) {
+        if($key == 'PlayedGames') {
+            return $this->playedGames();
+        } elseif ($key == 'NoOfWins') {
+            return $this->noOfWins();
+        } elseif ($key == 'PointsForBuchholz') {
+            return $this->pointsForBuchholz();
+        } elseif (isset($this->BinaryData[$key])) {
             return $this->BinaryData[$key];
         }
         return null;
