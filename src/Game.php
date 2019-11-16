@@ -40,9 +40,9 @@ class Game
     /** @var int */
     public $Board;
 
-    public function __get(string $Key)
+    public function __get(string $key)
     {
-        if ($Key == 'Result') {
+        if ($key == 'Result') {
             return $this->calculateResult();
         }
     }
