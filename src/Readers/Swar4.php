@@ -1,6 +1,6 @@
 <?php
 /**
- * Reader Swar4
+ * Reader Swar-4
  *
  * Reads out Swar-4 files
  *
@@ -9,8 +9,6 @@
  * @package     Libpairtwo
  * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
-
-
 namespace JeroenED\Libpairtwo\Readers;
 
 use JeroenED\Libpairtwo\Enums\Color;
@@ -28,24 +26,42 @@ use JeroenED\Libpairtwo\Tournament;
 use DateTime;
 
 /**
- * Class Swar4
- * @package JeroenED\Libpairtwo\Readers
+ * Reader Swar4
+ *
+ * Reads out Swar-4 files
+ *
+ * @author      Jeroen De Meerleer <schaak@jeroened.be>
+ * @category    Main
+ * @package     Libpairtwo
+ * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 class Swar4 implements ReaderInterface
 {
-    /** @var Tournament */
-    public $Tournament;
-
-    /** @var string */
+    /**
+     * Version of Pairtwo this file was created with
+     *
+     * @var string
+     */
     public $Release;
 
-    /** @var bool|int|DateTime|string[] */
+    /**
+     * The tournament
+     *
+     * @var Tournament
+     */
+    public $Tournament;
+
+    /**
+     * Binary data that was read out of the pairing file
+     *
+     * @var bool|DateTime|int|string[]
+     */
     private $BinaryData;
 
     /** @var array  */
-    private const CompatibleVersions = ['v4.'];
+    const CompatibleVersions = ['v4.'];
 
-    private const Tempos = [
+    const Tempos = [
         [
             '105 min/40 moves + 15 min. QPF',
             '120 min/40 moves + 15 min. with incr. 30" starting from 40th move',
@@ -105,6 +121,8 @@ class Swar4 implements ReaderInterface
     ];
 
     /**
+     * Actually reads the Swar-File
+     *
      * @param string $filename
      * @throws IncompatibleReaderException
      */
@@ -496,6 +514,15 @@ class Swar4 implements ReaderInterface
     }
 
     /**
+     * Reads data of the filehandle and converts to $type. defaults to $default if given
+     *
+     * Possible types for $type are:
+     * * String (UTF-8 String representation of $data.   Default: empty string '')
+     * * Hex    (Capitalized Hex Value of $data.         Default: 00)
+     * * Int    (Unsigned Integer value of $data         Default: 0)
+     * * Bool   (Boolean representation of $data.        Default: false)
+     * * Date   (Date representation of $data.           Default: 1902/01/01)
+     *
      * @param string $type
      * @param $handle
      * @param null $default
@@ -580,14 +607,15 @@ class Swar4 implements ReaderInterface
      * Sets binary data that is read out the swar file but is not needed immediately
      *
      * @param string $key
-     * @param bool|int|DateTime|string $Valueey
+     * @param bool|int|DateTime|string $value
      */
-    public function __set(string $key, $Valueey): void
+    public function __set(string $key, $value): void
     {
-        $this->BinaryData[$key] = $Valueey;
+        $this->BinaryData[$key] = $value;
     }
 
     /**
+     * Converts a swar-4 string to a \DateTime object
      * @param string $string
      * @return DateTime
      */
@@ -600,6 +628,9 @@ class Swar4 implements ReaderInterface
         }
     }
 
+    /**
+     * Adds the first tiebreak to the tournament
+     */
     private function addTiebreaks(): void
     {
         switch ($this->Tournament->System) {

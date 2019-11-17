@@ -5,6 +5,7 @@
 * MAJOR CHANGE: Getter and setter methods have been removed. (Please see [0d8a325](https://github.com/JeroenED/libpairtwo/commit/0d8a325eb501b775830f68fa6f600f9f4ca5588c) for more info)
 * CHANGE: Some fields has been renamed to match coding guideline (Please see [1ab96fa](https://github.com/JeroenED/libpairtwo/commit/1ab96fa04782c1b0f2b6bb9d1bac8397a74ab38e) for more info)
 * CHANGE: Logo has been redesigned
+* CHANGE: Phpdoc is used again for docs generation
 * REMOVED: `Tiebreak::American` and all its uses were removed (Please see [a6015ae](https://github.com/JeroenED/libpairtwo/commit/a6015ae8169f0973f4937605d0f807aacc233630) for more info)
 
 ## v1.2 (Release: 28-sep-2019)

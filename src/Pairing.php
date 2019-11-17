@@ -27,21 +27,45 @@ use JeroenED\Libpairtwo\Enums\Result;
  */
 class Pairing
 {
-    /** @var Player | null */
+    /**
+     * The player of the pairing. Please note this means the pairing was seen from the point of view of this player
+     *
+     * @var Player | null
+     */
     public $Player;
 
-    /** @var Player | null */
+    /**
+     * The opponent of player
+     *
+     * @var Player | null
+     */
     public $Opponent;
 
-    /** @var Color */
+    /**
+     * The color of the player.
+     * Possible values are Black and White
+     *
+     * @var Color
+     */
     public $Color;
 
-    /** @var Result */
+    /**
+     * The result of the Game. Possible values contain Won, Lost, Draw, Forfait, Bye, etc.
+     * @var Result
+     */
     public $Result;
 
-    /** @var int */
+    /**
+     * The round of the game
+     *
+     * @var int
+     */
     public $Round;
 
-    /** @var int */
+    /**
+     * The number of the board where the game was held
+     *
+     * @var int
+     */
     public $Board;
 }

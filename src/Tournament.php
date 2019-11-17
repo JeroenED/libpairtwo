@@ -1,8 +1,6 @@
 <?php
 /**
- * Class Tournament
- *
- * Class for the tournament from the pairing file
+ * The file contains the Tournament class which takes care of almost every element in your tournament
  *
  * @author      Jeroen De Meerleer <schaak@jeroened.be>
  * @category    Main
@@ -30,79 +28,178 @@ use DateTime;
  */
 class Tournament
 {
-    /** @var string */
+    /**
+     * Name of the Tournament
+     *
+     * @var string
+     */
     public $Name;
 
-    /** @var string */
+    /**
+     * Organiser of the tournament (eg. Donald J. Trump)
+     *
+     *
+     * @var string
+     */
     public $Organiser;
 
-    /** @var int */
+    /**
+     * Club ID of the tournament organiser (eg. 205001600)
+     *
+     * @var string
+     */
     public $OrganiserClubNo;
 
-    /** @var string */
+    /**
+     * Club name of the tournament organiser (eg. The White House Chess Club)
+     *
+     * @var string
+     */
     public $OrganiserClub;
 
-    /** @var string */
+    /**
+     * Place where the Tounament is held (eg. The Oval Office)
+     *
+     * @var string
+     */
     public $OrganiserPlace;
 
-    /** @var string */
+    /**
+     * The country where the tournament is held
+     *
+     * @var string
+     */
     public $OrganiserCountry;
 
-    /** @var int */
+    /**
+     * Whether or not the tournament is an official tournament and send to the world chess organisation
+     *
+     * @var int
+     */
     public $FideHomol;
 
-    /** @var DateTime */
+    /**
+     * Start date (First round or Players meeting) of the tournament
+     * @var DateTime
+     */
     public $StartDate;
 
-    /** @var DateTime */
+    /**
+     * End date (Last round or Award Ceremony) of the tournament
+     *
+     * @var DateTime
+     */
     public $EndDate;
 
-    /** @var string[] */
+    /**
+     * An Array of the assigned arbiters
+     *
+     * @var string[]
+     */
     public $Arbiters;
 
-    /** @var int */
+    /**
+     * Number of round the tournament has
+     *
+     * @var int
+     */
     public $NoOfRounds;
 
-    /** @var Round[] */
+    /**
+     * Round objects of all rounds in the tournament
+     *
+     * @var Round[]
+     */
     public $Rounds = [];
 
-    /** @var string */
+    /**
+     * The tempo of the tournament (eg. 90 min/40 moves + 30 sec. increment starting from move 1)
+     * @var string
+     */
     public $Tempo;
 
-    /** @var int */
+    /**
+     * The elo a player gets if he does not have an official elo
+     *
+     * @var int
+     */
     public $NonRatedElo;
 
-    /** @var TournamentSystem */
+    /**
+     * The system the tournament (eg. Swiss, Closed, American)
+     *
+     * @var TournamentSystem
+     */
     public $System;
 
-    /** @var string */
+    /**
+     * The tempo for the first period of a game in the tournament
+     *
+     * @var string
+     */
     public $FirstPeriod;
 
-    /** @var string */
+    /**
+     * The tempo for the second period of a game in the tournament
+     *
+     * @var string
+     */
     public $SecondPeriod;
 
-    /** @var string */
+    /**
+     * The federation for which this tournament is held
+     *
+     * @var string
+     */
     public $Federation;
 
-    /** @var Player[] */
+    /**
+     * All players of the tournament
+     *
+     * @var Player[]
+     */
     public $Players = [];
 
-    /** @var int */
+    /**
+     * The year or season the tournament is held or is count for
+     *
+     * @var int
+     */
     public $Year;
 
-    /** @var Pairing[] */
+    /**
+     * All pairings of the tournament
+     *
+     * @var Pairing[]
+     */
     public $Pairings = [];
 
-    /** @var Tiebreak[] */
+    /**
+     * The tiebreaks for the tournament
+     *
+     * @var Tiebreak[]
+     */
     public $Tiebreaks = [];
 
-    /** @var string */
+    /**
+     * The elo that priority above all others
+     *
+     * @var string
+     */
     public $PriorityElo = 'Fide';
 
-    /** @var string */
+    /**
+     * The Id that has priority above all other
+     *
+     * @var string
+     */
     public $PriorityId = 'Nation';
 
-    /** @var bool|DateTime|int|string[] */
+    /**
+     * Binary data that was read out of the pairing file
+     * 
+     * @var bool|DateTime|int|string[]
+     */
     private $BinaryData = [];
 
     /**
@@ -381,8 +478,7 @@ class Tournament
     /**
      * Sort by tiebreak
      *
-     * @param Player $a
-     * @param Player $b
+     * @param int $key
      * @return Closure
      */
     private function sortTiebreak(int $key): Closure
@@ -402,9 +498,9 @@ class Tournament
      * @param Tiebreak $tiebreak
      * @param Player $player
      * @param int $tbkey
-     * @return float | null
+     * @return float
      */
-    private function calculateTiebreak(Tiebreak $tiebreak, Player $player, int $tbkey = 0): ?float
+    private function calculateTiebreak(Tiebreak $tiebreak, Player $player, int $tbkey = 0): float
     {
         switch ($tiebreak) {
             case Tiebreak::Keizer:
@@ -468,7 +564,7 @@ class Tournament
                 return $player->Performance($this->PriorityElo, $this->NonRatedElo);
                 break;
             default:
-                return null;
+                return 0;
         }
     }
 
@@ -507,9 +603,9 @@ class Tournament
      * Points following keizer system
      *
      * @param Player $player
-     * @return float | null
+     * @return float
      */
-    private function calculateKeizer(Player $player): ?float
+    private function calculateKeizer(Player $player): float
     {
         return $player->ScoreAmerican;
     }
@@ -518,9 +614,9 @@ class Tournament
      * Number of points
      *
      * @param Player $player
-     * @return float | null
+     * @return float
      */
-    private function calculatePoints(Player $player): ?float
+    private function calculatePoints(Player $player): float
     {
         return $player->calculatePoints();
     }
@@ -530,9 +626,9 @@ class Tournament
      * Number of won games
      *
      * @param Player $player
-     * @return float | null
+     * @return float
      */
-    private function calculateBaumbach(Player $player): ?float
+    private function calculateBaumbach(Player $player): float
     {
         $totalwins = 0;
         foreach ($player->Pairings as $pairing) {
@@ -550,9 +646,9 @@ class Tournament
      * Number of played games with black
      *
      * @param Player $player
-     * @return float | null
+     * @return float
      */
-    private function calculateBlackPlayed(Player $player): ?float
+    private function calculateBlackPlayed(Player $player): float
     {
         $totalwins = 0;
         foreach ($player->Pairings as $pairing) {
@@ -567,9 +663,9 @@ class Tournament
      * Number of won games with black
      *
      * @param Player $player
-     * @return float | null
+     * @return float
      */
-    private function calculateBlackWin(Player $player): ?float
+    private function calculateBlackWin(Player $player): float
     {
         $totalwins = 0;
         foreach ($player->Pairings as $pairing) {
@@ -587,9 +683,9 @@ class Tournament
      * @param Player $player
      * @param array $opponents
      * @param int $key
-     * @return float | null
+     * @return float
      */
-    private function calculateMutualResult(Player $player, array $opponents, int $key): ?float
+    private function calculateMutualResult(Player $player, array $opponents, int $key): float
     {
         $interestingplayers = $opponents;
         if ($key != 0) {
@@ -627,10 +723,11 @@ class Tournament
      * The average rating of the opponents
      *
      * @param Player $player
+     * @param string $type
      * @param int $cut
      * @return float
      */
-    private function calculateAverageRating(Player $player, string $type, int $cut = 0): ?float
+    private function calculateAverageRating(Player $player, string $type, int $cut = 0): float
     {
         $pairings = $player->Pairings;
         $allratings = [];
@@ -656,10 +753,11 @@ class Tournament
      * The average performance of the opponents
      *
      * @param Player $player
+     * @param string $type
      * @param int $cut
-     * @return float | null
+     * @return float
      */
-    private function calculateAveragePerformance(Player $player, string $type, int $cut = 0): ?float
+    private function calculateAveragePerformance(Player $player, string $type, int $cut = 0): float
     {
         $pairings = $player->Pairings;
         $allratings = [];
@@ -682,9 +780,9 @@ class Tournament
      *
      * @param Player $player
      * @param int $cut
-     * @return float | null
+     * @return float
      */
-    private function calculateKoya(Player $player, int $cut = 50): ?float
+    private function calculateKoya(Player $player, int $cut = 50): float
     {
         $tiebreak = 0;
         foreach ($player->Pairings as $plkey => $plpairing) {
@@ -705,9 +803,9 @@ class Tournament
      * @param Player $player
      * @param int $cutlowest
      * @param int $cuthighest
-     * @return float | null
+     * @return float
      */
-    private function calculateBuchholz(Player $player, int $cutlowest = 0, int $cuthighest = 0): ?float
+    private function calculateBuchholz(Player $player, int $cutlowest = 0, int $cuthighest = 0): float
     {
         $tiebreak = 0;
         $intpairingsWithBye = $player->Pairings;
@@ -750,9 +848,9 @@ class Tournament
      * The points of $player's opponents who $player won against, plus half of the points of $player's opponents who $player drew against
      *
      * @param Player $player
-     * @return float | null
+     * @return float
      */
-    private function calculateSonneborn(Player $player): ?float
+    private function calculateSonneborn(Player $player): float
     {
         $tiebreak = 0;
         foreach ($player->Pairings as $key => $pairing) {
@@ -773,9 +871,9 @@ class Tournament
      *
      * @param Player $player
      * @param int[] $points
-     * @return float | null
+     * @return float
      */
-    private function calculateKashdan(Player $player, array $points): ?float
+    private function calculateKashdan(Player $player, array $points): float
     {
         $tiebreak = 0;
         foreach ($player->Pairings as $pairing) {
@@ -800,9 +898,9 @@ class Tournament
      * Combined score of $player after each round
      *
      * @param Player $player
-     * @return float | null
+     * @return float
      */
-    private function calculateCumulative(Player $player): ?float
+    private function calculateCumulative(Player $player): float
     {
         $tiebreak = 0;
         $score = [];
@@ -846,11 +944,11 @@ class Tournament
      * Sets binary data that is read out the pairing file but is not needed immediately
      *
      * @param string $key
-     * @param bool|int|DateTime|string $Valueeyey
+     * @param bool|int|DateTime|string $value
      * @return void
      */
-    public function __set(string $key, $Valueey): void
+    public function __set(string $key, $value): void
     {
-        $this->BinaryData[$key] = $Valueey;
+        $this->BinaryData[$key] = $value;
     }
 }

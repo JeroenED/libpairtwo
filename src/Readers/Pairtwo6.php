@@ -2,7 +2,7 @@
 /**
  * Reader Pairtwo6
  *
- * Reads out Pairtwo-6 files
+ * Reads out Pairtwo-6 and Pairtwo-5 files
  *
  * @author      Jeroen De Meerleer <schaak@jeroened.be>
  * @category    Main
@@ -39,19 +39,30 @@ use DateTime;
  */
 class Pairtwo6 implements ReaderInterface
 {
-    private const PT_DAYFACTOR = 32;
-    private const PT_MONTHFACTOR = 16;
-    private const PT_YEARFACTOR = 512;
-    private const PT_PASTOFFSET = 117;
-    private const CompatibleVersions = ['6.', '5.'];
+    const PT_DAYFACTOR = 32;
+    const PT_MONTHFACTOR = 16;
+    const PT_YEARFACTOR = 512;
+    const PT_PASTOFFSET = 117;
+    const CompatibleVersions = ['6.', '5.'];
 
-    /** @var string */
+    /**
+     * Version of Pairtwo this file was created with
+     *
+     * @var string
+     */
     public $Release;
 
-    /** @var Tournament */
+    /**
+     * The tournament
+     *
+     * @var Tournament
+     */
     public $Tournament;
 
-    /** @var bool|DateTime|int|string[] */
+    /**
+     * Binary data that was read out of the pairing file
+     * @var bool|DateTime|int|string[]
+     */
     private $BinaryData;
 
     /**
@@ -72,15 +83,15 @@ class Pairtwo6 implements ReaderInterface
      * Sets binary data that is read out the pairtwo file but is not needed immediately
      *
      * @param string $key
-     * @param bool|int|DateTime|string $Valueey
+     * @param bool|int|DateTime|string $value
      */
-    public function __set(string $key, $Valueey): void
+    public function __set(string $key, $value): void
     {
-        $this->BinaryData[$key] = $Valueey;
+        $this->BinaryData[$key] = $value;
     }
 
     /**
-     * Reads out $swsfile and returns a Pairtwo6 class object
+     * Actually reads the Swar-File
      *
      * @param string $filename
      * @throws IncompatibleReaderException
