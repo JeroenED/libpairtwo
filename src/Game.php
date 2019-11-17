@@ -28,27 +28,51 @@ use DateTime;
  */
 class Game
 {
-    /** @var Pairing | null */
+    /**
+     * The pairing for this games as seen from white's side
+     *
+     * @var Pairing | null
+     */
     public $White;
 
-    /** @var Pairing | null */
+    /**
+     * The pairing for this games as seen from blacks's side
+     *
+     * @var Pairing | null
+     */
     public $Black;
 
-    /** @var GameResult | null */
+    /**
+     * The calculated game result
+     *
+     * @var GameResult | null
+     */
     private $CalculatedResult;
 
-    /** @var int */
+    /**
+     * The board where this game is held
+     *
+     * @var int
+     */
     public $Board;
 
+    /**
+     * Returns fields that were not directly assigned.
+     * Class Game contains the special field Result containing the result of the game
+     * @param string $key
+     * @return Gameresult
+     */
     public function __get(string $key)
     {
         if ($key == 'Result') {
             return $this->calculateResult();
         }
+        return null;
     }
 
     /**
-     * Returns the result for the game
+     * Returns the result for the game.
+     * This method needs to be called from $Game->Result
      *
      * @return Gameresult
      */
@@ -86,8 +110,7 @@ class Game
     /**
      * Checks if 2 games are equal
      *
-     * @param Game $game1
-     * @param Game $game2
+     * @param Game $game
      * @return bool
      */
     public function equals(Game $game): bool
