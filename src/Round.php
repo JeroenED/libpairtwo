@@ -55,7 +55,7 @@ class Round
      */
     public $Pairings = [];
 
-    /*
+    /**
      * Adds a game to the round
      *
      * @param Game $game
