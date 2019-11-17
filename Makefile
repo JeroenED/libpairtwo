@@ -16,7 +16,7 @@ view-coverage: ## Shows the code coverage report
 	open build/coverage/index.html
 
 api: ## Generates api-docs
-	VERSIONTAG=$(VERSION) doxygen
+	phpdoc -d ./src -t ./doc/api
 
 dist: ## Generates distribution
 	cp dist/composer* res/
