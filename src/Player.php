@@ -28,38 +28,83 @@ use DateTime;
  */
 class Player
 {
-    /** @var string */
+    /**
+     * Name of the player
+     *
+     * @var string
+     */
     public $Name;
 
-    /** @var int[] */
+    /**
+     * The player ids for the player. Possible keys are, but not limited to nation and fide
+     *
+     * @var int[]
+     */
     public $Ids;
 
-    /** @var int[] */
+    /**
+     * The Elos for the player. Possible keys are, but not limited to nation and fide
+     *
+     * @var int[]
+     */
     public $Elos;
 
-    /** @var DateTime */
+    /**
+     * Birthday of the player
+     *
+     * @var DateTime
+     */
     public $DateOfBirth;
 
-    /** @var float[] */
+    /**
+     * Tiebreak points of the player. These values are calculated when Tournament->Ranking is called
+     *
+     * @var float[]
+     */
     public $Tiebreaks = [];
 
-    /** @var string */
+    /**
+     * The nation the player belongs to. Be noted this does not actually mean this is his main nationality. A player can be signed USCF but may be Italian
+     *
+     * @var string
+     */
     public $Nation;
 
     // TODO: Implement categories
-    /** @var string */
+    /**
+     * The category the player belongs to
+     *
+     * @var string
+     */
     public $Category;
 
-    /** @var Title */
+    /**
+     * The title of the player. Possible values can be GM, IM, IA, etc.
+     *
+     * @var Title
+     */
     public $Title;
 
-    /** @var Gender */
+    /**
+     * The gender of the player. Possible values contain Male, Female and Neutral
+     *
+     * @var Gender
+     */
     public $Gender;
 
-    /** @var Pairing[] */
+    /**
+     * The pairings of the player
+     *
+     * @var Pairing[]
+     */
     public $Pairings = [];
 
-    /** @var bool|DateTime|int|string[] */
+    /**
+     * Binary data that was read out of the pairing file
+     *
+     * @var bool|DateTime|int|string[]
+     */
+
     private $BinaryData;
 
     /**
@@ -214,6 +259,8 @@ class Player
      *
      * WARNING: Calculation currently incorrect. Uses the rule of 400 as temporary solution
      *
+     * @param $type
+     * @param $unratedElo
      * @return int
      */
     public function Performance(string $type, int $unratedElo): float
@@ -278,10 +325,10 @@ class Player
      * Sets binary data that is read out the pairing file but is not needed immediately
      *
      * @param string $key
-     * @param bool|int|DateTime|string $Valueey
+     * @param bool|int|DateTime|string $value
      */
-    public function __set(string $key, $Valueey): void
+    public function __set(string $key, $value): void
     {
-        $this->BinaryData[$key] = $Valueey;
+        $this->BinaryData[$key] = $value;
     }
 }
