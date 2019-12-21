@@ -786,7 +786,7 @@ class Tournament
     {
         $tiebreak = 0;
         foreach ($player->Pairings as $plkey => $plpairing) {
-            if (($plpairing->Opponent->Points / count($plpairing->Opponent->Pairings) * 100) >= $cut) {
+            if (($plpairing->Opponent->calculatePoints() / count($plpairing->Opponent->Pairings) * 100) >= $cut) {
                 if (array_search($plpairing->Result, Constants::Won) !== false) {
                     $tiebreak += 1;
                 } elseif (array_search($plpairing->Result, Constants::Draw) !== false) {
@@ -856,9 +856,9 @@ class Tournament
         foreach ($player->Pairings as $key => $pairing) {
             if ($pairing->Opponent) {
                 if (array_search($pairing->Result, Constants::Won) !== false) {
-                    $tiebreak += $pairing->Opponent->Points;
+                    $tiebreak += $pairing->Opponent->calculatePoints();
                 } elseif (array_search($pairing->Result, Constants::Draw) !== false) {
-                    $tiebreak += $pairing->Opponent->Points / 2;
+                    $tiebreak += $pairing->Opponent->calculatePoints() / 2;
                 }
             }
         }
