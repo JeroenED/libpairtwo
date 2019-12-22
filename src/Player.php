@@ -211,28 +211,49 @@ class Player
     }
 
     /**
-     * Returns the points of the player.
+     * Returns the points of the player after round $round
      *
      * 1 Point is awarded for winning
      * 0.5 points are awarded for draw
+     * 0 points are awarded for loss
      *
+     * @param int $round
      * @return float
      */
-    public function calculatePoints(): float
+    public function calculatePoints(int $round = -1): float
     {
         $points = 0;
-        foreach ($this->Pairings as $pairing) {
-            if (array_search($pairing->Result, Constants::Won) !== false) {
-                $points = $points + 1;
-            } elseif (array_search($pairing->Result, Constants::Draw) !== false) {
-                $points = $points + 0.5;
+        foreach ($this->Pairings as $key=>$pairing) {
+            if($key < $round || $round == -1) {
+                if (array_search($pairing->Result, Constants::Won) !== false) {
+                    $points = $points + 1;
+                } elseif (array_search($pairing->Result, Constants::Draw) !== false) {
+                    $points = $points + 0.5;
+                }
             }
         }
         return $points;
     }
 
     /**
-     * Returns the points of the player that should be used for buchholz.
+     * Returns the points of a virtual player as described in the Fide Handbook C.02 chapter 13.15.2.
+     *
+     * 1 Point is awarded for winning
+     * 0.5 points are awarded for draw
+     * Unplayed results are conside
+     *
+     * @return float
+     */
+    public function calculatePointsForVirtualPlayer(int $byeround): float
+    {
+        $points = $this->calculatePoints($byeround);
+        foreach (array_slice($this->Pairings, $byeround +1) as $key=>$pairing) {
+            $points += 0.5;
+        }
+        return $points;
+    }
+    /**
+     * Returns the points of the player that should be used for tiebreaking systems.
      *
      * 1 Point is awarded for winning
      * 0.5 points are awarded for draw
@@ -240,7 +261,7 @@ class Player
      *
      * @return float
      */
-    private function pointsForBuchholz(): float
+    public function calculatePointsForTiebreaks(): float
     {
         $points = 0;
         foreach ($this->Pairings as $pairing) {
@@ -313,8 +334,6 @@ class Player
             return $this->playedGames();
         } elseif ($key == 'NoOfWins') {
             return $this->noOfWins();
-        } elseif ($key == 'PointsForBuchholz') {
-            return $this->pointsForBuchholz();
         } elseif (isset($this->BinaryData[$key])) {
             return $this->BinaryData[$key];
         }
