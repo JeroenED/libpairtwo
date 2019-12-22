@@ -224,7 +224,7 @@ class Player
     {
         $points = 0;
         foreach ($this->Pairings as $key=>$pairing) {
-            if($key < $round || $round == -1) {
+            if ($key < $round || $round == -1) {
                 if (array_search($pairing->Result, Constants::Won) !== false) {
                     $points = $points + 1;
                 } elseif (array_search($pairing->Result, Constants::Draw) !== false) {
@@ -330,7 +330,7 @@ class Player
      */
     public function __get(string $key)
     {
-        if($key == 'PlayedGames') {
+        if ($key == 'PlayedGames') {
             return $this->playedGames();
         } elseif ($key == 'NoOfWins') {
             return $this->noOfWins();

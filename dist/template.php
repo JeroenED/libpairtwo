@@ -2,7 +2,7 @@
 
 // EDIT ME!
 $pairingfile = 'your pairing-file.swar';
-$fileformat = 'Swar-4'; // Possible getValue()s: Pairtwo-5, Pairtwo-6, Swar-4
+$fileformat = 'Swar-4'; // Possible values: Pairtwo-5, Pairtwo-6, Swar-4
 
 ?>
 <!doctype html>

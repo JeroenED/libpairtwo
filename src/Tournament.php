@@ -928,14 +928,11 @@ class Tournament
     {
         if ($key == 'Participants') {
             return $this->participants();
-        }
-        elseif ($key == 'AverageElo') {
+        } elseif ($key == 'AverageElo') {
             return $this->averageElo();
-        }
-        elseif ($key == 'Ranking') {
+        } elseif ($key == 'Ranking') {
             return $this->ranking();
-        }
-        elseif (isset($this->BinaryData[$key])) {
+        } elseif (isset($this->BinaryData[$key])) {
             return $this->BinaryData[$key];
         }
         return null;

@@ -150,14 +150,11 @@ class Round
     {
         if ($key == 'Bye') {
             return $this->bye();
-        }
-        elseif ($key == 'Absent') {
+        } elseif ($key == 'Absent') {
             return $this->absent();
-        }
-        elseif ($key == 'GamesByBoard') {
+        } elseif ($key == 'GamesByBoard') {
             return $this->gamesByBoard();
-        }
-        elseif (isset($this->BinaryData[$key])) {
+        } elseif (isset($this->BinaryData[$key])) {
             return $this->BinaryData[$key];
         }
         return null;
