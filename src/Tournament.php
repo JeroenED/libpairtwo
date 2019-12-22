@@ -197,7 +197,7 @@ class Tournament
 
     /**
      * Binary data that was read out of the pairing file
-     * 
+     *
      * @var bool|DateTime|int|string[]
      */
     private $BinaryData = [];
@@ -813,14 +813,12 @@ class Tournament
         $intpairings = [];
         $curpoints = 0;
         $curround = 1;
-        foreach ($intpairingsWithBye as $pairing) {
+        foreach ($intpairingsWithBye as $key=>$pairing) {
             $roundstoplay = (count($intpairingsWithBye)) - $curround;
             if (is_null($pairing->Opponent)) {
-                $forfait = explode(' ', $pairing->Result)[0]+0;
-                $notaplayer = $curpoints + (1 - $forfait) + 0.5 * $roundstoplay;
-                $intpairings[] = $notaplayer;
+                $intpairings[] = $player->calculatePointsForVirtualPlayer($key);
             } else {
-                $intpairings[] = $pairing->Opponent->PointsForBuchholz;
+                $intpairings[] = $pairing->Opponent->calculatePointsForTiebreaks();
                 if (array_search($pairing->Result, Constants::Won) !== false) {
                     $curpoints += 1;
                 } elseif (array_search($pairing->Result, Constants::Draw) !== false) {
@@ -856,10 +854,13 @@ class Tournament
         foreach ($player->Pairings as $key => $pairing) {
             if ($pairing->Opponent) {
                 if (array_search($pairing->Result, Constants::Won) !== false) {
-                    $tiebreak += $pairing->Opponent->calculatePoints();
+                    $tiebreak += $pairing->Opponent->calculatePointsForTiebreaks();
                 } elseif (array_search($pairing->Result, Constants::Draw) !== false) {
-                    $tiebreak += $pairing->Opponent->calculatePoints() / 2;
+                    $tiebreak += $pairing->Opponent->calculatePointsForTiebreaks() / 2;
                 }
+            }
+            if (array_search($pairing->Result, Constants::NotPlayed) !== false) {
+                $tiebreak += $player->calculatePointsForVirtualPlayer($key);
             }
         }
         return $tiebreak;
