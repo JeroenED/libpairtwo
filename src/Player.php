@@ -238,10 +238,9 @@ class Player
     /**
      * Returns the points of a virtual player as described in the Fide Handbook C.02 chapter 13.15.2.
      *
-     * 1 Point is awarded for winning
-     * 0.5 points are awarded for draw
-     * Unplayed results are conside
+     * Return the same score for all rounds until $byeround and added with a half point for each subsequent round
      *
+     * @param int $byeround
      * @return float
      */
     public function calculatePointsForVirtualPlayer(int $byeround): float
