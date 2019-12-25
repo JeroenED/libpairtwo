@@ -323,6 +323,43 @@ class Player
     }
 
     /**
+     * Returns if player has played against all players of the array
+     *
+     * @param Player[] $players
+     * @return bool
+     */
+    public function hasPlayedAllPlayersOfArray(array $players): bool
+    {
+        $ownkey = array_search($this, $players);
+        if ($ownkey !== false) {
+            unset($players[$ownkey]);
+        }
+        $total = 0;
+        foreach ($players as $player) {
+            if (array_search($player, $this->Opponents) !== false) {
+                $total++;
+            }
+        }
+
+        return $total == count($players);
+    }
+
+    /**
+     * Returns all opponents of $this
+     *
+     * @return Player[]
+     */
+    private function opponents() {
+        $return = array();
+        foreach ($this->Pairings as $pairing) {
+            if (!empty($pairing->Opponent)) {
+                $return[] = $pairing->Opponent;
+            }
+        }
+        return $return;
+    }
+
+    /**
      * Magic method to read out several fields. If field was not found it is being searched in the binary data fields
      *
      * @param string $key
@@ -334,6 +371,8 @@ class Player
             return $this->playedGames();
         } elseif ($key == 'NoOfWins') {
             return $this->noOfWins();
+        } elseif ($key == 'Opponents') {
+            return $this->opponents();
         } elseif (isset($this->BinaryData[$key])) {
             return $this->BinaryData[$key];
         }
