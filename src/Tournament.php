@@ -700,6 +700,15 @@ class Tournament
                 }
             }
         }
+        if($interestingplayers) {
+            $allintplayers = $interestingplayers;
+            $allintplayers[] = $player;
+            foreach($allintplayers as $player) {
+                if (!$player->hasPlayedAllPlayersOfArray($allintplayers)) {
+                    return 0;
+                }
+            }
+        }
         $points = 0;
         $totalmatches = 0;
         foreach ($player->Pairings as $pairing) {
