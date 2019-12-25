@@ -6,7 +6,9 @@
 * CHANGE: Some fields has been renamed to match coding guideline (Please see [1ab96fa](https://github.com/JeroenED/libpairtwo/commit/1ab96fa04782c1b0f2b6bb9d1bac8397a74ab38e) for more info)
 * CHANGE: Logo has been redesigned
 * CHANGE: Phpdoc is used again for docs generation
-* REMOVED: `Tiebreak::American` and all its uses were removed (Please see [a6015ae](https://github.com/JeroenED/libpairtwo/commit/a6015ae8169f0973f4937605d0f807aacc233630) for more info)
+* CHANGE: `Tiebreak::American` and all its uses were removed (Please see [a6015ae](https://github.com/JeroenED/libpairtwo/commit/a6015ae8169f0973f4937605d0f807aacc233630) for more info)
+* CHANGE: `Tournament::calculateSonneborn()` did not use a virtual opponent for bye results
+* BUGFIX: `Tournament::calculateMutualResult()` returned a value even it not all players did not play each other
 
 ## v1.2 (Release: 28-sep-2019)
 * NEW READER: `Readers\Swar-4` for reading out files created with SWAR version 4.
