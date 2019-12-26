@@ -1,9 +1,9 @@
 {
     "name": "jeroened/libpairtwo",
     "type": "library",
-    "description": "A library written in PHP that reads files which are saved using common pairing applications",
+    "description": "Export chess tournaments directly on the web",
     "keywords": ["chess", "pairing"],
-    "license": "MIT",
+    "license": "AGPL-3.0-or-later",
     "authors": [
         {
             "name": "Jeroen De Meerleer",
@@ -14,12 +14,11 @@
     ],
     "require": {
         "php": "^7.1",
-        "myclabs/php-enum": "^1.6",
+        "myclabs/php-enum": "^1.7",
         "ext-iconv": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.0",
-        "friendsofphp/php-cs-fixer": "^2.0"
+        "friendsofphp/php-cs-fixer": "^2.16"
     },
     "autoload": {
         "psr-4": {
