@@ -3,6 +3,7 @@
 ## v2.0 (Release: aa-bbb-cccc)
 * NEW FEATURE: `Game::Board` for getting the board number of the game
 * MAJOR CHANGE: Getter and setter methods have been removed. (Please see [0d8a325](https://github.com/JeroenED/libpairtwo/commit/0d8a325eb501b775830f68fa6f600f9f4ca5588c) for more info)
+* MAJOR CHANGE: Changed license to AGPL-3.0
 * CHANGE: Some fields has been renamed to match coding guideline (Please see [1ab96fa](https://github.com/JeroenED/libpairtwo/commit/1ab96fa04782c1b0f2b6bb9d1bac8397a74ab38e) for more info)
 * CHANGE: Logo has been redesigned
 * CHANGE: Phpdoc is used again for docs generation
