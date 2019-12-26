@@ -348,7 +348,8 @@ class Player
      *
      * @return Player[]
      */
-    private function opponents() {
+    private function opponents()
+    {
         $return = array();
         foreach ($this->Pairings as $pairing) {
             if (!empty($pairing->Opponent)) {
