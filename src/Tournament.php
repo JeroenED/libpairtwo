@@ -700,10 +700,10 @@ class Tournament
                 }
             }
         }
-        if($interestingplayers) {
+        if ($interestingplayers) {
             $allintplayers = $interestingplayers;
             $allintplayers[] = $player;
-            foreach($allintplayers as $player) {
+            foreach ($allintplayers as $player) {
                 if (!$player->hasPlayedAllPlayersOfArray($allintplayers)) {
                     return 0;
                 }
