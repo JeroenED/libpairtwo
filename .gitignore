@@ -5,7 +5,8 @@ composer.lock
 /.php_cs.cache
 /nbproject/
 /res/protected/
-/.idea
+/.idea/*.*
+!/.idea/codeStyles/*
 /doc/api/*
 
 /libpairtwo-*-dist.zip
