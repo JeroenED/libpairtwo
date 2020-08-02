@@ -1,13 +1,14 @@
 <?php
+
 /**
  * Class Games
  *
  * Class for a game of the tournament
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 
 namespace JeroenED\Libpairtwo;
@@ -21,10 +22,10 @@ use DateTime;
  *
  * Class for a game of the tournament
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 class Game
 {
@@ -36,7 +37,7 @@ class Game
     public $White;
 
     /**
-     * The pairing for this games as seen from blacks's side
+     * The pairing for this games as seen from black's side
      *
      * @var Pairing | null
      */
@@ -59,7 +60,8 @@ class Game
     /**
      * Returns fields that were not directly assigned.
      * Class Game contains the special field Result containing the result of the game
-     * @param string $key
+     *
+     * @param  string $key
      * @return Gameresult
      */
     public function __get(string $key)
@@ -88,7 +90,7 @@ class Game
         $whitesplit = explode(" ", $whiteResult);
         $blacksplit = explode(" ", $blackResult);
 
-        $special='';
+        $special = '';
         if (isset($whitesplit[1]) && $whitesplit[1] != 'Bye') {
             $special = ' ' . $whitesplit[1];
         }
@@ -110,7 +112,7 @@ class Game
     /**
      * Checks if 2 games are equal
      *
-     * @param Game $game
+     * @param  Game $game
      * @return bool
      */
     public function equals(Game $game): bool
@@ -118,6 +120,6 @@ class Game
         return (
             $this->White->Player === $game->White->Player &&
             $this->Black->Player === $game->Black->Player &&
-            $this->Result == $game->Result);
+            $this->Result->getKey() == $game->Result->getKey());
     }
 }

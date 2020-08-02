@@ -1,13 +1,14 @@
 <?php
+
 /**
  * Class Player
  *
  * Class for a player of the tournament
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 
 namespace JeroenED\Libpairtwo;
@@ -21,10 +22,10 @@ use DateTime;
  *
  * Class for a player of the tournament
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 class Player
 {
@@ -122,16 +123,20 @@ class Player
     /**
      * Returns an array of Player objects where name matches $search
      *
-     * @param string $search
-     * @param Tournament $tournament
+     * @param  string     $search
+     * @param  Tournament $tournament
      * @return Player[]
      */
     public static function PlayersByName(string $search, Tournament $tournament): array
     {
-        /** @var Player[] */
+        /**
+ * @var Player[]
+*/
         $players = $tournament->Players;
 
-        /** @var Player[] */
+        /**
+ * @var Player[]
+*/
         $return = [];
 
         foreach ($players as $player) {
@@ -145,7 +150,8 @@ class Player
 
     /**
      * Returns the elo of elotype for the player
-     * @param string $type
+     *
+     * @param  string $type
      * @return int
      */
     public function getElo(string $type): int
@@ -157,7 +163,7 @@ class Player
      * Sets the elo of elotype for the player
      *
      * @param string $type
-     * @param int $value
+     * @param int    $value
      */
     public function setElo(string $type, int $value): void
     {
@@ -171,7 +177,7 @@ class Player
      *
      * Common possible values are Fide or National
      *
-     * @param string $type
+     * @param  string $type
      * @return string
      */
     public function getId(string $type): string
@@ -203,7 +209,7 @@ class Player
     {
         $wins = 0;
         foreach ($this->Pairings as $pairing) {
-            if (array_search($pairing->Result, Constants::Won) !== false) {
+            if (array_search($pairing->Result, Constants::WON) !== false) {
                 $wins++;
             }
         }
@@ -217,17 +223,17 @@ class Player
      * 0.5 points are awarded for draw
      * 0 points are awarded for loss
      *
-     * @param int $round
+     * @param  int $round
      * @return float
      */
     public function calculatePoints(int $round = -1): float
     {
         $points = 0;
-        foreach ($this->Pairings as $key=>$pairing) {
+        foreach ($this->Pairings as $key => $pairing) {
             if ($key < $round || $round == -1) {
-                if (array_search($pairing->Result, Constants::Won) !== false) {
+                if (array_search($pairing->Result, Constants::WON) !== false) {
                     $points = $points + 1;
-                } elseif (array_search($pairing->Result, Constants::Draw) !== false) {
+                } elseif (array_search($pairing->Result, Constants::DRAW) !== false) {
                     $points = $points + 0.5;
                 }
             }
@@ -240,13 +246,13 @@ class Player
      *
      * Return the same score for all rounds until $byeround and added with a half point for each subsequent round
      *
-     * @param int $byeround
+     * @param  int $byeround
      * @return float
      */
     public function calculatePointsForVirtualPlayer(int $byeround): float
     {
         $points = $this->calculatePoints($byeround);
-        foreach (array_slice($this->Pairings, $byeround +1) as $key=>$pairing) {
+        foreach (array_slice($this->Pairings, $byeround + 1) as $key => $pairing) {
             $points += 0.5;
         }
         return $points;
@@ -264,11 +270,11 @@ class Player
     {
         $points = 0;
         foreach ($this->Pairings as $pairing) {
-            if (array_search($pairing->Result, Constants::NotPlayed) !== false) {
+            if (array_search($pairing->Result, Constants::NOTPLAYED) !== false) {
                 $points = $points + 0.5;
-            } elseif (array_search($pairing->Result, Constants::Won) !== false) {
+            } elseif (array_search($pairing->Result, Constants::WON) !== false) {
                 $points = $points + 1;
-            } elseif (array_search($pairing->Result, Constants::Draw) !== false) {
+            } elseif (array_search($pairing->Result, Constants::DRAW) !== false) {
                 $points = $points + 0.5;
             }
         }
@@ -279,23 +285,23 @@ class Player
      *
      * WARNING: Calculation currently incorrect. Uses the rule of 400 as temporary solution
      *
-     * @param $type
-     * @param $unratedElo
-     * @return int
+     * @param  $type
+     * @param  $unratedElo
+     * @return float
      */
     public function Performance(string $type, int $unratedElo): float
     {
         $total = 0;
         $opponents = 0;
         foreach ($this->Pairings as $pairing) {
-            if (array_search($pairing->Result, Constants::NotPlayed) === false) {
+            if (array_search($pairing->Result, Constants::NOTPLAYED) === false) {
                 $opponentElo = $pairing->Opponent->getElo($type);
                 $opponentElo = $opponentElo != 0 ? $opponentElo : $unratedElo;
-                if (array_search($pairing->Result, Constants::Won) !== false) {
+                if (array_search($pairing->Result, Constants::WON) !== false) {
                     $total += $opponentElo + 400;
-                } elseif (array_search($pairing->Result, Constants::Lost) !== false) {
+                } elseif (array_search($pairing->Result, Constants::LOST) !== false) {
                     $total += $opponentElo - 400;
-                } elseif (array_search($pairing->Result, Constants::Draw) !== false) {
+                } elseif (array_search($pairing->Result, Constants::DRAW) !== false) {
                     $total += $opponentElo;
                 }
                 $opponents++;
@@ -314,7 +320,7 @@ class Player
     {
         $total = 0;
         foreach ($this->Pairings as $pairing) {
-            if (array_search($pairing->Result, Constants::Played) !== false) {
+            if (array_search($pairing->Result, Constants::PLAYED) !== false) {
                 $total++;
             }
         }
@@ -324,7 +330,7 @@ class Player
     /**
      * Returns if player has played against all players of the array
      *
-     * @param Player[] $players
+     * @param  Player[] $players
      * @return bool
      */
     public function hasPlayedAllPlayersOfArray(array $players): bool
@@ -362,7 +368,7 @@ class Player
     /**
      * Magic method to read out several fields. If field was not found it is being searched in the binary data fields
      *
-     * @param string $key
+     * @param  string $key
      * @return bool|DateTime|int|string|null
      */
     public function __get(string $key)
@@ -382,7 +388,7 @@ class Player
     /**
      * Sets binary data that is read out the pairing file but is not needed immediately
      *
-     * @param string $key
+     * @param string                   $key
      * @param bool|int|DateTime|string $value
      */
     public function __set(string $key, $value): void

@@ -1,18 +1,19 @@
 <?php
+
 /**
  * Reader Pairtwo6
  *
  * Reads out Pairtwo-6 and Pairtwo-5 files
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
-
 
 namespace JeroenED\Libpairtwo\Readers;
 
+use InvalidArgumentException;
 use JeroenED\Libpairtwo\Enums\Color;
 use JeroenED\Libpairtwo\Enums\Gender;
 use JeroenED\Libpairtwo\Enums\Result;
@@ -32,18 +33,22 @@ use DateTime;
  *
  * Reads out Pairtwo-6 files
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 class Pairtwo6 implements ReaderInterface
 {
-    const PT_DAYFACTOR = 32;
-    const PT_MONTHFACTOR = 16;
-    const PT_YEARFACTOR = 512;
-    const PT_PASTOFFSET = 117;
-    const CompatibleVersions = ['6.', '5.'];
+    public const PT_DAYFACTOR = 32;
+
+    public const PT_MONTHFACTOR = 16;
+
+    public const PT_YEARFACTOR = 512;
+
+    public const PT_PASTOFFSET = 117;
+
+    public const COMPATIBLE_VERSIONS = ['6.', '5.'];
 
     /**
      * Version of Pairtwo this file was created with
@@ -61,6 +66,7 @@ class Pairtwo6 implements ReaderInterface
 
     /**
      * Binary data that was read out of the pairing file
+     *
      * @var bool|DateTime|int|string[]
      */
     private $BinaryData;
@@ -68,7 +74,7 @@ class Pairtwo6 implements ReaderInterface
     /**
      * Returns binary data that was read out the pairtwo file but was not needed immediately
      *
-     * @param string $key
+     * @param  string $key
      * @return bool|DateTime|int|string|null
      */
     public function __get(string $key)
@@ -82,7 +88,7 @@ class Pairtwo6 implements ReaderInterface
     /**
      * Sets binary data that is read out the pairtwo file but is not needed immediately
      *
-     * @param string $key
+     * @param string                   $key
      * @param bool|int|DateTime|string $value
      */
     public function __set(string $key, $value): void
@@ -93,7 +99,7 @@ class Pairtwo6 implements ReaderInterface
     /**
      * Actually reads the Swar-File
      *
-     * @param string $filename
+     * @param  string $filename
      * @throws IncompatibleReaderException
      */
     public function read(string $filename): void
@@ -109,7 +115,7 @@ class Pairtwo6 implements ReaderInterface
         $this->Release = $this->readData('String', substr($swscontents, $offset, $length));
         $offset += $length;
 
-        if (array_search(substr($this->Release, 0, 2), self::CompatibleVersions) === false) {
+        if (array_search(substr($this->Release, 0, 2), self::COMPATIBLE_VERSIONS) === false) {
             throw new IncompatibleReaderException("This file was not created with Pairtwo 5 or higher");
         }
 
@@ -261,53 +267,53 @@ class Pairtwo6 implements ReaderInterface
             $length = 4;
             switch ($this->readData('Int', substr($swscontents, $offset, $length))) {
                 case 1:
-                    $tiebreak = Tiebreak::Buchholz;
+                    $tiebreak = Tiebreak::BUCHHOLZ;
                     break;
                 case 2:
-                    $tiebreak = Tiebreak::BuchholzMed;
+                    $tiebreak = Tiebreak::BUCHHOLZ_MED;
                     break;
                 case 3:
-                    $tiebreak = Tiebreak::BuchholzCut;
+                    $tiebreak = Tiebreak::BUCHHOLZ_CUT;
                     break;
                 case 4:
-                    $tiebreak = Tiebreak::Sonneborn;
+                    $tiebreak = Tiebreak::SONNEBORN;
                     break;
                 case 5:
-                    $tiebreak = Tiebreak::Kashdan;
+                    $tiebreak = Tiebreak::KASHDAN;
                     break;
                 case 6:
-                    $tiebreak = Tiebreak::Cumulative;
+                    $tiebreak = Tiebreak::CUMULATIVE;
                     break;
                 case 7:
-                    $tiebreak = Tiebreak::Between;
+                    $tiebreak = Tiebreak::BETWEEN;
                     break;
                 case 8:
-                    $tiebreak = Tiebreak::Koya;
+                    $tiebreak = Tiebreak::KOYA;
                     break;
                 case 9:
-                    $tiebreak = Tiebreak::Baumbach;
+                    $tiebreak = Tiebreak::BAUMBACH;
                     break;
                 case 10:
-                    $tiebreak = Tiebreak::Performance;
+                    $tiebreak = Tiebreak::PERFORMANCE;
                     break;
                 case 11:
-                    $tiebreak = Tiebreak::Aro;
+                    $tiebreak = Tiebreak::ARO;
                     break;
                 case 12:
-                    $tiebreak = Tiebreak::AroCut;
+                    $tiebreak = Tiebreak::AROCUT;
                     break;
                 case 13:
-                    $tiebreak = Tiebreak::BlackPlayed;
+                    $tiebreak = Tiebreak::BLACK_PLAYED;
                     break;
                 case 14:
-                    $tiebreak = Tiebreak::Testmatch;
+                    $tiebreak = Tiebreak::TESTMATCH;
                     break;
                 case 15:
-                    $tiebreak = Tiebreak::Drawing;
+                    $tiebreak = Tiebreak::DRAWING_OF_LOT;
                     break;
                 case 0:
                 default:
-                    $tiebreak = Tiebreak::None;
+                    $tiebreak = Tiebreak::NONE;
                     break;
             }
             $this->Tournament->addTieBreak(new Tiebreak($tiebreak));
@@ -447,13 +453,13 @@ class Pairtwo6 implements ReaderInterface
             $length = 1;
             switch ($this->readData('Int', substr($swscontents, $offset, $length))) {
                 case 1:
-                    $gender = Gender::Male;
+                    $gender = Gender::MALE;
                     break;
                 case 2:
-                    $gender = Gender::Female;
+                    $gender = Gender::FEMALE;
                     break;
                 default:
-                    $gender = Gender::Neutral;
+                    $gender = Gender::NEUTRAL;
                     break;
             }
             $player->Gender = new Gender($gender);
@@ -498,12 +504,12 @@ class Pairtwo6 implements ReaderInterface
             $this->Tournament->addPlayer($player);
         }
         // PlayerNames
-        $length = (Integer)$this->NewNamePos + 0;
+        $length = (int)$this->NewNamePos + 0;
         $this->PlayerNames = substr($swscontents, $offset, $length);
         $offset += $length;
 
         for ($i = 0; $i < $this->NewPlayer; $i++) {
-            $player = $this->Tournament->PlayerById($i);
+            $player = $this->Tournament->playerById($i);
             $namelength = $player->NameLength;
             $nameoffset = $player->NamePos;
             $player->Name = $this->readData("String", substr($this->PlayerNames, $nameoffset, $namelength));
@@ -585,17 +591,17 @@ class Pairtwo6 implements ReaderInterface
         $length = 4;
         switch ($this->readData('Int', substr($swscontents, $offset, $length))) {
             case 2:
-                $system = TournamentSystem::Closed;
+                $system = TournamentSystem::CLOSED;
                 break;
             case 4:
-                $system = TournamentSystem::American;
+                $system = TournamentSystem::AMERICAN;
                 break;
             case 6:
-                $system = TournamentSystem::Keizer;
+                $system = TournamentSystem::KEIZER;
                 break;
             case 0:
             default:
-                $system = TournamentSystem::Swiss;
+                $system = TournamentSystem::SWISS;
                 break;
         }
         $this->Tournament->System = new TournamentSystem($system);
@@ -651,12 +657,12 @@ class Pairtwo6 implements ReaderInterface
                 for ($x = 0; $x < $this->CreatedRounds; $x++) {
                     $pairing = new Pairing();
 
-                    $pairing->Player = $this->Tournament->PlayerById($i);
+                    $pairing->Player = $this->Tournament->playerById($i);
 
                     $length = 4;
                     $opponent = $this->readData('Int', substr($swscontents, $offset, $length));
                     if ($opponent != 4294967295) {
-                        $pairing->Opponent = $this->Tournament->PlayerById($opponent);
+                        $pairing->Opponent = $this->Tournament->playerById($opponent);
                     }
                     $offset += $length;
 
@@ -665,15 +671,15 @@ class Pairtwo6 implements ReaderInterface
                     switch ($this->readData('Int', substr($swscontents, $offset, $length))) {
                         case 255:
                         case 253:
-                            $color = Color::Black;
+                            $color = Color::BLACK;
                             break;
                         case 1:
                         case 3:
-                            $color = Color::White;
-                           break;
+                            $color = Color::WHITE;
+                            break;
                         case 0:
                         default:
-                            $color = Color::None;
+                            $color = Color::NONE;
                             break;
                     }
                     $pairing->Color = new Color($color);
@@ -682,38 +688,38 @@ class Pairtwo6 implements ReaderInterface
                     $length = 1;
                     switch ($this->readData('Int', substr($swscontents, $offset, $length))) {
                         case 1:
-                            $result = Result::Lost;
+                            $result = Result::LOST;
                             break;
                         case 2:
-                            $result = Result::Absent;
+                            $result = Result::ABSENT;
                             break;
                         case 3:
-                            $result = Result::Adjourned;
+                            $result = Result::ADJOURNED;
                             break;
                         case 4:
-                            $result = Result::Bye;
+                            $result = Result::BYE;
                             break;
                         case 6:
-                            $result = Result::Draw;
+                            $result = Result::DRAW;
                             break;
                         case 8:
-                            $result = Result::DrawAdjourned;
+                            $result = Result::DRAW_ADJOURNED;
                             break;
                         case 11:
-                            $result = Result::Won;
+                            $result = Result::WON;
                             break;
                         case 12:
-                            $result = Result::WonForfait;
+                            $result = Result::WON_FORFAIT;
                             break;
                         case 13:
-                            $result = Result::WonAdjourned;
+                            $result = Result::WON_ADJOURNED;
                             break;
                         case 14:
-                            $result = Result::WonBye;
+                            $result = Result::WON_BYE;
                             break;
                         case 0:
                         default:
-                            $result = Result::None;
+                            $result = Result::NONE;
                             break;
                     }
                     $pairing->Result = new Result($result);
@@ -745,9 +751,9 @@ class Pairtwo6 implements ReaderInterface
      * * Bool   (Boolean representation of $data.        Default: false)
      * * Date   (Date representation of $data.           Default: 1902/01/01)
      *
-     * @param string $type
-     * @param string $data
-     * @param mixed $default
+     * @param  string $type
+     * @param  string $data
+     * @param  mixed  $default
      * @return bool|DateTime|int|string
      */
     private function readData(string $type, string $data, $default = null)
@@ -759,7 +765,6 @@ class Pairtwo6 implements ReaderInterface
                     return (is_null($default)) ? '' : $default;
                 }
                 return iconv('windows-1252', 'utf-8', $data);
-                break;
             case 'Hex':
             case 'Int':
             case 'Bool':
@@ -793,12 +798,11 @@ class Pairtwo6 implements ReaderInterface
                     }
                     return $this->convertUIntToTimestamp(hexdec($hex));
                 } elseif ($type == 'Bool') {
-                    return ($hex == "01") ? true : false;
+                    return ($hex == "01");
                 }
                 break;
             default:
-                throw new \InvalidArgumentException("Datatype not known");
-                break;
+                throw new InvalidArgumentException("Datatype not known");
         }
 
         return false;
@@ -807,7 +811,7 @@ class Pairtwo6 implements ReaderInterface
     /**
      * Converts integer value to a date representation
      *
-     * @param int $date
+     * @param  int $date
      * @return bool|DateTime
      */
     private function convertUIntToTimestamp(int $date)
@@ -844,13 +848,13 @@ class Pairtwo6 implements ReaderInterface
     private function addTiebreaks(): void
     {
         switch ($this->Tournament->System) {
-            case TournamentSystem::Keizer:
-                $firstElement = new Tiebreak(Tiebreak::Keizer);
+            case TournamentSystem::KEIZER:
+                $firstElement = new Tiebreak(Tiebreak::KEIZER);
                 break;
-            case TournamentSystem::American:
-            case TournamentSystem::Closed:
-            case TournamentSystem::Swiss:
-                $firstElement = new Tiebreak(Tiebreak::Points);
+            case TournamentSystem::AMERICAN:
+            case TournamentSystem::CLOSED:
+            case TournamentSystem::SWISS:
+                $firstElement = new Tiebreak(Tiebreak::POINTS);
                 break;
         }
         $tiebreaks = $this->Tournament->Tiebreaks;

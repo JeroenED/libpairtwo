@@ -12,6 +12,8 @@ install-dev: ## Installs the required common devtools
 	@echo "Downloading phpcs"
 	@wget https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar -O bin/phpcs 2> /dev/null
 	@wget https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar -O bin/phpcbf 2> /dev/null
+	@echo "Adding execution rights on the binaries"
+	@chmod +x bin/phpcs bin/phpcbf bin/phpdoc
 	@echo "Installation of devtools finished"
 	@echo "Please add $(shell echo $(PWD))/bin to your PATH"
 
@@ -54,7 +56,7 @@ clean-repo: ## Cleans the git repository
 	git gc
 
 cs: ## Fixes coding standard problems
-	vendor/bin/php-cs-fixer fix || true
+	php bin/phpcs || true
 
 tag: ## Creates a new signed git tag
 	$(if $(TAG),,$(error TAG is not defined. Pass via "make tag TAG=X.X.X"))
