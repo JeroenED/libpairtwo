@@ -1,13 +1,14 @@
 <?php
+
 /**
  * Class IOFactory
  *
  * Class for creating readers for pairing files
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 
 namespace JeroenED\Libpairtwo;
@@ -21,10 +22,10 @@ use JeroenED\Libpairtwo\Readers\Pairtwo6;
  *
  * Class for creating readers for pairing files
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 abstract class IOFactory
 {
@@ -45,7 +46,7 @@ abstract class IOFactory
      *
      * Compatible types are Swar-4, Pairtwo-5, Pairtwo-6
      *
-     * @param string $type
+     * @param  string $type
      * @return ReaderInterface
      * @throws LibpairtwoException
      */
@@ -57,8 +58,7 @@ abstract class IOFactory
 
         // create reader class
         $readerClass = self::$Readers[$type];
-        $reader = new $readerClass;
 
-        return $reader;
+        return new $readerClass();
     }
 }

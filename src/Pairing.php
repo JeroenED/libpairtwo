@@ -1,13 +1,14 @@
 <?php
+
 /**
  * Class Pairing
  *
  * Class for a pairing of the tournament
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 
 namespace JeroenED\Libpairtwo;
@@ -20,10 +21,10 @@ use JeroenED\Libpairtwo\Enums\Result;
  *
  * Class for a pairing of the tournament
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 class Pairing
 {
@@ -51,6 +52,7 @@ class Pairing
 
     /**
      * The result of the Game. Possible values contain Won, Lost, Draw, Forfait, Bye, etc.
+     *
      * @var Result
      */
     public $Result;
