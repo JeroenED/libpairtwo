@@ -1,11 +1,12 @@
 <?php
+
 /**
  * The file contains the Tournament class which takes care of almost every element in your tournament
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 
 namespace JeroenED\Libpairtwo;
@@ -21,10 +22,10 @@ use DateTime;
  *
  * Class for the tournament from the pairing file
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 class Tournament
 {
@@ -37,7 +38,6 @@ class Tournament
 
     /**
      * Organiser of the tournament (eg. Donald J. Trump)
-     *
      *
      * @var string
      */
@@ -80,6 +80,7 @@ class Tournament
 
     /**
      * Start date (First round or Players meeting) of the tournament
+     *
      * @var DateTime
      */
     public $StartDate;
@@ -114,6 +115,7 @@ class Tournament
 
     /**
      * The tempo of the tournament (eg. 90 min/40 moves + 30 sec. increment starting from move 1)
+     *
      * @var string
      */
     public $Tempo;
@@ -205,10 +207,10 @@ class Tournament
     /**
      * Gets a player by its ID
      *
-     * @param integer $id
+     * @param  int $id
      * @return Player
      */
-    public function PlayerById(int $id): Player
+    public function playerById(int $id): Player
     {
         return $this->Players[$id];
     }
@@ -217,7 +219,6 @@ class Tournament
      * Adds a player
      *
      * @param Player $Player
-     *
      */
     public function addPlayer(Player $Player): void
     {
@@ -229,9 +230,8 @@ class Tournament
     /**
      * Updates player on id to the given Player object
      *
-     * @param int $id
+     * @param int    $id
      * @param Player $player
-     *
      */
     public function updatePlayer(int $id, Player $player): void
     {
@@ -244,7 +244,6 @@ class Tournament
      * Adds a Tiebreak
      *
      * @param Tiebreak $tiebreak
-     *
      */
     public function addTiebreak(Tiebreak $tiebreak): void
     {
@@ -257,7 +256,6 @@ class Tournament
      * Adds a round with given Round object
      *
      * @param Round $round
-     *
      */
     public function addRound(Round $round): void
     {
@@ -269,10 +267,10 @@ class Tournament
     /**
      * Gets a round by its number.
      *
-     * @param int $roundNo
+     * @param  int $roundNo
      * @return Round
      */
-    public function RoundByNo(int $roundNo): Round
+    public function roundByNo(int $roundNo): Round
     {
         return $this->Rounds[$roundNo];
     }
@@ -281,7 +279,6 @@ class Tournament
      * Adds a pairing to the tournament
      *
      * @param Pairing $pairing
-     *
      */
     public function addPairing(Pairing $pairing): void
     {
@@ -295,7 +292,6 @@ class Tournament
      * Adds an arbiter to the tournament
      *
      * @param string $Arbiter
-     *
      */
     public function addArbiter(string $Arbiter): void
     {
@@ -306,35 +302,30 @@ class Tournament
 
     /**
      * Converts pairings into games with a black and white player
-     *
-     *
      */
     public function pairingsToRounds(): void
     {
-        /** @var Pairing[] $pairings */
         $pairings = $this->Pairings;
 
-        /** @var Pairing[] */
+        /**
+ * @var Pairing[]
+*/
         $cache = array();
 
-        /** @var int[] */
-        $lastboards;
-
-        /** @var Pairing $pairing */
         foreach ($pairings as $pairing) {
             // Add pairing to player
             $pairing->Player->addPairing($pairing);
             $round = $pairing->Round;
             $color = $pairing->Color;
 
-            $this->RoundByNo($round)->addPairing($pairing);
+            $this->roundByNo($round)->addPairing($pairing);
             $opponent = null;
 
             /**
              * @var int $key
              * @var Pairing $cached
              */
-            foreach ($cache as $key=>$cached) {
+            foreach ($cache as $key => $cached) {
                 if (!is_null($cached)) {
                     if (($cached->Opponent == $pairing->Player) && ($cached->Round == $pairing->Round)) {
                         $opponent = $cached;
@@ -344,33 +335,30 @@ class Tournament
                 }
             }
             $game = new Game();
-            if ($color->getValue() == Color::White) {
+            if ($color->getValue() == Color::WHITE) {
                 $game->White = $pairing;
                 $game->Black = $opponent;
-            } elseif ($color->getValue() == Color::Black) {
+            } elseif ($color->getValue() == Color::BLACK) {
                 $game->White = $opponent;
                 $game->Black = $pairing;
             }
 
             if (is_null($game->White) || is_null($game->Black)) {
                 $cache[] = $pairing;
-            } else {
-                // Check if game already exists
-                if (!$this->gameExists($game, $round)) {
-                    $game->Board = $game->White->Board;
-                    // Add board if inexistent
-                    if ($game->Board == -1) {
-                        if (isset($lastboards[$round])) {
-                            $lastboards[$round] += 1;
-                        } else {
-                            $lastboards[$round] = 0;
-                        }
-                        $game->Board = $lastboards[$round];
-                        $game->White->Board = $lastboards[$round];
-                        $game->Black->Board = $lastboards[$round];
+            } elseif (!$this->gameExists($game, $round)) { // Check if game already exists
+                $game->Board = $game->White->Board;
+                // Add board if inexistent
+                if ($game->Board == -1) {
+                    if (isset($lastboards[$round])) {
+                        $lastboards[$round] += 1;
+                    } else {
+                        $lastboards[$round] = 0;
                     }
-                    $this->AddGame($game, $round);
+                    $game->Board = $lastboards[$round];
+                    $game->White->Board = $lastboards[$round];
+                    $game->Black->Board = $lastboards[$round];
                 }
+                $this->AddGame($game, $round);
             }
         }
     }
@@ -378,8 +366,8 @@ class Tournament
     /**
      * Checks if a game already is already registered
      *
-     * @param Game $game
-     * @param int $round
+     * @param  Game $game
+     * @param  int  $round
      * @return bool
      */
     public function gameExists(Game $game, int $round = -1): bool
@@ -414,8 +402,7 @@ class Tournament
      * Adds a game to the tournament
      *
      * @param Game $game
-     * @param int $round
-     *
+     * @param int  $round
      */
     public function addGame(Game $game, int $round): void
     {
@@ -425,7 +412,7 @@ class Tournament
             $this->addRound($roundObj);
         }
 
-        $this->RoundByNo($round)->addGame($game);
+        $this->roundByNo($round)->addGame($game);
     }
 
     /**
@@ -436,7 +423,7 @@ class Tournament
     private function ranking(): array
     {
         $players = $this->Players;
-        foreach ($this->Tiebreaks as $tbkey=>$tiebreak) {
+        foreach ($this->Tiebreaks as $tbkey => $tiebreak) {
             foreach ($players as $pkey => $player) {
                 $break = $this->calculateTiebreak($tiebreak, $player, $tbkey);
                 $tiebreaks = $player->Tiebreaks;
@@ -446,11 +433,11 @@ class Tournament
             }
         }
         $sortedplayers[0] = $players;
-        foreach ($this->Tiebreaks as $tbkey=>$tiebreak) {
+        foreach ($this->Tiebreaks as $tbkey => $tiebreak) {
             $newgroupkey = 0;
             $tosortplayers = $sortedplayers;
             $sortedplayers = [];
-            foreach ($tosortplayers as $groupkey=>$sortedplayerselem) {
+            foreach ($tosortplayers as $groupkey => $sortedplayerselem) {
                 usort($tosortplayers[$groupkey], $this->sortTiebreak($tbkey));
                 foreach ($tosortplayers[$groupkey] as $playerkey => $player) {
                     if (!is_null($player->Tiebreaks[$tbkey])) {
@@ -478,7 +465,7 @@ class Tournament
     /**
      * Sort by tiebreak
      *
-     * @param int $key
+     * @param  int $key
      * @return Closure
      */
     private function sortTiebreak(int $key): Closure
@@ -495,74 +482,54 @@ class Tournament
     /**
      * Calculates a specific tiebreak for $player
      *
-     * @param Tiebreak $tiebreak
-     * @param Player $player
-     * @param int $tbkey
+     * @param  Tiebreak $tiebreak
+     * @param  Player   $player
+     * @param  int      $tbkey
      * @return float
      */
     private function calculateTiebreak(Tiebreak $tiebreak, Player $player, int $tbkey = 0): float
     {
         switch ($tiebreak) {
-            case Tiebreak::Keizer:
+            case Tiebreak::KEIZER:
                 return $this->calculateKeizer($player);
-                break;
-            case Tiebreak::Points:
+            case Tiebreak::POINTS:
                 return $this->calculatePoints($player);
-                break;
-            case Tiebreak::Baumbach:
+            case Tiebreak::BAUMBACH:
                 return $this->calculateBaumbach($player);
-                break;
-            case Tiebreak::BlackPlayed:
+            case Tiebreak::BLACK_PLAYED:
                 return $this->calculateBlackPlayed($player);
-                break;
-            case Tiebreak::BlackWin:
+            case Tiebreak::BLACK_WIN:
                 return $this->calculateBlackWin($player);
-                break;
-            case Tiebreak::Between:
+            case Tiebreak::BETWEEN:
                 return $this->calculateMutualResult($player, $this->Players, $tbkey);
-                break;
-            case Tiebreak::Aro:
+            case Tiebreak::ARO:
                 return $this->calculateAverageRating($player, $this->PriorityElo);
-                break;
-            case Tiebreak::AroCut:
+            case Tiebreak::AROCUT:
                 return $this->calculateAverageRating($player, $this->PriorityElo, 1);
-                break;
-            case Tiebreak::Koya:
+            case Tiebreak::KOYA:
                 return $this->calculateKoya($player);
-                break;
-            case Tiebreak::Buchholz:
+            case Tiebreak::BUCHHOLZ:
                 return $this->calculateBuchholz($player);
-                break;
-            case Tiebreak::BuchholzCut:
+            case Tiebreak::BUCHHOLZ_CUT:
                 return $this->calculateBuchholz($player, 1);
-                break;
-            case Tiebreak::BuchholzMed:
+            case Tiebreak::BUCHHOLZ_MED:
                 return $this->calculateBuchholz($player, 1, 1);
-                break;
-            case Tiebreak::BuchholzCut2:
+            case Tiebreak::BUCHHOLZ_CUT_2:
                 return $this->calculateBuchholz($player, 2);
-                break;
-            case Tiebreak::BuchholzMed2:
+            case Tiebreak::BUCHHOLZ_MED_2:
                 return $this->calculateBuchholz($player, 2, 2);
-                break;
-            case Tiebreak::Sonneborn:
+            case Tiebreak::SONNEBORN:
                 return $this->calculateSonneborn($player);
-                break;
-            case Tiebreak::Kashdan:
+            case Tiebreak::KASHDAN:
                 return $this->calculateKashdan($player, ["Won" => 4, "Draw" => 2, "Lost" => 1, "NotPlayed" => 0]);
-                break;
-            case Tiebreak::SoccerKashdan:
+            case Tiebreak::SOCCER_KASHDAN:
                 return $this->calculateKashdan($player, ["Won" => 3, "Draw" => 1, "Lost" => 0, "NotPlayed" => -1]);
-                break;
-            case Tiebreak::Cumulative:
+            case Tiebreak::CUMULATIVE:
                 return $this->calculateCumulative($player);
-                break;
-            case Tiebreak::AveragePerformance:
+            case Tiebreak::AVERAGE_PERFORMANCE:
                 return $this->calculateAveragePerformance($player, $this->PriorityElo);
-                break;
-            case Tiebreak::Performance:
+            case Tiebreak::PERFORMANCE:
                 return $player->Performance($this->PriorityElo, $this->NonRatedElo);
-                break;
             default:
                 return 0;
         }
@@ -602,7 +569,7 @@ class Tournament
     /**
      * Points following keizer system
      *
-     * @param Player $player
+     * @param  Player $player
      * @return float
      */
     private function calculateKeizer(Player $player): float
@@ -613,7 +580,7 @@ class Tournament
     /**
      * Number of points
      *
-     * @param Player $player
+     * @param  Player $player
      * @return float
      */
     private function calculatePoints(Player $player): float
@@ -625,15 +592,15 @@ class Tournament
     /**
      * Number of won games
      *
-     * @param Player $player
+     * @param  Player $player
      * @return float
      */
     private function calculateBaumbach(Player $player): float
     {
         $totalwins = 0;
         foreach ($player->Pairings as $pairing) {
-            if (array_search($pairing->Result, Constants::NotPlayed) === false) {
-                if (array_search($pairing->Result, Constants::Won) !== false) {
+            if (array_search($pairing->Result, Constants::NOTPLAYED) === false) {
+                if (array_search($pairing->Result, Constants::WON) !== false) {
                     $totalwins++;
                 }
             }
@@ -645,14 +612,14 @@ class Tournament
     /**
      * Number of played games with black
      *
-     * @param Player $player
+     * @param  Player $player
      * @return float
      */
     private function calculateBlackPlayed(Player $player): float
     {
         $totalwins = 0;
         foreach ($player->Pairings as $pairing) {
-            if (array_search($pairing->Color, Constants::Black) !== false) {
+            if (array_search($pairing->Color, Constants::BLACK) !== false) {
                 $totalwins++;
             }
         }
@@ -662,14 +629,14 @@ class Tournament
     /**
      * Number of won games with black
      *
-     * @param Player $player
+     * @param  Player $player
      * @return float
      */
     private function calculateBlackWin(Player $player): float
     {
         $totalwins = 0;
         foreach ($player->Pairings as $pairing) {
-            if (array_search($pairing->Color, Constants::Black) !== false && array_search($pairing->Result, Constants::Won) !== false) {
+            if (array_search($pairing->Color, Constants::BLACK) !== false && array_search($pairing->Result, Constants::WON) !== false) {
                 $totalwins++;
             }
         }
@@ -680,9 +647,9 @@ class Tournament
     /**
      * Result between the tied players
      *
-     * @param Player $player
-     * @param array $opponents
-     * @param int $key
+     * @param  Player $player
+     * @param  array  $opponents
+     * @param  int    $key
      * @return float
      */
     private function calculateMutualResult(Player $player, array $opponents, int $key): float
@@ -713,9 +680,9 @@ class Tournament
         $totalmatches = 0;
         foreach ($player->Pairings as $pairing) {
             if (array_search($pairing->Opponent, $interestingplayers) !== false) {
-                if (array_search($pairing->Result, Constants::Won) !== false) {
+                if (array_search($pairing->Result, Constants::WON) !== false) {
                     $points = $points + 1;
-                } elseif (array_search($pairing->Result, Constants::Draw) !== false) {
+                } elseif (array_search($pairing->Result, Constants::DRAW) !== false) {
                     $points = $points + 0.5;
                 }
                 $totalmatches++;
@@ -731,9 +698,9 @@ class Tournament
     /**
      * The average rating of the opponents
      *
-     * @param Player $player
-     * @param string $type
-     * @param int $cut
+     * @param  Player $player
+     * @param  string $type
+     * @param  int    $cut
      * @return float
      */
     private function calculateAverageRating(Player $player, string $type, int $cut = 0): float
@@ -741,7 +708,7 @@ class Tournament
         $pairings = $player->Pairings;
         $allratings = [];
         foreach ($pairings as $pairing) {
-            if (array_search($pairing->Result, Constants::NotPlayed) === false) {
+            if (array_search($pairing->Result, Constants::NOTPLAYED) === false) {
                 $toadd = $pairing->Opponent->getElo($type);
                 if ($toadd != 0) {
                     $allratings[] = $toadd;
@@ -761,9 +728,9 @@ class Tournament
     /**
      * The average performance of the opponents
      *
-     * @param Player $player
-     * @param string $type
-     * @param int $cut
+     * @param  Player $player
+     * @param  string $type
+     * @param  int    $cut
      * @return float
      */
     private function calculateAveragePerformance(Player $player, string $type, int $cut = 0): float
@@ -771,7 +738,7 @@ class Tournament
         $pairings = $player->Pairings;
         $allratings = [];
         foreach ($pairings as $pairing) {
-            if (array_search($pairing->Result, Constants::NotPlayed) === false) {
+            if (array_search($pairing->Result, Constants::NOTPLAYED) === false) {
                 $toadd = $pairing->Opponent->Performance($type, $this->NonRatedElo);
                 if ($toadd != 0) {
                     $allratings[] = $toadd;
@@ -787,8 +754,8 @@ class Tournament
     /**
      * Points against players who have more than $cut % points
      *
-     * @param Player $player
-     * @param int $cut
+     * @param  Player $player
+     * @param  int    $cut
      * @return float
      */
     private function calculateKoya(Player $player, int $cut = 50): float
@@ -796,9 +763,9 @@ class Tournament
         $tiebreak = 0;
         foreach ($player->Pairings as $plkey => $plpairing) {
             if (($plpairing->Opponent->calculatePoints() / count($plpairing->Opponent->Pairings) * 100) >= $cut) {
-                if (array_search($plpairing->Result, Constants::Won) !== false) {
+                if (array_search($plpairing->Result, Constants::WON) !== false) {
                     $tiebreak += 1;
-                } elseif (array_search($plpairing->Result, Constants::Draw) !== false) {
+                } elseif (array_search($plpairing->Result, Constants::DRAW) !== false) {
                     $tiebreak += 0.5;
                 }
             }
@@ -809,9 +776,10 @@ class Tournament
 
     /**
      * The combined points of the opponents
-     * @param Player $player
-     * @param int $cutlowest
-     * @param int $cuthighest
+     *
+     * @param  Player $player
+     * @param  int    $cutlowest
+     * @param  int    $cuthighest
      * @return float
      */
     private function calculateBuchholz(Player $player, int $cutlowest = 0, int $cuthighest = 0): float
@@ -822,27 +790,30 @@ class Tournament
         $intpairings = [];
         $curpoints = 0;
         $curround = 1;
-        foreach ($intpairingsWithBye as $key=>$pairing) {
+        foreach ($intpairingsWithBye as $key => $pairing) {
             $roundstoplay = (count($intpairingsWithBye)) - $curround;
             if (is_null($pairing->Opponent)) {
                 $intpairings[] = $player->calculatePointsForVirtualPlayer($key);
             } else {
                 $intpairings[] = $pairing->Opponent->calculatePointsForTiebreaks();
-                if (array_search($pairing->Result, Constants::Won) !== false) {
+                if (array_search($pairing->Result, Constants::WON) !== false) {
                     $curpoints += 1;
-                } elseif (array_search($pairing->Result, Constants::Draw) !== false) {
+                } elseif (array_search($pairing->Result, Constants::DRAW) !== false) {
                     $curpoints += 0.5;
                 }
             }
             $curround++;
         }
 
-        usort($intpairings, function ($a, $b) {
-            if ($b == $a) {
-                return 0;
+        usort(
+            $intpairings,
+            function ($a, $b) {
+                if ($b == $a) {
+                    return 0;
+                }
+                return ($a > $b) ? 1 : -1;
             }
-            return ($a > $b) ? 1 : -1;
-        });
+        );
 
         $intpairings = array_slice($intpairings, $cutlowest);
         $intpairings = array_slice($intpairings, 0 - $cuthighest);
@@ -854,7 +825,7 @@ class Tournament
     /**
      * The points of $player's opponents who $player won against, plus half of the points of $player's opponents who $player drew against
      *
-     * @param Player $player
+     * @param  Player $player
      * @return float
      */
     private function calculateSonneborn(Player $player): float
@@ -862,13 +833,13 @@ class Tournament
         $tiebreak = 0;
         foreach ($player->Pairings as $key => $pairing) {
             if ($pairing->Opponent) {
-                if (array_search($pairing->Result, Constants::Won) !== false) {
+                if (array_search($pairing->Result, Constants::WON) !== false) {
                     $tiebreak += $pairing->Opponent->calculatePointsForTiebreaks();
-                } elseif (array_search($pairing->Result, Constants::Draw) !== false) {
+                } elseif (array_search($pairing->Result, Constants::DRAW) !== false) {
                     $tiebreak += $pairing->Opponent->calculatePointsForTiebreaks() / 2;
                 }
             }
-            if (array_search($pairing->Result, Constants::NotPlayed) !== false) {
+            if (array_search($pairing->Result, Constants::NOTPLAYED) !== false) {
                 $tiebreak += $player->calculatePointsForVirtualPlayer($key);
             }
         }
@@ -879,8 +850,8 @@ class Tournament
     /**
      * $points["Won"] points for each win, $points["Draw"] for each draw and $points["Lost"] point for losing. $points["NotPlayed"] points for not played games
      *
-     * @param Player $player
-     * @param int[] $points
+     * @param  Player $player
+     * @param  int[]  $points
      * @return float
      */
     private function calculateKashdan(Player $player, array $points): float
@@ -888,15 +859,15 @@ class Tournament
         $tiebreak = 0;
         foreach ($player->Pairings as $pairing) {
             $toadd = 0;
-            if (array_search($pairing->Result, Constants::Won) !== false) {
+            if (array_search($pairing->Result, Constants::WON) !== false) {
                 $toadd = $points["Won"];
-            } elseif (array_search($pairing->Result, Constants::Draw) !== false) {
+            } elseif (array_search($pairing->Result, Constants::DRAW) !== false) {
                 $toadd = $points["Draw"];
-            } elseif (array_search($pairing->Result, Constants::Lost) !== false) {
+            } elseif (array_search($pairing->Result, Constants::LOST) !== false) {
                 $toadd = $points["Lost"];
             }
 
-            if (array_search($pairing->Result, Constants::NotPlayed) !== false) {
+            if (array_search($pairing->Result, Constants::NOTPLAYED) !== false) {
                 $toadd = $points["NotPlayed"];
             }
             $tiebreak += $toadd;
@@ -907,7 +878,7 @@ class Tournament
     /**
      * Combined score of $player after each round
      *
-     * @param Player $player
+     * @param  Player $player
      * @return float
      */
     private function calculateCumulative(Player $player): float
@@ -916,9 +887,9 @@ class Tournament
         $score = [];
         foreach ($player->Pairings as $pairing) {
             $toadd = 0;
-            if (array_search($pairing->Result, Constants::Won) !== false) {
+            if (array_search($pairing->Result, Constants::WON) !== false) {
                 $toadd = 1;
-            } elseif (array_search($pairing->Result, Constants::Draw) !== false) {
+            } elseif (array_search($pairing->Result, Constants::DRAW) !== false) {
                 $toadd = 0.5;
             }
             $tiebreak += $toadd;
@@ -930,7 +901,7 @@ class Tournament
     /**
      * Magic method to read out several fields. If field was not found it is being searched in the binary data fields
      *
-     * @param string $key
+     * @param  string $key
      * @return bool|DateTime|int|string|null
      */
     public function __get(string $key)
@@ -950,8 +921,8 @@ class Tournament
     /**
      * Sets binary data that is read out the pairing file but is not needed immediately
      *
-     * @param string $key
-     * @param bool|int|DateTime|string $value
+     * @param  string                   $key
+     * @param  bool|int|DateTime|string $value
      * @return void
      */
     public function __set(string $key, $value): void

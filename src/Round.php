@@ -1,13 +1,14 @@
 <?php
+
 /**
  * Class Round
  *
  * Class for a round of the tournament
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 
 namespace JeroenED\Libpairtwo;
@@ -20,10 +21,10 @@ use JeroenED\Libpairtwo\Enums\Result;
  *
  * Class for a round of the tournament
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 class Round
 {
@@ -89,7 +90,7 @@ class Round
         $allPairings = $this->Pairings;
         $byePairings = [];
         foreach ($allPairings as $pairing) {
-            if ($pairing->Result == Result::WonBye) {
+            if ($pairing->Result == Result::WON_BYE) {
                 $byePairings[] = $pairing;
             }
         }
@@ -106,7 +107,7 @@ class Round
         $allPairings = $this->Pairings;
         $absentPairings = [];
         foreach ($allPairings as $pairing) {
-            if ($pairing->Result == Result::Absent) {
+            if ($pairing->Result == Result::ABSENT) {
                 $absentPairings[] = $pairing;
             }
         }
@@ -128,8 +129,8 @@ class Round
     /**
      * Sort by board
      *
-     * @param Game $a
-     * @param Game $b
+     * @param  Game $a
+     * @param  Game $b
      * @return int
      */
     private function sortByBoard(Game $a, Game $b): int
@@ -143,7 +144,7 @@ class Round
     /**
      * Magic method to read out several fields. If field was not found it is being searched in the binary data fields
      *
-     * @param string $key
+     * @param  string $key
      * @return bool|DateTime|int|string|null
      */
     public function __get(string $key)
