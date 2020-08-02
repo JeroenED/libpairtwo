@@ -6,16 +6,16 @@ VERSION := $(if $(TAG),$(TAG),dev-$(BRANCH))
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-12s\033[0m %s\n", $$1, $$2}'
 
-tests: ## Executes the test suite
-	vendor/bin/phpunit
+install-dev: ## Installs the required common devtools
+	@echo "Downloading phpdoc"
+	@wget https://phpdoc.org/phpDocumentor.phar -O bin/phpdoc 2> /dev/null
+	@echo "Downloading phpcs"
+	@wget https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar -O bin/phpcs 2> /dev/null
+	@wget https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar -O bin/phpcbf 2> /dev/null
+	@echo "Installation of devtools finished"
+	@echo "Please add $(shell echo $(PWD))/bin to your PATH"
 
-coverage: ## Executes the test suite and creates code coverage reports
-	vendor/bin/phpunit --coverage-html build/coverage
-
-view-coverage: ## Shows the code coverage report
-	open build/coverage/index.html
-
-api: ## Generates api-docs
+docs: ## Generates api-docs
 	phpdoc -d ./src -t ./doc/api
 
 dist: ## Generates distribution
