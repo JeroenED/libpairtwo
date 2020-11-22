@@ -49,8 +49,8 @@ foreach ($reader->Tournament->Rounds as $round) {
     foreach ($round->GamesByBoard as $game) {
         echo '<tr>' . PHP_EOL;
         echo '<td>' . ($game->Board + 1) . '</td>' . PHP_EOL;
-        echo '<td>' . $game->White->Player->Name . '</td>' . PHP_EOL;
-        echo '<td>' . $game->Black->Player->Name . '</td>' . PHP_EOL;
+        echo '<td>' . $game->White->Player->Name . ' (' . $game->White->Player->getElo($reader->Tournament->PriorityElo) . ')</td>' . PHP_EOL;
+        echo '<td>' . $game->Black->Player->Name . ' (' . $game->Black->Player->getElo($reader->Tournament->PriorityElo) . ')</td>' . PHP_EOL;
         echo '<td>' . $game->Result->getValue() . '</td>' . PHP_EOL;
         echo '</tr>' . PHP_EOL;
     }
@@ -73,11 +73,11 @@ foreach ($reader->Tournament->Rounds as $round) {
     echo '</p>' . PHP_EOL;
 }
 
-echo '<h2>Rankings</h2>' . PHP_EOL;
+echo '<h2>Global Rankings</h2>' . PHP_EOL;
 echo '<table>' . PHP_EOL;
 echo '<thead>' . PHP_EOL;
-echo '<tr><th> </th><th>Name (elo)</th>' . PHP_EOL;
-foreach ($reader->Tournament->TieBreaks as $tiebreak) {
+echo '<tr><th> </th><th>Name (elo)</th><th>Category</th>' . PHP_EOL;
+foreach ($reader->Tournament->Tiebreaks as $tiebreak) {
     echo '<th>' . $tiebreak->getValue() . '</th>' . PHP_EOL;
 }
 echo '</tr>' . PHP_EOL;
@@ -88,13 +88,43 @@ $rank = 1;
 foreach ($reader->Tournament->Ranking as $player) {
     echo '<tr>' . PHP_EOL;
     echo '<td>' . $rank . '</td>' . PHP_EOL;
-    echo '<td>' . $player->Name . '(' . $player->getElo($reader->Tournament->PriorityElo) . ')</td>' . PHP_EOL;
+    echo '<td>' . $player->Name . ' (' . $player->getElo($reader->Tournament->PriorityElo) . ')</td>' . PHP_EOL;
+    echo '<td>' . $player->Category . '</td>' . PHP_EOL;
     echo '<td>' . implode('</td><td>', $player->Tiebreaks) . '</td>' . PHP_EOL;
     echo '</tr>' . PHP_EOL;
     $rank++;
 }
 echo '</tbody>' . PHP_EOL;
 echo '</table>' . PHP_EOL;
+?>
+
+<?php
+echo '<h2>Rankings per Category</h2>' . PHP_EOL;
+
+foreach($reader->Tournament->Categories as $category) {
+    echo '<table>' . PHP_EOL;
+    echo '<caption>' . $category . '</caption>';
+    echo '<thead>' . PHP_EOL;
+    echo '<tr><th> </th><th>Name (elo)</th>' . PHP_EOL;
+    foreach ($reader->Tournament->Tiebreaks as $tiebreak) {
+        echo '<th>' . $tiebreak->getValue() . '</th>' . PHP_EOL;
+    }
+    echo '</tr>' . PHP_EOL;
+    echo '</thead>' . PHP_EOL;
+    echo '<tbody>' . PHP_EOL;
+
+    $rank = 1;
+    foreach ($reader->Tournament->RankingForCategory($category) as $player) {
+        echo '<tr>' . PHP_EOL;
+        echo '<td>' . $rank . '</td>' . PHP_EOL;
+        echo '<td>' . $player->Name . ' (' . $player->getElo($reader->Tournament->PriorityElo) . ')</td>' . PHP_EOL;
+        echo '<td>' . implode('</td><td>', $player->Tiebreaks) . '</td>' . PHP_EOL;
+        echo '</tr>' . PHP_EOL;
+        $rank++;
+    }
+    echo '</tbody>' . PHP_EOL;
+    echo '</table>' . PHP_EOL;
+}
 ?>
     <script src="js/scripts.js"></script>
 </body>
