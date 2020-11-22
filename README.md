@@ -1,6 +1,6 @@
 # libpairtwo
 
-![logo](https://raw.githubusercontent.com/JeroenED/libpairtwo/master/res/logo-lightback-250px.png "Logo libpairtwo")
+![logo](https://raw.githubusercontent.com/JeroenED/libpairtwo/develop/res/logo-lightback-250px.png "Logo libpairtwo")
 
 Copyright 2018- (c) Jeroen De Meerleer <schaak@jeroened.be>
 

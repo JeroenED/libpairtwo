@@ -6,14 +6,54 @@ VERSION := $(if $(TAG),$(TAG),dev-$(BRANCH))
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-12s\033[0m %s\n", $$1, $$2}'
 
-tests: ## Executes the test suite
-	vendor/bin/phpunit
+install-dev: ## Installs the required common devtools
+	@echo "Downloading phpdoc"
+	@wget https://phpdoc.org/phpDocumentor.phar -O bin/phpdoc 2> /dev/null
+	@echo "Downloading phpcs"
+	@wget https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar -O bin/phpcs 2> /dev/null
+	@wget https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar -O bin/phpcbf 2> /dev/null
+	@echo "Adding execution rights on the binaries"
+	@chmod +x bin/phpcs bin/phpcbf bin/phpdoc
+	@echo "Installation of devtools finished"
+	@echo "Please add $(shell echo $(PWD))/bin to your PATH"
 
-coverage: ## Executes the test suite and creates code coverage reports
-	vendor/bin/phpunit --coverage-html build/coverage
+docs: ## Generates api-docs
+	phpdoc -d ./src -t ./doc/api
 
-view-coverage: ## Shows the code coverage report
-	open build/coverage/index.html
+dist: ## Generates distribution
+	cp dist/composer* res/
+	mv dist/composer-dist.json dist/composer.json
+	sed -i -e "s%//VERSION//%$(VERSION)%g" dist/composer.json
+	cd dist && composer install
+	rm dist/composer.json
+	rm dist/composer.lock
+	mv dist/composer-dist-installed.json dist/composer.json
+	make api
+	mkdir -p dist/doc
+	cp -r doc/api dist/doc
+	cd dist && zip -r ../libpairtwo-$(VERSION)-dist.zip *
+	git reset --hard HEAD
+	mv res/composer* dist/
+
+clean: clean-dist clean-dev clean-repo ## Cleans all assets
+
+clean-dev: ## Cleans dev assets
+	rm -rf doc/api
+	rm -rf .idea
+	rm -rf .libpairtwo-distro
+	rm -rf vendor
+	rm -rf composer.lock
+
+clean-dist: ## Cleans distribution assets
+	rm -rf dist/doc
+	rm -rf dist/vendor
+	rm -rf dist/composer.json
+	rm -rf libpairtwo-*-dist.zip
+
+clean-repo: ## Cleans the git repository
+	git fsck
+	git prune
+	git gc
 
 api: ## Generates api-docs
 	phpdoc -d ./src -t ./doc/api
@@ -54,7 +94,7 @@ clean-repo: ## Cleans the git repository
 	git gc
 
 cs: ## Fixes coding standard problems
-	vendor/bin/php-cs-fixer fix || true
+	php bin/phpcs || true
 
 tag: ## Creates a new signed git tag
 	$(if $(TAG),,$(error TAG is not defined. Pass via "make tag TAG=X.X.X"))

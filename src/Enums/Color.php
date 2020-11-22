@@ -1,13 +1,14 @@
 <?php
+
 /**
  * Enum Color
  *
  * List of all compatible colors
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 
 namespace JeroenED\Libpairtwo\Enums;
@@ -19,14 +20,16 @@ use MyCLabs\Enum\Enum;
  *
  * List of all compatible colors
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 class Color extends Enum
 {
-    const Black = 'B';
-    const White = 'W';
-    const None = '*';
+    public const BLACK = 'B';
+
+    public const NONE = '*';
+
+    public const WHITE = 'W';
 }

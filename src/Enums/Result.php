@@ -1,13 +1,14 @@
 <?php
+
 /**
  * Enum Result
  *
  * List of all compatible results
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 
 namespace JeroenED\Libpairtwo\Enums;
@@ -19,22 +20,32 @@ use MyCLabs\Enum\Enum;
  *
  * List of all compatible results
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 class Result extends Enum
 {
-    const None = '*';
-    const Lost = '0';
-    const Draw = '0.5';
-    const Won = '1';
-    const Absent = '0 FF';
-    const WonForfait = '1 FF';
-    const Adjourned = '0 A';
-    const DrawAdjourned = '0.5 A';
-    const WonAdjourned = '1 A';
-    const Bye = '0 Bye';
-    const WonBye = '1 Bye';
+    public const ABSENT = '0 FF';
+
+    public const ADJOURNED = '0 A';
+
+    public const BYE = '0 Bye';
+
+    public const DRAW = '0.5';
+
+    public const DRAW_ADJOURNED = '0.5 A';
+
+    public const LOST = '0';
+
+    public const NONE = '*';
+
+    public const WON = '1';
+
+    public const WON_ADJOURNED = '1 A';
+
+    public const WON_BYE = '1 Bye';
+
+    public const WON_FORFAIT = '1 FF';
 }
