@@ -27,7 +27,10 @@ use JeroenED\Libpairtwo\IOFactory;
 require_once 'vendor/autoload.php';
 
 if (!file_exists($pairingfile)) {
-    trigger_error('Your file is not set or doesn\'t exist! Edit the file: ' . __FILE__ . ' and try again', E_USER_ERROR);
+    trigger_error(
+        'Your file is not set or doesn\'t exist! Edit the file: ' . __FILE__ . ' and try again',
+        E_USER_ERROR
+    );
 }
 
 $reader = IOFactory::createReader($fileformat);
@@ -49,8 +52,18 @@ foreach ($reader->Tournament->Rounds as $round) {
     foreach ($round->GamesByBoard as $game) {
         echo '<tr>' . PHP_EOL;
         echo '<td>' . ($game->Board + 1) . '</td>' . PHP_EOL;
-        echo '<td>' . $game->White->Player->Name . ' (' . $game->White->Player->getElo($reader->Tournament->PriorityElo) . ')</td>' . PHP_EOL;
-        echo '<td>' . $game->Black->Player->Name . ' (' . $game->Black->Player->getElo($reader->Tournament->PriorityElo) . ')</td>' . PHP_EOL;
+        echo '<td>' .
+             $game->White->Player->Name .
+             ' (' .
+             $game->White->Player->getElo($reader->Tournament->PriorityElo) .
+             ')</td>' .
+             PHP_EOL;
+        echo '<td>' .
+             $game->Black->Player->Name .
+             ' (' .
+             $game->Black->Player->getElo($reader->Tournament->PriorityElo) .
+             ')</td>' .
+             PHP_EOL;
         echo '<td>' . $game->Result->getValue() . '</td>' . PHP_EOL;
         echo '</tr>' . PHP_EOL;
     }
@@ -101,7 +114,7 @@ echo '</table>' . PHP_EOL;
 <?php
 echo '<h2>Rankings per Category</h2>' . PHP_EOL;
 
-foreach($reader->Tournament->Categories as $category) {
+foreach ($reader->Tournament->Categories as $category) {
     echo '<table>' . PHP_EOL;
     echo '<caption>' . $category . '</caption>';
     echo '<thead>' . PHP_EOL;
@@ -126,6 +139,6 @@ foreach($reader->Tournament->Categories as $category) {
     echo '</table>' . PHP_EOL;
 }
 ?>
-    <script src="js/scripts.js"></script>
+<script src="js/scripts.js"></script>
 </body>
 </html>
