@@ -13,6 +13,7 @@
 
 namespace JeroenED\Libpairtwo\Readers;
 
+use DateTime;
 use InvalidArgumentException;
 use JeroenED\Libpairtwo\Enums\Color;
 use JeroenED\Libpairtwo\Enums\Gender;
@@ -26,7 +27,6 @@ use JeroenED\Libpairtwo\Pairing;
 use JeroenED\Libpairtwo\Player;
 use JeroenED\Libpairtwo\Round;
 use JeroenED\Libpairtwo\Tournament;
-use DateTime;
 
 /**
  * Reader Pairtwo6
@@ -40,15 +40,22 @@ use DateTime;
  */
 class Pairtwo6 implements ReaderInterface
 {
+    public const COMPATIBLE_VERSIONS = ['6.', '5.'];
+
     public const PT_DAYFACTOR = 32;
 
     public const PT_MONTHFACTOR = 16;
 
-    public const PT_YEARFACTOR = 512;
-
     public const PT_PASTOFFSET = 117;
 
-    public const COMPATIBLE_VERSIONS = ['6.', '5.'];
+    public const PT_YEARFACTOR = 512;
+
+    /**
+     * Binary data that was read out of the pairing file
+     *
+     * @var bool|DateTime|int|string[]
+     */
+    private $BinaryData;
 
     /**
      * Version of Pairtwo this file was created with
@@ -65,23 +72,18 @@ class Pairtwo6 implements ReaderInterface
     public $Tournament;
 
     /**
-     * Binary data that was read out of the pairing file
-     *
-     * @var bool|DateTime|int|string[]
-     */
-    private $BinaryData;
-
-    /**
      * Returns binary data that was read out the pairtwo file but was not needed immediately
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return bool|DateTime|int|string|null
      */
     public function __get(string $key)
     {
-        if (isset($this->BinaryData[$key])) {
-            return $this->BinaryData[$key];
+        if (isset($this->BinaryData[ $key ])) {
+            return $this->BinaryData[ $key ];
         }
+
         return null;
     }
 
@@ -93,13 +95,67 @@ class Pairtwo6 implements ReaderInterface
      */
     public function __set(string $key, $value): void
     {
-        $this->BinaryData[$key] = $value;
+        $this->BinaryData[ $key ] = $value;
+    }
+
+    /**
+     * Adds the first tiebreak to the tournament
+     */
+    private function addTiebreaks(): void
+    {
+        switch ($this->Tournament->System) {
+            case TournamentSystem::KEIZER:
+                $firstElement = new Tiebreak(Tiebreak::KEIZER);
+                break;
+            case TournamentSystem::AMERICAN:
+            case TournamentSystem::CLOSED:
+            case TournamentSystem::SWISS:
+                $firstElement = new Tiebreak(Tiebreak::POINTS);
+                break;
+        }
+        $tiebreaks = $this->Tournament->Tiebreaks;
+        array_unshift($tiebreaks, $firstElement);
+        $this->Tournament->Tiebreaks = $tiebreaks;
+    }
+
+    /**
+     * Converts integer value to a date representation
+     *
+     * @param int $date
+     *
+     * @return bool|DateTime
+     */
+    private function convertUIntToTimestamp(int $date)
+    {
+        $curyear = date('Y');
+        $yearoffset = $curyear - self::PT_PASTOFFSET;
+
+        // Day
+        $day = $date % self::PT_DAYFACTOR;
+        if ($day < 1) {
+            $day = 1;
+        }
+
+        // Month
+        $month = ($date / self::PT_DAYFACTOR) % self::PT_MONTHFACTOR;
+        if ($month < 1) {
+            $month = 1;
+        }
+
+        // Year
+        $year = ($date / self::PT_YEARFACTOR) + $yearoffset;
+
+        $concat = $month . '/' . $day . '/' . intval($year);
+        $format = 'm/d/Y';
+
+        return DateTime::createFromFormat($format, $concat);
     }
 
     /**
      * Actually reads the Swar-File
      *
-     * @param  string $filename
+     * @param string $filename
+     *
      * @throws IncompatibleReaderException
      */
     public function read(string $filename): void
@@ -109,7 +165,6 @@ class Pairtwo6 implements ReaderInterface
         fclose($swshandle);
 
         $offset = 0;
-
 
         $length = 4;
         $this->Release = $this->readData('String', substr($swscontents, $offset, $length));
@@ -321,10 +376,10 @@ class Pairtwo6 implements ReaderInterface
         }
 
         // Categorie
-        for($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $length = 4;
             $category = $this->readData('Int', substr($swscontents, $offset, $length));
-            if($category != 0) {
+            if ($category != 0) {
                 $this->Tournament->addCategory('+' . $category);
             }
             $offset += $length;
@@ -406,7 +461,8 @@ class Pairtwo6 implements ReaderInterface
             $offset += $length;
 
             $length = 1;
-            $player->Category = $this->Tournament->Categories[$this->readData('Int', substr($swscontents, $offset, $length)) -1];
+            $player->Category =
+                $this->Tournament->Categories[ $this->readData('Int', substr($swscontents, $offset, $length)) - 1 ];
             $offset += $length;
 
             $length = 1;
@@ -756,9 +812,10 @@ class Pairtwo6 implements ReaderInterface
      * * Bool   (Boolean representation of $data.        Default: false)
      * * Date   (Date representation of $data.           Default: 1902/01/01)
      *
-     * @param  string $type
-     * @param  string $data
-     * @param  mixed  $default
+     * @param string $type
+     * @param string $data
+     * @param mixed  $default
+     *
      * @return bool|DateTime|int|string
      */
     private function readData(string $type, string $data, $default = null)
@@ -769,6 +826,7 @@ class Pairtwo6 implements ReaderInterface
                 if ($data == '') {
                     return (is_null($default)) ? '' : $default;
                 }
+
                 return iconv('windows-1252', 'utf-8', $data);
             case 'Hex':
             case 'Int':
@@ -779,7 +837,7 @@ class Pairtwo6 implements ReaderInterface
 
                 foreach ($hex as $key => $item) {
                     if ($item == "00") {
-                        $hex[$key] = "";
+                        $hex[ $key ] = "";
                     } else {
                         break;
                     }
@@ -791,16 +849,19 @@ class Pairtwo6 implements ReaderInterface
                     if ($hex == '00') {
                         return (is_null($default)) ? '00' : $default;
                     }
+
                     return $hex;
                 } elseif ($type == 'Int') {
                     if ($hex == '00') {
                         return (is_null($default)) ? 0 : $default;
                     }
+
                     return hexdec($hex);
                 } elseif ($type == 'Date') {
                     if ($hex == '00') {
                         return (is_null($default)) ? $this->convertUIntToTimestamp(0) : $default;
                     }
+
                     return $this->convertUIntToTimestamp(hexdec($hex));
                 } elseif ($type == 'Bool') {
                     return ($hex == "01");
@@ -811,59 +872,5 @@ class Pairtwo6 implements ReaderInterface
         }
 
         return false;
-    }
-
-    /**
-     * Converts integer value to a date representation
-     *
-     * @param  int $date
-     * @return bool|DateTime
-     */
-    private function convertUIntToTimestamp(int $date)
-    {
-        $curyear = date('Y');
-        $yearoffset = $curyear - self::PT_PASTOFFSET;
-
-        // Day
-        $day = $date % self::PT_DAYFACTOR;
-        if ($day < 1) {
-            $day = 1;
-        }
-
-        // Month
-        $month = ($date / self::PT_DAYFACTOR) % self::PT_MONTHFACTOR;
-        if ($month < 1) {
-            $month = 1;
-        }
-
-        // Year
-        $year = ($date / self::PT_YEARFACTOR) + $yearoffset;
-
-        $concat = $month . '/' . $day . '/' . intval($year);
-        $format = 'm/d/Y';
-
-
-        return DateTime::createFromFormat($format, $concat);
-    }
-
-
-    /**
-     * Adds the first tiebreak to the tournament
-     */
-    private function addTiebreaks(): void
-    {
-        switch ($this->Tournament->System) {
-            case TournamentSystem::KEIZER:
-                $firstElement = new Tiebreak(Tiebreak::KEIZER);
-                break;
-            case TournamentSystem::AMERICAN:
-            case TournamentSystem::CLOSED:
-            case TournamentSystem::SWISS:
-                $firstElement = new Tiebreak(Tiebreak::POINTS);
-                break;
-        }
-        $tiebreaks = $this->Tournament->Tiebreaks;
-        array_unshift($tiebreaks, $firstElement);
-        $this->Tournament->Tiebreaks = $tiebreaks;
     }
 }
