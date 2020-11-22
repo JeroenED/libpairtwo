@@ -321,9 +321,14 @@ class Pairtwo6 implements ReaderInterface
         }
 
         // Categorie
-        $length = 4 * 10;
-        $this->Categorie = $this->readData('Int', substr($swscontents, $offset, $length));
-        $offset += $length;
+        for($i = 0; $i < 10; $i++) {
+            $length = 4;
+            $category = $this->readData('Int', substr($swscontents, $offset, $length));
+            if($category != 0) {
+                $this->Tournament->addCategory('+' . $category);
+            }
+            $offset += $length;
+        }
 
         // ExtraPoints
         $length = 4 * 20;
@@ -401,7 +406,7 @@ class Pairtwo6 implements ReaderInterface
             $offset += $length;
 
             $length = 1;
-            $player->Category = $this->readData('String', substr($swscontents, $offset, $length));
+            $player->Category = $this->Tournament->Categories[$this->readData('Int', substr($swscontents, $offset, $length)) -1];
             $offset += $length;
 
             $length = 1;
