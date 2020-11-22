@@ -28,7 +28,7 @@ use JeroenED\Libpairtwo\Enums\Result;
  */
 class Constants
 {
-    public const WON = [Result::WON, Result::WON_FORFAIT, Result::WON_BYE, Result::WON_ADJOURNED];
+    public const BLACK = [Color::BLACK];
 
     public const DRAW = [Result::DRAW, Result::DRAW_ADJOURNED];
 
@@ -49,7 +49,7 @@ class Constants
         Result::ADJOURNED
     ];
 
-    public const BLACK = [Color::BLACK];
-
     public const WHITE = [Color::WHITE];
+
+    public const WON = [Result::WON, Result::WON_FORFAIT, Result::WON_BYE, Result::WON_ADJOURNED];
 }

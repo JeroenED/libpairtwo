@@ -2,7 +2,10 @@
     "name": "jeroened/libpairtwo",
     "type": "library",
     "description": "Export chess tournaments directly on the web",
-    "keywords": ["chess", "pairing"],
+    "keywords": [
+        "chess",
+        "pairing"
+    ],
     "license": "AGPL-3.0-or-later",
     "authors": [
         {

@@ -29,11 +29,19 @@ use JeroenED\Libpairtwo\Enums\Result;
 class Pairing
 {
     /**
-     * The player of the pairing. Please note this means the pairing was seen from the point of view of this player
+     * The number of the board where the game was held
      *
-     * @var Player | null
+     * @var int
      */
-    public $Player;
+    public $Board;
+
+    /**
+     * The color of the player.
+     * Possible values are Black and White
+     *
+     * @var Color
+     */
+    public $Color;
 
     /**
      * The opponent of player
@@ -43,12 +51,11 @@ class Pairing
     public $Opponent;
 
     /**
-     * The color of the player.
-     * Possible values are Black and White
+     * The player of the pairing. Please note this means the pairing was seen from the point of view of this player
      *
-     * @var Color
+     * @var Player | null
      */
-    public $Color;
+    public $Player;
 
     /**
      * The result of the Game. Possible values contain Won, Lost, Draw, Forfait, Bye, etc.
@@ -63,11 +70,4 @@ class Pairing
      * @var int
      */
     public $Round;
-
-    /**
-     * The number of the board where the game was held
-     *
-     * @var int
-     */
-    public $Board;
 }
