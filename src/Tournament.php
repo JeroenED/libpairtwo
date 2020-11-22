@@ -114,6 +114,13 @@ class Tournament
     public $Rounds = [];
 
     /**
+     * Round objects of all rounds in the tournament
+     *
+     * @var $Categories[]
+     */
+    public $Categories = [];
+
+    /**
      * The tempo of the tournament (eg. 90 min/40 moves + 30 sec. increment starting from move 1)
      *
      * @var string
@@ -265,6 +272,19 @@ class Tournament
     }
 
     /**
+     * Adds a category with given name object
+     *
+     * @param string $name
+     */
+    public function addCategory(string $name): void
+    {
+        $newArray = $this->Categories;
+        $newArray[] = $name;
+        $this->Categories = $newArray;
+    }
+
+
+    /**
      * Gets a round by its number.
      *
      * @param  int $roundNo
@@ -308,8 +328,8 @@ class Tournament
         $pairings = $this->Pairings;
 
         /**
- * @var Pairing[]
-*/
+         * @var Pairing[]
+        */
         $cache = array();
 
         foreach ($pairings as $pairing) {
@@ -413,6 +433,26 @@ class Tournament
         }
 
         $this->roundByNo($round)->addGame($game);
+    }
+
+    /**
+     * Get the ranking for a specific category
+     *
+     * @param string $category
+     *
+     * @return array
+     */
+    Public function RankingForCategory(string $category): array
+    {
+        $globalRanking = $this->ranking();
+
+        $return = [];
+        foreach($globalRanking as $player) {
+            if($player->Category == $category) {
+                $return[] = $player;
+            }
+        }
+        return $return;
     }
 
     /**
