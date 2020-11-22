@@ -13,6 +13,7 @@
 
 namespace JeroenED\Libpairtwo\Readers;
 
+use DateTime;
 use InvalidArgumentException;
 use JeroenED\Libpairtwo\Enums\Color;
 use JeroenED\Libpairtwo\Enums\Gender;
@@ -26,7 +27,6 @@ use JeroenED\Libpairtwo\Pairing;
 use JeroenED\Libpairtwo\Player;
 use JeroenED\Libpairtwo\Round;
 use JeroenED\Libpairtwo\Tournament;
-use DateTime;
 
 /**
  * Reader Swar4
@@ -40,27 +40,6 @@ use DateTime;
  */
 class Swar4 implements ReaderInterface
 {
-    /**
-     * Version of Pairtwo this file was created with
-     *
-     * @var string
-     */
-    public $Release;
-
-    /**
-     * The tournament
-     *
-     * @var Tournament
-     */
-    public $Tournament;
-
-    /**
-     * Binary data that was read out of the pairing file
-     *
-     * @var bool|DateTime|int|string[]
-     */
-    private $BinaryData;
-
     /**
      * @var array
      */
@@ -126,6 +105,92 @@ class Swar4 implements ReaderInterface
             'other'
         ]
     ];
+
+    /**
+     * Binary data that was read out of the pairing file
+     *
+     * @var bool|DateTime|int|string[]
+     */
+    private $BinaryData;
+
+    /**
+     * Version of Pairtwo this file was created with
+     *
+     * @var string
+     */
+    public $Release;
+
+    /**
+     * The tournament
+     *
+     * @var Tournament
+     */
+    public $Tournament;
+
+    /**
+     * Returns binary data that was read out the swar file but was not needed immediately
+     *
+     * @param string $key
+     *
+     * @return bool|DateTime|int|string|null
+     */
+    public function __get(string $key)
+    {
+        if (isset($this->BinaryData[ $key ])) {
+            return $this->BinaryData[ $key ];
+        }
+
+        return null;
+    }
+
+    /**
+     * Sets binary data that is read out the swar file but is not needed immediately
+     *
+     * @param string                   $key
+     * @param bool|int|DateTime|string $value
+     */
+    public function __set(string $key, $value): void
+    {
+        $this->BinaryData[ $key ] = $value;
+    }
+
+    /**
+     * Adds the first tiebreak to the tournament
+     */
+    private function addTiebreaks(): void
+    {
+        switch ($this->Tournament->System) {
+            case TournamentSystem::AMERICAN:
+            case TournamentSystem::CLOSED:
+            case TournamentSystem::SWISS:
+            default:
+                $firstElement = new Tiebreak(Tiebreak::POINTS);
+        }
+        $tiebreaks = $this->Tournament->Tiebreaks;
+        array_unshift($tiebreaks, $firstElement);
+        $this->Tournament->Tiebreaks = $tiebreaks;
+    }
+
+    /**
+     * Converts a swar-4 string to a \DateTime object
+     *
+     * @param string $string
+     *
+     * @return DateTime
+     */
+    public function convertStringToDate(string $string): DateTime
+    {
+        if (strlen($string) == 10) {
+            return DateTime::createFromFormat('d/m/Y', $string);
+        } elseif (strlen($string) == 8) {
+            return DateTime::createFromFormat('Ymd', $string);
+        } else {
+            $default = new DateTime();
+            $default->setTimestamp(0);
+
+            return $default;
+        }
+    }
 
     /**
      * Actually reads the Swar-File
@@ -533,7 +598,7 @@ class Swar4 implements ReaderInterface
      * * Date   (Date representation of $data.           Default: 1902/01/01)
      *
      * @param string $type
-     * @param $handle
+     * @param        $handle
      * @param null   $default
      *
      * @return array|bool|DateTime|false|float|int|string|null
@@ -600,69 +665,5 @@ class Swar4 implements ReaderInterface
         }
 
         return false;
-    }
-
-    /**
-     * Returns binary data that was read out the swar file but was not needed immediately
-     *
-     * @param string $key
-     *
-     * @return bool|DateTime|int|string|null
-     */
-    public function __get(string $key)
-    {
-        if (isset($this->BinaryData[ $key ])) {
-            return $this->BinaryData[ $key ];
-        }
-
-        return null;
-    }
-
-    /**
-     * Sets binary data that is read out the swar file but is not needed immediately
-     *
-     * @param string                   $key
-     * @param bool|int|DateTime|string $value
-     */
-    public function __set(string $key, $value): void
-    {
-        $this->BinaryData[ $key ] = $value;
-    }
-
-    /**
-     * Converts a swar-4 string to a \DateTime object
-     *
-     * @param string $string
-     *
-     * @return DateTime
-     */
-    public function convertStringToDate(string $string): DateTime
-    {
-        if (strlen($string) == 10) {
-            return DateTime::createFromFormat('d/m/Y', $string);
-        } elseif (strlen($string) == 8) {
-            return DateTime::createFromFormat('Ymd', $string);
-        } else {
-            $default = new DateTime();
-            $default->setTimestamp(0);
-            return $default;
-        }
-    }
-
-    /**
-     * Adds the first tiebreak to the tournament
-     */
-    private function addTiebreaks(): void
-    {
-        switch ($this->Tournament->System) {
-            case TournamentSystem::AMERICAN:
-            case TournamentSystem::CLOSED:
-            case TournamentSystem::SWISS:
-            default:
-                $firstElement = new Tiebreak(Tiebreak::POINTS);
-        }
-        $tiebreaks = $this->Tournament->Tiebreaks;
-        array_unshift($tiebreaks, $firstElement);
-        $this->Tournament->Tiebreaks = $tiebreaks;
     }
 }

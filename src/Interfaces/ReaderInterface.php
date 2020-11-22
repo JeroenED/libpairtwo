@@ -13,8 +13,6 @@
 
 namespace JeroenED\Libpairtwo\Interfaces;
 
-use JeroenED\Libpairtwo\Tournament;
-
 /**
  * Interface ReaderInterface
  *
@@ -31,6 +29,7 @@ interface ReaderInterface
      * Reads out $filename
      *
      * @param  $filename
+     *
      * @return void
      */
     public function read(string $filename): void;
