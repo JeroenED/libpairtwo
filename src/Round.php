@@ -1,13 +1,14 @@
 <?php
+
 /**
  * Class Round
  *
  * Class for a round of the tournament
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 
 namespace JeroenED\Libpairtwo;
@@ -20,10 +21,10 @@ use JeroenED\Libpairtwo\Enums\Result;
  *
  * Class for a round of the tournament
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 class Round
 {
@@ -42,6 +43,13 @@ class Round
     public $Games = [];
 
     /**
+     * Array of all pairings for this round
+     *
+     * @var Pairing[]
+     */
+    public $Pairings = [];
+
+    /**
      * Number of the round
      *
      * @var int
@@ -49,11 +57,44 @@ class Round
     public $RoundNo;
 
     /**
-     * Array of all pairings for this round
+     * Magic method to read out several fields. If field was not found it is being searched in the binary data fields
      *
-     * @var Pairing[]
+     * @param string $key
+     *
+     * @return bool|DateTime|int|string|null
      */
-    public $Pairings = [];
+    public function __get(string $key)
+    {
+        if ($key == 'Bye') {
+            return $this->bye();
+        } elseif ($key == 'Absent') {
+            return $this->absent();
+        } elseif ($key == 'GamesByBoard') {
+            return $this->gamesByBoard();
+        } elseif (isset($this->BinaryData[ $key ])) {
+            return $this->BinaryData[ $key ];
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns an array of pairings where the player is absent
+     *
+     * @return Pairing[]
+     */
+    private function absent(): array
+    {
+        $allPairings = $this->Pairings;
+        $absentPairings = [];
+        foreach ($allPairings as $pairing) {
+            if ($pairing->Result == Result::ABSENT) {
+                $absentPairings[] = $pairing;
+            }
+        }
+
+        return $absentPairings;
+    }
 
     /**
      * Adds a game to the round
@@ -89,28 +130,12 @@ class Round
         $allPairings = $this->Pairings;
         $byePairings = [];
         foreach ($allPairings as $pairing) {
-            if ($pairing->Result == Result::WonBye) {
+            if ($pairing->Result == Result::WON_BYE) {
                 $byePairings[] = $pairing;
             }
         }
-        return $byePairings;
-    }
 
-    /**
-     * Returns an array of pairings where the player is absent
-     *
-     * @return Pairing[]
-     */
-    private function absent(): array
-    {
-        $allPairings = $this->Pairings;
-        $absentPairings = [];
-        foreach ($allPairings as $pairing) {
-            if ($pairing->Result == Result::Absent) {
-                $absentPairings[] = $pairing;
-            }
-        }
-        return $absentPairings;
+        return $byePairings;
     }
 
     /**
@@ -121,7 +146,8 @@ class Round
     private function gamesByBoard(): array
     {
         $allGames = $this->Games;
-        usort($allGames, array($this, 'sortByBoard'));
+        usort($allGames, [$this, 'sortByBoard']);
+
         return $allGames;
     }
 
@@ -130,6 +156,7 @@ class Round
      *
      * @param Game $a
      * @param Game $b
+     *
      * @return int
      */
     private function sortByBoard(Game $a, Game $b): int
@@ -137,26 +164,7 @@ class Round
         if (($a->Board == $b->Board) || ($a->Board === false) || ($b->Board === false)) {
             return 0;
         }
-        return ($a->Board > $b->Board) ? +1 : -1;
-    }
 
-    /**
-     * Magic method to read out several fields. If field was not found it is being searched in the binary data fields
-     *
-     * @param string $key
-     * @return bool|DateTime|int|string|null
-     */
-    public function __get(string $key)
-    {
-        if ($key == 'Bye') {
-            return $this->bye();
-        } elseif ($key == 'Absent') {
-            return $this->absent();
-        } elseif ($key == 'GamesByBoard') {
-            return $this->gamesByBoard();
-        } elseif (isset($this->BinaryData[$key])) {
-            return $this->BinaryData[$key];
-        }
-        return null;
+        return ($a->Board > $b->Board) ? +1 : -1;
     }
 }

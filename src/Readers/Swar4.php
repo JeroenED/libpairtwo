@@ -1,16 +1,20 @@
 <?php
+
 /**
  * Reader Swar-4
  *
  * Reads out Swar-4 files
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
+
 namespace JeroenED\Libpairtwo\Readers;
 
+use DateTime;
+use InvalidArgumentException;
 use JeroenED\Libpairtwo\Enums\Color;
 use JeroenED\Libpairtwo\Enums\Gender;
 use JeroenED\Libpairtwo\Enums\Result;
@@ -23,45 +27,25 @@ use JeroenED\Libpairtwo\Pairing;
 use JeroenED\Libpairtwo\Player;
 use JeroenED\Libpairtwo\Round;
 use JeroenED\Libpairtwo\Tournament;
-use DateTime;
 
 /**
  * Reader Swar4
  *
  * Reads out Swar-4 files
  *
- * @author      Jeroen De Meerleer <schaak@jeroened.be>
- * @category    Main
- * @package     Libpairtwo
- * @copyright   Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
+ * @author    Jeroen De Meerleer <schaak@jeroened.be>
+ * @category  Main
+ * @package   Libpairtwo
+ * @copyright Copyright (c) 2018-2019 Jeroen De Meerleer <schaak@jeroened.be>
  */
 class Swar4 implements ReaderInterface
 {
     /**
-     * Version of Pairtwo this file was created with
-     *
-     * @var string
+     * @var array
      */
-    public $Release;
+    public const COMPATIBLE_VERSIONS = ['v4.'];
 
-    /**
-     * The tournament
-     *
-     * @var Tournament
-     */
-    public $Tournament;
-
-    /**
-     * Binary data that was read out of the pairing file
-     *
-     * @var bool|DateTime|int|string[]
-     */
-    private $BinaryData;
-
-    /** @var array  */
-    const CompatibleVersions = ['v4.'];
-
-    const Tempos = [
+    public const TEMPOS = [
         [
             '105 min/40 moves + 15 min. QPF',
             '120 min/40 moves + 15 min. with incr. 30" starting from 40th move',
@@ -78,7 +62,8 @@ class Swar4 implements ReaderInterface
             '90 min with incr. 30"',
             '50 min with incr. 10"',
             'other'
-        ],[
+        ],
+        [
             '10 min. with incr. 10"',
             '10 min. with incr. 15"',
             '10 min. with incr.5"',
@@ -102,7 +87,8 @@ class Swar4 implements ReaderInterface
             '45 min. QPF',
             '8 min. with incr.4"',
             'other'
-        ],[
+        ],
+        [
             '3 min. with incr. 2"',
             '3 min. with incr. 3"',
             '4 min. with incr. 2"',
@@ -121,9 +107,96 @@ class Swar4 implements ReaderInterface
     ];
 
     /**
+     * Binary data that was read out of the pairing file
+     *
+     * @var bool|DateTime|int|string[]
+     */
+    private $BinaryData;
+
+    /**
+     * Version of Pairtwo this file was created with
+     *
+     * @var string
+     */
+    public $Release;
+
+    /**
+     * The tournament
+     *
+     * @var Tournament
+     */
+    public $Tournament;
+
+    /**
+     * Returns binary data that was read out the swar file but was not needed immediately
+     *
+     * @param string $key
+     *
+     * @return bool|DateTime|int|string|null
+     */
+    public function __get(string $key)
+    {
+        if (isset($this->BinaryData[ $key ])) {
+            return $this->BinaryData[ $key ];
+        }
+
+        return null;
+    }
+
+    /**
+     * Sets binary data that is read out the swar file but is not needed immediately
+     *
+     * @param string                   $key
+     * @param bool|int|DateTime|string $value
+     */
+    public function __set(string $key, $value): void
+    {
+        $this->BinaryData[ $key ] = $value;
+    }
+
+    /**
+     * Adds the first tiebreak to the tournament
+     */
+    private function addTiebreaks(): void
+    {
+        switch ($this->Tournament->System) {
+            case TournamentSystem::AMERICAN:
+            case TournamentSystem::CLOSED:
+            case TournamentSystem::SWISS:
+            default:
+                $firstElement = new Tiebreak(Tiebreak::POINTS);
+        }
+        $tiebreaks = $this->Tournament->Tiebreaks;
+        array_unshift($tiebreaks, $firstElement);
+        $this->Tournament->Tiebreaks = $tiebreaks;
+    }
+
+    /**
+     * Converts a swar-4 string to a \DateTime object
+     *
+     * @param string $string
+     *
+     * @return DateTime
+     */
+    public function convertStringToDate(string $string): DateTime
+    {
+        if (strlen($string) == 10) {
+            return DateTime::createFromFormat('d/m/Y', $string);
+        } elseif (strlen($string) == 8) {
+            return DateTime::createFromFormat('Ymd', $string);
+        } else {
+            $default = new DateTime();
+            $default->setTimestamp(0);
+
+            return $default;
+        }
+    }
+
+    /**
      * Actually reads the Swar-File
      *
      * @param string $filename
+     *
      * @throws IncompatibleReaderException
      */
     public function read(string $filename): void
@@ -131,7 +204,7 @@ class Swar4 implements ReaderInterface
         $swshandle = fopen($filename, 'rb');
 
         $this->Release = $this->readData('String', $swshandle);
-        if (array_search(substr($this->Release, 0, 3), self::CompatibleVersions) === false) {
+        if (array_search(substr($this->Release, 0, 3), self::COMPATIBLE_VERSIONS) === false) {
             throw new IncompatibleReaderException("This file was not created with Swar 4");
         }
 
@@ -181,16 +254,16 @@ class Swar4 implements ReaderInterface
             case 3:
             case 4:
             default:
-                $system = TournamentSystem::Swiss;
+                $system = TournamentSystem::SWISS;
                 break;
             case 5:
             case 6:
             case 7:
-                $system = TournamentSystem::Closed;
+                $system = TournamentSystem::CLOSED;
                 break;
             case 8:
             case 9:
-                $system = TournamentSystem::American;
+                $system = TournamentSystem::AMERICAN;
                 break;
         }
         $this->Tournament->System = new TournamentSystem($system);
@@ -244,7 +317,7 @@ class Swar4 implements ReaderInterface
         // [DATES]
         $this->readData('String', $swshandle);
 
-        $this->Tournament->Tempo = Self::Tempos[$this->Tournament->TournoiStd][$this->Tournament->TempoIndex];
+        $this->Tournament->Tempo = self::TEMPOS[ $this->Tournament->TournoiStd ][ $this->Tournament->TempoIndex ];
 
         for ($i = 0; $i < $this->Tournament->NoOfRounds; $i++) {
             $round = new Round();
@@ -261,52 +334,52 @@ class Swar4 implements ReaderInterface
             switch ($this->readData('Int', $swshandle)) {
                 case 0:
                 default:
-                    $tiebreak = Tiebreak::None;
+                    $tiebreak = Tiebreak::NONE;
                     break;
                 case 1:
-                    $tiebreak = Tiebreak::Buchholz;
+                    $tiebreak = Tiebreak::BUCHHOLZ;
                     break;
                 case 2:
-                    $tiebreak = Tiebreak::BuchholzMed;
+                    $tiebreak = Tiebreak::BUCHHOLZ_MED;
                     break;
                 case 3:
-                    $tiebreak = Tiebreak::BuchholzMed2;
+                    $tiebreak = Tiebreak::BUCHHOLZ_MED_2;
                     break;
                 case 4:
-                    $tiebreak = Tiebreak::BuchholzCut;
+                    $tiebreak = Tiebreak::BUCHHOLZ_CUT;
                     break;
                 case 5:
-                    $tiebreak = Tiebreak::BuchholzCut2;
+                    $tiebreak = Tiebreak::BUCHHOLZ_CUT_2;
                     break;
                 case 6:
-                    $tiebreak = Tiebreak::Sonneborn;
+                    $tiebreak = Tiebreak::SONNEBORN;
                     break;
                 case 7:
-                    $tiebreak = Tiebreak::Cumulative;
+                    $tiebreak = Tiebreak::CUMULATIVE;
                     break;
                 case 8:
-                    $tiebreak = Tiebreak::Between;
+                    $tiebreak = Tiebreak::BETWEEN;
                     break;
                 case 9:
-                    $tiebreak = Tiebreak::Koya;
+                    $tiebreak = Tiebreak::KOYA;
                     break;
                 case 10:
-                    $tiebreak = Tiebreak::Baumbach;
+                    $tiebreak = Tiebreak::BAUMBACH;
                     break;
                 case 11:
-                    $tiebreak = Tiebreak::AveragePerformance;
+                    $tiebreak = Tiebreak::AVERAGE_PERFORMANCE;
                     break;
                 case 12:
-                    $tiebreak = Tiebreak::Aro;
+                    $tiebreak = Tiebreak::ARO;
                     break;
                 case 13:
-                    $tiebreak = Tiebreak::AroCut;
+                    $tiebreak = Tiebreak::AROCUT;
                     break;
                 case 14:
-                    $tiebreak = Tiebreak::BlackPlayed;
+                    $tiebreak = Tiebreak::BLACK_PLAYED;
                     break;
                 case 15:
-                    $tiebreak = Tiebreak::BlackWin;
+                    $tiebreak = Tiebreak::BLACK_WIN;
                     break;
             }
             $tiebreaks[] = new Tiebreak($tiebreak);
@@ -323,19 +396,19 @@ class Swar4 implements ReaderInterface
 
         $this->Tournament->Catogory_type = $this->readData('Int', $swshandle);
         for ($i = 0; $i <= 12; $i++) {
-            $category[$i]['Cat1'] =$this->readData('String', $swshandle);
+            $category[ $i ][ 'Cat1' ] = $this->readData('String', $swshandle);
         }
 
         for ($i = 0; $i <= 12; $i++) {
-            $category[$i]['Cat2'] =$this->readData('String', $swshandle);
+            $category[ $i ][ 'Cat2' ] = $this->readData('String', $swshandle);
         }
         $this->Tournament->Category = $category;
         // [XTRA_POINTS]
         $this->readData('String', $swshandle);
 
         for ($i = 0; $i < 4; $i++) {
-            $extrapoints[$i]['pts'] = $this->readData('Int', $swshandle);
-            $extrapoints[$i]['elo'] = $this->readData('Int', $swshandle);
+            $extrapoints[ $i ][ 'pts' ] = $this->readData('Int', $swshandle);
+            $extrapoints[ $i ][ 'elo' ] = $this->readData('Int', $swshandle);
         }
         $this->Tournament->Extrapoints = $extrapoints;
 
@@ -351,19 +424,19 @@ class Swar4 implements ReaderInterface
             $player = new Player();
             $player->Classement = $this->readData('Int', $swshandle);
             $player->Name = $this->readData('String', $swshandle);
-            $inscriptionNos[$this->readData('Int', $swshandle)] = $i;
+            $inscriptionNos[ $this->readData('Int', $swshandle) ] = $i;
             $player->Rank = $this->readData('Int', $swshandle);
             $player->CatIndex = $this->readData('Int', $swshandle);
             $player->DateOfBirth = $this->readData('Date', $swshandle);
             switch ($this->readData('Int', $swshandle)) {
                 case 1:
-                    $gender = Gender::Male;
+                    $gender = Gender::MALE;
                     break;
                 case 2:
-                    $gender = Gender::Female;
+                    $gender = Gender::FEMALE;
                     break;
                 default:
-                    $gender = Gender::Neutral;
+                    $gender = Gender::NEUTRAL;
                     break;
             }
             $player->Gender = new Gender($gender);
@@ -415,10 +488,10 @@ class Swar4 implements ReaderInterface
             $player->setId('Club', $this->readData('Int', $swshandle));
             $player->ClubName = $this->readData('String', $swshandle);
             $player->NoOfMatchesNoBye = $this->readData('Int', $swshandle);
-            $player->Points = $this->readData('Int', $swshandle); // To Calculate by libpairtwo
+            $player->Points = $this->readData('Int', $swshandle);         // To Calculate by libpairtwo
             $player->AmericanPoints = $this->readData('Int', $swshandle); // To Calculate by libpairtwo
             for ($t = 0; $t < 5; $t++) {
-                $tiebreaks[$t] = $this->readData('Int', $swshandle); // To Calculate by libpairtwo
+                $tiebreaks[ $t ] = $this->readData('Int', $swshandle); // To Calculate by libpairtwo
             }
             $player->Tiebreak = $tiebreaks;
             $player->Performance = $this->readData('Int', $swshandle); // To Calculate by libpairtwo
@@ -432,14 +505,14 @@ class Swar4 implements ReaderInterface
 
             if ($player->AllocatedRounds != 0) {
                 for ($j = 0; $j < $player->AllocatedRounds; $j++) {
-                    $pairing[$pt]['player'] = $i;
-                    $pairing[$pt]['round'] = $this->readData('Int', $swshandle) - 1;
-                    $pairing[$pt]['table'] = $this->readData('Int', $swshandle) - 1;
-                    $pairing[$pt]['opponent'] = $this->readData('Int', $swshandle);
-                    $pairing[$pt]['result'] = $this->readData('Hex', $swshandle);
-                    $pairing[$pt]['color'] = $this->readData('Int', $swshandle);
-                    $pairing[$pt]['float'] = $this->readData('Int', $swshandle);
-                    $pairing[$pt]['extrapoints'] = $this->readData('Int', $swshandle);
+                    $pairing[ $pt ][ 'player' ] = $i;
+                    $pairing[ $pt ][ 'round' ] = $this->readData('Int', $swshandle) - 1;
+                    $pairing[ $pt ][ 'table' ] = $this->readData('Int', $swshandle) - 1;
+                    $pairing[ $pt ][ 'opponent' ] = $this->readData('Int', $swshandle);
+                    $pairing[ $pt ][ 'result' ] = $this->readData('Hex', $swshandle);
+                    $pairing[ $pt ][ 'color' ] = $this->readData('Int', $swshandle);
+                    $pairing[ $pt ][ 'float' ] = $this->readData('Int', $swshandle);
+                    $pairing[ $pt ][ 'extrapoints' ] = $this->readData('Int', $swshandle);
 
                     $pt++;
                 }
@@ -450,61 +523,62 @@ class Swar4 implements ReaderInterface
         }
 
         $ptn = 0;
-        while (isset($this->Tournament->Pairing[$ptn]['round'])) {
+        while (isset($this->Tournament->Pairing[ $ptn ][ 'round' ])) {
             $pairing = new Pairing();
 
-            $pairing->Player = $this->Tournament->PlayerById($this->Tournament->Pairing[$ptn]['player']);
-            $pairing->Round = $this->Tournament->Pairing[$ptn]['round'];
-            if ($this->Tournament->Pairing[$ptn]['opponent'] != 4294967295) {
-                $pairing->Opponent = $this->Tournament->PlayerById($inscriptionNos[$this->Tournament->Pairing[$ptn]['opponent']]);
+            $pairing->Player = $this->Tournament->playerById($this->Tournament->Pairing[ $ptn ][ 'player' ]);
+            $pairing->Round = $this->Tournament->Pairing[ $ptn ][ 'round' ];
+            if ($this->Tournament->Pairing[ $ptn ][ 'opponent' ] != 4294967295) {
+                $pairing->Opponent =
+                    $this->Tournament->playerById($inscriptionNos[ $this->Tournament->Pairing[ $ptn ][ 'opponent' ] ]);
             }
-            switch ($this->Tournament->Pairing[$ptn]['result']) {
+            switch ($this->Tournament->Pairing[ $ptn ][ 'result' ]) {
                 case '1000':
-                    $result = Result::Lost;
+                    $result = Result::LOST;
                     break;
                 case '01':
-                    $result = Result::Absent;
+                    $result = Result::ABSENT;
                     break;
                 case '0010':
-                    $result = Result::Bye;
+                    $result = Result::BYE;
                     break;
                 case '2000':
-                    $result = Result::Draw;
+                    $result = Result::DRAW;
                     break;
                 case '4000':
-                    $result = Result::Won;
+                    $result = Result::WON;
                     break;
                 case '04':
-                    $result = Result::WonForfait;
+                    $result = Result::WON_FORFAIT;
                     break;
                 case '40':
-                    $result = Result::WonBye;
+                    $result = Result::WON_BYE;
                     break;
                 case '00':
                 default:
-                    $result = Result::None;
+                    $result = Result::NONE;
                     break;
             }
-            if (array_search($this->Tournament->Pairing[$ptn]['table'], [ 16383, 8191 ]) !== false) {
-                $result = Result::Absent;
+            if (array_search($this->Tournament->Pairing[ $ptn ][ 'table' ], [16383, 8191]) !== false) {
+                $result = Result::ABSENT;
             }
             $pairing->Result = new Result($result);
 
-            switch ($this->Tournament->Pairing[$ptn]['color']) {
+            switch ($this->Tournament->Pairing[ $ptn ][ 'color' ]) {
                 case 4294967295:
-                    $color = Color::Black;
+                    $color = Color::BLACK;
                     break;
                 case 1:
-                    $color = Color::White;
+                    $color = Color::WHITE;
                     break;
                 case 0:
                 default:
-                    $color = Color::None;
+                    $color = Color::NONE;
                     break;
             }
             $pairing->Color = new Color($color);
 
-            $pairing->Board = $this->Tournament->Pairing[$ptn]['table'];
+            $pairing->Board = $this->Tournament->Pairing[ $ptn ][ 'table' ];
             $ptn++;
             $this->Tournament->addPairing($pairing);
         }
@@ -524,8 +598,9 @@ class Swar4 implements ReaderInterface
      * * Date   (Date representation of $data.           Default: 1902/01/01)
      *
      * @param string $type
-     * @param $handle
-     * @param null $default
+     * @param        $handle
+     * @param null   $default
+     *
      * @return array|bool|DateTime|false|float|int|string|null
      */
     private function readData(string $type, $handle, $default = null)
@@ -542,11 +617,13 @@ class Swar4 implements ReaderInterface
                     if ($data == '') {
                         return (is_null($default)) ? '' : $default;
                     }
+
                     return iconv('windows-1252', 'utf-8', $data);
                 } elseif ($type == 'Date') {
                     if ($data == '') {
                         return (is_null($default)) ? $this->convertStringToDate('01/01/1900') : $default;
                     }
+
                     return $this->convertStringToDate($data);
                 }
                 break;
@@ -559,7 +636,7 @@ class Swar4 implements ReaderInterface
 
                 foreach ($hex as $key => $item) {
                     if ($item == "00") {
-                        $hex[$key] = "";
+                        $hex[ $key ] = "";
                     } else {
                         break;
                     }
@@ -571,77 +648,22 @@ class Swar4 implements ReaderInterface
                     if ($hex == '00') {
                         return (is_null($default)) ? '00' : $default;
                     }
+
                     return $hex;
                 } elseif ($type == 'Int') {
                     if ($hex == '00') {
                         return (is_null($default)) ? 0 : $default;
                     }
+
                     return hexdec($hex);
                 } elseif ($type == 'Bool') {
-                    return ($hex == "01") ? true : false;
+                    return ($hex == "01");
                 }
                 break;
             default:
-                throw new \InvalidArgumentException("Datatype not known");
-                break;
+                throw new InvalidArgumentException("Datatype not known");
         }
 
         return false;
-    }
-
-    /**
-     * Returns binary data that was read out the swar file but was not needed immediately
-     *
-     * @param string $key
-     * @return bool|DateTime|int|string|null
-     */
-    public function __get(string $key)
-    {
-        if (isset($this->BinaryData[$key])) {
-            return $this->BinaryData[$key];
-        }
-        return null;
-    }
-
-    /**
-     * Sets binary data that is read out the swar file but is not needed immediately
-     *
-     * @param string $key
-     * @param bool|int|DateTime|string $value
-     */
-    public function __set(string $key, $value): void
-    {
-        $this->BinaryData[$key] = $value;
-    }
-
-    /**
-     * Converts a swar-4 string to a \DateTime object
-     * @param string $string
-     * @return DateTime
-     */
-    public function convertStringToDate(string $string): DateTime
-    {
-        if (strlen($string) == 10) {
-            return DateTime::createFromFormat('d/m/Y', $string);
-        } elseif (strlen($string) == 8) {
-            return DateTime::createFromFormat('Ymd', $string);
-        }
-    }
-
-    /**
-     * Adds the first tiebreak to the tournament
-     */
-    private function addTiebreaks(): void
-    {
-        switch ($this->Tournament->System) {
-            case TournamentSystem::American:
-            case TournamentSystem::Closed:
-            case TournamentSystem::Swiss:
-            default:
-                $firstElement = new Tiebreak(Tiebreak::Points);
-        }
-        $tiebreaks = $this->Tournament->Tiebreaks;
-        array_unshift($tiebreaks, $firstElement);
-        $this->Tournament->Tiebreaks = $tiebreaks;
     }
 }
