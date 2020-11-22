@@ -16,3 +16,5 @@ composer.lock
 /dist/vendor/
 /dist/composer.json
 /dist/doc/
+
+/.phpdoc
