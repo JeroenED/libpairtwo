@@ -35,6 +35,7 @@ abstract class IOFactory
      */
     private static $Readers = [
         'Swar-4'    => Readers\Swar4::class,
+        'Swar-5'    => Readers\Swar5::class,
         'Pairtwo-6' => Readers\Pairtwo6::class,
         'Pairtwo-5' => Readers\Pairtwo6::class // File structure identical
     ];
