@@ -461,8 +461,8 @@ class Pairtwo6 implements ReaderInterface
             $offset += $length;
 
             $length = 1;
-            $player->Category =
-                $this->Tournament->Categories[ $this->readData('Int', substr($swscontents, $offset, $length)) - 1 ];
+            $categoryindex = $this->readData('Int', substr($swscontents, $offset, $length));
+            $player->Category = $categoryindex != 0 ? $this->Tournament->Categories[ $categoryindex ] : NULL;
             $offset += $length;
 
             $length = 1;
