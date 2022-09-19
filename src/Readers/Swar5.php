@@ -230,7 +230,7 @@ class Swar5 implements ReaderInterface
         // Tempo string is not variable and dependant on kind of tournament
         $this->Tournament->TempoIndex = $this->readData('Int', $swshandle);
 
-        $this->readData('Int', $swshandle); // some unknown data
+        $this->readData('String', $swshandle); // some unknown data
         $this->Tournament->NoOfRounds = $this->readData('Int', $swshandle);
 
         $this->Tournament->FRBEfrom = $this->readData('Int', $swshandle);
