@@ -15,6 +15,7 @@ namespace JeroenED\Libpairtwo;
 
 use DateTime;
 use JeroenED\Libpairtwo\Enums\Gender;
+use JeroenED\Libpairtwo\Enums\Result;
 use JeroenED\Libpairtwo\Enums\Title;
 
 /**
@@ -227,15 +228,19 @@ class Player
      *
      * @return float
      */
-    public function calculatePoints(int $round = -1): float
+    public function calculatePoints(int $round = -1, array $custompoints = []): float
     {
         $points = 0;
         foreach ($this->Pairings as $key => $pairing) {
             if ($key < $round || $round == -1) {
-                if (array_search($pairing->Result, Constants::WON) !== false) {
-                    $points = $points + 1;
+                if ($pairing->Result == Result::WON_BYE) {
+                    $points += (isset($this->CustomPoints[ 'bye' ])) ? $custompoints[ 'bye' ] : 1;
+                } elseif (array_search($pairing->Result, Constants::WON) !== false) {
+                    $points += (isset($custompoints[ 'win' ])) ? $custompoints[ 'win' ] : 1;
                 } elseif (array_search($pairing->Result, Constants::DRAW) !== false) {
-                    $points = $points + 0.5;
+                    $points += (isset($custompoints[ 'draw' ])) ? $custompoints[ 'draw' ] : 0.5;
+                } elseif (array_search($pairing->Result, Constants::LOST) !== false) {
+                    $points += (isset($custompoints[ 'loss' ])) ? $custompoints[ 'loss' ] : 0;
                 }
             }
         }
