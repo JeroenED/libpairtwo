@@ -274,11 +274,11 @@ class Swar5 implements ReaderInterface
         $this->Tournament->SW_AmerPresence = $this->readData('Int', $swshandle);
         $this->Tournament->Plusieurs = $this->readData('Int', $swshandle);
         $this->Tournament->FirstTable = $this->readData('Int', $swshandle);
-        $this->Tournament->SW321_Win = $this->readData('Int', $swshandle);
-        $this->Tournament->SW321_Nul = $this->readData('Int', $swshandle);
-        $this->Tournament->SW321_Los = $this->readData('Int', $swshandle);
-        $this->Tournament->SW321_Bye = $this->readData('Int', $swshandle);
-        $this->Tournament->SW321_Pre = $this->readData('Int', $swshandle);
+        $this->Tournament->CustomPoints['win'] = $this->readData('Int', $swshandle) / 4;
+        $this->Tournament->CustomPoints['draw'] = $this->readData('Int', $swshandle) / 4;
+        $this->Tournament->CustomPoints['loss'] = $this->readData('Int', $swshandle) / 4;
+        $this->Tournament->CustomPoints['bye'] = $this->readData('Int', $swshandle) / 4;
+        $this->Tournament->CustomPoints['absent'] = $this->readData('Int', $swshandle) / 4;
         $this->Tournament->EloUsed = $this->readData('Int', $swshandle);
         $this->Tournament->TournoiStd = $this->readData('Int', $swshandle);
         $this->Tournament->TbPersonel = $this->readData('Int', $swshandle);

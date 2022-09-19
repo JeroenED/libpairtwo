@@ -205,6 +205,13 @@ class Tournament
     public $Tiebreaks = [];
 
     /**
+     * Custom points for the tournament
+     *
+     * @var float[]
+     */
+    public $CustomPoints = ['win' => 1, 'draw' => 0.5, 'loss' => 0, 'bye' => 1, 'absent' => 0];
+
+    /**
      * The year or season the tournament is held or is count for
      *
      * @var int
@@ -698,7 +705,7 @@ class Tournament
      */
     private function calculatePoints(Player $player): float
     {
-        return $player->calculatePoints();
+        return $player->calculatePoints(-1, $this->CustomPoints);
     }
 
     /**
