@@ -242,7 +242,19 @@ class Swar5 implements ReaderInterface
 
         $this->Tournament->FideHomol = $this->readData('Int', $swshandle);
 
-        $this->Tournament->FideId = $this->readData('String', $swshandle);
+        $location = ftell($swshandle);
+        if (version_compare($this->Release, '5.24', ">=")) {
+            $this->Tournament->FideId = $this->readData('Int', $swshandle);
+        } else {
+            for ($i = 0; $i <= 15; $i++) {
+                // First round
+                $this->readData('Int', $swshandle);
+                //last round
+                $this->readData('Int', $swshandle);
+                //fide ID
+                $this->readData('Int', $swshandle);
+            }
+        }
         $this->Tournament->FideArbitre1 = $this->readData('String', $swshandle);
         $this->Tournament->FideArbitre2 = $this->readData('String', $swshandle);
         $this->Tournament->FideEmail = $this->readData('String', $swshandle);
