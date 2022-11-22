@@ -242,7 +242,6 @@ class Swar5 implements ReaderInterface
 
         $this->Tournament->FideHomol = $this->readData('Int', $swshandle);
 
-        $location = ftell($swshandle);
         if (version_compare($this->Release, '5.24', ">=")) {
             $this->Tournament->FideId = $this->readData('Int', $swshandle);
         } else {
@@ -260,13 +259,17 @@ class Swar5 implements ReaderInterface
         $this->Tournament->FideEmail = $this->readData('String', $swshandle);
         $this->Tournament->FideRemarques = $this->readData('String', $swshandle);
 
+        $applycustompoints = false;
         switch ($this->readData('Int', $swshandle)) {
             case 0:
             case 1:
             case 2:
             case 3:
-            case 4:
             default:
+                $system = TournamentSystem::SWISS;
+                break;
+            case 4:
+                $applycustompoints = true;
                 $system = TournamentSystem::SWISS;
                 break;
             case 5:
@@ -286,11 +289,12 @@ class Swar5 implements ReaderInterface
         $this->Tournament->SW_AmerPresence = $this->readData('Int', $swshandle);
         $this->Tournament->Plusieurs = $this->readData('Int', $swshandle);
         $this->Tournament->FirstTable = $this->readData('Int', $swshandle);
-        $this->Tournament->CustomPoints['win'] = $this->readData('Int', $swshandle) / 4;
-        $this->Tournament->CustomPoints['draw'] = $this->readData('Int', $swshandle) / 4;
-        $this->Tournament->CustomPoints['loss'] = $this->readData('Int', $swshandle) / 4;
-        $this->Tournament->CustomPoints['bye'] = $this->readData('Int', $swshandle) / 4;
-        $this->Tournament->CustomPoints['absent'] = $this->readData('Int', $swshandle) / 4;
+        $custompoints['win'] = $this->readData('Int', $swshandle) / 4;
+        $custompoints['draw'] = $this->readData('Int', $swshandle) / 4;
+        $custompoints['loss'] = $this->readData('Int', $swshandle) / 4;
+        $custompoints['bye'] = $this->readData('Int', $swshandle) / 4;
+        $custompoints['absent'] = $this->readData('Int', $swshandle) / 4;
+        if($applycustompoints) $this->Tournament->CustomPoints = $custompoints;
         $this->Tournament->EloUsed = $this->readData('Int', $swshandle);
         $this->Tournament->TournoiStd = $this->readData('Int', $swshandle);
         $this->Tournament->TbPersonel = $this->readData('Int', $swshandle);
