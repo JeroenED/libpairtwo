@@ -261,25 +261,22 @@ class Swar5 implements ReaderInterface
 
         $applycustompoints = false;
         switch ($this->readData('Int', $swshandle)) {
+            case 4:
+            case 5:
+            case 6:
+                $system = TournamentSystem::CLOSED;
+                break;
+            case 7:
+            case 8:
+                $system = TournamentSystem::AMERICAN;
+                break;
+            case 3:
+                $applycustompoints = true;
             case 0:
             case 1:
             case 2:
-            case 3:
             default:
                 $system = TournamentSystem::SWISS;
-                break;
-            case 4:
-                $applycustompoints = true;
-                $system = TournamentSystem::SWISS;
-                break;
-            case 5:
-            case 6:
-            case 7:
-                $system = TournamentSystem::CLOSED;
-                break;
-            case 8:
-            case 9:
-                $system = TournamentSystem::AMERICAN;
                 break;
         }
         $this->Tournament->System = new TournamentSystem($system);
