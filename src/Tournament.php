@@ -14,6 +14,7 @@ namespace JeroenED\Libpairtwo;
 use Closure;
 use DateTime;
 use JeroenED\Libpairtwo\Enums\Color;
+use JeroenED\Libpairtwo\Enums\Result;
 use JeroenED\Libpairtwo\Enums\Tiebreak;
 use JeroenED\Libpairtwo\Enums\TournamentSystem;
 
@@ -727,7 +728,7 @@ class Tournament
                     $tiebreak += $pairing->Opponent->calculatePointsForTiebreaks() / 2;
                 }
             }
-            if (array_search($pairing->Result, Constants::NOTPLAYED) !== false) {
+            if ($pairing->Result === Result::WON_BYE) {
                 $tiebreak += $player->calculatePointsForVirtualPlayer($key);
             }
         }
