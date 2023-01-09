@@ -728,7 +728,7 @@ class Tournament
                     $tiebreak += $pairing->Opponent->calculatePointsForTiebreaks() / 2;
                 }
             }
-            if ($pairing->Result === Result::WON_BYE) {
+            if ($pairing->Result == Result::WON_BYE) {
                 $tiebreak += $player->calculatePointsForVirtualPlayer($key);
             }
         }

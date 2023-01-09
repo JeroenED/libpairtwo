@@ -301,9 +301,9 @@ class Player
      *
      * @return int
      */
-    public function getElo(string $type): int
+    public function getElo(string $type): ?int
     {
-        return $this->Elos[ $type ];
+        return isset($this->Elos[ $type ]) ? $this->Elos[ $type ] : null;
     }
 
     /**
