@@ -517,7 +517,7 @@ class Swar5 implements ReaderInterface
             $player->Performance = $this->readData('Int', $swshandle); // To Calculate by libpairtwo
             $player->Absent = $this->readData('Int', $swshandle);
             $player->AbsentRounds = $this->readData('Int', $swshandle);
-            if(version_compare($this->Release, '5.53', '>=')) $player->Paid = $this->readData('Int', $swshandle);
+            if(version_compare($this->Release, '5.53', "<=")) $player->Paid = $this->readData('Int', $swshandle);
             $player->ExtraPoints = $this->readData('Int', $swshandle);
             $player->SpecialPoints = $this->readData('Int', $swshandle);
             $player->AllocatedRounds = $this->readData('Int', $swshandle);

@@ -235,7 +235,7 @@ class Player
             if ($key < $round || $round == -1) {
                 if ($pairing->Result == Result::WON_BYE) {
                     $points += (isset($custompoints[ 'bye' ])) ? $custompoints[ 'bye' ] : 1;
-                } else if  ($pairing->Result == Result::ABSENT !== false)  {
+                } else if  ($pairing->Result == Result::ABSENT)  {
                     $points += (isset($custompoints[ 'absent' ])) ? $custompoints[ 'absent' ] : 0;
                 } elseif (array_search($pairing->Result, Constants::WON) !== false) {
                     $points += (isset($custompoints[ 'win' ])) ? $custompoints[ 'win' ] : 1;
