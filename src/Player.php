@@ -234,7 +234,9 @@ class Player
         foreach ($this->Pairings as $key => $pairing) {
             if ($key < $round || $round == -1) {
                 if ($pairing->Result == Result::WON_BYE) {
-                    $points += (isset($this->CustomPoints[ 'bye' ])) ? $custompoints[ 'bye' ] : 1;
+                    $points += (isset($custompoints[ 'bye' ])) ? $custompoints[ 'bye' ] : 1;
+                } else if  ($pairing->Result == Result::ABSENT !== false)  {
+                    $points += (isset($custompoints[ 'absent' ])) ? $custompoints[ 'absent' ] : 0;
                 } elseif (array_search($pairing->Result, Constants::WON) !== false) {
                     $points += (isset($custompoints[ 'win' ])) ? $custompoints[ 'win' ] : 1;
                 } elseif (array_search($pairing->Result, Constants::DRAW) !== false) {

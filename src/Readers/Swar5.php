@@ -199,13 +199,17 @@ class Swar5 implements ReaderInterface
      *
      * @throws IncompatibleReaderException
      */
-    public function read(string $filename): void
+    public function read(string $filename, string $compatversion = ''): void
     {
         $swshandle = fopen($filename, 'rb');
 
         $this->Release = $this->readData('String', $swshandle);
+
+        if($compatversion != '') {
+            $this->Release == $compatversion;
+        }
         if (array_search(substr($this->Release, 0, 3), self::COMPATIBLE_VERSIONS) === false) {
-            throw new IncompatibleReaderException("This file was not created with Swar 4");
+            throw new IncompatibleReaderException("This file was not created with Swar 5");
         }
 
         $this->Tournament = new Tournament();
@@ -437,6 +441,7 @@ class Swar5 implements ReaderInterface
         $pt = 0;
         for ($i = 0; $i < $this->Tournament->NumberOfPlayers; $i++) {
             $player = new Player();
+
             $player->Classement = $this->readData('Int', $swshandle);
             $player->Name = $this->readData('String', $swshandle);
             $inscriptionNos[ $this->readData('Int', $swshandle) ] = $i;
@@ -511,7 +516,8 @@ class Swar5 implements ReaderInterface
             $player->Tiebreak = $tiebreaks;
             $player->Performance = $this->readData('Int', $swshandle); // To Calculate by libpairtwo
             $player->Absent = $this->readData('Int', $swshandle);
-            $player->AbsentRounds = $this->readData('String', $swshandle);
+            $player->AbsentRounds = $this->readData('Int', $swshandle);
+            if(version_compare($this->Release, '5.53', '>=')) $player->Paid = $this->readData('Int', $swshandle);
             $player->ExtraPoints = $this->readData('Int', $swshandle);
             $player->SpecialPoints = $this->readData('Int', $swshandle);
             $player->AllocatedRounds = $this->readData('Int', $swshandle);
@@ -531,6 +537,7 @@ class Swar5 implements ReaderInterface
 
                     $pt++;
                 }
+
                 $this->Tournament->Pairing = $pairing;
             }
 
